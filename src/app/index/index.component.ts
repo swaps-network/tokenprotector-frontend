@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import PROJECTS from './projects-resourses';
+import PARTNERS from './projects-resourses';
 import { HttpService } from '../services/http/http.service';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {MatDialog} from '@angular/material';
@@ -14,7 +14,8 @@ const STAT_URL = 'get_statistics_landing/';
 })
 export class IndexComponent implements OnInit {
 
-  public projects = PROJECTS;
+  // public projects = PROJECTS;
+  public projects = PARTNERS;
   public stat;
 
 

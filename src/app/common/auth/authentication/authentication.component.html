@@ -16,7 +16,7 @@
                 'ng-invalid': f.username.errors || ServerErrors.username
              }"
              (ngModelChange)="resetUsername()"
-             class="min-text">
+             class="min-text input is-large">
       <span class="field-error form-field_error-required"
             translate="FIELDS_ERRORS.REQUIRED"></span>
       <span class="field-error form-field_error-email"
@@ -38,7 +38,7 @@
                 'ng-invalid-required': f.password.errors?.required,
                 'ng-invalid': f.password.errors || ServerErrors.password
              }"
-             class="min-text">
+             class="min-text input is-large">
       <span class="field-error form-field_error-required"
             translate="FIELDS_ERRORS.REQUIRED"></span>
       <span class="field-error form-field_error-server">
@@ -76,13 +76,12 @@
     <span class="restore-link float-right"
           translate="AUTH_POPUP.BUTTONS.FORGOT_PASSWORD"
           (click)="data.chapter = 'forgot-password'"></span>
-    <button type="submit" class="btn btn-yellow width-100" [disabled]="formIsProgress">
+    <button type="submit" class="button button-tp button-tp-blue" [disabled]="formIsProgress">
       <span class="lds-ellipsis" *ngIf="formIsProgress">
         <span class="lds-ellipsis-container">
           <span></span><span></span><span></span><span></span>
         </span>
       </span>
-      <img class="arrow" src="./assets/images/buttons/arrow_b.svg">
       <span translate="AUTH_POPUP.BUTTONS.LOG_IN"></span>
     </button>
   </div>

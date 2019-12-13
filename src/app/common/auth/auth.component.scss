@@ -3,20 +3,24 @@
 
 .auth-form-menu {
   list-style-type: none;
-  padding: 0 0 4em  ;
+  padding: 0 0 4em;
   margin: 0;
-  color: #fff;
+  color: black;
   font-size: 12px;
+
   li {
     display: inline-block;
     vertical-align: middle;
-    + li {
+
+    +li {
       margin-left: 2em;
     }
+
     &.active {
-      color: #fcd600;
-      border-bottom: 2px solid #fcd600;
+      color: #2873FB;
+      border-bottom: 2px solid #2873FB;
     }
+
     span {
       font-size: 2em;
       line-height: 1.25em;

@@ -53,6 +53,7 @@ import {Observable} from 'rxjs';
 import {TransferHttpCacheModule} from '@nguniversal/common';
 import { CoinsListComponent } from './directives/coins-list/coins-list.component';
 import { ChangePasswordComponent } from './common/change-password/change-password.component';
+import { KeepInTouchComponent } from './footer/keep-in-touch/keep-in-touch.component';
 
 
 export class TranslateBrowserLoader implements TranslateLoader {
@@ -181,7 +182,8 @@ export function appInitializerFactory(translate: TranslateService, userService: 
     IndexIcoHeaderComponent,
     IndexIcoFormComponent,
     CoinsListComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    KeepInTouchComponent
   ],
   entryComponents: [
     AuthComponent,

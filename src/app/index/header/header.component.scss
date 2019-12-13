@@ -1,22 +1,96 @@
+// new with Bulma framework
+@import "../../../scss/mixins";
+
+.section-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @include b(850) {
+    flex-direction: column;
+  }
+
+  .dropdown-trigger {
+    button {
+      background-color: transparent;
+      border: none;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      padding: 0;
+    }
+  }
+
+  .level-item {
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 2px;
+    margin-bottom: 0 !important;
+  }
+
+  .level-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include b(850) {
+      margin-top: 15px;
+    }
+  }
+
+  .level-right-menu {
+    display: flex;
+    margin-right: 80px;
+
+    @include b(850) {
+      margin-right: 30px;
+    }
+
+    a {
+      color: black;
+      margin-right: 20px;
+      transition: 0.7s ease;
+
+      @include b(850) {
+        margin-right: 10px;
+      }
+
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  .button-tp {
+    width: 170px;
+    font-weight: bold;
+    font-size: 18px;
+    height: 42px;
+    padding: 0;
+    color: white;
+
+    span {
+      font-size: 14px;
+    }
+  }
+}
+
+// old
+
 header {
-  padding-top: 20px;
-  padding-bottom: 20px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   transition: all linear 0.2s;
   z-index: 10;
-  background-color: rgba(0,0,0,0.8);
+
   &.scrolled {
-    background: rgba(56, 67, 84, 0.9);
+    background: rgba(255, 255, 255, 0.9);
     padding-top: 13px;
     padding-bottom: 10px;
     z-index: 10;
-    .logo {
-      margin-top: 0;
-      margin-bottom: -5px;
-    }
   }
 }
 
@@ -24,6 +98,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   &_right {
     width: 100%;
   }
@@ -40,17 +115,21 @@ header {
   text-transform: uppercase;
   letter-spacing: 2px;
   color: #fefefe;
+
   &_list {
     list-style-type: none;
     padding: 0;
     margin: 0;
+
     &_item {
       display: inline-block;
       line-height: 13px;
       padding: 0;
+
       &.with-sublist {
         position: relative;
         visibility: visible;
+
         span {
           position: relative;
           z-index: 2;
@@ -69,12 +148,14 @@ header {
           top: 50%;
           margin-top: -6px;
         }
+
         &.opened-list {
           &:after {
             transform: rotate(-135deg);
           }
         }
       }
+
       .header-link {
         color: inherit;
         text-decoration: none;
@@ -82,11 +163,13 @@ header {
         vertical-align: middle;
         padding: 9px 25px;
         cursor: pointer;
+
         &.is-social {
           max-width: 150px;
           overflow: hidden;
           text-overflow: ellipsis;
         }
+
         &:hover {
           text-decoration: underline;
         }
@@ -104,16 +187,19 @@ header {
   border-radius: 3px;
   background-color: rgba(0, 0, 0, 0.2);
   display: none;
+
   .opened-list & {
     display: block;
   }
-  &_item {
-  }
+
+  &_item {}
+
   .sublist-link {
     color: #fff;
     padding: 15px 25px;
     display: block;
     cursor: pointer;
+
     &:hover {
       background-color: rgba(0, 0, 0, 0.2);
       color: #FCD600;
@@ -131,13 +217,15 @@ header {
   padding: 10px 6px;
   cursor: pointer;
   margin-top: -5px;
+
   .icon-bar {
     display: block;
     width: 22px;
     height: 2px;
     border-radius: 1px;
     background-color: #fff;
-    + .icon-bar {
+
+    +.icon-bar {
       margin-top: 4px;
     }
   }
@@ -147,13 +235,16 @@ header {
   .logo {
     margin-left: 10px;
   }
+
   header {
-    padding-top: 0!important;
-    padding-bottom: 0!important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+
     .app-content-block {
       padding-top: 3vw;
       padding-bottom: 3vw;
       position: relative;
+
       &:after {
         content: '';
         display: block;
@@ -161,6 +252,7 @@ header {
       }
     }
   }
+
   .header-menu {
     display: none;
     background: rgba(56, 67, 84, 0.9);
@@ -168,25 +260,31 @@ header {
     left: 0;
     right: 0;
     top: 100%;
+
     &_sublist {
       left: 0;
       right: 0;
       background: rgba(56, 67, 84, 0.9);
+
       .sublist-link {
         padding-left: 35px;
       }
     }
+
     &_list {
       &_item {
         display: block;
+
         .header-link {
           padding-top: 15px;
           padding-bottom: 15px;
           display: block;
           max-width: initial;
+
           &.is-social {
             max-width: initial;
           }
+
           &:hover {
             text-decoration: none;
             background-color: rgba(0, 0, 0, 0.4);
@@ -194,14 +292,15 @@ header {
         }
       }
     }
+
     &.opened {
       display: block;
       float: left;
       width: 100%;
     }
   }
+
   .navbar-toggle {
     display: block;
   }
 }
-

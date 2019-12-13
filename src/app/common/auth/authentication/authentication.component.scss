@@ -1,17 +1,42 @@
 @import '../auth.component';
 
 .restore-link {
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.2em;
   cursor: pointer;
   display: block;
   padding: 0 0 1.2em;
   white-space: nowrap;
   text-align: right;
-  color: #fff;
+  color: black;
+
   &.advanced-field-open {
     span {
       border-bottom: 1px dotted;
     }
   }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+
+  &_label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+
+  input {
+    background-color: #F4F4F4;
+    font-size: 18px !important;
+  }
+}
+
+.button-tp {
+  color: white !important;
+  height: 50px;
+  font-weight: bold;
+  margin-top: 15px;
 }

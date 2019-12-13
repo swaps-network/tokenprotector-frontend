@@ -1,121 +1,209 @@
+@import "../../scss/mixins";
+
 footer {
   padding: 0 2%;
 }
 
-.subscribe {
-  padding-top: 50px;
-  color: #fff;
-  padding-bottom: 120px;
-  .page-content__title {
-    font-size: 28px;
-    letter-spacing: 0;
-    line-height: 53px;
-    font-weight: bold;
-  }
-}
+.section-social {
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 
-
-.subscribe__row {
-  margin-bottom: 60px;
-  margin-top: 20px;
-  .top__bar__input {
-    width: 400px;
-  }
-
-  &_form {
-    display: table;
-    &__cell {
-      display: table-cell;
-      vertical-align: middle;
-      padding: 0 5px;
+    @include b(769) {
+      justify-content: center;
+      align-items: center;
     }
-  }
-}
 
-.subscribe__row--nw {
-  &:after {
-    clear: both;
-    content: '';
-    display: block;
-  }
-  margin-bottom: 20px;
-  img {
-    transition: all linear 0.1s;
-    transform: scale(1);
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-    width: 75px;
-    max-width: 70%;
-  }
-  span {
-    float: left;
-    width: 8%;
-    text-align: left;
-  }
-  a {
-    outline: 0 none;
-    &:hover, &:focus, &:active {
-      img {
-        transform: scale(1.05);
-        //box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+    .icon {
+      background-color: white;
+      border-radius: 10rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 10rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.7s ease;
+      margin-right: 25px;
+      margin-bottom: 25px;
+
+      &:hover {
+        opacity: 0.5;
       }
-    }
-  }
-}
 
-.subscribe__row--btns {
-  margin-bottom: 80px;
-}
+      @include before-img(block, 40px, 40px, relative) {
+        background-repeat: no-repeat;
+        background-position: center;
+      }
 
-.copyright {
-  text-align: center;
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.5);
-  padding: 30px 0;
-}
-
-@media screen and (max-width: 720px) {
-  .subscribe__row--nw {
-    span {
-      width: 25%;
-      margin-bottom: 20px;
-    }
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .subscribe {
-    padding-bottom: 8vw;
-    .page-content__title {
-      font-size: 10vw;
-      line-height: initial;
-      margin: 2vw 0;
-    }
-  }
-  .subscribe__row {
-    .top__bar__input {
-      width: 100%;
-    }
-    &_form {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      &__cell {
-        display: block;
-        vertical-align: middle;
-        padding: 0;
-        &:first-child {
-          padding-left: 0;
-        }
-        .btn {
-          width: 100%;
+      &-facebook {
+        &:before {
+          background-image: url('/assets/images/new/icons/facebook.svg');
         }
       }
-      &__cell + &__cell {
-        margin-top: 20px;
+
+      &-slack {
+        &:before {
+          background-image: url('/assets/images/new/icons/slack.svg');
+        }
+      }
+
+      &-telegram {
+        &:before {
+          background-image: url('/assets/images/new/icons/telegram.svg');
+        }
+      }
+
+      &-evernote {
+        &:before {
+          background-image: url('/assets/images/new/icons/evernote.svg');
+        }
+      }
+
+      &-bitcoin {
+        &:before {
+          background-image: url('/assets/images/new/icons/bitcoin.svg');
+        }
+      }
+
+      &-m {
+        &:before {
+          background-image: url('/assets/images/new/icons/m.svg');
+        }
+      }
+
+      &-twitter {
+        &:before {
+          background-image: url('/assets/images/new/icons/twitter.svg');
+        }
+      }
+
+      &-github {
+        &:before {
+          background-image: url('/assets/images/new/icons/github.svg');
+        }
       }
     }
   }
-  footer {
-    margin-top: 10vw;
-  }
+
 }
+
+// .subscribe {
+//   padding-top: 50px;
+//   color: #fff;
+//   padding-bottom: 120px;
+//   .page-content__title {
+//     font-size: 28px;
+//     letter-spacing: 0;
+//     line-height: 53px;
+//     font-weight: bold;
+//   }
+// }
+
+
+// .subscribe__row {
+//   margin-bottom: 60px;
+//   margin-top: 20px;
+//   .top__bar__input {
+//     width: 400px;
+//   }
+
+//   &_form {
+//     display: table;
+//     &__cell {
+//       display: table-cell;
+//       vertical-align: middle;
+//       padding: 0 5px;
+//     }
+//   }
+// }
+
+// .subscribe__row--nw {
+//   &:after {
+//     clear: both;
+//     content: '';
+//     display: block;
+//   }
+//   margin-bottom: 20px;
+//   img {
+//     transition: all linear 0.1s;
+//     transform: scale(1);
+//     box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+//     width: 75px;
+//     max-width: 70%;
+//   }
+//   span {
+//     float: left;
+//     width: 8%;
+//     text-align: left;
+//   }
+//   a {
+//     outline: 0 none;
+//     &:hover, &:focus, &:active {
+//       img {
+//         transform: scale(1.05);
+//         //box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+//       }
+//     }
+//   }
+// }
+
+// .subscribe__row--btns {
+//   margin-bottom: 80px;
+// }
+
+// .copyright {
+//   text-align: center;
+//   font-size: 15px;
+//   color: rgba(255, 255, 255, 0.5);
+//   padding: 30px 0;
+// }
+
+// @media screen and (max-width: 720px) {
+//   .subscribe__row--nw {
+//     span {
+//       width: 25%;
+//       margin-bottom: 20px;
+//     }
+//   }
+// }
+
+// @media screen and (max-width: 600px) {
+//   .subscribe {
+//     padding-bottom: 8vw;
+//     .page-content__title {
+//       font-size: 10vw;
+//       line-height: initial;
+//       margin: 2vw 0;
+//     }
+//   }
+//   .subscribe__row {
+//     .top__bar__input {
+//       width: 100%;
+//     }
+//     &_form {
+//       display: block;
+//       margin-left: auto;
+//       margin-right: auto;
+//       &__cell {
+//         display: block;
+//         vertical-align: middle;
+//         padding: 0;
+//         &:first-child {
+//           padding-left: 0;
+//         }
+//         .btn {
+//           width: 100%;
+//         }
+//       }
+//       &__cell + &__cell {
+//         margin-top: 20px;
+//       }
+//     }
+//   }
+//   footer {
+//     margin-top: 10vw;
+//   }
+// }

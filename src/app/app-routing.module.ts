@@ -55,134 +55,83 @@ const routes: Routes = [
     }
   }, {
     path: 'create-v3',
-    redirectTo: '/trades/create-v3'
-  }, {
-    path: 'create',
-    redirectTo: '/trades/create'
+    component: ContractFormAllComponent,
+    data: {
+      // support: true
+    }
   }, {
     path: 'view/:id',
-    redirectTo: '/trades/view/:id'
+    component: ContractFormComponent,
+    resolve: {
+      contract: ContractEditResolver
+    },
+    data: {
+      createButton: true
+    }
   }, {
     path: 'view-v3/:id',
-    redirectTo: '/trades/view-v3/:id'
+    component: ContractFormAllComponent,
+    resolve: {
+      contract: ContractEditV3Resolver
+    },
+    data: {
+      createButton: true
+    }
   }, {
     path: 'contract/:id',
-    redirectTo: '/trades/contract/:id'
+    component: ContractPreviewComponent,
+    resolve: {
+      contract: ContractEditResolver
+    },
+    data: {
+      supportHide: 1024,
+      createButton: true,
+      hideInstruction: true
+    }
   }, {
     path: 'contract-v3/:id',
-    redirectTo: '/trades/contract-v3/:id'
+    component: ContractsPreviewV3Component,
+    resolve: {
+      contract: ContractEditV3Resolver
+    },
+    data: {
+      supportHide: 1024,
+      createButton: true,
+      hideInstruction: true
+    }
   }, {
     path: 'public/:public_link',
-    redirectTo: '/trades/public/:public_link'
+    component: ContractPreviewComponent,
+    resolve: {
+      contract: ContractEditResolver
+    },
+    data: {
+      createButton: true,
+      hideInstruction: true
+    }
   }, {
     path: 'public-v3/:public_link',
-    redirectTo: '/trades/public-v3/:public_link'
+    component: ContractsPreviewV3Component,
+    resolve: {
+      contract: ContractEditV3Resolver
+    },
+    data: {
+      createButton: true,
+      hideInstruction: true
+    }
   }, {
     path: 'contracts',
-    redirectTo: '/trades/contracts'
-  }, {
-    path: 'trades',
-    children: [
-      {
-        path: '',
-        redirectTo: '/',
-        pathMatch: 'full'
-      },
-      {
-        path: 'create',
-        component: ContractFormComponent,
-        data: {
-          // support: true
-        }
-      },
-      {
-        path: 'create-v3',
-        component: ContractFormAllComponent,
-        data: {
-          // support: true
-        }
-      },
-      {
-        path: 'view/:id',
-        component: ContractFormComponent,
-        resolve: {
-          contract: ContractEditResolver
-        },
-        data: {
-          createButton: true
-        }
-      },
-      {
-        path: 'view-v3/:id',
-        component: ContractFormAllComponent,
-        resolve: {
-          contract: ContractEditV3Resolver
-        },
-        data: {
-          createButton: true
-        }
-      },
-      {
-        path: 'contract/:id',
-        component: ContractPreviewComponent,
-        resolve: {
-          contract: ContractEditResolver
-        },
-        data: {
-          supportHide: 1024,
-          createButton: true,
-          hideInstruction: true
-        }
-      },
-      {
-        path: 'contract-v3/:id',
-        component: ContractsPreviewV3Component,
-        resolve: {
-          contract: ContractEditV3Resolver
-        },
-        data: {
-          supportHide: 1024,
-          createButton: true,
-          hideInstruction: true
-        }
-      },
-      {
-        path: 'public/:public_link',
-        component: ContractPreviewComponent,
-        resolve: {
-          contract: ContractEditResolver
-        },
-        data: {
-          createButton: true,
-          hideInstruction: true
-        }
-      },
-      {
-        path: 'public-v3/:public_link',
-        component: ContractsPreviewV3Component,
-        resolve: {
-          contract: ContractEditV3Resolver
-        },
-        data: {
-          createButton: true,
-          hideInstruction: true
-        }
-      },
-      {
-        path: 'contracts',
-        component: ContractsListComponent,
-        resolve: {
-          contracts: ContractsListResolver
-        }
-      }
-    ]
+    component: ContractsListComponent,
+    resolve: {
+      contracts: ContractsListResolver
+    }
   }, {
     path: 'dashboard/first_entry',
-    redirectTo: '/trades'
+    redirectTo: '/'
   },
   {
     path: 'accounts/login',
-    redirectTo: '/trades'
+    redirectTo: '/'
   },
   {
     path: 'reset/:uid/:token',

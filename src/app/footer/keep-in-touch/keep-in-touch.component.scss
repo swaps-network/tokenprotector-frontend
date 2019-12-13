@@ -1,0 +1,37 @@
+@import "../../../scss/mixins";
+
+.form-keep-in-touch {
+    margin-top: 25px;
+
+    .field {
+
+        @include b(850) {
+            flex-direction: column;
+        }
+
+        .control {
+            max-width: 467px;
+            margin-right: 1.75rem !important;
+
+            @include b(850) {
+                max-width: 100%;
+                margin-top: 15px;
+                margin-right: 0 !important;
+            }
+        }
+
+        .button-tp {
+            width: 193px;
+            font-weight: bold;
+            font-size: 18px;
+            height: 100%;
+            padding: 0;
+            color: black;
+
+            @include b(850) {
+                width: 100% !important;
+            }
+        }
+
+    }
+}

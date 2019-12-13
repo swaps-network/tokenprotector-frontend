@@ -1,0 +1,53 @@
+// =============================================
+// main variables
+// =============================================
+
+$mainFont:'Ubunty';
+$mainFontSize: 16px;
+$mainLineHeight: 1.6;
+$mainFontWeight: 300;
+$mainFontColor: #000;
+
+// =============================================
+// additional variables
+// =============================================
+
+$exampleMainGridTempateColums: repeat(2, 1fr);
+$exampleMainGridTempateColums_mobile: 1fr;
+$exampleParagrafFonrSize: 14px;
+
+// =============================================
+// colors
+// =============================================
+
+$black: #000;
+$gray: #808080;
+$white: #fff;
+$blue: #00F;
+
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,400i,500,500i,700,700i&display=swap&subset=cyrillic');
+
+// Set your brand colors
+$purple: #8A4D76;
+$pink: #FA7C91;
+$brown: #757763;
+$beige-light: #D0D1CD;
+$beige-lighter-1: #EFF0EB;
+$beige-lighter-2: #F4F4F4;
+
+// Update Bulma's global variables
+$family-sans-serif: 'Ubuntu',
+sans-serif;
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$primary: $purple;
+$link: $pink;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+// Update some of Bulma's component variables
+$body-background-color: $beige-lighter-2;
+$control-border-width: 2px;
+$input-border-color: transparent;
+$input-shadow: none;
