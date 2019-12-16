@@ -3,38 +3,46 @@
 // =============================================
 
 $mainFont:'Ubunty';
-$mainFontSize: 16px;
-$mainLineHeight: 1.6;
-$mainFontWeight: 300;
-$mainFontColor: #000;
-
-// =============================================
-// additional variables
-// =============================================
-
-$exampleMainGridTempateColums: repeat(2, 1fr);
-$exampleMainGridTempateColums_mobile: 1fr;
-$exampleParagrafFonrSize: 14px;
-
-// =============================================
-// colors
-// =============================================
-
-$black: #000;
-$gray: #808080;
-$white: #fff;
-$blue: #00F;
+// $mainFontSize: 16px;
+// $mainLineHeight: 1.6;
+// $mainFontWeight: 300;
+// $mainFontColor: #000;
 
 // Import a Google Font
 @import url('https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,400i,500,500i,700,700i&display=swap&subset=cyrillic');
 
-// Set your brand colors
+// colors
 $purple: #8A4D76;
 $pink: #FA7C91;
 $brown: #757763;
+
 $beige-light: #D0D1CD;
 $beige-lighter-1: #EFF0EB;
 $beige-lighter-2: #F4F4F4;
+
+$black: #000;
+$black-1: #0000006b;
+
+$white: #fff;
+
+$blue: #00F;
+$blue-1: #2873FB;
+$blue-2: #2872fbcc;
+$blue-3: #b4ceff;
+
+$orange: #ffa500;
+$orange-1: #db8637;
+$orange-2: #db8637cc;
+$orange-3: #f9bc99;
+
+$red: #ff0000;
+$red-1: #DB4437;
+$red-2: #db4537cc;
+$red-3: #f99999;
+
+$gray: #808080;
+$gray-1: #B3B3B3;
+$gray-2: #444546;
 
 // Update Bulma's global variables
 $family-sans-serif: 'Ubuntu',
@@ -51,3 +59,28 @@ $body-background-color: $beige-lighter-2;
 $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
+
+// buttons
+$button-blue-color: $blue-1;
+$button-white-color: $white;
+$button-gray-color: $gray-1;
+
+$button-box-shadow-1: 3px 3px 7px -2px;
+
+$button-icon-arrow-white: url('/assets/images/new/icons/arrow-right-white.png');
+$button-icon-arrow-blue: url('/assets/images/new/icons/arrow-right-blue.png');
+
+// brand buttons
+$google-color-button: $red-1;
+$google-color-button-hover: $red-2;
+$google-color-border: $red-3;
+$google-color-font: $white;
+$google-color-font-hover: $white;
+$google-icon-button: url('/assets/images/icons/google.svg');
+
+$metamask-color-button: $orange-1;
+$metamask-color-button-hover: $orange-2;
+$metamask-color-border: $orange-3;
+$metamask-color-font: $white;
+$metamask-color-font-hover: $white;
+$metamask-icon-button: url('/assets/images/icons/web3clients/metamask.svg');

@@ -1,0 +1,42 @@
+.is-not-padding-horisontal {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.pre {
+    white-space: pre;
+}
+
+.clearfix-block {
+    display: table;
+    width: 100%;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-left {
+    float: left;
+}
+
+.width-100 {
+    width: 100% !important;
+}
+
+ng-scrollbar-y {
+    display: block !important;
+    visibility: hidden;
+
+    &.ng-scrollbar-visible {
+        visibility: visible;
+    }
+}

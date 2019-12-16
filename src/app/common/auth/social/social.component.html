@@ -1,7 +1,7 @@
 <div *ngIf="!socialAuthError && (social.FB || social.GA) && !social.eoslynx">
 
   <div class="form-field">
-    <button type="button" class="button button-tp button-tp-metamask button-tp-icon-metamask"
+    <button type="button" class="button button-tp button-tp-metamask button-tp-icon-metamask width-100"
             [disabled]="!social.MM"
             (click)="MetamaskAuth()">
       <span>Log in via MetaMask</span>
@@ -18,7 +18,7 @@
   </div>
 
   <div class="form-field">
-    <a class="button button-tp button-tp-google button-tp-icon-google"
+    <a class="button button-tp button-tp-google button-tp-icon-google width-100"
        *ngIf="social.GA"
        (click)="GoogleAuth()">
       <span translate="AUTH_POPUP.BUTTONS.LOGIN_GOOGLE"></span>

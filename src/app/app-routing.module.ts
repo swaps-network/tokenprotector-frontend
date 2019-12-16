@@ -13,10 +13,6 @@ import {ContractEditV3Resolver, ContractFormAllComponent} from './contract-form-
 import {ContractsPreviewV3Component} from './contracts-preview-v3/contracts-preview-v3.component';
 import {IndexIcoComponent} from './index-ico/index-ico.component';
 
-
-
-
-
 export const PROJECT_PARTS = {
   TEST: {
     '^/.+$': 'devswaps.mywish.io'
