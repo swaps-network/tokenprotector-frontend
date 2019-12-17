@@ -43,6 +43,7 @@
         &-blue {
             background-color: $blue-1 !important;
             border-left: 5px solid $blue-3 !important;
+            color: $white !important;
 
             span {
                 @include before-img(block, 50px, 50px, relative) {
@@ -56,7 +57,7 @@
             &:hover {
                 box-shadow: $button-box-shadow-1 #0000006b;
                 background-color: $blue-2 !important;
-                color: $black !important;
+                color: $white !important;
             }
         }
 

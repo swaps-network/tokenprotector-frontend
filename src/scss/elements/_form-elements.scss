@@ -38,6 +38,8 @@
   input,
   textarea {
     outline: none;
+    background-color: $form-color-input-background;
+    border: $form-color-input-border;
 
     form.ng-submitted &:not(.without-error-lightning).ng-invalid,
     &.ng-invalid:not(.without-error-lightning):focus,
@@ -225,7 +227,8 @@
   }
 
   &_label {
-    color: #fff;
+    color: $form-section-color-label;
+    font-weight: bold;
     font-size: 16px;
     line-height: 18px;
   }
@@ -260,7 +263,7 @@
 
   &_label {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.85);
+    color: $form-section-color-label;
     margin-bottom: 5px;
     text-transform: uppercase;
     display: block;
@@ -348,13 +351,13 @@
     textarea,
     .textarea {
       box-sizing: border-box;
-      background-color: #fff;
+      background-color: $form-color-input-background;
       border: 1px solid #fff;
       color: #110931;
-      line-height: 30px;
+      line-height: 23px;
       font-family: inherit;
-      font-size: 24px !important;
-      padding: 10px 10px 8px;
+      font-size: 20px !important;
+      padding: 20px 20px 20px;
 
 
       &:not(.min-text),
@@ -502,7 +505,7 @@
 
   &_description {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.5);
+    color: $form-section-color-text;
 
     &:not(.normal-font) {
       text-transform: uppercase;
@@ -523,6 +526,30 @@
           text-decoration: underline;
         }
       }
+    }
+
+    &:not(.no-top-margin) {
+      margin-top: 22px;
+    }
+
+    &__inline {
+      line-height: 50px;
+      color: rgba(255, 255, 255, 0.5);
+
+      span {
+        line-height: 25px;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  &_text {
+    font-size: 16px;
+    line-height: 18px;
+    color: $form-section-color-text;
+
+    &:not(.normal-font) {
+      text-transform: uppercase;
     }
 
     &:not(.no-top-margin) {
@@ -630,22 +657,22 @@
   }
 }
 
-// .timepicker__header {
-//   background-color: #222 !important;
-// }
+.timepicker__header {
+  background-color: #222 !important;
+}
 
-// .clock-face__number>span.active {
-//   background-color: #222 !important;
-// }
+.clock-face__number>span.active {
+  background-color: #222 !important;
+}
 
-// .clock-face__clock-hand {
-//   background-color: #222 !important;
-// }
+.clock-face__clock-hand {
+  background-color: #222 !important;
+}
 
-// .clock-face__clock-hand_minute:before {
-//   border-color: #222 !important;
-// }
+.clock-face__clock-hand_minute:before {
+  border-color: #222 !important;
+}
 
-// .timepicker-button {
-//   color: #222 !important;
-// }
+.timepicker-button {
+  color: #222 !important;
+}

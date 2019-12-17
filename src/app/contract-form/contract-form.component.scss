@@ -1,32 +1,70 @@
+@import '../../scss/vars';
+
 @import '~@angular/material/theming';
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 @import '../transaction/transaction.component';
 
+.form-field-select {
+  box-sizing: border-box;
+  background-color: #F4F4F4;
+  border: 1px solid #fff;
+  color: black;
+  font-family: inherit;
+  padding: 10px 10px 8px;
+  outline: none;
+  font-size: 18px !important;
+  width: 133px;
+  text-transform: capitalize;
+}
+
 .base-block-content {
   background-attachment: fixed;
 }
+
 .form-container {
   padding-left: 62px;
 
 }
+
 .form-field_description {
   line-height: 28px;
+
   span {
     vertical-align: middle;
   }
 }
+
 .preview-rate {
-  padding-top: 7px!important;
+  padding-top: 7px !important;
 }
+
 .cmc-rate {
   white-space: nowrap;
 }
+
 .cmc-rate-icon {
   width: 24px;
   vertical-align: top;
   margin-right: 10px;
 }
+
+.button-tp {
+  max-width: 200px;
+  width: 100%;
+
+  span {
+    font-size: 17px;
+    font-weight: bold;
+
+    &:before {
+      width: 25px;
+      height: 25px;
+      background-size: 8px;
+    }
+  }
+}
+
 .revert-btn {
   display: inline-block;
   border: 0 none;
@@ -39,6 +77,7 @@
   background-color: rgba(216, 216, 216, 0.26);
   cursor: pointer;
   margin-top: -4px;
+
   img {
     margin-top: -2px;
     width: 14px;
@@ -50,11 +89,13 @@
   position: relative;
   counter-increment: blockNumber;
   padding: 20px 1.5vw 0;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: $step-section-background-color;
+
   &_advanced {
     margin-bottom: 20px;
     background-color: rgba(0, 0, 0, 0.2);
     padding: 1vw;
+
     &-link {
       text-transform: uppercase;
       cursor: pointer;
@@ -63,6 +104,7 @@
       margin-top: 10px;
       margin-bottom: 20px;
       color: #fff;
+
       &:after {
         content: '';
         display: inline-block;
@@ -76,6 +118,7 @@
         height: 6px;
         margin-top: -5px;
       }
+
       &.opened {
         &:after {
           transform: rotate(-135deg);
@@ -84,6 +127,7 @@
       }
     }
   }
+
   &:after {
     display: block;
     position: absolute;
@@ -95,63 +139,79 @@
     line-height: 64px;
     text-align: center;
     border-left: 5px solid;
-    // border-color: #FCD600;
-    background-color: rgba(255, 255, 255, 0.1);
-    font-size: 30px;
-    color: #FFFFFF;
-    font-weight: bold;
+    background-color: $white-1;
+    font-size: 25px;
+    color: $black;
+    font-weight: normal;
     content: counter(blockNumber);
+    border-color: $blue-1;
   }
 
   &_title {
-    font-size: 25px;
-    color: #FFFFFF;
-    font-weight: bold;
+    font-size: 20px;
+    color: $step-section-color-title;
+    font-weight: normal;
     padding: 20px 1.5vw;
     margin-left: -1.5vw;
     margin-right: -1.5vw;
     margin-top: -20px;
-    line-height: 24px;
+    line-height: 22px;
     transition: all linear 0.1s;
     position: relative;
   }
+
   &_fieldset {
     padding: 20px 0;
+    margin-top: -15px;
   }
 
-  + .form-block {
+  +.form-block {
     margin-top: 25px;
   }
+
   &.hidden &_fieldset {
     display: none;
   }
+
   &__active &_title {
     cursor: pointer;
+    font-weight: bold;
+    font-size: 25px;
+
     &:hover {
-      background-color: rgba(0, 0, 0, 0.26);
+      background-color: $white-1;
     }
   }
+
   &__active {
     &:after {
-      border-color: #FCD600;
+      border-color: $step-count-border-color;
+      background-color: $step-count-color;
+      font-weight: bold;
+      font-size: 30px;
     }
   }
+
   &.checked {
     &:after {
       content: '';
     }
+
     &:before {
       content: '';
       display: block;
       position: absolute;
-      top: 14px;
+      top: 20px;
       left: -34px;
-      width: 10px;
-      height: 20px;
       border-width: 0 4px 4px 0;
       border-style: solid;
-      border-color: #FCD600;
+      border-color: $blue-1;
       transform: rotate(45deg);
+      z-index: 1;
+      width: 10px;
+      height: 20px;
+      padding: 0px;
+      border-radius: 1px;
     }
   }
 }
@@ -168,6 +228,7 @@
   cursor: pointer;
   outline: none;
   white-space: nowrap;
+
   &:hover {
     text-decoration: underline;
   }
@@ -177,6 +238,7 @@
   .form-block {
     padding-left: 2vw;
     padding-right: 2vw;
+
     &_title {
       margin-left: -2vw;
       margin-right: -2vw;
@@ -186,9 +248,15 @@
   }
 }
 
+input.medium-text {
+  line-height: 21px !important;
+  padding: 10px 10px 10px !important;
+  text-align: center;
+}
 
 .token-block {
   background-color: rgba(0, 0, 0, 0.1);
+
   .form-field_description {
     margin-top: 0;
     padding-top: 3px;
@@ -197,14 +265,17 @@
     border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
   }
 }
+
 .token-info {
   padding: 20px 0;
   line-height: 52px;
+
   &:after {
     content: '';
     display: block;
     clear: both;
   }
+
   &_icon {
     width: 52px;
     height: 52px;
@@ -215,16 +286,19 @@
     margin-right: 18px;
     background: #fff no-repeat center center;
     background-size: 80%;
+
     img {
       vertical-align: middle;
       max-height: 80%;
     }
   }
+
   &_texts {
     padding: 4px 0;
     display: inline-block;
     vertical-align: middle;
     max-width: 100%;
+
     &__name {
       font-size: 16px;
       color: #FFFFFF;
@@ -232,6 +306,7 @@
       font-weight: bold;
       line-height: 19px;
     }
+
     &__address {
       margin-top: 4px;
       font-size: 18px;
@@ -242,20 +317,24 @@
       text-overflow: ellipsis
     }
   }
+
   &_balance {
     clear: both;
     padding: 0 0 20px;
+
     &:after {
       clear: both;
       display: block;
       content: '';
     }
+
     span {
       display: block;
       float: left;
       text-align: center;
       white-space: nowrap;
     }
+
     &_title {
       padding: 15px 10px;
       min-width: 125px;
@@ -265,6 +344,7 @@
       background-color: rgba(0, 0, 0, 0.1);
       text-transform: uppercase;
     }
+
     &_count {
       padding: 7px 10px;
       line-height: 34px;
@@ -278,15 +358,18 @@
 .contract-info-block {
   padding: 30px 0 15px;
 }
+
 .info-content-block {
   padding-left: 2vw;
   padding-right: 2vw;
 
 }
+
 .deployment-progress-container {
   padding: 12px 0 32px;
   text-align: center;
 }
+
 .progress-bubble {
   background-color: rgba(0, 0, 0, 0.1);
   width: 85px;
@@ -294,6 +377,7 @@
   margin-left: auto;
   margin-right: auto;
   position: relative;
+
   .lds-ring {
     position: absolute;
     top: 50%;
@@ -302,6 +386,7 @@
     margin-top: -21px;
   }
 }
+
 .progress-text {
   margin-top: 15px;
   font-size: 20px;
@@ -309,6 +394,7 @@
   color: #fff;
   text-align: center;
 }
+
 .progress-info_text {
   margin-top: 18px;
   font-size: 14px;
@@ -320,9 +406,11 @@
 .steps-mobile {
   margin-bottom: 20px;
   display: none;
+
   .grid-cell {
     counter-increment: mobileItemNumber;
   }
+
   &_item {
     height: 40px;
     line-height: 40px;
@@ -333,6 +421,7 @@
     color: #fff;
     position: relative;
     border-color: rgba(255, 255, 255, 0.2);
+
     &:before {
       content: counter(mobileItemNumber);
       display: inline;
@@ -341,24 +430,30 @@
       position: relative;
       top: 2px;
     }
+
     &.opened {
       border-left: 5px solid;
       border-color: #FCD600;
     }
+
     &.active {
       border-left: 5px solid;
       border-color: rgba(255, 255, 255, 0.5);
       cursor: pointer;
+
       &:hover {
         background-color: rgba(0, 0, 0, 0.3);
       }
+
       &.opened {
         border-color: #FCD600;
       }
     }
+
     &.checked:before {
       display: none;
     }
+
     &.checked:after {
       content: '';
       display: block;
@@ -388,22 +483,29 @@
     }
   }
 }
+
 @media screen and (max-width: 580px) {
   .steps-mobile {
     display: block;
   }
+
   .form-block {
-    margin-top: 0!important;
+    margin-top: 0 !important;
+
     &_fieldset {
       padding-top: 0;
     }
+
     &.hidden {
       display: none;
     }
-    &:after, &:before {
+
+    &:after,
+    &:before {
       display: none;
     }
   }
+
   .form-container {
     padding-left: 0;
   }
@@ -424,9 +526,11 @@
   width: 100%;
   margin-top: 30px;
   font-size: 17px;
+
   td {
     padding: 5px 0;
   }
+
   &_name {
     color: rgba(255, 255, 255, 0.5);
   }
@@ -450,6 +554,7 @@
     background-color: rgba(0, 0, 0, 0.2);
     border-left: 5px solid rgba(255, 255, 255, 0.25);
     margin-bottom: 20px;
+
     a {
       color: #61B9DF;
     }

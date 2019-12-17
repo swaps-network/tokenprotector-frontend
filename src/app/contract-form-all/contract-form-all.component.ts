@@ -15,6 +15,22 @@ import {Observable} from 'rxjs';
 import {UserInterface} from '../services/user/user.interface';
 
 
+export interface IReqData {
+  address_1: string;
+  address_2: string;
+  date: {
+    count: number;
+    state: string;
+  };
+  email: string;
+}
+
+export interface IStepper {
+  min: number;
+  max: number;
+  current: number;
+}
+
 export interface IContractV3 {
 
   id?: number;
@@ -70,21 +86,47 @@ export interface IContractV3 {
   created_date: string;
 }
 
-
-
-
 @Component({
   selector: 'app-contract-form-all',
   templateUrl: './contract-form-all.component.html',
   styleUrls: ['../contract-form/contract-form.component.scss'],
   providers: [
     Location,
-    {provide: LocationStrategy, useClass: PathLocationStrategy},
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]},
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS}
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
   ]
 })
 export class ContractFormAllComponent implements AfterContentInit, OnInit {
+
+  public selectCionditions = [
+    {id:0,name:'day'},
+    {id:1,name:'month'},
+    {id:2,name:'year'}
+  ]
+
+  public reqData: IReqData = {
+    address_1: '',
+    address_2: '',
+    date: {
+      count: 12,
+      state: 'year',
+    },
+    email: '',
+  };
+
+  public stepper: IStepper = {
+    min: 0,
+    max: 5,
+    current: 0
+  }
+
+  public previewTrigger = false;
+
+  public previewComplete(event) {
+    this.previewTrigger = event;
+  }
+
 
   @Output() BaseTokenCustom = new EventEmitter<any>();
   @Output() QuoteTokenCustom = new EventEmitter<any>();
@@ -93,12 +135,19 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit {
   @ViewChild('contactsReminderModal') contactsReminderModal: TemplateRef<any>;
   @ViewChild('ethSwapNotification') ethSwapNotification: TemplateRef<any>;
 
+
+  // new - token protector
+
+  public tokenProtectorToken;
+  public editableTokenProtector = true;
+
+
   public originalContract: IContractV3;
 
   public formIsSending: boolean;
 
   public currentUser;
-  public editableContract = true;
+  // public editableContract = true;
 
   public minTime;
   public minDate: moment.Moment;
@@ -131,7 +180,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit {
   public openedForm: any;
 
   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
-  @ViewChild('extraForm') public extraForm;
+  @ViewChild('conditionsForm') public conditionsForm;
 
   @ViewChild('brokersForm') private brokersForm;
   @ViewChild('notificationForm') private notificationForm;
@@ -148,8 +197,22 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit {
     protected router: Router,
     private dialog: MatDialog
   ) {
+
+    // new token protector
+
+    this.tokenProtectorToken = {
+      base: {},
+      reverse: {}
+    };
+
+
+
+
+
     this.CMCRates = {};
     this.originalContract = this.route.snapshot.data.contract;
+
+
 
     this.customTokens = {
       base: {},
@@ -271,22 +334,22 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit {
   }
 
   private setFullDateTime() {
-    const times = this.extraForm.value.time.split(':');
-    this.extraForm.value.active_to.hour(times[0]);
-    this.extraForm.value.active_to.minutes(times[1]);
+    const times = this.conditionsForm.value.time.split(':');
+    this.conditionsForm.value.active_to.hour(times[0]);
+    this.conditionsForm.value.active_to.minutes(times[1]);
 
-    if (this.extraForm.value.active_to.isBefore(this.minDate)) {
-      this.extraForm.controls.time.setErrors({incorrect: true});
+    if (this.conditionsForm.value.active_to.isBefore(this.minDate)) {
+      this.conditionsForm.controls.time.setErrors({incorrect: true});
     } else {
-      this.extraForm.controls.time.setErrors(null);
+      this.conditionsForm.controls.time.setErrors(null);
     }
     setTimeout(() => {
-      this.requestData.stop_date = this.extraForm.value.active_to.clone();
+      this.requestData.stop_date = this.conditionsForm.value.active_to.clone();
     });
   }
 
   public dateChange() {
-    if (this.extraForm.value.active_to.isSame(this.minDate, 'day')) {
+    if (this.conditionsForm.value.active_to.isSame(this.minDate, 'day')) {
       this.minTime = `${this.minDate.hour()}:${this.minDate.minutes()}`;
     } else {
       this.minTime = null;
@@ -329,17 +392,21 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit {
     }
   }
 
-
-  public checkRates() {
-    const tokens = this.requestData.tokens_info;
-    if (tokens.base.token.isEthereum && !tokens.quote.token.isEthereum) {
-      this.dialog.open(this.ethSwapNotification, {
-        width: '480px'
-      });
-    } else {
-      this.gotToForm(1);
-    }
+  public nextStep(stepNumber) {
+    (stepNumber <= this.stepper.max) ? this.stepper.current = stepNumber : this.stepper.current = this.stepper.max;
   }
+
+
+  // public checkRates() {
+  //   const tokens = this.requestData.tokens_info;
+  //   if (tokens.base.token.isEthereum && !tokens.quote.token.isEthereum) {
+  //     this.dialog.open(this.ethSwapNotification, {
+  //       width: '480px'
+  //     });
+  //   } else {
+  //     this.gotToForm(1);
+  //   }
+  // }
 
   private contractIsCreated(contract) {
     this.router.navigate(['/public-v3/' + contract.unique_link]);
@@ -351,7 +418,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit {
 
   public setCustomToken(field, token) {
     token.isEthereum = true;
-    this.customTokens[field] = token;
+    this.tokenProtectorToken[field] = token;
   }
 
   public addCustomToken(name) {
@@ -404,13 +471,13 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit {
       this.formData.quote_address = this.requestData.tokens_info.quote.token.address;
     }
 
-    this.formData.public = !!this.extraForm.value.public;
-    this.formData.stop_date = this.extraForm.value.active_to.clone().utc().format('YYYY-MM-DD HH:mm');
+    this.formData.public = !!this.conditionsForm.value.public;
+    this.formData.stop_date = this.conditionsForm.value.active_to.clone().utc().format('YYYY-MM-DD HH:mm');
 
     this.formData.base_limit = this.requestData.tokens_info.base.amount;
     this.formData.quote_limit = this.requestData.tokens_info.quote.amount;
 
-    this.formData.owner_address = this.extraForm.value.owner_address;
+    this.formData.owner_address = this.conditionsForm.value.owner_address;
 
     this.formData.name = this.requestData.tokens_info.base.token.token_short_name +
       '<>' + this.requestData.tokens_info.quote.token.token_short_name;

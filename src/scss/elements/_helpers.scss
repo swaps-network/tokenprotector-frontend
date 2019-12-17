@@ -32,6 +32,11 @@
     width: 100% !important;
 }
 
+.width-550-px {
+    max-width: 550px !important;
+    width: 100%;
+}
+
 ng-scrollbar-y {
     display: block !important;
     visibility: hidden;

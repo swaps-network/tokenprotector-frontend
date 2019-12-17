@@ -24,6 +24,8 @@ $black: #000;
 $black-1: #0000006b;
 
 $white: #fff;
+$white-1: #EBEDF1;
+$white-2: #F4F4F4;
 
 $blue: #00F;
 $blue-1: #2873FB;
@@ -43,6 +45,7 @@ $red-3: #f99999;
 $gray: #808080;
 $gray-1: #B3B3B3;
 $gray-2: #444546;
+
 
 // Update Bulma's global variables
 $family-sans-serif: 'Ubuntu',
@@ -84,3 +87,17 @@ $metamask-color-border: $orange-3;
 $metamask-color-font: $white;
 $metamask-color-font-hover: $white;
 $metamask-icon-button: url('/assets/images/icons/web3clients/metamask.svg');
+
+// form settings (create-v3)
+$step-count-color: $white-1;
+$step-count-color-hover: $blue-1;
+$step-count-color-font: $black;
+$step-count-border-color: $blue-1;
+
+$step-section-color-title: $black;
+$step-section-background-color: $white;
+
+$form-section-color-text: rgba(0, 0, 0, 0.6);
+$form-section-color-label: $black;
+$form-color-input-background: $white-2;
+$form-color-input-border: 1px solid $white-2;
