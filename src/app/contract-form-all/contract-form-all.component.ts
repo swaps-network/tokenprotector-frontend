@@ -132,18 +132,20 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit {
   }
 
   public previewTrigger = false;
-
   public curDate;
-  public previewDate;
-  public rezDate;
-
 
   public nextStep(stepNumber) {
 
     if (stepNumber === 2) {
       this.previewTrigger = true;
-      this.calcContractDate();
+      this.reqData.contract_details.end_timestamp = Math.floor(this.curDate / 1000);
+
+      this.contractsService.createContract(this.reqData).then((rez) => {
+        console.log(rez);
+      });
+
     }
+
     (stepNumber <= this.stepper.max) ? this.stepper.current = stepNumber : this.stepper.current = this.stepper.max;
   }
 
@@ -151,28 +153,6 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit {
     this.previewTrigger = event;
   }
 
-  public calcContractDate() {
-
-    let countDate = this.contractDate.count;
-    let typeDat = this.contractDate.type;
-    
-    let currentDate = new Date();
-    let existDate = new Date(currentDate);
-
-    switch (typeDat) {
-      case 'year': { existDate.setFullYear(existDate.getFullYear() + parseFloat(countDate)); break; }
-      case 'month': { existDate.setMonth(existDate.getMonth() + parseFloat(countDate)); break; }
-      case 'day': { existDate.setDate(existDate.getDate() + parseFloat(countDate)); break; }
-      default: { existDate.setFullYear(existDate.getFullYear() + parseFloat(countDate)); break; }
-    }
-
-    this.curDate = currentDate;
-    this.previewDate = existDate;
-    this.rezDate = ((new Date(existDate).getTime() - new Date(currentDate).getTime()) / 1000).toFixed(0);
-
-    this.reqData.contract_details.end_timestamp = this.rezDate;
-
-  }
 
 
 
@@ -325,14 +305,14 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit {
   }
 
   ngAfterContentInit() {
-    setTimeout(() => {
-      this.dateChange();
-    });
+    // setTimeout(() => {
+    //   this.dateChange();
+    // });
 
-    if (this.route.snapshot.data.contract) {
-      this.datePickerDate = moment(this.originalContract.stop_date);
-      this.datePickerTime = `${this.datePickerDate.hour()}:${this.datePickerDate.minutes()}`;
-    }
+    // if (this.route.snapshot.data.contract) {
+    //   this.datePickerDate = moment(this.originalContract.stop_date);
+    //   this.datePickerTime = `${this.datePickerDate.hour()}:${this.datePickerDate.minutes()}`;
+    // }
   }
 
 

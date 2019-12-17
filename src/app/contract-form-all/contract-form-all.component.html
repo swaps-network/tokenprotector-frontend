@@ -59,8 +59,6 @@
     {{ stepper|json }} <br>
     {{ previewTrigger|json }} <br>
     {{ curDate }} <br>
-    {{ previewDate }} <br>
-    {{ rezDate }}
 
     <!-- Main form -->
     <div class="grid-row">
@@ -138,22 +136,19 @@
                   <label class="form-field_label">Transfer the tokens from your address to Reserve address in</label>
                   <div class="form-field">
                     <div class="form-field_input width-550-px">
-                      <input type="text"
-                        class="min-text max-placeholder medium-text"
-                        maxlength="3"
-                        minlength="1"
+                      <input matInput [matDatepicker]="datepicker"
                         required
-                        pattern="[0-9]+"
-                        [(ngModel)]="contractDate.count"
-                        placeholder="Count"
-                        name="date_count"
-                        style="width: 85px;margin-right: 10px;">
-
-                        <select class="form-field-select" required name="date_switch" [(ngModel)]="contractDate.type">
-                          <option default value="year">year</option>
-                          <option value="month">month</option>
-                          <option value="day">day</option>
-                        </select>
+                        readonly
+                        [(ngModel)]="curDate"
+                        (dateChange)="dateChange()"
+                        name="active_to"
+                        (click)="datepicker.open()" placeholder="Choose a date" class="min-text">
+                      <mat-datepicker #datepicker></mat-datepicker>
+                      <span class="mat-datepicker-toggle" (click)="datepicker.open()" >
+                        <button mat-button mat-icon-button type="button">
+                          <img src="./assets/images/icons/calendar.svg">
+                        </button>
+                      </span>
                     </div>
                   </div>
                   <div class="form-field">
@@ -278,7 +273,7 @@
 
                   <div class="form-field">
                     
-                    <app-contract-form-pay></app-contract-form-pay>
+                
 
                   </div>
 
