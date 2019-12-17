@@ -54,9 +54,14 @@
       </div>
 
     </div>
+
     {{ reqData|json }} <br>
     {{ stepper|json }} <br>
-    {{ previewTrigger|json }}
+    {{ previewTrigger|json }} <br>
+    {{ curDate }} <br>
+    {{ previewDate }} <br>
+    {{ rezDate }}
+
     <!-- Main form -->
     <div class="grid-row">
       <div class="grid-cell grid-cell-2-3 grid-cell-sm-7-8 grid-cell-s-1">
@@ -80,7 +85,7 @@
                     maxlength="42"
                     pattern="0x[0-9a-fA-F]{40}"
                     required
-                    [(ngModel)]="reqData.address_1"
+                    [(ngModel)]="reqData.contract_details.owner_address"
                     placeholder="Ethereum address"
                     name="owner_address_1">
                 </div>
@@ -98,7 +103,7 @@
                     maxlength="42"
                     pattern="0x[0-9a-fA-F]{40}"
                     required
-                    [(ngModel)]="reqData.address_2"
+                    [(ngModel)]="reqData.contract_details.reserve_address"
                     placeholder="Ethereum address"
                     name="owner_address_2">
                 </div>
@@ -139,12 +144,12 @@
                         minlength="1"
                         required
                         pattern="[0-9]+"
-                        [(ngModel)]="reqData.date.count"
+                        [(ngModel)]="contractDate.count"
                         placeholder="Count"
                         name="date_count"
                         style="width: 85px;margin-right: 10px;">
 
-                        <select class="form-field-select" required name="date_switch" [(ngModel)]="reqData.date.state">
+                        <select class="form-field-select" required name="date_switch" [(ngModel)]="contractDate.type">
                           <option default value="year">year</option>
                           <option value="month">month</option>
                           <option value="day">day</option>
@@ -164,7 +169,7 @@
                         <input type="email"
                             class="min-text max-placeholder"
                             [email]="true"
-                            [(ngModel)]="reqData.email"
+                            [(ngModel)]="reqData.contract_details.email"
                             placeholder="Enter your email"
                             name="check_email">
                       </div>
@@ -201,7 +206,7 @@
                               maxlength="42"
                               pattern="0x[0-9a-fA-F]{40}"
                               disabled
-                              [(ngModel)]="reqData.address_1"
+                              [(ngModel)]="reqData.contract_details.owner_address"
                               placeholder="Ethereum address"
                               name="check_owner_address_1">
                     </div>
@@ -215,7 +220,7 @@
                         maxlength="42"
                         pattern="0x[0-9a-fA-F]{40}"
                         disabled
-                        [(ngModel)]="reqData.address_2"
+                        [(ngModel)]="reqData.contract_details.reserve_address"
                         placeholder="Ethereum address"
                         name="check_reverse_address_2">
                     </div>
@@ -228,7 +233,7 @@
                             [email]="true"
                             class="min-text max-placeholder"
                             disabled
-                            [(ngModel)]="reqData.date.count + ' ' + reqData.date.state"
+                            [(ngModel)]="contractDate.count + ' ' + contractDate.type"
                             placeholder="Date"
                             name="check_date">
                     </div>

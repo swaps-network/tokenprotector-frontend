@@ -14,15 +14,17 @@ import {Web3Service} from '../services/web3/web3.service';
 import {Observable} from 'rxjs';
 import {UserInterface} from '../services/user/user.interface';
 
-
 export interface IReqData {
-  address_1: string;
-  address_2: string;
-  date: {
-    count: number;
-    state: string;
+  contract_type: number;
+  network: number;
+  state?: string;
+  name: string;
+  contract_details: {
+    owner_address: string;
+    reserve_address: string;
+    end_timestamp: number;
+    email: string;
   };
-  email: string;
 }
 
 export interface IStepper {
@@ -100,19 +102,27 @@ export interface IContractV3 {
 export class ContractFormAllComponent implements AfterContentInit, OnInit {
 
   public selectCionditions = [
-    {id:0,name:'day'},
-    {id:1,name:'month'},
-    {id:2,name:'year'}
+    { id: 0, name: 'day' },
+    { id: 1, name: 'month' },
+    { id: 2, name: 'year' }
   ]
 
+  public contractDate = {
+    type: 'year',
+    count: '123'
+  }
+
   public reqData: IReqData = {
-    address_1: '',
-    address_2: '',
-    date: {
-      count: 12,
-      state: 'year',
-    },
-    email: '',
+    contract_type: 23,
+    network: 1,
+    state: '',
+    name: '',
+    contract_details: {
+      owner_address: '',
+      reserve_address: '',
+      end_timestamp: 1234,
+      email: '',
+    }
   };
 
   public stepper: IStepper = {
@@ -123,9 +133,48 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit {
 
   public previewTrigger = false;
 
+  public curDate;
+  public previewDate;
+  public rezDate;
+
+
+  public nextStep(stepNumber) {
+
+    if (stepNumber === 2) {
+      this.previewTrigger = true;
+      this.calcContractDate();
+    }
+    (stepNumber <= this.stepper.max) ? this.stepper.current = stepNumber : this.stepper.current = this.stepper.max;
+  }
+
   public previewComplete(event) {
     this.previewTrigger = event;
   }
+
+  public calcContractDate() {
+
+    let countDate = this.contractDate.count;
+    let typeDat = this.contractDate.type;
+    
+    let currentDate = new Date();
+    let existDate = new Date(currentDate);
+
+    switch (typeDat) {
+      case 'year': { existDate.setFullYear(existDate.getFullYear() + parseFloat(countDate)); break; }
+      case 'month': { existDate.setMonth(existDate.getMonth() + parseFloat(countDate)); break; }
+      case 'day': { existDate.setDate(existDate.getDate() + parseFloat(countDate)); break; }
+      default: { existDate.setFullYear(existDate.getFullYear() + parseFloat(countDate)); break; }
+    }
+
+    this.curDate = currentDate;
+    this.previewDate = existDate;
+    this.rezDate = ((new Date(existDate).getTime() - new Date(currentDate).getTime()) / 1000).toFixed(0);
+
+    this.reqData.contract_details.end_timestamp = this.rezDate;
+
+  }
+
+
 
 
   @Output() BaseTokenCustom = new EventEmitter<any>();
@@ -392,9 +441,6 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit {
     }
   }
 
-  public nextStep(stepNumber) {
-    (stepNumber <= this.stepper.max) ? this.stepper.current = stepNumber : this.stepper.current = this.stepper.max;
-  }
 
 
   // public checkRates() {
