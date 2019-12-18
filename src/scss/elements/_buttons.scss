@@ -46,11 +46,12 @@
             color: $white !important;
 
             span {
-                @include before-img(block, 50px, 50px, relative) {
+                @include before-img(block, 20px, 20px, relative) {
                     background-image: $button-icon-arrow-white;
                     background-repeat: no-repeat;
                     background-position: center;
-                    background-size: 10px;
+                    background-size: 8px;
+                    margin-right: 5px;
                 }
             }
 
@@ -107,9 +108,26 @@
             }
         }
 
+        &-facebook {
+            background-color: $facebook-color-button !important;
+            border-left: 5px solid $facebook-color-border !important;
+            color: $facebook-color-font !important;
+            margin-bottom: 10px;
+            height: 50px !important;
+
+            span {
+                font-weight: bold;
+            }
+
+            &:hover {
+                background-color: $facebook-color-button-hover !important;
+                color: $facebook-color-font-hover !important;
+            }
+        }
+
         &-icon-metamask {
             span {
-                @include before-img(block, 50px, 50px, relative) {
+                @include before-img(block, 50px, 35px, relative) {
                     background-image: $metamask-icon-button;
                     background-repeat: no-repeat;
                     background-position: center;
@@ -122,6 +140,17 @@
             span {
                 @include before-img(block, 50px, 50px, relative) {
                     background-image: $google-icon-button;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: 25px;
+                }
+            }
+        }
+
+        &-icon-facebook {
+            span {
+                @include before-img(block, 50px, 50px, relative) {
+                    background-image: $facebook-icon-button;
                     background-repeat: no-repeat;
                     background-position: center;
                     background-size: 25px;
@@ -269,8 +298,8 @@
     }
 
     &-payment {
-        background-color: rgba(0, 0, 0, 0.2);
-        color: #fff;
+        background-color: $white-2;
+        color: $black;
         border-radius: 2px;
         border-width: 0;
         font-weight: normal;
@@ -279,7 +308,7 @@
         margin-bottom: 7px;
 
         &:hover {
-            background-color: rgba(0, 0, 0, 0.4);
+            background-color: $white-1;
         }
 
         &_ico {
@@ -336,48 +365,57 @@
 //   }
 // }
 
-// .copy-btn {
-//   background: none;
-//   border: none;
-//   padding: 0;
-//   margin: 0;
-//   cursor: pointer;
-//   outline: none;
-//   position: relative;
-//   top: 5px;
+.mat-datepicker-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 15px;
+    top: 13px;
+}
 
-//   &.copied {
-//     &:after {
-//       position: absolute;
-//       bottom: 100%;
-//       width: 100px;
-//       text-align: center;
-//       right: 0;
-//       margin-left: -55px;
-//       margin-bottom: 8px;
-//       border-radius: 2px;
-//       content: 'Copied';
-//       font-size: 14px;
-//       padding: 5px;
-//       background-color: rgba(0, 0, 0, 0.4);
-//       color: #fff;
-//     }
+.copy-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    outline: none;
+    position: relative;
+    top: 5px;
 
-//     &:before {
-//       position: absolute;
-//       right: 0;
-//       bottom: 100%;
-//       border-width: 7px 7px 0 7px;
-//       border-color: rgba(0, 0, 0, 0.4) transparent;
-//       border-style: solid;
-//       content: '';
-//       width: 0;
-//       height: 0;
-//       margin-right: 4px;
-//       margin-bottom: 1px;
-//     }
-//   }
-// }
+    &.copied {
+        &:after {
+            position: absolute;
+            bottom: 100%;
+            width: 100px;
+            text-align: center;
+            right: 0;
+            margin-left: -55px;
+            margin-bottom: 8px;
+            border-radius: 2px;
+            content: 'Copied';
+            font-size: 14px;
+            padding: 5px;
+            background-color: rgba(0, 0, 0, 0.4);
+            color: #fff;
+        }
+
+        &:before {
+            position: absolute;
+            right: 0;
+            bottom: 100%;
+            border-width: 7px 7px 0 7px;
+            border-color: rgba(0, 0, 0, 0.4) transparent;
+            border-style: solid;
+            content: '';
+            width: 0;
+            height: 0;
+            margin-right: 4px;
+            margin-bottom: 1px;
+        }
+    }
+}
 
 // .new-btn {
 //   display: inline-block;

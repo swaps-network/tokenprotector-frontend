@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import PARTNERS from './projects-resourses';
 import { HttpService } from '../services/http/http.service';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material';
 import {ChangePasswordComponent} from '../common/change-password/change-password.component';
 
 const STAT_URL = 'get_statistics_landing/';
@@ -44,9 +44,13 @@ export class IndexComponent implements OnInit {
     });
   }
 
+  public btnClick() {
+    this.router.navigateByUrl('/create-v3');
+  }
+
   ngOnInit() {
     // this.httpService.get(STAT_URL).subscribe(res => this.stat = res);
-    new window['ScrollTopButton'](500);
+    // new window['ScrollTopButton'](500);
   }
 
 }

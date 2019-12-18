@@ -84,9 +84,11 @@
   margin-top: -8px;
   margin-right: -8px;
   background: none;
-  padding: 0;
+  padding: 2px;
   border: 0 none;
   cursor: pointer;
+  background-color: $blue-1;
+  border-radius: 20px;
 
   img {
     width: 30px;

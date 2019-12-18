@@ -65,7 +65,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public openAuth() {
-    this.userService.openAuthForm().then(() => {}, () => {});
+    this.userService.openAuthForm().then(() => { this.router.navigateByUrl('/create'); }, () => {});
   }
 
   ngOnInit() {
@@ -86,6 +86,7 @@ export class HeaderComponent implements OnInit {
       this.logoutConfirmationModal.close();
     }).finally(() => {
       this.logoutProgress = false;
+      this.currentUser.is_ghost = true;
     });
   }
 

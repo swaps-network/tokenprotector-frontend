@@ -31,6 +31,8 @@ $blue: #00F;
 $blue-1: #2873FB;
 $blue-2: #2872fbcc;
 $blue-3: #b4ceff;
+$blue-4: #4267B2;
+$blue-5: #8b9dc3;
 
 $orange: #ffa500;
 $orange-1: #db8637;
@@ -87,6 +89,13 @@ $metamask-color-border: $orange-3;
 $metamask-color-font: $white;
 $metamask-color-font-hover: $white;
 $metamask-icon-button: url('/assets/images/icons/web3clients/metamask.svg');
+
+$facebook-color-button: $blue-4;
+$facebook-color-button-hover: $blue-5;
+$facebook-color-border: $blue-5;
+$facebook-color-font: $white;
+$facebook-color-font-hover: $white;
+$facebook-icon-button: url('/assets/images/icons/facebook.svg');
 
 // form settings (create-v3)
 $step-count-color: $white-1;

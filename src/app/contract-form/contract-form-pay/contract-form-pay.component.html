@@ -2,78 +2,74 @@
   <div class="form-field_description price-contract">
     SWAP's cost: {{fromBigNumber(contractCosts.USDT, 6)}} USDT
   </div><br/>
-  <div class="form-field">
-    <label class="form-field_label">Choose replenish method</label>
-    <div class="form-field_input">
-      <div class="grid-row">
+  <div class="form-field_line"></div><br/>
+  <label class="form-field_label">Choose replenish method</label>
 
-        <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
-          <label class="checkbox-block">
-            <input type="radio"
-                   name="payment-method"
-                   [(ngModel)]="replenishMethod"
-                   value="SWAP" checked="checked"/>
-            <span class="btn btn-payment btn-normal-weight width-100">
-                <img class="btn-payment_ico" src="./assets/images/swap-icon.svg">
-                <span class="btn-payment_txt">SWAP</span>
-              </span>
-          </label>
-        </div>
+  <div class="form-field d-flex token-btn-wrap">
+    <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
+      <label class="checkbox-block">
+        <input type="radio"
+                name="payment-method"
+                [(ngModel)]="replenishMethod"
+                value="SWAP" checked="checked"/>
+        <span class="btn btn-payment btn-normal-weight width-100">
+            <img class="btn-payment_ico" src="./assets/images/swap-icon.svg">
+            <span class="btn-payment_txt">SWAP</span>
+          </span>
+      </label>
+    </div>
 
+    <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
+      <label class="checkbox-block">
+        <input type="radio"
+                name="payment-method"
+                [(ngModel)]="replenishMethod"
+                value="WISH" checked="checked"/>
+        <span class="btn btn-payment btn-normal-weight width-100">
+          <img class="btn-payment_ico" src="./assets/images/icons/coins/wish.png">
+          <span class="btn-payment_txt">WISH</span>
+        </span>
+      </label>
+    </div>
 
-        <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
-
-          <label class="checkbox-block">
-            <input type="radio"
-                   name="payment-method"
-                   [(ngModel)]="replenishMethod"
-                   value="WISH" checked="checked"/>
-            <span class="btn btn-payment btn-normal-weight width-100">
-              <img class="btn-payment_ico" src="./assets/images/icons/coins/wish.png">
-              <span class="btn-payment_txt">WISH</span>
-            </span>
-          </label>
-        </div>
-        <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
-          <label class="checkbox-block">
-            <input type="radio"
-                   name="payment-method"
-                   [(ngModel)]="replenishMethod"
-                   value="ETH"/>
-            <span class="btn btn-payment btn-normal-weight width-100">
-              <img class="btn-payment_ico" src="./assets/images/icons/coins/eth.png">
-              <span class="btn-payment_txt">ETH</span>
-            </span>
-          </label>
-        </div>
-        <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
-          <label class="checkbox-block">
-            <input type="radio"
-                   name="payment-method"
-                   [(ngModel)]="replenishMethod"
-                   value="BNB"/>
-            <span class="btn btn-payment btn-normal-weight width-100">
-              <img class="btn-payment_ico" src="./assets/images/icons/coins/bnb.svg">
-              <span class="btn-payment_txt">BNB</span>
-            </span>
-          </label>
-        </div>
-        <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
-          <label class="checkbox-block">
-            <input type="radio"
-                   name="payment-method"
-                   [(ngModel)]="replenishMethod"
-                   value="BTC"/>
-            <span class="btn btn-payment btn-normal-weight width-100">
-              <img class="btn-payment_ico" src="./assets/images/icons/coins/btc.svg">
-              <span class="btn-payment_txt">BTC</span>
-            </span>
-          </label>
-        </div>
-      </div>
+    <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
+      <label class="checkbox-block">
+        <input type="radio"
+                name="payment-method"
+                [(ngModel)]="replenishMethod"
+                value="ETH"/>
+        <span class="btn btn-payment btn-normal-weight width-100">
+          <img class="btn-payment_ico" src="./assets/images/icons/coins/eth.png">
+          <span class="btn-payment_txt">ETH</span>
+        </span>
+      </label>
+    </div>
+    
+    <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
+      <label class="checkbox-block">
+        <input type="radio"
+                name="payment-method"
+                [(ngModel)]="replenishMethod"
+                value="BNB"/>
+        <span class="btn btn-payment btn-normal-weight width-100">
+          <img class="btn-payment_ico" src="./assets/images/icons/coins/bnb.svg">
+          <span class="btn-payment_txt">BNB</span>
+        </span>
+      </label>
+    </div>
+    <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
+      <label class="checkbox-block">
+        <input type="radio"
+                name="payment-method"
+                [(ngModel)]="replenishMethod"
+                value="BTC"/>
+        <span class="btn btn-payment btn-normal-weight width-100">
+          <img class="btn-payment_ico" src="./assets/images/icons/coins/btc.svg">
+          <span class="btn-payment_txt">BTC</span>
+        </span>
+      </label>
     </div>
   </div>
-
 
   <div *ngIf="replenishMethod !== 'BTC'">
     <div class="form-field">
@@ -118,9 +114,8 @@
         </div>
       </div>
     </div>
-    <div class="or-delimiter">
-      <span>OR</span>
-    </div>
+
+    <div class="or-delimiter"><div></div><span>OR</span><div></div></div>
 
     <label class="form-field_label">Select payment method:</label>
     <div class="form-field_input">
@@ -135,7 +130,7 @@
                *ngIf="!inProgress"
                target="_blank"
                type="button"
-               class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100">
+               class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100 btn-payment-method">
               <img src="./assets/images/icons/web3clients/myetherwallet.svg" class="btn-ico">
               MyEtherWallet
             </a>
@@ -143,7 +138,7 @@
             <button type="button"
                     disabled="disabled"
                     *ngIf="inProgress"
-                    class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100">
+                    class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100 btn-payment-method">
               <img src="./assets/images/icons/web3clients/myetherwallet.svg" class="btn-ico">
               MyEtherWallet
             </button>
@@ -155,7 +150,7 @@
             <button type="button"
                     [disabled]="inProgress"
                     (click)="payContractVia(replenishMethod)"
-                    class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100">
+                    class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100 btn-payment-method">
               <img src="./assets/images/icons/web3clients/metamask.svg" class="btn-ico">
 
               <span class="lds-ellipsis" *ngIf="inProgress">
@@ -180,7 +175,7 @@
         {{fromBigNumber(contractCosts.BTC, 8) | number : '.0-5'}} BTC
         to
       </div>
-      <div class="form-field_input">
+      <div class="form-field_input d-flex ai-center">
         <div class="form-field_copy">
           <button type="button"
                   class="copy-btn"
@@ -190,7 +185,7 @@
             <img src="./assets/images/icons/copy.svg"/>
           </button>
         </div>
-        <div class="form-field_input_data">
+        <div class="form-field_input_data width-100">
           <input type="text" class="min-text dark-field"
                  readonly
                  [value]="currentUser.internal_btc_address"/>
@@ -198,6 +193,8 @@
       </div>
     </div>
   </div>
+
+  <div class="form-field_line"></div><br/>
 
   <div class="contract-pay-state">
     <span class="lds-ellipsis inline">
@@ -227,7 +224,7 @@
            [innerHTML]="this.metaMaskError.msg"></div>
 
       <div class="alert-window-buttons text-center">
-        <button class="btn btn-yellow btn-auto btn-min" mat-dialog-close="" type="button">
+        <button class="button button-tp button-tp-blue" mat-dialog-close="" type="button">
           <span>&nbsp;&nbsp;&nbsp;Close&nbsp;&nbsp;&nbsp;</span>
         </button>
       </div>

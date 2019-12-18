@@ -9,7 +9,7 @@ import { TeamComponent } from './team-component/team.component';
 import { RoadmapComponent } from './roadmap-component/roadmap.component';
 import { FaqComponent } from './faq-component/faq.component';
 import { ContactsComponent } from './contacts-component/contacts.component';
-import {ContractEditV3Resolver, ContractFormAllComponent} from './contract-form-all/contract-form-all.component';
+import {ContractEditV3Resolver, ContractFormAllComponent, ContractEditResolver2} from './contract-form-all/contract-form-all.component';
 import {ContractsPreviewV3Component} from './contracts-preview-v3/contracts-preview-v3.component';
 import {IndexIcoComponent} from './index-ico/index-ico.component';
 
@@ -50,10 +50,16 @@ const routes: Routes = [
       noheader: true
     }
   }, {
-    path: 'create-v3',
+    path: 'create',
     component: ContractFormAllComponent,
     data: {
       // support: true
+    }
+  },{
+    path: 'create/:id',
+    component: ContractFormAllComponent,
+    resolve: {
+      contract: ContractEditResolver2
     }
   }, {
     path: 'view/:id',
@@ -92,26 +98,6 @@ const routes: Routes = [
     },
     data: {
       supportHide: 1024,
-      createButton: true,
-      hideInstruction: true
-    }
-  }, {
-    path: 'public/:public_link',
-    component: ContractPreviewComponent,
-    resolve: {
-      contract: ContractEditResolver
-    },
-    data: {
-      createButton: true,
-      hideInstruction: true
-    }
-  }, {
-    path: 'public-v3/:public_link',
-    component: ContractsPreviewV3Component,
-    resolve: {
-      contract: ContractEditV3Resolver
-    },
-    data: {
       createButton: true,
       hideInstruction: true
     }

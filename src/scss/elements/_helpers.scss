@@ -45,3 +45,12 @@ ng-scrollbar-y {
         visibility: visible;
     }
 }
+
+.d-flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ai-center {
+    align-items: center;
+}

@@ -35,6 +35,8 @@
   }
 }
 
+
+
 .preview-rate {
   padding-top: 7px !important;
 }
@@ -418,9 +420,9 @@ input.medium-text {
     background-color: rgba(255, 255, 255, 0.1);
     text-align: center;
     margin: 5px auto 0;
-    color: #fff;
     position: relative;
     border-color: rgba(255, 255, 255, 0.2);
+    color: $black;
 
     &:before {
       content: counter(mobileItemNumber);
@@ -433,20 +435,22 @@ input.medium-text {
 
     &.opened {
       border-left: 5px solid;
-      border-color: #FCD600;
+      border-color: $blue-1;
     }
 
     &.active {
       border-left: 5px solid;
       border-color: rgba(255, 255, 255, 0.5);
       cursor: pointer;
+      color: black;
 
       &:hover {
         background-color: rgba(0, 0, 0, 0.3);
       }
 
       &.opened {
-        border-color: #FCD600;
+        border-color: $blue-1;
+        background-color: $white-1;
       }
     }
 
@@ -466,7 +470,7 @@ input.medium-text {
       margin-left: -6px;
       border-width: 0 4px 4px 0;
       border-style: solid;
-      border-color: #FCD600;
+      border-color: $blue-1;
       -webkit-transform: rotate(45deg);
       transform: rotate(45deg);
     }
@@ -487,6 +491,10 @@ input.medium-text {
 @media screen and (max-width: 580px) {
   .steps-mobile {
     display: block;
+  }
+
+  .form-block_title {
+    margin-bottom: 20px;
   }
 
   .form-block {

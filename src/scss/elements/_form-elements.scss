@@ -251,8 +251,8 @@
 
     &:checked {
       ~.btn-payment {
-        background-color: #fff;
-        color: #000;
+        background-color: $blue-1;
+        color: $white;
       }
     }
   }
@@ -630,14 +630,19 @@
   }
 
   &_copy {
-    float: right;
     text-align: center;
+    float: right;
     width: 40px;
+    margin-top: 10px;
     line-height: 43px;
+    position: absolute;
+    right: 0;
+    background-color: $blue-1;
+    border-radius: 20px;
   }
 
   &_copy+&_input_data {
-    margin-right: 40px;
+    margin-right: 50px;
   }
 
   &_info-field {

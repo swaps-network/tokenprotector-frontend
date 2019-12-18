@@ -6,12 +6,32 @@
     font-weight: bold;
     margin-bottom: 20px;
   }
+
   &-description {
     font-size: 16px;
     line-height: 19px;
     margin-bottom: 20px;
   }
 }
+
+.button-tp {
+  width: 140px;
+  padding-left: 30px;
+  justify-content: center;
+  align-items: center;
+
+  span:before {
+    background-size: 8px;
+    width: 10px;
+    height: 10px;
+  }
+}
+
+.token-btn-wrap {
+  margin: 0 20px -10px -10px;
+  padding-bottom: 20px;
+}
+
 .contract-pay-state {
   border-top: 1px dashed rgba(255, 255, 255, 0.25);
   font-size: 18px;
@@ -19,8 +39,56 @@
   line-height: 22px;
   padding: 15px 10px;
 }
+
 .price-contract {
-  font-weight: bold;
-  font-size: 16px;
   margin-top: 0;
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.field_label {
+  margin-bottom: 15px;
+}
+
+.dark-field {
+  color: black;
+  background-color: #E4E4E4;
+  padding: 10px 15px;
+}
+
+.or-delimiter {
+  text-align: center;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-content: center;
+
+  span {
+    background: #6A727E;
+    padding: 5px;
+    color: white;
+    font-size: 14px;
+  }
+
+  div {
+    border-top: 1px dashed black;
+    width: 100%;
+    display: block;
+    height: 2px;
+    margin-top: 15px;
+  }
+
+}
+
+.btn-payment-method {
+  color: black;
+
+  &:hover {
+    color: black;
+  }
+}
+
+.form-field_line {
+  border-bottom: 1px dashed black;
+  margin: 15px 0;
 }

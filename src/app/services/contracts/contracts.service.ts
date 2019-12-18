@@ -25,6 +25,10 @@ export class ContractsService {
     return this.httpService.post('contracts/', data).toPromise();
   }
 
+  public prepareForPayment(contractId) {
+    return this.httpService.post('confirm_protector_info/', { contract_id: contractId }).toPromise();
+  }
+
   public createSWAP3(data) {
     return this.httpService.post('create_swap3/', data).toPromise();
   }
@@ -32,7 +36,6 @@ export class ContractsService {
   public updateSWAP3(data) {
     return this.httpService.post(`edit_swap3/${data.id}/`, data).toPromise();
   }
-
 
   public getPastTrades(filters?) {
     return this.httpService.get(`get_non_active_swap3/`, filters).toPromise().
@@ -43,7 +46,6 @@ export class ContractsService {
       return result;
     });
   }
-
 
 
   public getContractV3Information(id) {

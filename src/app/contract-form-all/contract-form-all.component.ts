@@ -15,10 +15,15 @@ import {Observable} from 'rxjs';
 import {UserInterface} from '../services/user/user.interface';
 
 export interface IReqData {
-  contract_type: number;
+  id?: number;
+  contract_type?: number;
   network: number;
+  balance?: number;
   state?: string;
   name: string;
+  detail?: string;
+  user?: number;
+  cost?: object;
   contract_details: {
     owner_address: string;
     reserve_address: string;
@@ -32,6 +37,11 @@ export interface IStepper {
   max: number;
   current: number;
 }
+
+// export interface IContractTokenProtector {
+//   id: number;
+//   state: string;
+// }
 
 export interface IContractV3 {
 
@@ -67,7 +77,6 @@ export interface IContractV3 {
     };
   };
 
-
   whitelist?: any;
   whitelist_address?: any;
   min_base_wei?: any;
@@ -78,6 +87,8 @@ export interface IContractV3 {
   isSwapped?: boolean;
   isAuthor?: boolean;
   user?: number;
+
+  delail?: string;
 
   contract_state?: string;
 
@@ -99,13 +110,7 @@ export interface IContractV3 {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
   ]
 })
-export class ContractFormAllComponent implements AfterContentInit, OnInit {
-
-  public selectCionditions = [
-    { id: 0, name: 'day' },
-    { id: 1, name: 'month' },
-    { id: 2, name: 'year' }
-  ]
+export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDestroy {
 
   public contractDate = {
     type: 'year',
@@ -115,12 +120,13 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit {
   public reqData: IReqData = {
     contract_type: 23,
     network: 1,
-    state: '',
-    name: '',
+    state: 'PREPARE',
+    name: 'TokenProtector',
+    detail: '',
     contract_details: {
       owner_address: '',
       reserve_address: '',
-      end_timestamp: 1234,
+      end_timestamp: 1,
       email: '',
     }
   };
@@ -131,92 +137,106 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit {
     current: 0
   }
 
+  public originalContract: IContractV3;
+
+  public editableTokenProtector = true;
   public previewTrigger = false;
+
+  public currentUser;
   public curDate;
+
+  private checker;
+
+  public responseGetContract = {
+    id: 0,
+    state: 'NONE'
+  };
 
   public nextStep(stepNumber) {
 
-    if (stepNumber === 2) {
-      this.previewTrigger = true;
-      this.reqData.contract_details.end_timestamp = Math.floor(this.curDate / 1000);
+    (stepNumber === 0) ? this.stepper.current = stepNumber : null;
+    (stepNumber === 1) ? this.stepper.current = stepNumber : null;
 
+    if (stepNumber === 2) {
       this.contractsService.createContract(this.reqData).then((rez) => {
         console.log(rez);
+        if (rez.state === 'CREATED') {
+          window.history.pushState(rez.id, "Create Contract", "/create/" + rez.id);
+          this.previewTrigger = true;
+          this.editableTokenProtector = false;
+          this.stepper.current = stepNumber;
+          this.reqData = rez;
+        }
       });
-
+      return;
     }
 
-    (stepNumber <= this.stepper.max) ? this.stepper.current = stepNumber : this.stepper.current = this.stepper.max;
+    if (stepNumber === 3) {
+      this.contractsService.prepareForPayment(this.reqData.id).then((rez) => {
+        this.reqData = rez;
+        this.checkContractStatus();
+      });return;
+    }
+
+    if (stepNumber === 4) {
+      
+      this.stepper.current = stepNumber;
+
+    } 
+
+    (stepNumber === 5) ? this.stepper.current = stepNumber : null;
+
   }
 
-  public previewComplete(event) {
-    this.previewTrigger = event;
+  private checkContractStatus() {
+
+    switch (this.reqData.state) {
+      case 'CREATED':
+        console.log(this.reqData.state);
+        this.stepper.current = 2;
+        this.editableTokenProtector = false;
+        this.previewTrigger = true;
+        break;
+      case 'WAITING_FOR_PAYMENT':
+        console.log(this.reqData.state);
+        this.stepper.current = 3;
+        this.editableTokenProtector = false;
+        this.previewTrigger = true;
+        break;
+      case 'WAITING_FOR_DEPLOYMENT':
+        console.log(this.reqData.state);
+        this.stepper.current = 4;
+        break;
+      case 'ACTIVE':
+        this.stepper.current = 5;
+        break;
+      default:
+        console.log(this.reqData.state);
+        break;
+    }
+
+    this.checker = setTimeout(() => { this.getContractInformation() }, 5000);
   }
 
+  private getContractInformation() {
 
+    let promise = this.contractsService.getContract(this.reqData.id);
+    promise.then((result) => {
 
+      this.reqData = result;
+      this.checkContractStatus();
 
+    });
 
-  @Output() BaseTokenCustom = new EventEmitter<any>();
-  @Output() QuoteTokenCustom = new EventEmitter<any>();
+  };
 
+  public dateChange() {
+    this.reqData.contract_details.end_timestamp = Math.floor(this.curDate / 1000);
+  }
 
   @ViewChild('contactsReminderModal') contactsReminderModal: TemplateRef<any>;
   @ViewChild('ethSwapNotification') ethSwapNotification: TemplateRef<any>;
-
-
-  // new - token protector
-
-  public tokenProtectorToken;
-  public editableTokenProtector = true;
-
-
-  public originalContract: IContractV3;
-
-  public formIsSending: boolean;
-
-  public currentUser;
-  // public editableContract = true;
-
-  public minTime;
-  public minDate: moment.Moment;
-  public maxDate: moment.Moment;
-
-  public datePickerDate;
-  public datePickerTime;
-
-  public customTokens;
-  public openedCustomTokens: {
-    base: boolean;
-    quote: boolean;
-  };
-
-  public revertedRate: boolean;
-  public requestData: IContractV3;
-
-  public cmcRate: {
-    change?: number;
-    isMessage?: boolean;
-    isLower?: boolean;
-    direct: number;
-    revert: number;
-  };
-
-  // For request form data
-  protected formData: IContractV3;
-
-
-  public openedForm: any;
-
   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
-  @ViewChild('conditionsForm') public conditionsForm;
-
-  @ViewChild('brokersForm') private brokersForm;
-  @ViewChild('notificationForm') private notificationForm;
-
-  public openedAdvanced: boolean;
-
-  private CMCRates;
 
   constructor(
     protected contractsService: ContractsService,
@@ -226,320 +246,60 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit {
     protected router: Router,
     private dialog: MatDialog
   ) {
-
-    // new token protector
-
-    this.tokenProtectorToken = {
-      base: {},
-      reverse: {}
-    };
-
-
-
-
-
-    this.CMCRates = {};
-    this.originalContract = this.route.snapshot.data.contract;
-
-
-
-    this.customTokens = {
-      base: {},
-      quote: {}
-    };
-
-    this.openedCustomTokens = {
-      base: false,
-      quote: false
-    };
+    
+    this.reqData = this.route.snapshot.data.contract;
 
     this.currentUser = this.userService.getUserModel();
     this.userService.getCurrentUser().subscribe((userProfile: UserInterface) => {
       this.currentUser = userProfile;
     });
 
-    this.minDate = moment().add(1, 'hour');
-    this.maxDate = moment().add(14, 'day');
-
-    const startDateTime = moment(this.minDate);
-    this.datePickerDate = startDateTime.add(2, 'day');
-    this.datePickerTime = `${startDateTime.hour()}:${startDateTime.minutes()}`;
-
   }
 
-
+  ngOnDestroy() {
+    if (this.checker) clearTimeout(this.checker);
+  }
 
   ngOnInit() {
-    if (this.originalContract) {
-      this.requestData = {...this.originalContract as IContractV3};
-      this.gotToForm(100);
+
+    if (this.reqData) {
+      
+      console.log('checked user and contract');
+      console.log(this.reqData);
+      console.log(this.currentUser);
+
+      this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
+
+      this.checkContractStatus();
+      
     } else {
-      this.requestData = {
-        notification: true,
-        tokens_info: {
-          base: {
-            token: {},
-          },
-          quote: {
-            token: {},
-          }
+
+      this.reqData = {
+        contract_type: 23,
+        network: 1,
+        state: 'PREPARE',
+        name: 'TokenProtector',
+        contract_details: {
+          owner_address: '',
+          reserve_address: '',
+          end_timestamp: 1,
+          email: '',
         }
-      } as IContractV3;
+      } as IReqData;
 
-      this.requestData.public = true;
-      this.originalContract = {...this.requestData};
-      this.gotToForm(0);
+      this.stepper = {
+        min: 0,
+        max: 5,
+        current: 0
+      } as IStepper;
+
     }
 
   }
 
-
-  public checkContactsReminder() {
-    if (!this.requestData.notification) {
-      this.dialog.open(this.contactsReminderModal, {
-        width: '480px'
-      });
-    } else {
-      this.gotToForm(100);
-    }
-  }
-
-  ngAfterContentInit() {
-    // setTimeout(() => {
-    //   this.dateChange();
-    // });
-
-    // if (this.route.snapshot.data.contract) {
-    //   this.datePickerDate = moment(this.originalContract.stop_date);
-    //   this.datePickerTime = `${this.datePickerDate.hour()}:${this.datePickerDate.minutes()}`;
-    // }
-  }
-
-
-  get baseBrokerFee() {
-    if (!(this.requestData.tokens_info.base.amount && this.requestData.broker_fee_base)) {
-      return 0;
-    }
-    return new BigNumber(this.requestData.tokens_info.base.amount).div(100).times(this.requestData.broker_fee_base).toString();
-  }
-
-  get quoteBrokerFee() {
-    if (!(this.requestData.tokens_info.quote.amount && this.requestData.broker_fee_quote)) {
-      return 0;
-    }
-    return new BigNumber(this.requestData.tokens_info.quote.amount).div(100).times(this.requestData.broker_fee_quote).toString();
-  }
-
-  get isEthereumSwap() {
-    return this.requestData.tokens_info.quote.token.isEthereum &&
-      this.requestData.tokens_info.base.token.isEthereum;
-  }
-
-  get tokens() {
-    return this.requestData.tokens_info;
-  }
-
-
-  public revertCoins() {
-    const baseCoin = {...this.requestData.tokens_info.base};
-    this.requestData.tokens_info.base = {...this.requestData.tokens_info.quote};
-    this.requestData.tokens_info.quote = {...baseCoin};
-
-    this.BaseTokenCustom.emit(this.requestData.tokens_info.base);
-    this.QuoteTokenCustom.emit(this.requestData.tokens_info.quote);
-  }
-
-  public getRate(revert?): string {
-
-    if (!(this.requestData.tokens_info.base.amount && this.requestData.tokens_info.quote.amount)) {
-      return '0';
-    }
-
-    const baseCoinAmount = new BigNumber(this.requestData.tokens_info.base.amount);
-    const quoteCoinAmount = new BigNumber(this.requestData.tokens_info.quote.amount);
-    return (!revert ?
-      baseCoinAmount.div(quoteCoinAmount) :
-      quoteCoinAmount.div(baseCoinAmount)).toString();
-  }
-
-  private setFullDateTime() {
-    const times = this.conditionsForm.value.time.split(':');
-    this.conditionsForm.value.active_to.hour(times[0]);
-    this.conditionsForm.value.active_to.minutes(times[1]);
-
-    if (this.conditionsForm.value.active_to.isBefore(this.minDate)) {
-      this.conditionsForm.controls.time.setErrors({incorrect: true});
-    } else {
-      this.conditionsForm.controls.time.setErrors(null);
-    }
-    setTimeout(() => {
-      this.requestData.stop_date = this.conditionsForm.value.active_to.clone();
-    });
-  }
-
-  public dateChange() {
-    if (this.conditionsForm.value.active_to.isSame(this.minDate, 'day')) {
-      this.minTime = `${this.minDate.hour()}:${this.minDate.minutes()}`;
-    } else {
-      this.minTime = null;
-    }
-    this.setFullDateTime();
-
-  }
-
-  public timeChange() {
-    this.setFullDateTime();
-  }
-
-
-  public gotToForm(formNumber) {
-    if (this.openedForm === formNumber) {
-      return;
-    }
-    this.openedForm = formNumber;
-    if (window.screen.width <= 580) {
-      window.scrollTo(0, 0);
-    }
-  }
-
-  public changedToken() {
-    const baseCoin = this.requestData.tokens_info.base.token;
-    const quoteCoin = this.requestData.tokens_info.quote.token;
-    if (this.requestData.tokens_info.base.amount && this.requestData.tokens_info.quote.amount &&
-      baseCoin.cmc_id && quoteCoin.cmc_id && baseCoin.cmc_id > 0 && quoteCoin.cmc_id > 0) {
-      this.cmcRate = {
-        revert: new BigNumber(baseCoin.rate).div(quoteCoin.rate).toNumber(),
-        direct: new BigNumber(quoteCoin.rate).div(baseCoin.rate).toNumber()
-      };
-      const rate = parseFloat(this.getRate(true));
-      const rateChanges = parseFloat(this.getRate()) - this.cmcRate.direct;
-      this.cmcRate.isMessage = true;
-      this.cmcRate.isLower = rateChanges > 0;
-      this.cmcRate.change = Math.round(Math.abs(-((rate / this.cmcRate.revert) - 1)) * 100);
-    } else {
-      this.cmcRate = undefined;
-    }
-  }
-
-
-
-  // public checkRates() {
-  //   const tokens = this.requestData.tokens_info;
-  //   if (tokens.base.token.isEthereum && !tokens.quote.token.isEthereum) {
-  //     this.dialog.open(this.ethSwapNotification, {
-  //       width: '480px'
-  //     });
-  //   } else {
-  //     this.gotToForm(1);
-  //   }
-  // }
-
-  private contractIsCreated(contract) {
-    this.router.navigate(['/public-v3/' + contract.unique_link]);
-  }
-
-  private contractIsError(error) {
-    console.log(error);
-  }
-
-  public setCustomToken(field, token) {
-    token.isEthereum = true;
-    this.tokenProtectorToken[field] = token;
-  }
-
-  public addCustomToken(name) {
-    this.requestData.tokens_info[name].token = {...this.customTokens[name]};
-    this.requestData.tokens_info[name].token.custom = true;
-    switch (name) {
-      case 'base':
-        this.BaseTokenCustom.emit(this.requestData.tokens_info[name]);
-        break;
-      case 'quote':
-        this.QuoteTokenCustom.emit(this.requestData.tokens_info[name]);
-        break;
-    }
-    this.openedCustomTokens[name] = false;
-  }
-
-  protected sendContractData(data) {
-    if (this.formIsSending) {
-      return;
-    }
-    this.formIsSending = true;
-
-    if (window['dataLayer']) {
-      window['dataLayer'].push({event: 'publish'});
-    }
-
-    this.contractsService[data.id ? 'updateSWAP3' : 'createSWAP3'](data)
-      .then((result) => {
-        this.contractIsCreated(result);
-      }, (err) => {
-        this.contractIsError(err);
-      }).finally(() => {
-      this.formIsSending = false;
-    });
-  }
-
-  public createContract(tokenForm, advancedForm?: any) {
-
-    this.formData = {
-      ...tokenForm.value,
-      ...advancedForm.value,
-      ...this.notificationForm.value
-    } as IContractV3;
-
-    this.formData.comment = this.requestData.comment;
-
-
-    if (this.requestData.tokens_info.quote.token.isEthereum && this.requestData.tokens_info.base.token.isEthereum) {
-      this.formData.base_address = this.requestData.tokens_info.base.token.address;
-      this.formData.quote_address = this.requestData.tokens_info.quote.token.address;
-    }
-
-    this.formData.public = !!this.conditionsForm.value.public;
-    this.formData.stop_date = this.conditionsForm.value.active_to.clone().utc().format('YYYY-MM-DD HH:mm');
-
-    this.formData.base_limit = this.requestData.tokens_info.base.amount;
-    this.formData.quote_limit = this.requestData.tokens_info.quote.amount;
-
-    this.formData.owner_address = this.conditionsForm.value.owner_address;
-
-    this.formData.name = this.requestData.tokens_info.base.token.token_short_name +
-      '<>' + this.requestData.tokens_info.quote.token.token_short_name;
-
-    this.formData.min_quote_wei = this.formData.min_quote_wei || '0';
-    this.formData.min_base_wei = this.formData.min_base_wei || '0';
-
-
-    if (this.brokersForm) {
-      this.formData = {
-        ...this.formData,
-        ...this.brokersForm.value
-      };
-
-      if (!this.formData.broker_fee) {
-        this.formData.broker_fee_address = null;
-        this.formData.broker_fee_base = null;
-        this.formData.broker_fee_quote = null;
-      }
-    }
-
-    this.formData.id = this.originalContract.id;
-
-    if (this.currentUser.is_ghost) {
-      this.userService.openAuthForm().then(() => {
-        this.sendContractData(this.formData);
-      });
-    } else {
-      this.sendContractData(this.formData);
-    }
-
-  }
+  ngAfterContentInit() {}
 
 }
-
-
 
 
 @Injectable()
@@ -592,7 +352,7 @@ export class ContractEditV3Resolver implements Resolve<any> {
             this.userService.openAuthForm().then(() => {
               this.getContractInformation(observer);
             }, () => {
-              this.router.navigate(['/trades']);
+              this.router.navigate(['/create-v3/']);
               //
             });
           }
@@ -608,5 +368,63 @@ export class ContractEditV3Resolver implements Resolve<any> {
         this.getContractInformation(observer, true);
       });
     }
+  }
+}
+
+@Injectable()
+export class ContractEditResolver2 implements Resolve<any> {
+  private currentUser;
+  private route;
+
+  constructor(
+    private contractsService: ContractsService,
+    private userService: UserService,
+    private router: Router
+  ) {}
+
+  private contractId: number;
+
+  private getContractInformation(observer) {
+    let promise = this.contractsService.getContract(this.contractId);
+    
+    promise.then((result) => {
+      console.log(result);
+      observer.next(result);
+      observer.complete();
+    });
+    
+  };
+
+  resolve(route: ActivatedRouteSnapshot) {
+    this.route = route;
+    
+    if (route.params.id) {
+      this.contractId = route.params.id;
+
+      console.log('test route: ' + route.params.id + ' - ' + this.contractId)
+
+      return new Observable((observer) => {
+
+        const subscription = this.userService.getCurrentUser(false, true).subscribe((user) => {
+          this.currentUser = user;
+
+          console.log(user);
+
+          if (!user.is_ghost) this.getContractInformation(observer);
+          else {
+            this.userService.openAuthForm()
+              .then(() => { this.getContractInformation(observer); }
+              ,() => { this.router.navigate(['/create-v3']); });
+          }
+          subscription.unsubscribe();
+        });
+        return {
+          unsubscribe() {}
+        };
+
+      });
+
+    }
+
   }
 }

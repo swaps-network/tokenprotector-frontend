@@ -6,59 +6,60 @@
 
       <div class="grid-cell grid-cell-1-4">
         <div class="steps-mobile_item"
-             (click)="gotToForm(openedForm = editableTokenProtector ? 0 : openedForm)"
+             (click)="stepper.current = (!previewTrigger && editableTokenProtector) ? 0 : stepper.current"
              [ngClass]="{
-                'checked': addressForm.valid && (openedForm > 0),
-                'active': editableTokenProtector,
-                'opened': openedForm === 0
+                'checked': (addressForm.valid) && (stepper.current > 0),
+                'active': editableTokenProtector && (stepper.current === 0),
+                'opened': stepper.current === 0
              }"></div>
       </div>
       <div class="grid-cell grid-cell-1-4">
         <div class="steps-mobile_item"
-             (click)="gotToForm(openedForm = (addressForm.valid && editableTokenProtector) ? 1 : openedForm)"
+             (click)="stepper.current = (!previewTrigger && addressForm.valid && editableTokenProtector && (stepper.current >= 1)) ? 1 : stepper.current;"
              [ngClass]="{
-                'active': addressForm.valid && editableTokenProtector,
-                'checked': conditionsForm.valid && (openedForm > 1),
-                'opened': openedForm === 1
+                'active': addressForm.valid && editableTokenProtector && (stepper.current === 1),
+                'checked': conditionsForm.valid && (stepper.current > 1),
+                'opened': stepper.current === 1
              }"></div>
       </div>
       <div class="grid-cell grid-cell-1-4">
         <div class="steps-mobile_item"
-             (click)="gotToForm((advancedForm.valid && addressForm.valid && conditionsForm.valid && editableTokenProtector && brokersForm.valid) ? 4 : openedForm);"
+             (click)="stepper.current = (!previewTrigger && addressForm.valid && editableTokenProtector && (stepper.current >= 2)) ? 2 : stepper.current;"
              [ngClass]="{
-                'active': addressForm.valid && conditionsForm.valid && editableTokenProtector,
-                'checked': previewForm.valid && (openedForm > 4),
-                'opened': openedForm === 4
+                'active': addressForm.valid && conditionsForm.valid && editableTokenProtector && (stepper.current === 2),
+                'checked': stepper.current > 2,
+                'opened': stepper.current === 2
              }"></div>
       </div>
       <div class="grid-cell grid-cell-1-4">
         <div class="steps-mobile_item"
+             (click)="stepper.current = (stepper.current === 3) ? 3 : stepper.current;"
              [ngClass]="{
-                'checked': (openedForm > 100) && conditionsForm.valid,
-                'opened': openedForm === 100
+                'active': addressForm.valid && conditionsForm.valid && !editableTokenProtector && previewTrigger && (stepper.current === 3),
+                'checked': stepper.current > 3,
+                'opened': stepper.current === 3
              }"></div>
       </div>
       <div class="grid-cell grid-cell-1-4">
         <div class="steps-mobile_item"
+             (click)="stepper.current = (stepper.current === 4) ? 4 : stepper.current;"
              [ngClass]="{
-                'checked': (openedForm > 100) && conditionsForm.valid,
-                'opened': openedForm === 100
+                'active': addressForm.valid && conditionsForm.valid && !editableTokenProtector && previewTrigger && (stepper.current === 4),
+                'checked': paymentForm.valid && (stepper.current > 4),
+                'opened': stepper.current === 4
              }"></div>
       </div>
       <div class="grid-cell grid-cell-1-4">
         <div class="steps-mobile_item"
+             (click)="stepper.current = (stepper.current === 5) ? 5 : stepper.current;"
              [ngClass]="{
-                'checked': (openedForm > 100) && conditionsForm.valid,
-                'opened': openedForm === 100
+                'active': addressForm.valid && conditionsForm.valid && !editableTokenProtector && previewTrigger && (stepper.current === 5),
+                'checked': (stepper.current >= 5),
+                'opened': stepper.current === 5
              }"></div>
       </div>
 
     </div>
-
-    {{ reqData|json }} <br>
-    {{ stepper|json }} <br>
-    {{ previewTrigger|json }} <br>
-    {{ curDate }} <br>
 
     <!-- Main form -->
     <div class="grid-row">
@@ -135,7 +136,7 @@
                 <div class="form-block_fieldset">
                   <label class="form-field_label">Transfer the tokens from your address to Reserve address in</label>
                   <div class="form-field">
-                    <div class="form-field_input width-550-px">
+                    <div class="form-field_input width-550-px d-flex">
                       <input matInput [matDatepicker]="datepicker"
                         required
                         readonly
@@ -251,7 +252,7 @@
               </div>
 
               <div class="form-field">
-                <button class="button button-tp button-tp-blue is-medium" type="submit" (click)="previewTrigger=!previewTrigger">
+                <button class="button button-tp button-tp-blue is-medium" type="submit">
                   <span>Next step</span>
                 </button>
               </div>
@@ -263,21 +264,20 @@
           <div class="form-block"
                [ngClass]="{
                  hidden: !(previewTrigger && (stepper.current === 3)),
-                  'form-block__active': addressForm.valid && conditionsForm.valid && editableTokenProtector && previewTrigger && (stepper.current === 3),
+                  'form-block__active': addressForm.valid && conditionsForm.valid && !editableTokenProtector && previewTrigger && (stepper.current === 3),
                   checked: stepper.current > 3
                }">
             <div class="form-block_title" (click)="stepper.current = (stepper.current === 3) ? 3 : stepper.current;">Payment</div>
             <form class="form-block_fieldset" #paymentForm="ngForm" (submit)="nextStep(4)">
-              <div class="grid-row">
-                <div class="grid-cell grid-cell-3-4 grid-cell-ps-1">
-
-                  <div class="form-field">
-                    
+              <div class="form-field">
                 
+                <app-contract-form-pay
+                  *ngIf="reqData.state === 'WAITING_FOR_PAYMENT'"
+                  [contractCosts]="reqData.cost"
+                  [costsEmitter]="costEmitter"
+                  [currentUser]="currentUser">
+                </app-contract-form-pay>
 
-                  </div>
-
-                </div>
               </div>
 
               <div class="form-field">
@@ -293,7 +293,7 @@
           <div class="form-block"
                [ngClass]="{
                  hidden: !(paymentForm.valid && (stepper.current === 4)),
-                  'form-block__active': addressForm.valid && conditionsForm.valid && editableTokenProtector && previewTrigger && (stepper.current === 4),
+                  'form-block__active': addressForm.valid && conditionsForm.valid && !editableTokenProtector && previewTrigger && (stepper.current === 4),
                   checked: paymentForm.valid && (stepper.current > 4)
                }">
             <div class="form-block_title" (click)="stepper.current = (stepper.current === 4) ? 4 : stepper.current;">Deployment</div>
@@ -317,7 +317,7 @@
             </form>
           </div>
 
-          <div class="form-block" [ngClass]="{hidden: !(deploymentForm.valid && ( stepper.current === 5)), checked: !editableTokenProtector}">
+          <div class="form-block" [ngClass]="{hidden: !(deploymentForm.valid && ( stepper.current === 5)), checked: (stepper.current >= 5)}">
             <div class="form-block_title">Choose tokens for the protection</div>
             <div class="form-block_fieldset">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia ad velit at ipsam sint quaerat quis deserunt? Ut amet numquam, quidem, vel at voluptate facilis ad tempora possimus nostrum delectus.

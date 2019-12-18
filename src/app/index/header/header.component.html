@@ -19,7 +19,7 @@
         <div class="dropdown is-hoverable" *ngIf="!currentUser.is_ghost">
           <div class="dropdown-trigger">
             <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
-              <span>{{currentUser.username}}</span>
+              <span>{{currentUser.username|slice:0:7}}</span>
               <span class="icon is-small">
                 <i class="fas fa-angle-down" aria-hidden="true"></i>
               </span>
@@ -38,10 +38,10 @@
         </div>
       </div>
 
-      <p class="level-item">
-        <a href="#" class="button button-tp button-tp-blue is-large" (click)="openAuth()">
+      <p class="level-item button-item" *ngIf="currentUser.is_ghost">
+        <span class="button button-tp button-tp-blue is-large" (click)="openAuth()">
           <span>Try it</span>
-        </a>
+        </span>
       </p>
     </div>
   </nav>
@@ -56,7 +56,7 @@
       <div class="alert-window-buttons text-center">
         <div class="grid-row">
           <div class="grid-cell grid-cell-1-2 grid-cell-vs-1">
-            <button class="btn btn-transparent btn-min " type="button" (click)="logoutSuccess()"
+            <button class="button button-tp button-tp-blue is-medium" type="button" (click)="logoutSuccess()"
               [disabled]="logoutProgress">
               <span class="lds-ellipsis" *ngIf="logoutProgress">
                 <span class="lds-ellipsis-container">
@@ -67,7 +67,7 @@
             </button><br />
           </div>
           <div class="grid-cell grid-cell-1-2 grid-cell-vs-1">
-            <button class="btn btn-yellow btn-min" mat-dialog-close type="button">
+            <button class="button button-tp button-tp-blue is-medium" mat-dialog-close type="button">
               <span>&nbsp;&nbsp;&nbsp;{{'NO'|translate}}&nbsp;&nbsp;&nbsp;</span>
             </button>
           </div>
