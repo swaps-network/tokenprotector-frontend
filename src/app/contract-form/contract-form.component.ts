@@ -258,271 +258,271 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
 
 
   ngOnInit() {
-    // const draftData = localStorage.getItem('form_new_values');
-    // if (this.originalContract) {
-    //   this.requestData = {...this.originalContract.contract_details};
+    const draftData = localStorage.getItem('form_new_values');
+    if (this.originalContract) {
+      this.requestData = {...this.originalContract.contract_details};
 
-    //   this.requestData.base_limit =
-    //     new BigNumber(this.requestData.base_limit).div(Math.pow(10, this.requestData.tokens_info.base.token.decimals)).toString();
-    //   this.requestData.tokens_info.base.amount = this.requestData.base_limit;
+      this.requestData.base_limit =
+        new BigNumber(this.requestData.base_limit).div(Math.pow(10, this.requestData.tokens_info.base.token.decimals)).toString();
+      this.requestData.tokens_info.base.amount = this.requestData.base_limit;
 
-    //   this.requestData.quote_limit =
-    //     new BigNumber(this.requestData.quote_limit).div(Math.pow(10, this.requestData.tokens_info.quote.token.decimals)).toString();
-    //   this.requestData.tokens_info.quote.amount = this.requestData.quote_limit;
+      this.requestData.quote_limit =
+        new BigNumber(this.requestData.quote_limit).div(Math.pow(10, this.requestData.tokens_info.quote.token.decimals)).toString();
+      this.requestData.tokens_info.quote.amount = this.requestData.quote_limit;
 
-    //   this.analyzeContractState(this.originalContract);
-    // } else {
-    //   this.requestData = draftData ? JSON.parse(draftData) : {
-    //     tokens_info: {
-    //       base: {
-    //         token: {},
-    //       },
-    //       quote: {
-    //         token: {},
-    //       }
-    //     }
-    //   };
+      this.analyzeContractState(this.originalContract);
+    } else {
+      this.requestData = draftData ? JSON.parse(draftData) : {
+        tokens_info: {
+          base: {
+            token: {},
+          },
+          quote: {
+            token: {},
+          }
+        }
+      };
 
-    //   this.requestData.public = true;
-    //   this.originalContract = {
-    //     contract_details: {...this.requestData}
-    //   };
-    //   this.gotToForm(0);
-    // }
+      this.requestData.public = true;
+      this.originalContract = {
+        contract_details: {...this.requestData}
+      };
+      this.gotToForm(0);
+    }
 
   }
 
   ngAfterContentInit() {
-    // setTimeout(() => {
-    //   this.dateChange();
-    // });
+    setTimeout(() => {
+      this.dateChange();
+    });
 
-    // if (this.route.snapshot.data.contract) {
-    //   this.formData.id = this.originalContract.id;
-    //   this.datePickerDate = moment(this.originalContract.contract_details.stop_date);
-    //   this.datePickerTime = `${this.datePickerDate.hour()}:${this.datePickerDate.minutes()}`;
-    // }
+    if (this.route.snapshot.data.contract) {
+      this.formData.id = this.originalContract.id;
+      this.datePickerDate = moment(this.originalContract.contract_details.stop_date);
+      this.datePickerTime = `${this.datePickerDate.hour()}:${this.datePickerDate.minutes()}`;
+    }
   }
 
   ngOnDestroy(): void {
-    // if (this.onDestroyPage) {
-    //   this.onDestroyPage();
-    // }
+    if (this.onDestroyPage) {
+      this.onDestroyPage();
+    }
 
-    // if (this.updateContractTimer) {
-    //   window.clearTimeout(this.updateContractTimer);
-    // }
+    if (this.updateContractTimer) {
+      window.clearTimeout(this.updateContractTimer);
+    }
   }
 
 
-  // public revertCoins() {
-  //   const baseCoin = {...this.requestData.tokens_info.base};
-  //   this.requestData.tokens_info.base = {...this.requestData.tokens_info.quote};
-  //   this.requestData.tokens_info.quote = {...baseCoin};
+  public revertCoins() {
+    const baseCoin = {...this.requestData.tokens_info.base};
+    this.requestData.tokens_info.base = {...this.requestData.tokens_info.quote};
+    this.requestData.tokens_info.quote = {...baseCoin};
 
-  //   this.BaseTokenCustom.emit(this.requestData.tokens_info.base);
-  //   this.QuoteTokenCustom.emit(this.requestData.tokens_info.quote);
-  // }
-
-
-  // public addCustomToken(name) {
-  //   this.requestData.tokens_info[name].token = {...this.customTokens[name]};
-  //   switch (name) {
-  //     case 'base':
-  //       this.BaseTokenCustom.emit(this.requestData.tokens_info[name]);
-  //       break;
-  //     case 'quote':
-  //       this.QuoteTokenCustom.emit(this.requestData.tokens_info[name]);
-  //       break;
-  //   }
-  //   this.openedCustomTokens[name] = false;
-  // }
-
-  // public setCustomToken(field, token) {
-  //   this.customTokens[field] = token;
-  // }
-
-  // private contractIsCreated(contract) {
-  //   let newState;
-  //   switch (contract.contract_type) {
-  //     case 21:
-  //       newState = `/view-v3/${contract.id}`;
-  //       break;
-  //     case 20:
-  //       newState = `/view/${contract.id}`;
-  //       break;
-
-  //   }
-
-  //   this.location.replaceState(newState);
-  //   this.formData.id = contract.id;
-  //   this.originalContract = contract;
-  //   this.originalContract.contract_details.tokens_info = this.requestData.tokens_info;
-  //   this.gotToForm(100);
-  // }
-
-  // private contractIsError(error) {
-  // }
-
-  // protected sendContractData(data) {
-  //   if (this.formIsSending) {
-  //     return;
-  //   }
-  //   this.formIsSending = true;
-
-  //   if (window['dataLayer']) {
-  //     window['dataLayer'].push({event: 'publish'});
-  //   }
-
-  //   this.contractsService[data.id ? 'updateContract' : 'createContract'](this.formData)
-  //     .then((result) => {
-  //       this.contractIsCreated(result);
-  //     }, (err) => {
-  //       this.contractIsError(err);
-  //     }).finally(() => {
-  //     this.formIsSending = false;
-  //   });
-  // }
-
-  // public createContract(tokenForm, advancedForm?: any) {
-  //   this.formData.contract_details = {...tokenForm.value} as IContractDetails;
-  //   this.formData.contract_details.public = !!this.extraForm.value.public;
-  //   this.formData.contract_details.stop_date = this.extraForm.value.active_to.clone().utc().format('YYYY-MM-DD HH:mm');
+    this.BaseTokenCustom.emit(this.requestData.tokens_info.base);
+    this.QuoteTokenCustom.emit(this.requestData.tokens_info.quote);
+  }
 
 
-  //   this.formData.contract_details.base_limit =
-  //     new BigNumber(this.requestData.tokens_info.base.amount)
-  //       .times(Math.pow(10, this.requestData.tokens_info.base.token.decimals)).toString();
+  public addCustomToken(name) {
+    this.requestData.tokens_info[name].token = {...this.customTokens[name]};
+    switch (name) {
+      case 'base':
+        this.BaseTokenCustom.emit(this.requestData.tokens_info[name]);
+        break;
+      case 'quote':
+        this.QuoteTokenCustom.emit(this.requestData.tokens_info[name]);
+        break;
+    }
+    this.openedCustomTokens[name] = false;
+  }
+
+  public setCustomToken(field, token) {
+    this.customTokens[field] = token;
+  }
+
+  private contractIsCreated(contract) {
+    let newState;
+    switch (contract.contract_type) {
+      case 21:
+        newState = `/view-v3/${contract.id}`;
+        break;
+      case 20:
+        newState = `/view/${contract.id}`;
+        break;
+
+    }
+
+    this.location.replaceState(newState);
+    this.formData.id = contract.id;
+    this.originalContract = contract;
+    this.originalContract.contract_details.tokens_info = this.requestData.tokens_info;
+    this.gotToForm(100);
+  }
+
+  private contractIsError(error) {
+  }
+
+  protected sendContractData(data) {
+    if (this.formIsSending) {
+      return;
+    }
+    this.formIsSending = true;
+
+    if (window['dataLayer']) {
+      window['dataLayer'].push({event: 'publish'});
+    }
+
+    this.contractsService[data.id ? 'updateContract' : 'createContract'](this.formData)
+      .then((result) => {
+        this.contractIsCreated(result);
+      }, (err) => {
+        this.contractIsError(err);
+      }).finally(() => {
+      this.formIsSending = false;
+    });
+  }
+
+  public createContract(tokenForm, advancedForm?: any) {
+    this.formData.contract_details = {...tokenForm.value} as IContractDetails;
+    this.formData.contract_details.public = !!this.extraForm.value.public;
+    this.formData.contract_details.stop_date = this.extraForm.value.active_to.clone().utc().format('YYYY-MM-DD HH:mm');
 
 
-  //   this.formData.contract_details.quote_limit =
-  //     new BigNumber(this.requestData.tokens_info.quote.amount)
-  //       .times(Math.pow(10, this.requestData.tokens_info.quote.token.decimals)).toString();
+    this.formData.contract_details.base_limit =
+      new BigNumber(this.requestData.tokens_info.base.amount)
+        .times(Math.pow(10, this.requestData.tokens_info.base.token.decimals)).toString();
 
 
-  //   this.formData.contract_details.owner_address = this.extraForm.value.owner_address;
-  //   this.formData.name = this.requestData.tokens_info.base.token.token_short_name +
-  //     '<>' + this.requestData.tokens_info.quote.token.token_short_name;
-
-  //   if (advancedForm) {
-  //     this.formData.contract_details = {
-  //       ...this.formData.contract_details,
-  //       ...advancedForm.value
-  //     };
-  //   }
+    this.formData.contract_details.quote_limit =
+      new BigNumber(this.requestData.tokens_info.quote.amount)
+        .times(Math.pow(10, this.requestData.tokens_info.quote.token.decimals)).toString();
 
 
-  //   if (this.brokersForm) {
-  //     this.formData.contract_details = {
-  //       ...this.formData.contract_details,
-  //       ...this.brokersForm.value
-  //     };
-  //     if (!this.formData.contract_details.broker_fee) {
-  //       this.formData.contract_details.broker_fee_address = null;
-  //       this.formData.contract_details.broker_fee_base = null;
-  //       this.formData.contract_details.broker_fee_quote = null;
-  //     }
-  //   }
+    this.formData.contract_details.owner_address = this.extraForm.value.owner_address;
+    this.formData.name = this.requestData.tokens_info.base.token.token_short_name +
+      '<>' + this.requestData.tokens_info.quote.token.token_short_name;
 
-  //   if (this.currentUser.is_ghost) {
-  //     this.userService.openAuthForm().then(() => {
-  //       this.sendContractData(this.formData);
-  //     });
-  //   } else {
-  //     this.sendContractData(this.formData);
-  //   }
-
-  // }
-
-  // private setFullDateTime() {
-  //   const times = this.extraForm.value.time.split(':');
-  //   this.extraForm.value.active_to.hour(times[0]);
-  //   this.extraForm.value.active_to.minutes(times[1]);
-
-  //   if (this.extraForm.value.active_to.isBefore(this.minDate)) {
-  //     this.extraForm.controls.time.setErrors({incorrect: true});
-  //   } else {
-  //     this.extraForm.controls.time.setErrors(null);
-  //   }
-  //   setTimeout(() => {
-  //     this.requestData.stop_date = this.extraForm.value.active_to.clone();
-  //   });
-  // }
-
-  // public dateChange() {
-  //   if (this.extraForm.value.active_to.isSame(this.minDate, 'day')) {
-  //     this.minTime = `${this.minDate.hour()}:${this.minDate.minutes()}`;
-  //   } else {
-  //     this.minTime = null;
-  //   }
-  //   this.setFullDateTime();
-
-  // }
-
-  // public timeChange() {
-  //   this.setFullDateTime();
-  // }
+    if (advancedForm) {
+      this.formData.contract_details = {
+        ...this.formData.contract_details,
+        ...advancedForm.value
+      };
+    }
 
 
-  // public confirmContract() {
-  //   if (this.confirmationIsProgress) {
-  //     return;
-  //   }
-  //   this.confirmationIsProgress = true;
-  //   this.contractsService.startWatchContract(this.formData.id).then((contract) => {
-  //     this.analyzeContractState(contract);
-  //   }, (err) => {
+    if (this.brokersForm) {
+      this.formData.contract_details = {
+        ...this.formData.contract_details,
+        ...this.brokersForm.value
+      };
+      if (!this.formData.contract_details.broker_fee) {
+        this.formData.contract_details.broker_fee_address = null;
+        this.formData.contract_details.broker_fee_base = null;
+        this.formData.contract_details.broker_fee_quote = null;
+      }
+    }
 
-  //   }).finally(() => {
-  //     this.confirmationIsProgress = false;
-  //   });
-  // }
+    if (this.currentUser.is_ghost) {
+      this.userService.openAuthForm().then(() => {
+        this.sendContractData(this.formData);
+      });
+    } else {
+      this.sendContractData(this.formData);
+    }
 
-  // public getRate(revert?) {
+  }
 
-  //   const baseCoinAmount = new BigNumber(this.requestData.tokens_info.base.amount);
-  //   const quoteCoinAmount = new BigNumber(this.requestData.tokens_info.quote.amount);
-  //   return !revert ?
-  //     baseCoinAmount.div(quoteCoinAmount).dp(4) :
-  //     quoteCoinAmount.div(baseCoinAmount).dp(4);
-  // }
+  private setFullDateTime() {
+    const times = this.extraForm.value.time.split(':');
+    this.extraForm.value.active_to.hour(times[0]);
+    this.extraForm.value.active_to.minutes(times[1]);
+
+    if (this.extraForm.value.active_to.isBefore(this.minDate)) {
+      this.extraForm.controls.time.setErrors({incorrect: true});
+    } else {
+      this.extraForm.controls.time.setErrors(null);
+    }
+    setTimeout(() => {
+      this.requestData.stop_date = this.extraForm.value.active_to.clone();
+    });
+  }
+
+  public dateChange() {
+    if (this.extraForm.value.active_to.isSame(this.minDate, 'day')) {
+      this.minTime = `${this.minDate.hour()}:${this.minDate.minutes()}`;
+    } else {
+      this.minTime = null;
+    }
+    this.setFullDateTime();
+
+  }
+
+  public timeChange() {
+    this.setFullDateTime();
+  }
 
 
-  // public changedToken(coin) {
+  public confirmContract() {
+    if (this.confirmationIsProgress) {
+      return;
+    }
+    this.confirmationIsProgress = true;
+    this.contractsService.startWatchContract(this.formData.id).then((contract) => {
+      this.analyzeContractState(contract);
+    }, (err) => {
 
-  //   const baseCoin = this.requestData.tokens_info.base.token;
-  //   const quoteCoin = this.requestData.tokens_info.quote.token;
+    }).finally(() => {
+      this.confirmationIsProgress = false;
+    });
+  }
 
-  //   if (baseCoin.cmc_id && quoteCoin.cmc_id && baseCoin.cmc_id > 0 && quoteCoin.cmc_id > 0) {
-  //     this.contractsService.getCMCTokensRates(baseCoin.cmc_id, quoteCoin.cmc_id).then((result) => {
-  //       this.cmcRate = {
-  //         direct: new BigNumber(result.coin2).div(result.coin1).toNumber(),
-  //         revert: new BigNumber(result.coin1).div(result.coin2).toNumber()
-  //       };
-  //     }, (err) => {
-  //       this.cmcRate = undefined;
-  //     });
-  //   } else {
-  //     this.cmcRate = undefined;
-  //   }
-  // }
+  public getRate(revert?) {
+
+    const baseCoinAmount = new BigNumber(this.requestData.tokens_info.base.amount);
+    const quoteCoinAmount = new BigNumber(this.requestData.tokens_info.quote.amount);
+    return !revert ?
+      baseCoinAmount.div(quoteCoinAmount).dp(4) :
+      quoteCoinAmount.div(baseCoinAmount).dp(4);
+  }
 
 
-  // public checkRates() {
-  //   if (this.cmcRate) {
-  //     const rateChanges = this.getRate().toNumber() - this.cmcRate.direct;
-  //     if (Math.abs(rateChanges) > (this.cmcRate.direct / 100 * 20)) {
-  //       this.cmcRate.isLower = rateChanges > 0;
-  //       this.dialog.open(this.rateNotification, {
-  //         width: '480px'
-  //       });
-  //     } else {
-  //       this.gotToForm(1);
-  //     }
-  //   } else {
-  //     this.gotToForm(1);
-  //   }
-  // }
+  public changedToken(coin) {
+
+    const baseCoin = this.requestData.tokens_info.base.token;
+    const quoteCoin = this.requestData.tokens_info.quote.token;
+
+    if (baseCoin.cmc_id && quoteCoin.cmc_id && baseCoin.cmc_id > 0 && quoteCoin.cmc_id > 0) {
+      this.contractsService.getCMCTokensRates(baseCoin.cmc_id, quoteCoin.cmc_id).then((result) => {
+        this.cmcRate = {
+          direct: new BigNumber(result.coin2).div(result.coin1).toNumber(),
+          revert: new BigNumber(result.coin1).div(result.coin2).toNumber()
+        };
+      }, (err) => {
+        this.cmcRate = undefined;
+      });
+    } else {
+      this.cmcRate = undefined;
+    }
+  }
+
+
+  public checkRates() {
+    if (this.cmcRate) {
+      const rateChanges = this.getRate().toNumber() - this.cmcRate.direct;
+      if (Math.abs(rateChanges) > (this.cmcRate.direct / 100 * 20)) {
+        this.cmcRate.isLower = rateChanges > 0;
+        this.dialog.open(this.rateNotification, {
+          width: '480px'
+        });
+      } else {
+        this.gotToForm(1);
+      }
+    } else {
+      this.gotToForm(1);
+    }
+  }
 
 }
 
