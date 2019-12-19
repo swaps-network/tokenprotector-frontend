@@ -408,6 +408,7 @@ input.medium-text {
 .steps-mobile {
   margin-bottom: 20px;
   display: none;
+  flex-wrap: wrap;
 
   .grid-cell {
     counter-increment: mobileItemNumber;
@@ -490,7 +491,8 @@ input.medium-text {
 
 @media screen and (max-width: 580px) {
   .steps-mobile {
-    display: block;
+    // display: block;
+    display: flex;
   }
 
   .form-block_title {

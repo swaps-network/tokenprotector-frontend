@@ -51,6 +51,67 @@ ng-scrollbar-y {
     flex-wrap: wrap;
 }
 
+.fd-column {
+    flex-direction: column;
+}
+
+.n-berfore {
+    &:before {
+        display: none;
+    }
+}
+
 .ai-center {
     align-items: center;
+}
+
+.container-contract {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: nowrap;
+}
+
+.left-contract {
+    order: 1;
+    flex-basis: 100%;
+    padding-right: 30px;
+}
+
+.right-contract {
+    order: 2;
+    flex-basis: 320px;
+
+    .button {
+        max-width: 250px !important;
+        margin-bottom: 15px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .container-contract {
+        flex-wrap: wrap;
+    }
+
+    .left-contract {
+        padding-right: 0;
+    }
+
+    .right-contract {
+        flex-basis: 100%;
+        // order: 2;
+
+        .d-flex {
+            flex-direction: initial;
+            justify-content: space-between;
+            margin-top: 30px;
+            border-top: 1px dashed gray;
+            padding-top: 20px;
+
+            .button {
+                max-width: 100% !important;
+            }
+        }
+    }
 }

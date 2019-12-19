@@ -4,7 +4,7 @@
     <button type="button" class="button button-tp button-tp-metamask button-tp-icon-metamask width-100"
             [disabled]="!social.MM"
             (click)="MetamaskAuth()">
-      <span>Log in via MetaMask</span>
+      <span class="caption">Log in via MetaMask</span>
     </button>
   </div>
 
@@ -12,7 +12,7 @@
     <a class="button button-tp button-tp-facebook button-tp-icon-facebook width-100"
        *ngIf="social.FB"
        (click)="FBAuth()">
-      <span translate="AUTH_POPUP.BUTTONS.LOGIN_FACEBOOK"></span>
+      <span class="caption" translate="AUTH_POPUP.BUTTONS.LOGIN_FACEBOOK"></span>
     </a>
   </div>
 
@@ -20,7 +20,7 @@
     <a class="button button-tp button-tp-google button-tp-icon-google width-100"
        *ngIf="social.GA"
        (click)="GoogleAuth()">
-      <span translate="AUTH_POPUP.BUTTONS.LOGIN_GOOGLE"></span>
+      <span class="caption" translate="AUTH_POPUP.BUTTONS.LOGIN_GOOGLE"></span>
     </a>
   </div>
 

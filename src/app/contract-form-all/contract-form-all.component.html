@@ -62,8 +62,9 @@
     </div>
 
     <!-- Main form -->
-    <div class="grid-row">
-      <div class="grid-cell grid-cell-2-3 grid-cell-sm-7-8 grid-cell-s-1">
+    <div class="container-contract">
+
+      <div class="left-contract">
         <div class="form-container">
 
           <form class="form-block"
@@ -114,8 +115,13 @@
               </div>
               <div class="grid-row">
                 <div class="grid-cell grid-cell-1-3 grid-cell-ps-1-2 grid-cell-vs-1">
-                  <button class="button button-tp button-tp-blue is-medium" [disabled]="!addressForm.valid" type="submit">
-                    <span>Next step</span>
+                  <button class="button button-tp button-tp-blue is-medium" [disabled]="!addressForm.valid || nextStepProcess" type="submit">
+                    <div class="lds-ellipsis" *ngIf="nextStepProcess">
+                      <span class="lds-ellipsis-container">
+                        <span></span><span></span><span></span><span></span>
+                      </span>
+                    </div>
+                    <span *ngIf="!nextStepProcess" class="caption">Next step</span>
                   </button>
                 </div>
               </div>
@@ -173,9 +179,17 @@
                   </div>
 
                   <div class="form-field width-550-px">
-                    <button class="button button-tp button-tp-blue is-medium" [disabled]="!conditionsForm.valid" type="submit">
-                      <span>Next step</span>
+                    <button class="button button-tp button-tp-blue is-medium" [disabled]="!conditionsForm.valid || nextStepProcess" type="submit">
+                      <div class="lds-ellipsis" *ngIf="nextStepProcess">
+                        <span class="lds-ellipsis-container">
+                          <span></span><span></span><span></span><span></span>
+                        </span>
+                      </div>
+                      <span *ngIf="!nextStepProcess" class="caption">Next step</span>
                     </button>
+                    <div *ngIf="error.status">
+                      <span>{{ error.message|json }}</span>
+                    </div>
                   </div>
 
               </form>
@@ -229,7 +243,8 @@
                             [email]="true"
                             class="min-text max-placeholder"
                             disabled
-                            [(ngModel)]="contractDate.count + ' ' + contractDate.type"
+                            [ngModel]="curDate|date"
+                            (ngModelChange)="curDate=$event"
                             placeholder="Date"
                             name="check_date">
                     </div>
@@ -252,9 +267,18 @@
               </div>
 
               <div class="form-field">
-                <button class="button button-tp button-tp-blue is-medium" type="submit">
-                  <span>Next step</span>
+                <button class="button button-tp button-tp-blue is-medium" type="submit" [disabled]="nextStepProcess">
+                  <div class="lds-ellipsis" *ngIf="nextStepProcess">
+                    <span class="lds-ellipsis-container">
+                      <span></span><span></span><span></span><span></span>
+                    </span>
+                  </div>
+                  <span *ngIf="!nextStepProcess" class="caption">Next step</span>
                 </button>
+
+                <div *ngIf="error.status">
+                  <span>{{ error.message }}</span>
+                </div>
               </div>
 
             </form>
@@ -280,12 +304,6 @@
 
               </div>
 
-              <div class="form-field">
-                <button class="button button-tp button-tp-blue is-medium" [disabled]="!paymentForm.valid" type="submit">
-                  <span>Next step</span>
-                </button>
-              </div>
-
             </form>
           </div>
 
@@ -298,20 +316,11 @@
                }">
             <div class="form-block_title" (click)="stepper.current = (stepper.current === 4) ? 4 : stepper.current;">Deployment</div>
             <form class="form-block_fieldset" #deploymentForm="ngForm" (submit)="nextStep(5)">
-              <div class="grid-row">
-                <div class="grid-cell grid-cell-3-4 grid-cell-ps-1">
 
-                  <div class="form-field">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet voluptates at unde a. Rerum quaerat molestias fuga reiciendis assumenda earum consequuntur beatae culpa, quae at qui animi quasi fugit molestiae?
-                  </div>
-
-                </div>
-              </div>
-
-              <div class="form-field">
-                <button class="button button-tp button-tp-blue is-medium" [disabled]="!deploymentForm.valid" type="submit">
-                  <span>Next step</span>
-                </button>
+              <div class="form-field_deployment">
+                <div class="ff_deployment-progress"></div>
+                <span class="ff_deployment-title">Contract Deployment is in progress...</span>
+                <span class="ff_deployment-text">It can take 10-15 minutes, please wait</span>
               </div>
 
             </form>
@@ -323,9 +332,23 @@
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia ad velit at ipsam sint quaerat quis deserunt? Ut amet numquam, quidem, vel at voluptate facilis ad tempora possimus nostrum delectus.
             </div>
           </div>
+
         </div>
       </div>
+      
+      <div class="right-contract">
+        <div class="d-flex fd-column">
+          <span class="button button-tp button-tp-watch is-medium">
+            <span class="caption">Watch instruction</span>
+          </span>
+          <span class="button button-tp button-tp-support button-tp-icon-support is-medium">
+            <span class="caption">Support</span>
+          </span>
+        </div>
+      </div>
+
     </div>
+
   </div>
 </div>
 

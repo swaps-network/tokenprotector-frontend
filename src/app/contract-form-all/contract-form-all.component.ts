@@ -7,41 +7,10 @@ import {ActivatedRoute, ActivatedRouteSnapshot, Resolve, Router} from '@angular/
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDatepicker, MatDialog, MatDialogRef} from '@angular/material';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter';
 
-import BigNumber from 'bignumber.js';
-import * as moment from 'moment';
 import {HttpService} from '../services/http/http.service';
 import {Web3Service} from '../services/web3/web3.service';
 import {Observable} from 'rxjs';
 import {UserInterface} from '../services/user/user.interface';
-
-export interface IReqData {
-  id?: number;
-  contract_type?: number;
-  network: number;
-  balance?: number;
-  state?: string;
-  name: string;
-  detail?: string;
-  user?: number;
-  cost?: object;
-  contract_details: {
-    owner_address: string;
-    reserve_address: string;
-    end_timestamp: number;
-    email: string;
-  };
-}
-
-export interface IStepper {
-  min: number;
-  max: number;
-  current: number;
-}
-
-// export interface IContractTokenProtector {
-//   id: number;
-//   state: string;
-// }
 
 export interface IContractV3 {
 
@@ -99,6 +68,34 @@ export interface IContractV3 {
   created_date: string;
 }
 
+export interface IReqData {
+  id?: number;
+  contract_type?: number;
+  network: number;
+  balance?: number;
+  state?: string;
+  name: string;
+  detail?: string;
+  user?: number;
+  cost?: object;
+  contract_details: {
+    owner_address: string;
+    reserve_address: string;
+    end_timestamp: number;
+    email: string;
+  };
+}
+
+export interface IStepper {
+  max: number;
+  current: number;
+}
+
+export interface IError {
+  status: boolean;
+  message: string;
+}
+
 @Component({
   selector: 'app-contract-form-all',
   templateUrl: './contract-form-all.component.html',
@@ -110,19 +107,19 @@ export interface IContractV3 {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
   ]
 })
-export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDestroy {
 
-  public contractDate = {
-    type: 'year',
-    count: '123'
-  }
+export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDestroy {
+  @ViewChild('contactsReminderModal') contactsReminderModal: TemplateRef<any>;
+  @ViewChild('ethSwapNotification') ethSwapNotification: TemplateRef<any>;
+  @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
+
+  @Output() costEmitter = new EventEmitter<any>();
 
   public reqData: IReqData = {
     contract_type: 23,
     network: 1,
     state: 'PREPARE',
     name: 'TokenProtector',
-    detail: '',
     contract_details: {
       owner_address: '',
       reserve_address: '',
@@ -132,60 +129,103 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   };
 
   public stepper: IStepper = {
-    min: 0,
     max: 5,
     current: 0
   }
 
-  public originalContract: IContractV3;
+  public error: IError = {
+    status: false,
+    message: ''
+  }
 
   public editableTokenProtector = true;
   public previewTrigger = false;
+  public nextStepProcess = false;
 
   public currentUser;
   public curDate;
-
   private checker;
 
-  public responseGetContract = {
-    id: 0,
-    state: 'NONE'
-  };
+  constructor(
+    protected contractsService: ContractsService,
+    private userService: UserService,
+    private location: Location,
+    private route: ActivatedRoute,
+    protected router: Router,
+    private dialog: MatDialog
+  ) {
+    this.reqData = this.route.snapshot.data.contract;
+    this.currentUser = this.userService.getUserModel();
+    this.userService.getCurrentUser().subscribe((userProfile: UserInterface) => {
+      this.currentUser = userProfile;
+    });
+  }
+
+  ngOnInit() {
+    if (this.reqData) {
+      console.log('checked user and contract');console.log(this.reqData);console.log(this.currentUser);
+      this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
+      this.checkContractStatus();
+    } else {
+      this.reqData = {
+        contract_type: 23,
+        network: 1,
+        state: 'PREPARE',
+        name: 'TokenProtector',
+        contract_details: {
+          owner_address: '',
+          reserve_address: '',
+          end_timestamp: 1,
+          email: '',
+        }
+      } as IReqData;
+
+      this.stepper = {
+        max: 5,
+        current: 0
+      } as IStepper;
+    }
+  }
+
+  ngAfterContentInit() { }
+  
+  ngOnDestroy() {
+    if (this.checker) clearTimeout(this.checker);
+  }
 
   public nextStep(stepNumber) {
 
-    (stepNumber === 0) ? this.stepper.current = stepNumber : null;
-    (stepNumber === 1) ? this.stepper.current = stepNumber : null;
+    (stepNumber <= 1) ? this.stepper.current = stepNumber : null;
 
     if (stepNumber === 2) {
+      this.nextStepProcess = true;
       this.contractsService.createContract(this.reqData).then((rez) => {
-        console.log(rez);
-        if (rez.state === 'CREATED') {
-          window.history.pushState(rez.id, "Create Contract", "/create/" + rez.id);
-          this.previewTrigger = true;
-          this.editableTokenProtector = false;
-          this.stepper.current = stepNumber;
-          this.reqData = rez;
-        }
-      });
-      return;
+        this.reqData = rez;
+        this.checkContractStatus();
+      }).catch(err => {
+        this.error.status = true;
+        this.error.message = err;
+      });return;
     }
-
+    
     if (stepNumber === 3) {
+      this.nextStepProcess = true;
       this.contractsService.prepareForPayment(this.reqData.id).then((rez) => {
         this.reqData = rez;
         this.checkContractStatus();
+      }).catch(err => {
+        this.error.status = true;
+        this.error.message = err;
       });return;
     }
 
     if (stepNumber === 4) {
-      
+      this.nextStepProcess = true;
       this.stepper.current = stepNumber;
-
+      this.nextStepProcess = false;
     } 
 
     (stepNumber === 5) ? this.stepper.current = stepNumber : null;
-
   }
 
   private checkContractStatus() {
@@ -193,15 +233,19 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     switch (this.reqData.state) {
       case 'CREATED':
         console.log(this.reqData.state);
+        window.history.pushState(this.reqData.id, "Create Contract", "/create/" + this.reqData.id);
         this.stepper.current = 2;
         this.editableTokenProtector = false;
         this.previewTrigger = true;
+        this.nextStepProcess = false;
         break;
       case 'WAITING_FOR_PAYMENT':
         console.log(this.reqData.state);
+        this.costEmitter.emit(this.reqData.cost);
         this.stepper.current = 3;
         this.editableTokenProtector = false;
         this.previewTrigger = true;
+        this.nextStepProcess = false;
         break;
       case 'WAITING_FOR_DEPLOYMENT':
         console.log(this.reqData.state);
@@ -219,87 +263,66 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
 
   private getContractInformation() {
-
     let promise = this.contractsService.getContract(this.reqData.id);
     promise.then((result) => {
-
       this.reqData = result;
       this.checkContractStatus();
-
     });
-
   };
 
-  public dateChange() {
-    this.reqData.contract_details.end_timestamp = Math.floor(this.curDate / 1000);
-  }
+  public dateChange() {this.reqData.contract_details.end_timestamp = Math.floor(this.curDate / 1000);}
+}
 
-  @ViewChild('contactsReminderModal') contactsReminderModal: TemplateRef<any>;
-  @ViewChild('ethSwapNotification') ethSwapNotification: TemplateRef<any>;
-  @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
+@Injectable()
+export class ContractEditResolver2 implements Resolve<any> {
+  private currentUser;
+  private route;
 
   constructor(
-    protected contractsService: ContractsService,
+    private contractsService: ContractsService,
     private userService: UserService,
-    private location: Location,
-    private route: ActivatedRoute,
-    protected router: Router,
-    private dialog: MatDialog
-  ) {
-    
-    this.reqData = this.route.snapshot.data.contract;
+    private router: Router
+  ) { }
 
-    this.currentUser = this.userService.getUserModel();
-    this.userService.getCurrentUser().subscribe((userProfile: UserInterface) => {
-      this.currentUser = userProfile;
+  private contractId: number;
+
+  private getContractInformation(observer) {
+    let promise = this.contractsService.getContract(this.contractId);
+
+    promise.then((result) => {
+      console.log(result);
+      observer.next(result);
+      observer.complete();
     });
+  };
 
-  }
+  resolve(route: ActivatedRouteSnapshot) {
+    this.route = route;
 
-  ngOnDestroy() {
-    if (this.checker) clearTimeout(this.checker);
-  }
-
-  ngOnInit() {
-
-    if (this.reqData) {
+    if (route.params.id) {
+      this.contractId = route.params.id;
+      console.log('test route: ' + route.params.id + ' - ' + this.contractId)
       
-      console.log('checked user and contract');
-      console.log(this.reqData);
-      console.log(this.currentUser);
-
-      this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
-
-      this.checkContractStatus();
-      
-    } else {
-
-      this.reqData = {
-        contract_type: 23,
-        network: 1,
-        state: 'PREPARE',
-        name: 'TokenProtector',
-        contract_details: {
-          owner_address: '',
-          reserve_address: '',
-          end_timestamp: 1,
-          email: '',
-        }
-      } as IReqData;
-
-      this.stepper = {
-        min: 0,
-        max: 5,
-        current: 0
-      } as IStepper;
-
+      return new Observable((observer) => {
+        const subscription = this.userService.getCurrentUser(false, true).subscribe((user) => {
+          this.currentUser = user;console.log(user);
+          if (!user.is_ghost) this.getContractInformation(observer);
+          else {
+            this.userService.openAuthForm()
+              .then(() => { this.getContractInformation(observer); }
+                , () => { this.router.navigate(['/create-v3']); });
+          }
+          subscription.unsubscribe();
+        });
+        return {
+          unsubscribe() { }
+        };
+      });
     }
-
   }
-
-  ngAfterContentInit() {}
-
 }
+
+
 
 
 @Injectable()
@@ -327,15 +350,15 @@ export class ContractEditV3Resolver implements Resolve<any> {
       this.contractsService.getContractV3Information(this.contractId) :
       this.contractsService.getSwapByPublic(this.publicLink)) as Promise<any>;
 
-    promise.then((trade: IContractV3) => {
-      this.web3Service.getSWAPSCoinInfo(trade).then((result: any) => {
-        result.isEthereum = result.tokens_info.base.token.isEthereum && result.tokens_info.quote.token.isEthereum;
-        observer.next(result);
-        observer.complete();
-      });
-    }, () => {
-      this.router.navigate(['/trades']);
-    });
+    // promise.then((trade: IContractV3) => {
+    //   this.web3Service.getSWAPSCoinInfo(trade).then((result: any) => {
+    //     result.isEthereum = result.tokens_info.base.token.isEthereum && result.tokens_info.quote.token.isEthereum;
+    //     observer.next(result);
+    //     observer.complete();
+    //   });
+    // }, () => {
+    //   this.router.navigate(['/trades']);
+    // });
 
   }
 
@@ -368,63 +391,5 @@ export class ContractEditV3Resolver implements Resolve<any> {
         this.getContractInformation(observer, true);
       });
     }
-  }
-}
-
-@Injectable()
-export class ContractEditResolver2 implements Resolve<any> {
-  private currentUser;
-  private route;
-
-  constructor(
-    private contractsService: ContractsService,
-    private userService: UserService,
-    private router: Router
-  ) {}
-
-  private contractId: number;
-
-  private getContractInformation(observer) {
-    let promise = this.contractsService.getContract(this.contractId);
-    
-    promise.then((result) => {
-      console.log(result);
-      observer.next(result);
-      observer.complete();
-    });
-    
-  };
-
-  resolve(route: ActivatedRouteSnapshot) {
-    this.route = route;
-    
-    if (route.params.id) {
-      this.contractId = route.params.id;
-
-      console.log('test route: ' + route.params.id + ' - ' + this.contractId)
-
-      return new Observable((observer) => {
-
-        const subscription = this.userService.getCurrentUser(false, true).subscribe((user) => {
-          this.currentUser = user;
-
-          console.log(user);
-
-          if (!user.is_ghost) this.getContractInformation(observer);
-          else {
-            this.userService.openAuthForm()
-              .then(() => { this.getContractInformation(observer); }
-              ,() => { this.router.navigate(['/create-v3']); });
-          }
-          subscription.unsubscribe();
-        });
-        return {
-          unsubscribe() {}
-        };
-
-      });
-
-    }
-
   }
 }

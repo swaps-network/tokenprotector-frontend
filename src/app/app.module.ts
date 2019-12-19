@@ -54,6 +54,7 @@ import {TransferHttpCacheModule} from '@nguniversal/common';
 import { CoinsListComponent } from './directives/coins-list/coins-list.component';
 import { ChangePasswordComponent } from './common/change-password/change-password.component';
 import { KeepInTouchComponent } from './footer/keep-in-touch/keep-in-touch.component';
+import { DateTransformPipe } from './contract-form-all/date-transform.pipe';
 
 
 export class TranslateBrowserLoader implements TranslateLoader {
@@ -183,7 +184,9 @@ export function appInitializerFactory(translate: TranslateService, userService: 
     IndexIcoFormComponent,
     CoinsListComponent,
     ChangePasswordComponent,
-    KeepInTouchComponent
+    KeepInTouchComponent,
+
+    DateTransformPipe
   ],
   entryComponents: [
     AuthComponent,

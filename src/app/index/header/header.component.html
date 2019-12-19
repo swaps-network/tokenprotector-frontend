@@ -40,7 +40,7 @@
 
       <p class="level-item button-item" *ngIf="currentUser.is_ghost">
         <span class="button button-tp button-tp-blue is-large" (click)="openAuth()">
-          <span>Try it</span>
+          <span class="caption">Try it</span>
         </span>
       </p>
     </div>
@@ -63,12 +63,12 @@
                   <span></span><span></span><span></span><span></span>
                 </span>
               </span>
-              <span class="just-title">&nbsp;&nbsp;&nbsp;{{'YES'|translate}}&nbsp;&nbsp;&nbsp;</span>
+              <span class="caption just-title">&nbsp;&nbsp;&nbsp;{{'YES'|translate}}&nbsp;&nbsp;&nbsp;</span>
             </button><br />
           </div>
           <div class="grid-cell grid-cell-1-2 grid-cell-vs-1">
             <button class="button button-tp button-tp-blue is-medium" mat-dialog-close type="button">
-              <span>&nbsp;&nbsp;&nbsp;{{'NO'|translate}}&nbsp;&nbsp;&nbsp;</span>
+              <span class="caption">&nbsp;&nbsp;&nbsp;{{'NO'|translate}}&nbsp;&nbsp;&nbsp;</span>
             </button>
           </div>
         </div>

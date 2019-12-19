@@ -161,6 +161,66 @@
       }
     }
   }
+
+  &_deployment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 10px;
+    flex-direction: column;
+
+    .ff_deployment {
+
+      &-progress {
+        height: 85px;
+        width: 85px;
+        background-color: rgba(0, 0, 0, 0.1);
+        margin: 7px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:before {
+          content: '';
+          width: 30px;
+          height: 30px;
+          border-left: 3px solid #000000;
+          border-right: 3px solid #000000;
+          border-top: 3px solid #ffffff00;
+          border-bottom: 3px solid #000000;
+          border-radius: 50px 50px 50px 50px;
+          animation: rotating 2s linear infinite;
+        }
+      }
+
+      &-title {
+        font-size: 20px;
+        line-height: 23px;
+        text-align: center;
+        color: #000000;
+        margin: 7px 0;
+      }
+
+      &-text {
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+        color: rgba(0, 0, 0, 0.6);
+        margin: 7px 0;
+      }
+
+    }
+  }
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
 }
 
 .radio-buttons-list {
