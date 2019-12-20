@@ -209,6 +209,33 @@
         margin: 7px 0;
       }
 
+      &-error {
+        height: 85px;
+        width: 85px;
+        background-color: transparent;
+        margin: 7px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:before {
+          content: '!';
+          width: 0;
+          height: 0;
+          border-left: 30px solid transparent;
+          border-right: 30px solid transparent;
+          border-bottom: 55px solid yellow;
+          display: flex;
+          justify-content: center;
+          line-height: 2.4;
+          font-size: 30px;
+          font-weight: bold;
+          color: black;
+          border-bottom-left-radius: 5px;
+          border-bottom-right-radius: 5px;
+        }
+      }
+
     }
   }
 }

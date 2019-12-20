@@ -16,6 +16,7 @@
         <p class="level-item"><a href="#">ABOUT</a></p>
         <p class="level-item"><a href="#">FEATURES</a></p>
         <p class="level-item"><a href="#">FAQ</a></p>
+        <p class="level-item" *ngIf="currentUser.is_ghost"><a (click)="openAuth()">LOG IN</a></p>
         <div class="dropdown is-hoverable" *ngIf="!currentUser.is_ghost">
           <div class="dropdown-trigger">
             <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
@@ -31,15 +32,15 @@
                 <a routerLink="/trades/contracts">My contracts</a>
               </div>
               <div class="dropdown-item">
-                <span (click)="openLogoutConfirmation()">Logout</span>
+                <a (click)="openLogoutConfirmation()">Logout</a>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <p class="level-item button-item" *ngIf="currentUser.is_ghost">
-        <span class="button button-tp button-tp-blue is-large" (click)="openAuth()">
+      <p class="level-item button-item">
+        <span class="button button-tp button-tp-blue is-large" routerLink="/create"> 
           <span class="caption">Try it</span>
         </span>
       </p>

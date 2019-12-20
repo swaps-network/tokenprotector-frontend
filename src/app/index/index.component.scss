@@ -307,6 +307,7 @@
 
   .title {
     font-size: 44px;
+    font-weight: bold !important;
 
     @include b(850) {
       font-size: 34px;

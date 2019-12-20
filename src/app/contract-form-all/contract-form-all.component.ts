@@ -138,13 +138,17 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     message: ''
   }
 
-  public editableTokenProtector = true;
-  public previewTrigger = false;
-  public nextStepProcess = false;
+  public editableTokenProtector:boolean = true;
+  public previewTrigger:boolean = false;
+  public nextStepProcess:boolean = false;
+  public userGhost:boolean = false;
 
+  public subscriptionUser;
   public currentUser;
   public curDate;
   private checker;
+
+  private preCreateProcess: boolean = false;
 
   constructor(
     protected contractsService: ContractsService,
@@ -159,11 +163,33 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     this.userService.getCurrentUser().subscribe((userProfile: UserInterface) => {
       this.currentUser = userProfile;
     });
+
+    this.subscriptionUser = this.userService.getCurrentUser(false, true).subscribe((user) => {
+      console.log('work subscribe')
+      if (user.is_ghost) {
+        this.userGhost = true;
+        if (this.reqData.id) {
+          this.userService.openAuthForm()
+            .then(() => {
+              this.userGhost = false;
+            }
+              , () => { });
+        }
+      }
+      else {
+        this.userGhost = false;
+        if (this.preCreateProcess) {
+          this.nextStep(2);
+        }
+        if (this.reqData.id && !this.checker) {
+          this.checkContractStatus();
+        }
+      }
+    });
   }
 
   ngOnInit() {
     if (this.reqData) {
-      console.log('checked user and contract');console.log(this.reqData);console.log(this.currentUser);
       this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
       this.checkContractStatus();
     } else {
@@ -193,39 +219,64 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     if (this.checker) clearTimeout(this.checker);
   }
 
+
   public nextStep(stepNumber) {
 
     (stepNumber <= 1) ? this.stepper.current = stepNumber : null;
 
     if (stepNumber === 2) {
       this.nextStepProcess = true;
-      this.contractsService.createContract(this.reqData).then((rez) => {
-        this.reqData = rez;
-        this.checkContractStatus();
-      }).catch(err => {
-        this.error.status = true;
-        this.error.message = err;
-      });return;
+      if (!this.userGhost) {
+        this.contractsService.createContract(this.reqData).then((rez) => {
+          this.reqData = rez;
+          this.checkContractStatus();
+        }).catch(err => {
+          this.error.status = true;
+          this.error.message = err;
+        });
+      }
+      else {
+        this.preCreateProcess = true;
+        this.userService.openAuthForm()
+          .then(() => {  }
+            , () => { this.preCreateProcess = false; this.nextStepProcess = false;});
+      }
     }
     
-    if (stepNumber === 3) {
+    if (stepNumber === 3 ) {
       this.nextStepProcess = true;
-      this.contractsService.prepareForPayment(this.reqData.id).then((rez) => {
-        this.reqData = rez;
-        this.checkContractStatus();
-      }).catch(err => {
-        this.error.status = true;
-        this.error.message = err;
-      });return;
+      if (!this.userGhost) {
+        this.contractsService.prepareForPayment(this.reqData.id).then((rez) => {
+          this.reqData = rez;
+          this.checkContractStatus();
+        }).catch(err => {
+          this.error.status = true;
+          this.error.message = err;
+        });
+      }
+      else {
+        this.openLogInForm();
+      }
     }
 
-    if (stepNumber === 4) {
+    if (stepNumber === 4 && !this.userGhost) {
       this.nextStepProcess = true;
-      this.stepper.current = stepNumber;
-      this.nextStepProcess = false;
+      if (!this.userGhost) {
+        this.stepper.current = stepNumber;
+        this.nextStepProcess = false;
+      }
+      else {
+        this.openLogInForm();
+      }
     } 
 
-    (stepNumber === 5) ? this.stepper.current = stepNumber : null;
+    (stepNumber === 5 && !this.userGhost) ? this.stepper.current = stepNumber : null;
+  }
+
+  private openLogInForm() {
+    this.userService.openAuthForm()
+      .then(() => { }
+        , () => { this.nextStepProcess = false; });
   }
 
   private checkContractStatus() {
@@ -247,6 +298,22 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         this.previewTrigger = true;
         this.nextStepProcess = false;
         break;
+      case 'WAITING_FOR_PAYMENT':
+        console.log(this.reqData.state);
+        this.costEmitter.emit(this.reqData.cost);
+        this.stepper.current = 3;
+        this.editableTokenProtector = false;
+        this.previewTrigger = true;
+        this.nextStepProcess = false;
+        break;
+      case 'POSTPONED':
+        console.log(this.reqData.state);
+        this.costEmitter.emit(this.reqData.cost);
+        this.stepper.current = 4;
+        this.editableTokenProtector = false;
+        this.previewTrigger = true;
+        this.nextStepProcess = false;
+        return;
       case 'WAITING_FOR_DEPLOYMENT':
         console.log(this.reqData.state);
         this.stepper.current = 4;
@@ -254,12 +321,16 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       case 'ACTIVE':
         this.stepper.current = 5;
         break;
+      case 'DEPLOYED':
+        this.stepper.current = 5;
+        break;
       default:
         console.log(this.reqData.state);
         break;
     }
-
-    this.checker = setTimeout(() => { this.getContractInformation() }, 5000);
+    if (!this.userGhost)
+      this.checker = setTimeout(() => { this.getContractInformation() }, 5000);
+    else this.checker = undefined;
   }
 
   private getContractInformation() {
@@ -288,9 +359,7 @@ export class ContractEditResolver2 implements Resolve<any> {
 
   private getContractInformation(observer) {
     let promise = this.contractsService.getContract(this.contractId);
-
     promise.then((result) => {
-      console.log(result);
       observer.next(result);
       observer.complete();
     });
@@ -301,16 +370,15 @@ export class ContractEditResolver2 implements Resolve<any> {
 
     if (route.params.id) {
       this.contractId = route.params.id;
-      console.log('test route: ' + route.params.id + ' - ' + this.contractId)
       
       return new Observable((observer) => {
         const subscription = this.userService.getCurrentUser(false, true).subscribe((user) => {
-          this.currentUser = user;console.log(user);
+          this.currentUser = user;
           if (!user.is_ghost) this.getContractInformation(observer);
           else {
             this.userService.openAuthForm()
               .then(() => { this.getContractInformation(observer); }
-                , () => { this.router.navigate(['/create-v3']); });
+                , () => { this.router.navigate(['/create']); });
           }
           subscription.unsubscribe();
         });

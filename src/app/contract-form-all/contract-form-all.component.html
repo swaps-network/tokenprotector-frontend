@@ -61,6 +61,8 @@
 
     </div>
 
+    {{ userGhost }}
+
     <!-- Main form -->
     <div class="container-contract">
 
@@ -317,10 +319,16 @@
             <div class="form-block_title" (click)="stepper.current = (stepper.current === 4) ? 4 : stepper.current;">Deployment</div>
             <form class="form-block_fieldset" #deploymentForm="ngForm" (submit)="nextStep(5)">
 
-              <div class="form-field_deployment">
+              <div class="form-field_deployment" *ngIf="reqData.state !== 'POSTPONED'">
                 <div class="ff_deployment-progress"></div>
                 <span class="ff_deployment-title">Contract Deployment is in progress...</span>
                 <span class="ff_deployment-text">It can take 10-15 minutes, please wait</span>
+              </div>
+
+              <div class="form-field_deployment" *ngIf="reqData.state === 'POSTPONED'">
+                <div class="ff_deployment-error"></div>
+                <span class="ff_deployment-title">Something went wrong</span>
+                <span class="ff_deployment-text">please try again later or contact us</span>
               </div>
 
             </form>
