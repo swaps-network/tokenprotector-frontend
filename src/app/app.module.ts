@@ -55,6 +55,7 @@ import { CoinsListComponent } from './directives/coins-list/coins-list.component
 import { ChangePasswordComponent } from './common/change-password/change-password.component';
 import { KeepInTouchComponent } from './footer/keep-in-touch/keep-in-touch.component';
 import { DateTransformPipe } from './contract-form-all/date-transform.pipe';
+import { ListFilterPipe } from './contract-form-all/list-filter.pipe';
 
 
 export class TranslateBrowserLoader implements TranslateLoader {
@@ -186,7 +187,8 @@ export function appInitializerFactory(translate: TranslateService, userService: 
     ChangePasswordComponent,
     KeepInTouchComponent,
 
-    DateTransformPipe
+    DateTransformPipe,
+    ListFilterPipe
   ],
   entryComponents: [
     AuthComponent,

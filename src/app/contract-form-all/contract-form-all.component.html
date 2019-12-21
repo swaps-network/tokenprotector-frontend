@@ -61,8 +61,6 @@
 
     </div>
 
-    {{ userGhost }}
-
     <!-- Main form -->
     <div class="container-contract">
 
@@ -334,12 +332,79 @@
             </form>
           </div>
 
-          <div class="form-block" [ngClass]="{hidden: !(deploymentForm.valid && ( stepper.current === 5)), checked: (stepper.current >= 5)}">
+          <div class="form-block" [ngClass]="{hidden: !(deploymentForm.valid && ( stepper.current === 5)), checked: (stepper.current >= 5),'form-block__active': (stepper.current === 5)}">
             <div class="form-block_title">Choose tokens for the protection</div>
-            <div class="form-block_fieldset">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia ad velit at ipsam sint quaerat quis deserunt? Ut amet numquam, quidem, vel at voluptate facilis ad tempora possimus nostrum delectus.
+              <div class="form-block_fieldset">
+                <div class="form-block_text-token">
+                  You shall grant rights to the protection contract for transferring the tokens <br> if conditions are met.<br><br>
+                  Add every token which you need to protect:<br>
+                </div>
+
+                <div class="form-block_tokens__list">
+                  <ng-container *ngFor="let token of tokens">
+                    <div class="token_item" *ngIf="token.approved">
+                      <span [className]="'token_item__title token_item__icon-'+token.label">{{ token.label }}</span>
+                      <span (click)="changeTokenStatus(token.label,false)" class="token_item__button token_item__button-active">APPROVED</span>
+                    </div>
+                  </ng-container>
+                </div>
+
+                <div class="form-field_line"></div>
+
+                <div class="form-block_search-tokens">
+                  <input type="text"
+                    class="min-text max-placeholder form-block_search-tokens_input"
+                    #searchTokensInput
+                    [(ngModel)]="searchToken" 
+                    placeholder="Search"
+                    (input)="filterItem(searchTokensInput.value)">
+                  <span class="form-block_search-tokens_input-icon"></span>
+                  <span class="form-block_search-tokens_input-close" (click)="searchToken = ''"></span>
+                </div>
+
+                <div class="form-block_search-result" *ngIf="searchToken">
+                  <div class="form-block_tokens__list">
+                    <div class="token_item" *ngFor="let token of filteredTokens">
+                      <span [className]="'token_item__title token_item__icon-'+token.label">{{ token.label }}</span>
+                      <span class="token_item__button" (click)="changeTokenStatus(token.label,true)">APPROVE</span>
+                    </div>
+                  </div>
+                </div>
+
+                <app-transaction
+                  *ngIf="reqData.state === 'DEPLOYED'"
+                >
+                </app-transaction>
+              
+                <div class="form-field_line"></div>
+
+                <div class="form-block_subtitle">POPULAR</div>
+                <div class="form-block_tokens__list">
+                  <ng-container *ngFor="let token of tokens">
+                    <div class="token_item" *ngIf="token.popular && !token.approved">
+                      <span [className]="'token_item__title token_item__icon-'+token.label">{{ token.label }}</span>
+                      <span class="token_item__button" (click)="changeTokenStatus(token.label,true)">APPROVE</span>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="form-field_line"></div>
+                <div class="form-field__button">
+                  <button class="button button-tp button-tp-blue is-medium" type="submit" [disabled]="nextStepProcess">
+                    <div class="lds-ellipsis" *ngIf="nextStepProcess">
+                      <span class="lds-ellipsis-container">
+                        <span></span><span></span><span></span><span></span>
+                      </span>
+                    </div>
+                    <span *ngIf="!nextStepProcess" class="caption">Next step</span>
+                  </button>
+
+                  <div *ngIf="error.status">
+                    <span>{{ error.message }}</span>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+            
 
         </div>
       </div>

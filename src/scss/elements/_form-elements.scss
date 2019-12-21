@@ -768,3 +768,326 @@
 .timepicker-button {
   color: #222 !important;
 }
+
+
+.form-field {
+  &_line {
+    border-bottom: 1px dashed black;
+    margin: 15px 0;
+  }
+
+  &__button {}
+}
+
+.form-block {
+
+  &_text-token {
+    font-size: 16px;
+    line-height: 18px;
+
+    color: $black;
+  }
+
+  &_search-result {
+    margin-top: 15px;
+  }
+
+  &_search-tokens {
+    position: relative;
+    margin: 15px 0px;
+
+    &_input {
+      background-color: $white-2;
+      font-size: 14px;
+      line-height: 22px;
+      color: $black;
+      height: 45px;
+      border: none;
+      box-shadow: none;
+      padding-left: 40px;
+
+      &:focus,
+      &:active {
+        outline-color: lightgray !important;
+      }
+
+      &-icon {
+        width: 20px;
+        height: 45px;
+        position: absolute;
+        display: flex;
+        left: 10px;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+
+        &:before {
+          content: '';
+          background-image: url('/assets/images/icons/search.svg');
+          background-size: 20px;
+          background-position: center;
+          width: 20px;
+          height: 20px;
+          background-repeat: no-repeat;
+        }
+      }
+
+      &-close {
+        width: 20px;
+        height: 45px;
+        position: absolute;
+        display: flex;
+        right: 10px;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        width: 35px;
+        height: 35px;
+        top: 5px;
+        border-radius: 20px;
+        padding: 10px;
+        transition: 0.5s;
+        cursor: pointer;
+
+        &:before {
+          content: '';
+          background-image: url('/assets/images/icons/close.svg');
+          background-size: 20px;
+          background-position: center;
+          width: 20px;
+          height: 20px;
+          background-repeat: no-repeat;
+        }
+
+        &:hover {
+          background-color: $white-1;
+        }
+      }
+
+      &::placeholder {
+        color: $black
+      }
+    }
+  }
+
+  &_subtitle {
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 16px;
+    text-transform: uppercase;
+    color: $black;
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+
+  &_tokens {
+    &__list {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: stretch;
+      flex-wrap: wrap;
+      margin: 0 -5px;
+
+      @include b(880) {
+        flex-wrap: wrap;
+      }
+
+      .token_item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 11px 15px;
+        border-radius: 5px;
+        background-color: $white-2;
+        flex-basis: 48%;
+        margin: 10px 5px;
+
+        @include b(880) {
+          flex-basis: 100%;
+          margin: 15px;
+        }
+
+        &__title {
+          font-size: 14px;
+          line-height: 16px;
+          text-transform: uppercase;
+          color: $black;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &::before {
+            content: '';
+            background-repeat: no-repeat;
+            background-position: center;
+            display: block;
+            margin-right: 10px;
+          }
+        }
+
+        &__button {
+          font-weight: bold;
+          font-size: 14px;
+          color: $blue-1;
+          border: 1px solid $blue-1;
+          background-color: transparent;
+          border-radius: 5px;
+          padding: 8px 15px;
+          transition: 0.5s;
+          cursor: pointer;
+          position: relative;
+          display: flex;
+
+          &:hover {
+            color: $white;
+            background-color: $blue-1;
+
+          }
+
+          &-active {
+            &:before {
+              content: '';
+              display: block;
+              position: relative;
+              border-width: 0 2px 2px 0;
+              border-style: solid;
+              border-color: #F4F4F4;
+              transform: rotate(45deg);
+              z-index: 2;
+              width: 5px;
+              height: 9px;
+              margin-left: 8px;
+              margin-top: 4.5px;
+              border-radius: 1px;
+              margin-right: 12px;
+              transition: 0.5s;
+            }
+
+            &:after {
+              content: '';
+              display: block;
+              position: absolute;
+              background-color: $blue-1;
+              z-index: 1;
+              width: 20px;
+              height: 20px;
+              border-radius: 10px;
+              transition: 0.5s;
+            }
+
+            &:hover {
+              &:before {
+                border-color: $blue-1;
+              }
+
+              &:after {
+                background-color: $white-1;
+              }
+            }
+
+          }
+        }
+
+        &__icon {
+          &-usdt {
+            &:before {
+              background-image: url('/assets/images/icons/coins/usdt.svg');
+              width: 26px;
+              height: 26px;
+            }
+          }
+
+          &-wish {
+            &:before {
+              background-image: url('/assets/images/icons/coins/wish.svg');
+              width: 26px;
+              height: 26px;
+            }
+          }
+
+          &-usdc {
+            &:before {
+              background-image: url('/assets/images/icons/coins/usdc.svg');
+              width: 26px;
+              height: 26px;
+            }
+          }
+
+          &-link {
+            &:before {
+              background-image: url('/assets/images/icons/coins/link.svg');
+              width: 26px;
+              height: 26px;
+            }
+          }
+
+          &-cro {
+            &:before {
+              background-image: url('/assets/images/icons/coins/cro.svg');
+              width: 26px;
+              height: 26px;
+            }
+          }
+
+          &-ino {
+            &:before {
+              background-image: url('/assets/images/icons/coins/ino.svg');
+              width: 26px;
+              height: 26px;
+            }
+          }
+
+          &-bat {
+            &:before {
+              background-image: url('/assets/images/icons/coins/bat.svg');
+              width: 26px;
+              height: 26px;
+            }
+          }
+
+          &-mkr {
+            &:before {
+              background-image: url('/assets/images/icons/coins/mkr.svg');
+              width: 26px;
+              height: 26px;
+            }
+          }
+
+          &-ht {
+            &:before {
+              background-image: url('/assets/images/icons/coins/ht.svg');
+              width: 26px;
+              height: 26px;
+            }
+          }
+
+          &-dai {
+            &:before {
+              background-image: url('/assets/images/icons/coins/dai.svg');
+              width: 26px;
+              height: 26px;
+            }
+          }
+
+          &-weth {
+            &:before {
+              background-image: url('/assets/images/icons/coins/weth.svg');
+              width: 26px;
+              height: 26px;
+            }
+          }
+
+          &-leo {
+            &:before {
+              background-image: url('/assets/images/icons/coins/leo.svg');
+              width: 26px;
+              height: 26px;
+            }
+          }
+        }
+      }
+
+    }
+  }
+}

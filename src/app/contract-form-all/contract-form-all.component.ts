@@ -6,6 +6,7 @@ import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common'
 import {ActivatedRoute, ActivatedRouteSnapshot, Resolve, Router} from '@angular/router';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDatepicker, MatDialog, MatDialogRef} from '@angular/material';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter';
+import TOKENS from './tokens';
 
 import {HttpService} from '../services/http/http.service';
 import {Web3Service} from '../services/web3/web3.service';
@@ -114,6 +115,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
 
   @Output() costEmitter = new EventEmitter<any>();
+  @Output() QuoteTokenCustom = new EventEmitter<any>();
 
   public reqData: IReqData = {
     contract_type: 23,
@@ -147,6 +149,10 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   public currentUser;
   public curDate;
   private checker;
+
+  public tokens = TOKENS;
+  public filteredTokens;
+  public searchToken;
 
   private preCreateProcess: boolean = false;
 
@@ -217,6 +223,42 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   
   ngOnDestroy() {
     if (this.checker) clearTimeout(this.checker);
+  }
+
+  public changeTokenStatus(value:string, state:boolean) {
+    this.tokens.find(s => s.label === value).approved = state;
+    this.filterItem(this.searchToken);
+  }
+
+  public filterItem(value) {
+    if (!value) {
+      this.filteredTokens = null;
+    }
+    else {
+      this.filteredTokens = Object.assign([], this.tokens).filter(
+        token => token.label.toLowerCase().indexOf(value.toLowerCase()) > -1 && token.approved === false
+      );
+    }
+  }
+
+  public changedToken() {
+    console.log('change');
+    // const baseCoin = this.requestData.tokens_info.base.token;
+    // const quoteCoin = this.requestData.tokens_info.quote.token;
+    // if (this.requestData.tokens_info.base.amount && this.requestData.tokens_info.quote.amount &&
+    //   baseCoin.cmc_id && quoteCoin.cmc_id && baseCoin.cmc_id > 0 && quoteCoin.cmc_id > 0) {
+    //   this.cmcRate = {
+    //     revert: new BigNumber(baseCoin.rate).div(quoteCoin.rate).toNumber(),
+    //     direct: new BigNumber(quoteCoin.rate).div(baseCoin.rate).toNumber()
+    //   };
+    //   const rate = parseFloat(this.getRate(true));
+    //   const rateChanges = parseFloat(this.getRate()) - this.cmcRate.direct;
+    //   this.cmcRate.isMessage = true;
+    //   this.cmcRate.isLower = rateChanges > 0;
+    //   this.cmcRate.change = Math.round(Math.abs(-((rate / this.cmcRate.revert) - 1)) * 100);
+    // } else {
+    //   this.cmcRate = undefined;
+    // }
   }
 
 
@@ -317,12 +359,15 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       case 'WAITING_FOR_DEPLOYMENT':
         console.log(this.reqData.state);
         this.stepper.current = 4;
+        this.editableTokenProtector = false;
+        this.previewTrigger = true;
+        this.nextStepProcess = false;
         break;
       case 'ACTIVE':
         this.stepper.current = 5;
-        break;
-      case 'DEPLOYED':
-        this.stepper.current = 5;
+        this.editableTokenProtector = false;
+        this.previewTrigger = true;
+        this.nextStepProcess = false;
         break;
       default:
         console.log(this.reqData.state);
