@@ -974,6 +974,30 @@
 
           }
 
+          .lds-ellipsis {
+            display: none;
+          }
+
+          &_active {
+            .lds-ellipsis {
+              display: flex;
+              z-index: 1;
+              position: absolute;
+              background-color: transparent;
+              height: 100%;
+              width: 100%;
+              left: 0;
+              background: #f4f4f4;
+            }
+            color: transparent;
+            position: relative;
+            align-items: center;
+            background-color: transparent;
+            text-indent: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+          }
+
           &-active {
             &:before {
               content: '';

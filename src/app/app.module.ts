@@ -57,6 +57,7 @@ import { KeepInTouchComponent } from './footer/keep-in-touch/keep-in-touch.compo
 import { DateTransformPipe } from './contract-form-all/date-transform.pipe';
 import { ListFilterPipe } from './contract-form-all/list-filter.pipe';
 import { limitTo } from './contract-form-all/limit-to.pipe';
+import { FilterTokens } from './contract-form-all/filter-tokens.pipe';
 
 
 export class TranslateBrowserLoader implements TranslateLoader {
@@ -182,7 +183,8 @@ export function appInitializerFactory(translate: TranslateService, userService: 
 
     DateTransformPipe,
     ListFilterPipe,
-    limitTo
+    limitTo,
+    FilterTokens
   ],
   entryComponents: [
     AuthComponent,

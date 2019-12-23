@@ -158,15 +158,19 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   public searchToken;
   
   public tokensApproved = [];
+  public savedApprovedTokens:number;
   public popularTokens = [];
-  public popular = ["Bulleon","Abulaba","Aladdin","Opennity","Spendcoin","Dai"];
+  // public popular = ["Bulleon","Abulaba","Aladdin","Opennity","Spendcoin","Dai"];
+  public popular = ["0x36d10c6800d569bb8c4fe284a05ffe3b752f972c","0x006bea43baa3f7a6f765f14f10a1a1b08334ef45","0x03c780cd554598592b97b7256ddaad759945b125","0x01cc4151fe5f00efb8df2f90ff833725d3a482a3","0x8810c63470d38639954c6b41aac545848c46484a","0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650","0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4","0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D"];
 
-  public test = [];
+  public testApprovedTokensAddress = [];
   public testCount = 0;
 
   private stopTriggerMe;
 
   private preCreateProcess: boolean = false;
+
+  selectedToken: any;
 
   constructor(
     protected contractsService: ContractsService,
@@ -210,8 +214,10 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   ngOnInit() {
     this.tokens = window['cmc_tokens'];
 
-    this.popular.forEach(tokenName => {
-      this.popularTokens.push(this.tokens.find(token => token.token_name === tokenName))
+    this.popular.map(tokenAddress => {
+      this.tokens.find(token => {
+        if (token.address === tokenAddress) token.popular = true;
+      })
     });
 
     if (this.reqData) {
@@ -249,52 +255,52 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
 
   private tokenApprovedInfo() {
+    // let approveTokens = this.reqData.contract_details.approved_tokens;
+    let approveTokens = this.testApprovedTokensAddress;
 
-    //let 
+    if (approveTokens && approveTokens.length !== this.savedApprovedTokens) {
+      this.tokens = this.tokens.map(token => {
+        approveTokens.forEach(approvedTokenAddress => {
+          if (token.address === approvedTokenAddress) {token.approved = true;}
+        })
+        return token;
+      })
 
-    if (this.test) { // поменять на this.reqData.contract_details.approved_tokens
-      this.test.forEach(tokenAddress => { // поменять на this.reqData.contract_details.approved_tokens
-        let findTokenApproved = this.tokensApproved.find(token => token.address === tokenAddress);
-        let findTokenPopular = this.popularTokens.findIndex(token => token.address === tokenAddress);
-        let findTokens = this.tokens.findIndex(token => token.address === tokenAddress);
+      // approveTokens.map(approvedTokenAddress => {
+      //   this.tokens.find(token => {
+      //     if (token.address === approvedTokenAddress) token.approved = true;
+      //   })
 
-        if (this.testCount <= this.test.length && !findTokenApproved) {
-          this.tokensApproved.push(this.tokens.find(token =>
-            token.address === tokenAddress
-          ));
-        }
+        // tokenItems.approved = true
+        
+        // console.log(tokenItems)
+        // return tokenItems
+      // })
 
-        if (findTokenPopular !== -1) this.popularTokens.splice(findTokenPopular, 1);
+      // this.tokens.map(token => {
+      //   approveTokens.map(approvedTokenAddress => {
+      //     if (token.address === approvedTokenAddress) { console.log(approvedTokenAddress); token.approved = true; console.log(token); return token;}
+      //   })
+      // })
 
-        if (findTokens !== -1) {
-          this.tokens.splice(findTokens, 1);
-          this.filterItem(this.searchToken);
-        }
-      });
+      this.savedApprovedTokens = approveTokens.length;
     }
-    this.testCount = this.test.length;
-
-    this.tokensApproved = this.tokens.map((token) => {
-
-      this.tokens.find((globToken) => {
-        if (globToken.address === token) {
-          globToken.approved = true;
-        } else {
-          globToken.approved = false;
-        }
-        return globToken.approved;
-      });
-
-    });
-    
   }
 
-  public changeTokenStatus(value:string, state:boolean) {
-    let tokenClicked = this.tokens.find(s => s.token_name === value);
-    this.test.push(tokenClicked.address);
-    this.searchToken = '';
+  onSelect(token:any): void {
+    this.selectedToken = token;
+  }
 
-    this.openTrxWindow(tokenClicked.address);
+  public changeTokenStatus(value:string, e?) {
+    this.testApprovedTokensAddress.push(value);
+
+    // const classList = e.target.classList;
+    // const classes = e.target.className;
+    // classes.includes('clicked') ? classList.remove('clicked') : classList.add('clicked');
+    
+    // console.log(e);
+    // this.searchToken = '';
+    // this.openTrxWindow(tokenClicked.address);
   }
 
   public loadMoreTokensFilter() {

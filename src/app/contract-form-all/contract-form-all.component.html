@@ -341,9 +341,9 @@
                 </div>
 
                 <div class="form-block_tokens__list">
-                  <div class="token_item" *ngFor="let token of tokensApproved">
+                  <div class="token_item" *ngFor="let token of tokens | FilterTokens:false:false:'':true">
                     <span [className]="'token_item__title token_item__icon-'+token.token_name">({{ token.token_short_name }}) {{ token.token_name }}</span>
-                    <span (click)="changeTokenStatus(token.address,false)" class="token_item__button token_item__button-active">APPROVED</span>
+                    <span (click)="changeTokenStatus(token.address)" class="token_item__button token_item__button-active">APPROVED</span>
                   </div>
                 </div>
 
@@ -378,9 +378,16 @@
                       <div class="token_item token_item__error">Tokens not found</div>
                     </ng-container>
                     <ng-container *ngIf="filteredTokens.length >= 1">
-                      <div class="token_item" *ngFor="let token of filteredTokens | slice:0:filterTokensLimit">
+                      <div class="token_item" *ngFor="let token of tokens | FilterTokens:false:true:searchToken:false | slice:0:filterTokensLimit">
                         <span [className]="'token_item__title token_item__icon-'+token.token_name">({{ token.token_short_name }}) {{ token.token_name }}</span>
-                        <span class="token_item__button" (click)="changeTokenStatus(token.address,true)">APPROVE</span>
+                        <span class="token_item__button" [class.token_item__button_active]="token === selectedToken" (click)="changeTokenStatus(token.address);onSelect(token)">
+                          <div class="lds-ellipsis">
+                            <span class="lds-ellipsis-container">
+                              <span></span><span></span><span></span><span></span>
+                            </span>
+                          </div>
+                          APPROVE
+                        </span>
                       </div>
                       <div class="token_item token_item__more" (click)="loadMoreTokensFilter()" *ngIf="filterTokensLimit < filteredTokens.length && filterTokensLimit !== filteredTokens.length">Load more</div>
                     </ng-container>
@@ -396,9 +403,16 @@
 
                 <div class="form-block_subtitle">POPULAR</div>
                 <div class="form-block_tokens__list">
-                  <div class="token_item" *ngFor="let token of popularTokens">
+                  <div class="token_item" *ngFor="let token of tokens | FilterTokens:true:false:'':false">
                     <span [className]="'token_item__title token_item__icon-'+token.token_name">({{ token.token_short_name }}) {{ token.token_name }}</span>
-                    <span class="token_item__button" (click)="changeTokenStatus(token.address,true)">APPROVE</span>
+                    <span class="token_item__button" (click)="changeTokenStatus(token.address)">
+                      <div class="lds-ellipsis">
+                        <span class="lds-ellipsis-container">
+                          <span></span><span></span><span></span><span></span>
+                        </span>
+                      </div>
+                      APPROVE
+                    </span>
                   </div>
                 </div>
                 <div class="form-field_line"></div>
