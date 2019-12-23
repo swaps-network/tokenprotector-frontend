@@ -56,6 +56,7 @@ import { ChangePasswordComponent } from './common/change-password/change-passwor
 import { KeepInTouchComponent } from './footer/keep-in-touch/keep-in-touch.component';
 import { DateTransformPipe } from './contract-form-all/date-transform.pipe';
 import { ListFilterPipe } from './contract-form-all/list-filter.pipe';
+import { limitTo } from './contract-form-all/limit-to.pipe';
 
 
 export class TranslateBrowserLoader implements TranslateLoader {
@@ -105,6 +106,13 @@ export function appInitializerFactory(translate: TranslateService, userService: 
       const subscriber = userService.getCurrentUser(true).subscribe((user: UserInterface) => {
 
         httpService.get('get_coinmarketcap_tokens/').toPromise().then((tokens) => {
+          let index = tokens.length - 1;
+
+          while(index >= 0) {
+            if (tokens[index].platform !== 'ethereum')
+              tokens.splice(index, 1);
+            index -= 1;
+          }
 
           tokens = tokens.sort((a, b) => {
             const aRank = a.rank || 100000;
@@ -112,24 +120,9 @@ export function appInitializerFactory(translate: TranslateService, userService: 
             return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
           });
 
-          tokens.forEach((token) => {
-            token.platform = (token.platform !== 'False') ? token.platform : false;
-            if (!token.platform && (token.token_short_name === 'ETH') && (token.token_name === 'Ethereum')) {
-              token.platform = 'ethereum';
-              token.isEther = true;
-            }
-            token.platform = token.platform || token.token_name.toLowerCase();
-            token.isEthereum = !!((token.platform === 'ethereum') && (token.address));
+          console.log('only sorted ethereum tokens');
+          console.log(tokens);
 
-            if (token.platform !== 'fiat') {
-              token.decimals = 8;
-            } else {
-              token.decimals = 2;
-              token.address = token.token_short_name;
-            }
-
-
-          });
           window['cmc_tokens'] = tokens;
           resolve(null);
         });
@@ -188,7 +181,8 @@ export function appInitializerFactory(translate: TranslateService, userService: 
     KeepInTouchComponent,
 
     DateTransformPipe,
-    ListFilterPipe
+    ListFilterPipe,
+    limitTo
   ],
   entryComponents: [
     AuthComponent,

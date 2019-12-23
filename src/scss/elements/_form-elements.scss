@@ -903,6 +903,35 @@
         flex-basis: 48%;
         margin: 10px 5px;
 
+        &__error{
+          flex-basis: 100%;
+          text-align: center;
+          justify-content: center;
+          color: black;
+          cursor: default;
+        }
+
+        &__more {
+          flex-basis: 100%;
+          text-align: center;
+          justify-content: center;
+          color: black;
+          cursor: default;
+          transition: 0.5s ease;
+          cursor: pointer;
+
+          &:hover {
+            background-color: $blue-1;
+            color: $white-1;
+          }
+        }
+
+        &__load {
+          flex-basis: 100%;
+          background-color: transparent !important;
+          justify-content: center;
+        }
+
         @include b(880) {
           flex-basis: 100%;
           margin: 15px;

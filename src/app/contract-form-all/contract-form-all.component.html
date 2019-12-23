@@ -341,12 +341,10 @@
                 </div>
 
                 <div class="form-block_tokens__list">
-                  <ng-container *ngFor="let token of tokens">
-                    <div class="token_item" *ngIf="token.approved">
-                      <span [className]="'token_item__title token_item__icon-'+token.label">{{ token.label }}</span>
-                      <span (click)="changeTokenStatus(token.label,false)" class="token_item__button token_item__button-active">APPROVED</span>
-                    </div>
-                  </ng-container>
+                  <div class="token_item" *ngFor="let token of tokensApproved">
+                    <span [className]="'token_item__title token_item__icon-'+token.token_name">({{ token.token_short_name }}) {{ token.token_name }}</span>
+                    <span (click)="changeTokenStatus(token.address,false)" class="token_item__button token_item__button-active">APPROVED</span>
+                  </div>
                 </div>
 
                 <div class="form-field_line"></div>
@@ -355,24 +353,42 @@
                   <input type="text"
                     class="min-text max-placeholder form-block_search-tokens_input"
                     #searchTokensInput
-                    [(ngModel)]="searchToken" 
+                    [(ngModel)]="searchToken"
                     placeholder="Search"
                     (input)="filterItem(searchTokensInput.value)">
                   <span class="form-block_search-tokens_input-icon"></span>
                   <span class="form-block_search-tokens_input-close" (click)="searchToken = ''"></span>
                 </div>
 
-                <div class="form-block_search-result" *ngIf="searchToken">
+                <div class="form-block_search-result" *ngIf="startSearch">
                   <div class="form-block_tokens__list">
-                    <div class="token_item" *ngFor="let token of filteredTokens">
-                      <span [className]="'token_item__title token_item__icon-'+token.label">{{ token.label }}</span>
-                      <span class="token_item__button" (click)="changeTokenStatus(token.label,true)">APPROVE</span>
+                    <div class="token_item token_item__load">
+                      <div class="lds-ellipsis">
+                        <span class="lds-ellipsis-container">
+                          <span></span><span></span><span></span><span></span>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
 
+                <div class="form-block_search-result" *ngIf="searchToken && !startSearch">
+                  <div class="form-block_tokens__list">
+                    <ng-container *ngIf="(filteredTokens.length === 0 || filteredTokens === null)">
+                      <div class="token_item token_item__error">Tokens not found</div>
+                    </ng-container>
+                    <ng-container *ngIf="filteredTokens.length >= 1">
+                      <div class="token_item" *ngFor="let token of filteredTokens | slice:0:filterTokensLimit">
+                        <span [className]="'token_item__title token_item__icon-'+token.token_name">({{ token.token_short_name }}) {{ token.token_name }}</span>
+                        <span class="token_item__button" (click)="changeTokenStatus(token.address,true)">APPROVE</span>
+                      </div>
+                      <div class="token_item token_item__more" (click)="loadMoreTokensFilter()" *ngIf="filterTokensLimit < filteredTokens.length && filterTokensLimit !== filteredTokens.length">Load more</div>
+                    </ng-container>
+                  </div>
+                </div>
+
                 <app-transaction
-                  *ngIf="reqData.state === 'DEPLOYED'"
+                  *ngIf="reqData.state === 'DEPLOYED'"                  
                 >
                 </app-transaction>
               
@@ -380,12 +396,10 @@
 
                 <div class="form-block_subtitle">POPULAR</div>
                 <div class="form-block_tokens__list">
-                  <ng-container *ngFor="let token of tokens">
-                    <div class="token_item" *ngIf="token.popular && !token.approved">
-                      <span [className]="'token_item__title token_item__icon-'+token.label">{{ token.label }}</span>
-                      <span class="token_item__button" (click)="changeTokenStatus(token.label,true)">APPROVE</span>
-                    </div>
-                  </ng-container>
+                  <div class="token_item" *ngFor="let token of popularTokens">
+                    <span [className]="'token_item__title token_item__icon-'+token.token_name">({{ token.token_short_name }}) {{ token.token_name }}</span>
+                    <span class="token_item__button" (click)="changeTokenStatus(token.address,true)">APPROVE</span>
+                  </div>
                 </div>
                 <div class="form-field_line"></div>
                 <div class="form-field__button">
@@ -405,7 +419,6 @@
               </div>
             </div>
             
-
         </div>
       </div>
       
@@ -424,8 +437,6 @@
 
   </div>
 </div>
-
-
 
 
 <ng-template #contactsReminderModal>

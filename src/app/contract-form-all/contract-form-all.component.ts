@@ -84,6 +84,7 @@ export interface IReqData {
     reserve_address: string;
     end_timestamp: number;
     email: string;
+    approved_tokens?: any;
   };
 }
 
@@ -149,10 +150,21 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   public currentUser;
   public curDate;
   private checker;
+  public filterTokensLimit: number = 10;
 
-  public tokens = TOKENS;
+  public tokens;
+  public startSearch;
   public filteredTokens;
   public searchToken;
+  
+  public tokensApproved = [];
+  public popularTokens = [];
+  public popular = ["Bulleon","Abulaba","Aladdin","Opennity","Spendcoin","Dai"];
+
+  public test = [];
+  public testCount = 0;
+
+  private stopTriggerMe;
 
   private preCreateProcess: boolean = false;
 
@@ -162,6 +174,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     private location: Location,
     private route: ActivatedRoute,
     protected router: Router,
+    private web3Service: Web3Service,
     private dialog: MatDialog
   ) {
     this.reqData = this.route.snapshot.data.contract;
@@ -195,6 +208,12 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
 
   ngOnInit() {
+    this.tokens = window['cmc_tokens'];
+
+    this.popular.forEach(tokenName => {
+      this.popularTokens.push(this.tokens.find(token => token.token_name === tokenName))
+    });
+
     if (this.reqData) {
       this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
       this.checkContractStatus();
@@ -225,42 +244,79 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     if (this.checker) clearTimeout(this.checker);
   }
 
+  private openTrxWindow(tokenAddress) {
+    //let promise = this.web3Service.getTokenInfo()
+  }
+
+  private tokenApprovedInfo() {
+
+    //let 
+
+    if (this.test) { // поменять на this.reqData.contract_details.approved_tokens
+      this.test.forEach(tokenAddress => { // поменять на this.reqData.contract_details.approved_tokens
+        let findTokenApproved = this.tokensApproved.find(token => token.address === tokenAddress);
+        let findTokenPopular = this.popularTokens.findIndex(token => token.address === tokenAddress);
+        let findTokens = this.tokens.findIndex(token => token.address === tokenAddress);
+
+        if (this.testCount <= this.test.length && !findTokenApproved) {
+          this.tokensApproved.push(this.tokens.find(token =>
+            token.address === tokenAddress
+          ));
+        }
+
+        if (findTokenPopular !== -1) this.popularTokens.splice(findTokenPopular, 1);
+
+        if (findTokens !== -1) {
+          this.tokens.splice(findTokens, 1);
+          this.filterItem(this.searchToken);
+        }
+      });
+    }
+    this.testCount = this.test.length;
+
+    this.tokensApproved = this.tokens.map((token) => {
+
+      this.tokens.find((globToken) => {
+        if (globToken.address === token) {
+          globToken.approved = true;
+        } else {
+          globToken.approved = false;
+        }
+        return globToken.approved;
+      });
+
+    });
+    
+  }
+
   public changeTokenStatus(value:string, state:boolean) {
-    this.tokens.find(s => s.label === value).approved = state;
-    this.filterItem(this.searchToken);
+    let tokenClicked = this.tokens.find(s => s.token_name === value);
+    this.test.push(tokenClicked.address);
+    this.searchToken = '';
+
+    this.openTrxWindow(tokenClicked.address);
+  }
+
+  public loadMoreTokensFilter() {
+    if ((this.filterTokensLimit + 10) > this.filteredTokens.length) this.filterTokensLimit = this.filteredTokens.length;
+    else this.filterTokensLimit = this.filterTokensLimit + 10;
   }
 
   public filterItem(value) {
+    this.startSearch = true;
+    this.filterTokensLimit = 10;
+
     if (!value) {
       this.filteredTokens = null;
+      this.startSearch = false;
     }
     else {
       this.filteredTokens = Object.assign([], this.tokens).filter(
-        token => token.label.toLowerCase().indexOf(value.toLowerCase()) > -1 && token.approved === false
+        token => token.token_name.toLowerCase().indexOf(value.toLowerCase()) > -1 || token.token_short_name.toLowerCase().indexOf(value.toLowerCase()) > -1
       );
+      this.startSearch = false;
     }
   }
-
-  public changedToken() {
-    console.log('change');
-    // const baseCoin = this.requestData.tokens_info.base.token;
-    // const quoteCoin = this.requestData.tokens_info.quote.token;
-    // if (this.requestData.tokens_info.base.amount && this.requestData.tokens_info.quote.amount &&
-    //   baseCoin.cmc_id && quoteCoin.cmc_id && baseCoin.cmc_id > 0 && quoteCoin.cmc_id > 0) {
-    //   this.cmcRate = {
-    //     revert: new BigNumber(baseCoin.rate).div(quoteCoin.rate).toNumber(),
-    //     direct: new BigNumber(quoteCoin.rate).div(baseCoin.rate).toNumber()
-    //   };
-    //   const rate = parseFloat(this.getRate(true));
-    //   const rateChanges = parseFloat(this.getRate()) - this.cmcRate.direct;
-    //   this.cmcRate.isMessage = true;
-    //   this.cmcRate.isLower = rateChanges > 0;
-    //   this.cmcRate.change = Math.round(Math.abs(-((rate / this.cmcRate.revert) - 1)) * 100);
-    // } else {
-    //   this.cmcRate = undefined;
-    // }
-  }
-
 
   public nextStep(stepNumber) {
 
@@ -364,10 +420,12 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         this.nextStepProcess = false;
         break;
       case 'ACTIVE':
+        console.log(this.reqData);
         this.stepper.current = 5;
         this.editableTokenProtector = false;
         this.previewTrigger = true;
         this.nextStepProcess = false;
+        this.tokenApprovedInfo();
         break;
       default:
         console.log(this.reqData.state);
