@@ -69,6 +69,10 @@ export class ContractsService {
     return this.httpService.get(`contracts/${id}/`).toPromise();
   }
 
+  public getContracts() {
+    return this.httpService.get(`contracts/`).toPromise();
+  }
+
   public cancelSWAP3(id) {
     return this.httpService.post('cancel_swap3/', {
       id

@@ -37,8 +37,10 @@ export class ContractsListComponent implements OnInit {
       }
     });
 
-    this.contractsList = this.route.snapshot.data.contracts;
+    this.contractsList = this.route.snapshot.data.contracts.results;
     this.selectedFilter = {};
+
+    console.log(this.contractsList);
   }
 
   ngOnInit() {
@@ -178,12 +180,12 @@ export class ContractsListResolver implements Resolve<any> {
     return new Observable((observer) => {
       const subscription = this.userService.getCurrentUser(false, true).subscribe((user) => {
         if (!user.is_ghost) {
-          this.contractsService.getContractsList().then((contracts) => {
+          this.contractsService.getContracts().then((contracts) => {
             observer.next(contracts);
             observer.complete();
           });
         } else {
-          this.router.navigate(['/trades']);
+          this.router.navigate(['/create']);
         }
         subscription.unsubscribe();
       });

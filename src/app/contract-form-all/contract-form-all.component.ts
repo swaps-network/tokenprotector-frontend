@@ -254,7 +254,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     this.web3Service.getTokenInfo(tokenAddress).then(
       (response) => {
         console.log(response);
-        //this.createTransactions(0, response.data); //TODO: расскоментить
+        this.createTransactions(0, response.data); //TODO: расскоментить
       },
       (error) => { console.trace(`Rejected: ${error}`) }
     )

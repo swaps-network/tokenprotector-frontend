@@ -1,3 +1,5 @@
+@import '../../scss/vars';
+
 .base-block-content {
   box-sizing: border-box;
   padding-top: 150px;
@@ -7,84 +9,129 @@
 .my-contracts-title {
   font-size: 25px;
   line-height: 30px;
-  color: #fff;
+  color: $black;
   font-weight: bold;
 }
+
 .my-contracts-empty {
   margin-top: 20px;
-  color: #fff;
+  color: $black;
   font-size: 20px;
 }
 
-.delete-btn {
-  background: none;
-  border: 0 none;
-  padding: 10px;
-  cursor: pointer;
-  line-height: 24px;
-  img {
-    width: 24px;
-    vertical-align: middle;
-  }
-}
+
+// .delete-btn {
+//   background: none;
+//   border: 0 none;
+//   padding: 10px;
+//   cursor: pointer;
+//   line-height: 24px;
+//   img {
+//     width: 24px;
+//     vertical-align: middle;
+//   }
+// }
 
 .swap-info {
   line-height: 26px;
   display: inline-block;
   vertical-align: middle;
+  font-size: 13px;
+  color: $black;
+
+  &_no-bold {
+    font-weight: normal;
+  }
+
+  &_status {
+    font-size: 16px;
+    font-weight: bold;
+  }
 }
 
 .public-swaps {
   min-width: 800px;
   white-space: nowrap;
+
   &_table-container {
     overflow: auto;
   }
+
   &_body {
-    overflow:  auto;
+    overflow: visible;
   }
+
   &_empty {
     font-size: 15px;
     line-height: 18px;
     text-align: center;
     color: #FFFFFF;
+
     a {
-      color: #FCD600!important;
+      color: #FCD600 !important;
     }
   }
+
   &_row {
     margin: 0;
     position: relative;
+
     &.as-link {
       cursor: pointer;
+      transition: 0.2s ease;
+
+      &:hover {
+        box-shadow: 0px 0px 8px -2px #000000a6;
+        border-radius: 5px;
+        transform: scale(1.02);
+
+        // .public-swaps_body {
+        //   overflow: visible !important;
+        // }
+
+      }
     }
   }
+
   &_cell {
     padding: 0;
+
     &_content {
       line-height: 70px;
       margin: 2px 2px 1px 1px;
       padding: 0 14px;
-      background-color: rgba(0, 0, 0, 0.1);
+      background-color: rgba(0, 0, 0, 0.02);
       color: #fff;
+      border-radius: 5px;
+      overflow: hidden;
     }
   }
+
   &_row:hover &_cell {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.02);
+
+    .swap-info {
+      color: $blue-1;
+    }
   }
+
   &_head {
     &-row {
       position: relative;
       z-index: 3;
       margin: 0;
     }
+
     &-cell {
-      color: #fff;
+      color: $black;
       padding: 0;
+
       &__sortable {
-        color: #FCD600;
+        color: $blue-2;
+
         .sort-btn {
           background-image: url(/assets/images/icons/table/sort-2.svg);
+          outline: none;
         }
 
         &.asc {
@@ -94,6 +141,7 @@
         }
       }
     }
+
     &_content {
       line-height: 38px;
       margin: 2px 2px 1px 1px;

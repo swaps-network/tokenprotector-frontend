@@ -18,6 +18,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { EthAddressDirective } from './directives/eth-address/eth-address.directive';
 import {EtherscanUrlPipe, EthTokenValidatorDirective} from './services/web3/web3.service';
+import {ContractsService} from './services/contracts/contracts.service';
 import {UserService} from './services/user/user.service';
 import {UserInterface} from './services/user/user.interface';
 import {AuthComponent} from './common/auth/auth.component';
@@ -93,11 +94,14 @@ export function exportTranslateStaticLoader(http: HttpClient, transferState: Tra
 
 
 
-export function appInitializerFactory(translate: TranslateService, userService: UserService, httpService: HttpService) {
+export function appInitializerFactory(translate: TranslateService, userService: UserService, httpService: HttpService, contractsService: ContractsService) {
 
   const defaultLng = (navigator.language || navigator['browserLanguage']).split('-')[0];
 
   const langToSet = window['jQuery']['cookie']('lng') || ((['en', 'zh', 'ko', 'ru'].indexOf(defaultLng) > -1) ? defaultLng : 'en');
+
+  // console.log(contractsService.getContracts);
+  
 
   return () => new Promise<any>((resolve: any, reject) => {
 

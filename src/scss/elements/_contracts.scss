@@ -1,11 +1,13 @@
+@import '../../scss/vars';
 
 .contract-state {
   float: right;
-  color: #61B9DF;
-  font-size: 20px;
-  font-weight: bold;
+  color: $blue-1;
+  font-size: 16px;
+  font-weight: 500;
   white-space: nowrap;
   line-height: 24px;
+
   &:before {
     content: '';
     display: inline-block;
@@ -15,37 +17,43 @@
     vertical-align: middle;
     margin-right: 5px;
   }
+
   &__0 {
     &:before {
       background-color: #fff;
     }
   }
+
   &__1 {
     &:before {
       background-color: #15ff0f;
       box-shadow: 0 0 9px rgba(21, 255, 15, 0.68);
     }
   }
+
   &__2 {
     &:before {
-      background-color: #660002;
+      background-color: $red;
     }
   }
-  &__3, &__6 {
+
+  &__3,
+  &__6 {
     &:before {
       background-color: #ffd139;
       box-shadow: 0 0 9px rgba(255, 209, 57, 0.68);
     }
   }
+
   &__4 {
     &:before {
       background-color: #0c660b;
     }
   }
+
   &__5 {
     &:before {
       background-color: #660002;
     }
   }
 }
-
