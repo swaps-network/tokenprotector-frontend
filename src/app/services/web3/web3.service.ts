@@ -218,7 +218,7 @@ export class Web3Service {
           ethAddress: true
         });
       }
-      const contract = this.Web3.eth.Contract(ERC20_TOKEN_ABI, address);
+      const contract = new this.Web3.eth.Contract(ERC20_TOKEN_ABI, address);
 
 
       const callMethod = (methodCall, method) => {

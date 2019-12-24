@@ -5,13 +5,15 @@ import {UserService} from '../services/user/user.service';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import {ActivatedRoute, ActivatedRouteSnapshot, Resolve, Router} from '@angular/router';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDatepicker, MatDialog, MatDialogRef} from '@angular/material';
-import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter';
-import TOKENS from './tokens';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { TransactionComponent } from '../transaction/transaction.component';
+import BigNumber from 'bignumber.js';
 
 import {HttpService} from '../services/http/http.service';
 import {Web3Service} from '../services/web3/web3.service';
 import {Observable} from 'rxjs';
-import {UserInterface} from '../services/user/user.interface';
+import { UserInterface } from '../services/user/user.interface';
+import {ERC20_TOKEN_ABI} from '../services/web3/web3.constants';
 
 export interface IContractV3 {
 
@@ -85,6 +87,7 @@ export interface IReqData {
     end_timestamp: number;
     email: string;
     approved_tokens?: any;
+    eth_contract?: any;
   };
 }
 
@@ -158,24 +161,19 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   public searchToken;
   
   public tokensApproved = [];
-  public savedApprovedTokens:number;
-  public popularTokens = [];
-  // public popular = ["Bulleon","Abulaba","Aladdin","Opennity","Spendcoin","Dai"];
+  public savedApprovedTokens:any = [];
   public popular = ["0x36d10c6800d569bb8c4fe284a05ffe3b752f972c","0x006bea43baa3f7a6f765f14f10a1a1b08334ef45","0x03c780cd554598592b97b7256ddaad759945b125","0x01cc4151fe5f00efb8df2f90ff833725d3a482a3","0x8810c63470d38639954c6b41aac545848c46484a","0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650","0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4","0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D"];
 
   public testApprovedTokensAddress = [];
-  public testCount = 0;
-
-  private stopTriggerMe;
 
   private preCreateProcess: boolean = false;
+  private tokenContract: any;
 
   selectedToken: any;
 
   constructor(
     protected contractsService: ContractsService,
     private userService: UserService,
-    private location: Location,
     private route: ActivatedRoute,
     protected router: Router,
     private web3Service: Web3Service,
@@ -251,39 +249,112 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
 
   private openTrxWindow(tokenAddress) {
-    //let promise = this.web3Service.getTokenInfo()
+    tokenAddress = '0x6eD8a4e558128788B51D6F9c4927341D7B0caFAC';
+
+    this.web3Service.getTokenInfo(tokenAddress).then(
+      (response) => {
+        console.log(response);
+        //this.createTransactions(0, response.data); //TODO: расскоментить
+      },
+      (error) => { console.trace(`Rejected: ${error}`) }
+    )
   }
+
+  // private disAllow(amount, token) {
+
+  // }
+
+  private createTransactions(amount, token) {
+    try {
+      if (isNaN(amount)) {
+        return;
+      }
+
+      const approveMethod = this.web3Service.getMethodInterface('approve');
+
+      const approveSignature = this.web3Service.encodeFunctionCall(
+        approveMethod, [
+          this.reqData.contract_details.eth_contract.address,
+          new BigNumber(90071992.5474099).times(Math.pow(10, token.decimals)).toString(10)
+        ]
+      );
+
+      const checkAllowance = (wallet) => {
+        return new Promise((resolve, reject) => {
+          const tokenModel = token;
+          this.tokenContract = this.web3Service.getContract(ERC20_TOKEN_ABI, tokenModel.address);
+          this.tokenContract.methods.allowance(wallet, this.reqData.contract_details.eth_contract.address).call().then((result) => {
+            result = result ? result.toString(10) : result;
+            result = result === '0' ? null : result;
+            if (result && new BigNumber(result).minus(amount).isPositive()) {
+              resolve(true);
+            } else {
+              reject(false);
+            }
+          }, () => {
+            reject(false);
+          });
+        });
+      };
+
+      const approveTransaction = (wallet) => {
+        return this.web3Service.sendTransaction({
+          from: wallet.address,
+          to: token.address,
+          data: approveSignature
+        }, wallet.type);
+      };
+
+      const transactionsList: any[] = [{
+        title: 'Authorise the contract for getting ' + token.symbol + ' tokens',
+        to: token.address,
+        data: approveSignature,
+        checkComplete: checkAllowance,
+        action: approveTransaction
+      }];
+
+      this.dialog.open(TransactionComponent, {
+        width: '38.65em',
+        panelClass: 'custom-dialog-container',
+        data: {
+          transactions: transactionsList,
+          title: 'Contribute',
+          description: `For contribution you need to make ${transactionsList.length} transactions: authorise the contract and make the transfer`
+        }
+      });
+
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
 
   private tokenApprovedInfo() {
     // let approveTokens = this.reqData.contract_details.approved_tokens;
     let approveTokens = this.testApprovedTokensAddress;
+    let savedApprovedTokens = this.savedApprovedTokens;
+    let add = approveTokens.filter(item => savedApprovedTokens.indexOf(item) < 0);
+    let deleted = savedApprovedTokens.filter(item => approveTokens.indexOf(item) < 0);
 
-    if (approveTokens && approveTokens.length !== this.savedApprovedTokens) {
+    if (add || deleted) {
+
       this.tokens = this.tokens.map(token => {
-        approveTokens.forEach(approvedTokenAddress => {
-          if (token.address === approvedTokenAddress) {token.approved = true;}
-        })
+        if (add) {
+          add.forEach(approvedTokenAddress => {
+            if (token.address === approvedTokenAddress) { token.approved = true; }
+          })
+        }
+        
+        if (deleted) {
+          deleted.forEach(approvedTokenAddress => {
+            if (token.address === approvedTokenAddress) { token.approved = false; }
+          })
+        }
+
         return token;
       })
 
-      // approveTokens.map(approvedTokenAddress => {
-      //   this.tokens.find(token => {
-      //     if (token.address === approvedTokenAddress) token.approved = true;
-      //   })
-
-        // tokenItems.approved = true
-        
-        // console.log(tokenItems)
-        // return tokenItems
-      // })
-
-      // this.tokens.map(token => {
-      //   approveTokens.map(approvedTokenAddress => {
-      //     if (token.address === approvedTokenAddress) { console.log(approvedTokenAddress); token.approved = true; console.log(token); return token;}
-      //   })
-      // })
-
-      this.savedApprovedTokens = approveTokens.length;
+      this.savedApprovedTokens = Object.assign([], approveTokens)
     }
   }
 
@@ -291,37 +362,19 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     this.selectedToken = token;
   }
 
-  public changeTokenStatus(value:string, e?) {
+  public changeTokenStatus(value: string, e?) {
+    if (e === false) {
+      this.testApprovedTokensAddress.splice(this.testApprovedTokensAddress.findIndex(e => e.address === value), 1);
+      return;
+    }
+
     this.testApprovedTokensAddress.push(value);
-
-    // const classList = e.target.classList;
-    // const classes = e.target.className;
-    // classes.includes('clicked') ? classList.remove('clicked') : classList.add('clicked');
-    
-    // console.log(e);
-    // this.searchToken = '';
-    // this.openTrxWindow(tokenClicked.address);
+    this.openTrxWindow(value);
   }
 
-  public loadMoreTokensFilter() {
-    if ((this.filterTokensLimit + 10) > this.filteredTokens.length) this.filterTokensLimit = this.filteredTokens.length;
+  public loadMoreTokensFilter(tokenLength:number) {
+    if ((this.filterTokensLimit + 10) > tokenLength) this.filterTokensLimit = tokenLength;
     else this.filterTokensLimit = this.filterTokensLimit + 10;
-  }
-
-  public filterItem(value) {
-    this.startSearch = true;
-    this.filterTokensLimit = 10;
-
-    if (!value) {
-      this.filteredTokens = null;
-      this.startSearch = false;
-    }
-    else {
-      this.filteredTokens = Object.assign([], this.tokens).filter(
-        token => token.token_name.toLowerCase().indexOf(value.toLowerCase()) > -1 || token.token_short_name.toLowerCase().indexOf(value.toLowerCase()) > -1
-      );
-      this.startSearch = false;
-    }
   }
 
   public nextStep(stepNumber) {
