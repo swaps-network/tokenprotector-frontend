@@ -65,7 +65,7 @@ const routes: Routes = [
     path: 'view/:id',
     component: ContractFormComponent,
     resolve: {
-      contract: ContractEditResolver
+      contract: ContractEditResolver2
     },
     data: {
       createButton: true

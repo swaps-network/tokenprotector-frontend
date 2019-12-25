@@ -1,39 +1,5 @@
-.field-error {
-  display: none;
-  color: rgba(255, 41, 68, 0.8);
-  font-size: 12px;
-  padding: 0.5em 0;
-  text-transform: uppercase;
-}
-
-.field-success {
-  color: rgba(6, 176, 31, 0.96);
-  font-size: 12px;
-  padding: 0.5em 0;
-  display: block;
-  text-transform: uppercase;
-
-  &.grey-text-color {
-    color: #878787;
-  }
-}
-
-.textarea {
-  &__black {
-    width: 100%;
-    font-family: inherit;
-    padding: 15px;
-    box-sizing: border-box;
-    border: 0 none;
-    background-color: rgba(0, 0, 0, 0.3);
-    font-size: inherit;
-    max-width: 100%;
-    height: 181px;
-    color: #fff;
-  }
-}
-
 .form-field {
+  margin-bottom: 20px;
 
   input,
   textarea {
@@ -238,115 +204,11 @@
 
     }
   }
-}
 
-@keyframes rotating {
-  from {
-    transform: rotate(0deg);
+  &_line {
+    border-bottom: 1px dashed black;
+    margin: 15px 0;
   }
-
-  to {
-    transform: rotate(-360deg);
-  }
-}
-
-.radio-buttons-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-
-  li {
-    padding: 13px 0;
-    margin: 0;
-  }
-}
-
-.radio-button-decorated {
-  position: relative;
-  overflow: hidden;
-  padding-left: 40px;
-
-  &_input {
-    position: absolute;
-    right: 105%;
-    bottom: 105%;
-    margin: 0;
-    opacity: 0;
-  }
-
-  &_mask {
-    width: 26px;
-    height: 26px;
-    line-height: 26px;
-    text-align: center;
-    border: 1px solid #fff;
-    display: inline-block;
-    vertical-align: middle;
-    position: absolute;
-    left: 0;
-    top: -7px;
-    cursor: pointer;
-    border-radius: 50%;
-  }
-
-  &_input[readonly]+&_mask {
-    cursor: default;
-  }
-
-  &_input[readonly]:not(:checked)~* {
-    opacity: 0.5;
-  }
-
-  &_input:checked+&_mask {
-    background-color: #fff;
-    cursor: default;
-
-    &:after {
-      content: '';
-      display: inline-block;
-      border-width: 0 2px 2px 0;
-      border-color: #000;
-      border-style: solid;
-      transform: rotate(45deg);
-      width: 4px;
-      height: 9px;
-    }
-  }
-
-  &_label {
-    color: $form-section-color-label;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 18px;
-  }
-}
-
-.checkbox-block {
-  position: relative;
-  overflow: hidden;
-  display: block;
-
-  input {
-    opacity: 0;
-    position: absolute;
-    right: 100%;
-    bottom: 100%;
-    margin: auto 5px 5px auto;
-    outline: 0;
-    width: 1px;
-    height: 1px;
-
-    &:checked {
-      ~.btn-payment {
-        background-color: $blue-1;
-        color: $white;
-      }
-    }
-  }
-}
-
-.form-field {
-  margin-bottom: 20px;
 
   &_label {
     font-size: 14px;
@@ -439,62 +301,62 @@
     .textarea {
       box-sizing: border-box;
       background-color: $form-color-input-background;
-      border: 1px solid #fff;
-      color: #110931;
+      border: 1px solid $white;
+      color: $black;
       line-height: 23px;
       font-family: inherit;
-      font-size: 20px !important;
-      padding: 20px 20px 20px;
+      font-size: 18px !important;
+      padding: 13px 13px 13px;
 
 
       &:not(.min-text),
       &.max-placeholder {
         &::-webkit-input-placeholder {
-          font-size: 20px;
+          font-size: 15px;
         }
       }
 
       &:not(.min-text),
       &.max-placeholder {
         &:-ms-input-placeholder {
-          font-size: 20px;
+          font-size: 15px;
         }
       }
 
       &:not(.min-text),
       &.max-placeholder {
         &::-ms-input-placeholder {
-          font-size: 20px;
+          font-size: 15px;
         }
       }
 
       &:not(.min-text),
       &.max-placeholder {
         &::placeholder {
-          font-size: 20px;
+          font-size: 15px;
         }
       }
 
 
       &.min-text {
-        font-size: 18px !important;
+        font-size: 15px !important;
         color: #110931;
 
         &:not(.max-placeholder) {
           &::-webkit-input-placeholder {
-            font-size: 16px;
+            font-size: 15px;
           }
 
           &:-ms-input-placeholder {
-            font-size: 16px;
+            font-size: 15px;
           }
 
           &::-ms-input-placeholder {
-            font-size: 16px;
+            font-size: 15px;
           }
 
           &::placeholder {
-            font-size: 16px;
+            font-size: 15px;
           }
         }
       }
@@ -631,8 +493,8 @@
   }
 
   &_text {
-    font-size: 16px;
-    line-height: 18px;
+    font-size: 14px;
+    line-height: 16px;
     color: $form-section-color-text;
 
     &:not(.normal-font) {
@@ -640,7 +502,7 @@
     }
 
     &:not(.no-top-margin) {
-      margin-top: 22px;
+      margin-top: 5px;
     }
 
     &__inline {
@@ -716,6 +578,22 @@
     word-break: break-all;
   }
 
+  &__copy {
+    text-align: center;
+    float: right;
+    width: 40px;
+    margin-top: 0px;
+    height: 40px;
+    position: absolute;
+    right: 0;
+    background-color: $blue-1;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5px;
+  }
+
   &_copy {
     text-align: center;
     float: right;
@@ -749,38 +627,7 @@
   }
 }
 
-.timepicker__header {
-  background-color: #222 !important;
-}
-
-.clock-face__number>span.active {
-  background-color: #222 !important;
-}
-
-.clock-face__clock-hand {
-  background-color: #222 !important;
-}
-
-.clock-face__clock-hand_minute:before {
-  border-color: #222 !important;
-}
-
-.timepicker-button {
-  color: #222 !important;
-}
-
-
-.form-field {
-  &_line {
-    border-bottom: 1px dashed black;
-    margin: 15px 0;
-  }
-
-  &__button {}
-}
-
 .form-block {
-
   &_text-token {
     font-size: 16px;
     line-height: 18px;
@@ -848,6 +695,7 @@
         padding: 10px;
         transition: 0.5s;
         cursor: pointer;
+        outline: none !important;
 
         &:before {
           content: '';
@@ -903,7 +751,17 @@
         flex-basis: 48%;
         margin: 10px 5px;
 
-        &__error{
+        &__image {
+          display: block;
+          width: 25px;
+          height: 25px;
+          background-position: center;
+          background-size: contain;
+          background-repeat: no-repeat;
+          margin-right: 10px;
+        }
+
+        &__error {
           flex-basis: 100%;
           text-align: center;
           justify-content: center;
@@ -934,7 +792,7 @@
 
         @include b(880) {
           flex-basis: 100%;
-          margin: 15px;
+          margin: 5px;
         }
 
         &__title {
@@ -945,14 +803,6 @@
           display: flex;
           align-items: center;
           justify-content: center;
-
-          &::before {
-            content: '';
-            background-repeat: no-repeat;
-            background-position: center;
-            display: block;
-            margin-right: 10px;
-          }
         }
 
         &__button {
@@ -989,6 +839,7 @@
               left: 0;
               background: #f4f4f4;
             }
+
             color: transparent;
             position: relative;
             align-items: center;
@@ -1041,106 +892,168 @@
 
           }
         }
-
-        &__icon {
-          &-usdt {
-            &:before {
-              background-image: url('/assets/images/icons/coins/usdt.svg');
-              width: 26px;
-              height: 26px;
-            }
-          }
-
-          &-wish {
-            &:before {
-              background-image: url('/assets/images/icons/coins/wish.svg');
-              width: 26px;
-              height: 26px;
-            }
-          }
-
-          &-usdc {
-            &:before {
-              background-image: url('/assets/images/icons/coins/usdc.svg');
-              width: 26px;
-              height: 26px;
-            }
-          }
-
-          &-link {
-            &:before {
-              background-image: url('/assets/images/icons/coins/link.svg');
-              width: 26px;
-              height: 26px;
-            }
-          }
-
-          &-cro {
-            &:before {
-              background-image: url('/assets/images/icons/coins/cro.svg');
-              width: 26px;
-              height: 26px;
-            }
-          }
-
-          &-ino {
-            &:before {
-              background-image: url('/assets/images/icons/coins/ino.svg');
-              width: 26px;
-              height: 26px;
-            }
-          }
-
-          &-bat {
-            &:before {
-              background-image: url('/assets/images/icons/coins/bat.svg');
-              width: 26px;
-              height: 26px;
-            }
-          }
-
-          &-mkr {
-            &:before {
-              background-image: url('/assets/images/icons/coins/mkr.svg');
-              width: 26px;
-              height: 26px;
-            }
-          }
-
-          &-ht {
-            &:before {
-              background-image: url('/assets/images/icons/coins/ht.svg');
-              width: 26px;
-              height: 26px;
-            }
-          }
-
-          &-dai {
-            &:before {
-              background-image: url('/assets/images/icons/coins/dai.svg');
-              width: 26px;
-              height: 26px;
-            }
-          }
-
-          &-weth {
-            &:before {
-              background-image: url('/assets/images/icons/coins/weth.svg');
-              width: 26px;
-              height: 26px;
-            }
-          }
-
-          &-leo {
-            &:before {
-              background-image: url('/assets/images/icons/coins/leo.svg');
-              width: 26px;
-              height: 26px;
-            }
-          }
-        }
       }
 
     }
+  }
+}
+
+.field-error {
+  display: none;
+  color: rgba(255, 41, 68, 0.8);
+  font-size: 12px;
+  padding: 0.5em 0;
+  text-transform: uppercase;
+}
+
+.field-success {
+  color: rgba(6, 176, 31, 0.96);
+  font-size: 12px;
+  padding: 0.5em 0;
+  display: block;
+  text-transform: uppercase;
+
+  &.grey-text-color {
+    color: #878787;
+  }
+}
+
+.textarea {
+  &__black {
+    width: 100%;
+    font-family: inherit;
+    padding: 15px;
+    box-sizing: border-box;
+    border: 0 none;
+    background-color: rgba(0, 0, 0, 0.3);
+    font-size: inherit;
+    max-width: 100%;
+    height: 181px;
+    color: #fff;
+  }
+}
+
+.radio-buttons-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    padding: 13px 0;
+    margin: 0;
+  }
+}
+
+.radio-button-decorated {
+  position: relative;
+  overflow: hidden;
+  padding-left: 40px;
+
+  &_input {
+    position: absolute;
+    right: 105%;
+    bottom: 105%;
+    margin: 0;
+    opacity: 0;
+  }
+
+  &_mask {
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    border: 1px solid #fff;
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    left: 0;
+    top: -7px;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+
+  &_input[readonly]+&_mask {
+    cursor: default;
+  }
+
+  &_input[readonly]:not(:checked)~* {
+    opacity: 0.5;
+  }
+
+  &_input:checked+&_mask {
+    background-color: #fff;
+    cursor: default;
+
+    &:after {
+      content: '';
+      display: inline-block;
+      border-width: 0 2px 2px 0;
+      border-color: #000;
+      border-style: solid;
+      transform: rotate(45deg);
+      width: 4px;
+      height: 9px;
+    }
+  }
+
+  &_label {
+    color: $form-section-color-label;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 18px;
+  }
+}
+
+.checkbox-block {
+  position: relative;
+  overflow: hidden;
+  display: block;
+
+  input {
+    opacity: 0;
+    position: absolute;
+    right: 100%;
+    bottom: 100%;
+    margin: auto 5px 5px auto;
+    outline: 0;
+    width: 1px;
+    height: 1px;
+
+    &:checked {
+      ~.btn-payment {
+        background-color: $blue-1;
+        color: $white;
+      }
+    }
+  }
+}
+
+.timepicker__header {
+  background-color: #222 !important;
+}
+
+.clock-face__number>span.active {
+  background-color: #222 !important;
+}
+
+.clock-face__clock-hand {
+  background-color: #222 !important;
+}
+
+.clock-face__clock-hand_minute:before {
+  border-color: #222 !important;
+}
+
+.timepicker-button {
+  color: #222 !important;
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
   }
 }

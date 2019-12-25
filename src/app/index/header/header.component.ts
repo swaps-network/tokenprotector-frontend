@@ -2,7 +2,6 @@ import {Component, Inject, OnInit, PLATFORM_ID, TemplateRef, ViewChild} from '@a
 import {isPlatformBrowser} from '@angular/common';
 import {UserService} from '../../services/user/user.service';
 import {UserInterface} from '../../services/user/user.interface';
-//import {ContractFormAllComponent} from '../../contract-form-all/contract-form-all.component';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {NavigationStart, Router} from '@angular/router';
 
@@ -66,8 +65,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public openAuth() {
-    this.userService.openAuthForm().then(() => { }, () => { });
-    //this.userService.openAuthForm().then(() => { this.ContractFormAllComponent.userGhostFunc(false); }, () => { this.ContractFormAllComponent.userGhostFunc(true) });
+    this.userService.openAuthForm().then(() => {}, () => {});
   }
 
   ngOnInit() {
@@ -88,7 +86,6 @@ export class HeaderComponent implements OnInit {
       this.logoutConfirmationModal.close();
     }).finally(() => {
       this.logoutProgress = false;
-      this.currentUser.is_ghost = true;
     });
   }
 

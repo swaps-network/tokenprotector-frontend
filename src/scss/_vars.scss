@@ -34,6 +34,10 @@ $blue-3: #b4ceff;
 $blue-4: #4267B2;
 $blue-5: #8b9dc3;
 
+$green-1: #1a96a4;
+$green-2: #15a9b9;
+$green-3: #10465c;
+
 $orange: #ffa500;
 $orange-1: #db8637;
 $orange-2: #db8637cc;
@@ -89,6 +93,13 @@ $metamask-color-border: $orange-3;
 $metamask-color-font: $white;
 $metamask-color-font-hover: $white;
 $metamask-icon-button: url('/assets/images/icons/web3clients/metamask.svg');
+
+$myetherwallet-color-button: $green-1;
+$myetherwallet-color-button-hover: $green-2;
+$myetherwallet-color-border: $green-3;
+$myetherwallet-color-font: $white;
+$myetherwallet-color-font-hover: $white;
+$myetherwallet-icon-button: url('/assets/images/icons/web3clients/myetherwallet.svg');
 
 $facebook-color-button: $blue-4;
 $facebook-color-button-hover: $blue-5;

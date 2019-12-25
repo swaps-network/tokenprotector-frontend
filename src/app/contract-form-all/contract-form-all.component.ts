@@ -147,13 +147,15 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   public editableTokenProtector:boolean = true;
   public previewTrigger:boolean = false;
   public nextStepProcess:boolean = false;
-  public userGhost:boolean = false;
+  public userGhost: boolean = false;
+  public minDate;
 
   public subscriptionUser;
   public currentUser;
   public curDate;
   private checker;
   public filterTokensLimit: number = 10;
+  public copiedAddresses = {};
 
   public tokens;
   public startSearch;
@@ -248,12 +250,23 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     if (this.checker) clearTimeout(this.checker);
   }
 
-  private openTrxWindow(tokenAddress) {
-    tokenAddress = '0x6eD8a4e558128788B51D6F9c4927341D7B0caFAC';
 
+  public onCopied(field) {
+    if (this.copiedAddresses[field]) {
+      return;
+    }
+    this.copiedAddresses[field] = true;
+    setTimeout(() => {
+      this.copiedAddresses[field] = false;
+    }, 1000);
+  }
+
+  private openTrxWindow(tokenAddress) {
+    // tokenAddress = '0x6eD8a4e558128788B51D6F9c4927341D7B0caFAC';
+    console.log(tokenAddress);
     this.web3Service.getTokenInfo(tokenAddress).then(
       (response) => {
-        console.log(response);
+        //console.log(response);
         this.createTransactions(0, response.data); //TODO: расскоментить
       },
       (error) => { console.trace(`Rejected: ${error}`) }
@@ -328,7 +341,6 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     }
   }
 
-
   private tokenApprovedInfo() {
     // let approveTokens = this.reqData.contract_details.approved_tokens;
     let approveTokens = this.testApprovedTokensAddress;
@@ -337,23 +349,19 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     let deleted = savedApprovedTokens.filter(item => approveTokens.indexOf(item) < 0);
 
     if (add || deleted) {
-
       this.tokens = this.tokens.map(token => {
         if (add) {
           add.forEach(approvedTokenAddress => {
             if (token.address === approvedTokenAddress) { token.approved = true; }
           })
         }
-        
         if (deleted) {
           deleted.forEach(approvedTokenAddress => {
             if (token.address === approvedTokenAddress) { token.approved = false; }
           })
         }
-
         return token;
       })
-
       this.savedApprovedTokens = Object.assign([], approveTokens)
     }
   }
@@ -367,7 +375,6 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       this.testApprovedTokensAddress.splice(this.testApprovedTokensAddress.findIndex(e => e.address === value), 1);
       return;
     }
-
     this.testApprovedTokensAddress.push(value);
     this.openTrxWindow(value);
   }
@@ -379,7 +386,14 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
   public nextStep(stepNumber) {
 
-    (stepNumber <= 1) ? this.stepper.current = stepNumber : null;
+    (stepNumber <= 0) ? this.stepper.current = stepNumber : null;
+
+    if (stepNumber === 1) {
+      let date = new Date();
+      this.minDate = new Date(date.setDate(date.getDate() + 1));
+      console.log(this.minDate);
+      this.reqData.contract_details.owner_address === this.reqData.contract_details.reserve_address ? this.stepper.current = 0 : this.stepper.current = stepNumber;
+    }
 
     if (stepNumber === 2) {
       this.nextStepProcess = true;

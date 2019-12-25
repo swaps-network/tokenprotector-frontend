@@ -1,4 +1,4 @@
-<section class="section">
+<section class="section section-page">
   <div class="container" style="max-width: 1200px;">
 
     <!-- first scereen -->
@@ -95,7 +95,7 @@
         </div>
         <div class="column is-one-two">
           <p data-count="3." class="has-text-black">
-            MyWish generates smart contract with predefined conditions an d transfer all rights to the user
+            MyWish generates smart contract with predefined conditions and transfer all rights to the user
           </p>
         </div>
         <div class="column is-one-two">
@@ -127,10 +127,8 @@
     <div class="section section-partners is-not-padding-horisontal">
       <span class="title is-3">Partners</span>
       <div class="grid-partners">
-        <a *ngFor="let project of projects" href="{{project.link}}" target="_blank">
-          <figure class="image">
-            <img [src]="project.logo">
-          </figure>
+        <a class="partners-item" *ngFor="let project of projects" href="{{project.link}}" target="_blank">
+          <img [src]="project.logo">
         </a>
       </div>
     </div>

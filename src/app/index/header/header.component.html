@@ -1,63 +1,66 @@
 <header [ngClass]="{scrolled: pageScrolled}">
+  <div class="app-content-block">
+    <a routerLink="/">
+      <span class="logo">
+        <img src="./assets/images/new/logo.svg">
+      </span>
+    </a>
 
-  <nav class="section-navbar container" style="max-width: 1200px;">
-    <!-- Left side -->
-    <div class="level-left">
-      <div class="level-item">
-        <a routerLink="/">
-          <img src="./assets/images/new/logo.svg" alt="mywish">
-        </a>
-      </div>
+    <div class="app-content-block_right">
+      <button class="navbar-toggle" type="button"
+              (click)="openedMenu = !openedMenu" (mousedown)="$event.stopPropagation(); $event.preventDefault();" >
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+  
+      <nav class="header-menu" [ngClass]="{opened: openedMenu}"
+           (mousedown)="$event.stopPropagation(); $event.preventDefault();">
+        <ul class="header-menu_list">
+          <li class="header-menu_list_item">
+            <a routerLink="#" class="header-link">About</a>
+          </li>
+          <li class="header-menu_list_item">
+            <a  fragment="features" routerLink="/trades" class="header-link">Features</a>
+          </li>
+          <li class="header-menu_list_item">
+            <a routerLink="faq" class="header-link">Faq</a>
+          </li>
+          <li class="header-menu_list_item" *ngIf="currentUser.is_ghost">
+            <span (click)="openAuth()" class="header-link">Login</span>
+          </li>
+          <li class="header-menu_list_item with-sublist" *ngIf="!currentUser.is_ghost"
+              [ngClass]="{'opened-list': userMenuOpened}">
+            <span class="header-link"
+                  [ngClass]="{'is-social': currentUser.is_social}"
+                  (click)="userMenuOpened = !userMenuOpened"
+                  style="color: black;">{{currentUser.username}}</span>
+            <ul class="header-menu_sublist">
+              <li class="header-menu_sublist_item">
+                <a routerLink="/contracts" class="sublist-link">My contracts</a>
+              </li>
+              <li class="header-menu_sublist_item">
+                <span class="sublist-link" (click)="openLogoutConfirmation()">Logout</span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
     </div>
-
-    <!-- Right side -->
-    <div class="level-right">
-      <div class="level-right-menu">
-        <p class="level-item"><a href="#">ABOUT</a></p>
-        <p class="level-item"><a href="#">FEATURES</a></p>
-        <p class="level-item"><a href="#">FAQ</a></p>
-        <p class="level-item" *ngIf="currentUser.is_ghost"><a (click)="openAuth()">LOG IN</a></p>
-        <div class="dropdown is-hoverable" *ngIf="!currentUser.is_ghost">
-          <div class="dropdown-trigger">
-            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
-              <span>{{currentUser.username|slice:0:7}}</span>
-              <span class="icon is-small">
-                <i class="fas fa-angle-down" aria-hidden="true"></i>
-              </span>
-            </button>
-          </div>
-          <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-            <div class="dropdown-content">
-              <div class="dropdown-item">
-                <a routerLink="/contracts">My contracts</a>
-              </div>
-              <div class="dropdown-item">
-                <a (click)="openLogoutConfirmation()">Logout</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <p class="level-item button-item">
-        <span class="button button-tp button-tp-blue is-large" routerLink="/create"> 
-          <span class="caption">Try it</span>
-        </span>
-      </p>
-    </div>
-  </nav>
+  </div>
 </header>
+
 
 <ng-template #logoutConfirmation>
   <div class="dialog-block">
     <div class="dialog-block__content">
       <div class="alert-window-title">
         {{'CONFIRMATIONS.LOG_OUT.TEXT'|translate}}
-      </div><br /><br />
+      </div><br />
       <div class="alert-window-buttons text-center">
         <div class="grid-row">
           <div class="grid-cell grid-cell-1-2 grid-cell-vs-1">
-            <button class="button button-tp button-tp-blue is-medium" type="button" (click)="logoutSuccess()"
+            <button class="button button-tp button-tp-blue width-100 is-medium" type="button" (click)="logoutSuccess()"
               [disabled]="logoutProgress">
               <span class="lds-ellipsis" *ngIf="logoutProgress">
                 <span class="lds-ellipsis-container">
@@ -68,7 +71,7 @@
             </button><br />
           </div>
           <div class="grid-cell grid-cell-1-2 grid-cell-vs-1">
-            <button class="button button-tp button-tp-blue is-medium" mat-dialog-close type="button">
+            <button class="button button-tp button-tp-blue width-100 is-medium" mat-dialog-close type="button">
               <span class="caption">&nbsp;&nbsp;&nbsp;{{'NO'|translate}}&nbsp;&nbsp;&nbsp;</span>
             </button>
           </div>

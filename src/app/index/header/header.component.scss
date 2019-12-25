@@ -1,101 +1,25 @@
-@import "../../../scss/mixins";
-
-.section-navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 0;
-
-  @include b(850) {
-    flex-direction: column;
-  }
-
-  .dropdown-trigger {
-    button {
-      background-color: transparent;
-      border: none;
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 2px;
-      padding: 0;
-    }
-  }
-
-  .level-item {
-    font-weight: bold;
-    font-size: 12px;
-    line-height: 14px;
-    letter-spacing: 2px;
-    margin-bottom: 0 !important;
-  }
-
-  .level-right {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    @include b(850) {
-      margin-top: 15px;
-    }
-  }
-
-  .level-right-menu {
-    display: flex;
-
-    @include b(850) {
-      margin-right: 30px;
-    }
-
-    a {
-      color: black;
-      margin-right: 20px;
-      transition: 0.7s ease;
-
-      @include b(850) {
-        margin-right: 10px;
-      }
-
-      &:hover {
-        opacity: 0.5;
-      }
-    }
-  }
-
-  .button-item {
-    margin-left: 30px;
-  }
-
-  .button-tp {
-    width: 170px;
-    font-weight: bold;
-    font-size: 18px;
-    height: 42px;
-    padding: 0;
-    color: white;
-
-    span {
-      font-size: 14px;
-    }
-  }
-}
-
-// old
+@import '../../../scss/vars';
 
 header {
+  padding-top: 20px;
+  padding-bottom: 20px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   transition: all linear 0.2s;
   z-index: 10;
+  background-color: rgba(255, 255, 255, 0.8);
 
   &.scrolled {
     background: rgba(255, 255, 255, 0.9);
+    padding-top: 13px;
+    padding-bottom: 10px;
     z-index: 10;
 
-    .section-navbar {
-      padding: 5px 0;
-      transition: 0.4s;
+    .logo {
+      margin-top: 0;
+      margin-bottom: -5px;
     }
   }
 }
@@ -145,7 +69,7 @@ header {
           content: '';
           border-width: 0 2px 2px 0;
           border-style: solid;
-          border-color: rgba(255, 255, 255, 0.7);
+          border-color: black;
           width: 4px;
           height: 4px;
           transform: rotate(45deg);
@@ -184,129 +108,131 @@ header {
   }
 }
 
-// .header-menu_sublist {
-//   list-style-type: none;
-//   padding: 0;
-//   margin: 0;
-//   position: absolute;
-//   right: 5px;
-//   border-radius: 3px;
-//   background-color: rgba(0, 0, 0, 0.2);
-//   display: none;
+.header-menu_sublist {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  right: 5px;
+  border-radius: 3px;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: none;
 
-//   .opened-list & {
-//     display: block;
-//   }
+  .opened-list & {
+    display: block;
+  }
 
-//   &_item {}
+  &_item {}
 
-//   .sublist-link {
-//     color: #fff;
-//     padding: 15px 25px;
-//     display: block;
-//     cursor: pointer;
+  .sublist-link {
+    color: black;
+    padding: 15px 25px;
+    display: block;
+    cursor: pointer;
 
-//     &:hover {
-//       background-color: rgba(0, 0, 0, 0.2);
-//       color: #FCD600;
-//       text-decoration: none;
-//     }
-//   }
-// }
+    &:hover {
+      background-color: $white;
+      color: $blue-1;
+      text-decoration: none;
+    }
+  }
+}
 
 
-// .navbar-toggle {
-//   background: none;
-//   float: right;
-//   border: 0 none;
-//   display: none;
-//   padding: 10px 6px;
-//   cursor: pointer;
-//   margin-top: -5px;
+.navbar-toggle {
+  background: none;
+  float: right;
+  border: 0 none;
+  display: none;
+  padding: 10px 6px;
+  cursor: pointer;
+  margin-top: -5px;
 
-//   .icon-bar {
-//     display: block;
-//     width: 22px;
-//     height: 2px;
-//     border-radius: 1px;
-//     background-color: #fff;
+  .icon-bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    border-radius: 1px;
+    background-color: black;
 
-//     +.icon-bar {
-//       margin-top: 4px;
-//     }
-//   }
-// }
+    +.icon-bar {
+      margin-top: 4px;
+    }
+  }
+}
 
-// @media screen and (max-width: 800px) {
-//   .logo {
-//     margin-left: 10px;
-//   }
+@media screen and (max-width: 800px) {
+  .logo {
+    margin-left: 10px;
+  }
 
-//   header {
-//     padding-top: 0 !important;
-//     padding-bottom: 0 !important;
+  header {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
 
-//     .app-content-block {
-//       padding-top: 3vw;
-//       padding-bottom: 3vw;
-//       position: relative;
+    .app-content-block {
+      padding-top: 3vw;
+      padding-bottom: 3vw;
+      position: relative;
 
-//       &:after {
-//         content: '';
-//         display: block;
-//         clear: both;
-//       }
-//     }
-//   }
+      &:after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+    }
+  }
 
-//   .header-menu {
-//     display: none;
-//     background: rgba(56, 67, 84, 0.9);
-//     position: absolute;
-//     left: 0;
-//     right: 0;
-//     top: 100%;
+  .header-menu {
+    display: none;
+    background: rgba(255, 255, 255, 0.9);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
 
-//     &_sublist {
-//       left: 0;
-//       right: 0;
-//       background: rgba(56, 67, 84, 0.9);
+    &_sublist {
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.9);
 
-//       .sublist-link {
-//         padding-left: 35px;
-//       }
-//     }
+      .sublist-link {
+        padding-left: 35px;
+      }
+    }
 
-//     &_list {
-//       &_item {
-//         display: block;
+    &_list {
+      &_item {
+        display: block;
 
-//         .header-link {
-//           padding-top: 15px;
-//           padding-bottom: 15px;
-//           display: block;
-//           max-width: initial;
+        .header-link {
+          padding-top: 15px;
+          padding-bottom: 15px;
+          display: block;
+          max-width: initial;
+          color: $black !important;
 
-//           &.is-social {
-//             max-width: initial;
-//           }
+          &.is-social {
+            max-width: initial;
+            color: $black !important;
+          }
 
-//           &:hover {
-//             text-decoration: none;
-//             background-color: rgba(0, 0, 0, 0.4);
-//           }
-//         }
-//       }
-//     }
+          &:hover {
+            text-decoration: none;
+            background-color: rgb(255, 255, 255);
+          }
+        }
+      }
+    }
 
-//     &.opened {
-//       display: block;
-//       float: left;
-//       width: 100%;
-//     }
-//   }
+    &.opened {
+      display: block;
+      float: left;
+      width: 100%;
+    }
+  }
 
-//   .navbar-toggle {
-//     display: block;
-//   }
-// }
+  .navbar-toggle {
+    display: block;
+  }
+}

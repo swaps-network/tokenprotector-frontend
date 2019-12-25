@@ -1,41 +1,52 @@
+@import '../../scss/vars';
+
 .transaction {
   &-title {
     font-size: 25px;
-    color: #FFFFFF;
+    color: $black;
     line-height: 30px;
     font-weight: bold;
     margin-bottom: 20px;
   }
+
   &-description {
     font-size: 16px;
     line-height: 19px;
     margin-bottom: 20px;
   }
-  &-buttons, &-item {
+
+  &-buttons,
+  &-item {
     border-top: 1px dashed rgba(255, 255, 255, 0.25);
   }
+
   &-item {
     padding: 20px 24px;
     margin: 0 -24px;
   }
+
   &-buttons {
     padding: 20px 24px 0;
     margin: 0 -24px;
   }
+
   &-fields {
     margin-top: 20px;
   }
+
   &-fields_opener {
     margin-top: 25px;
+
     span {
       cursor: pointer;
       font-size: 16px;
       line-height: 19px;
-      color: #fff;
+      color: $black;
+
       &:after {
         border-width: 0 1px 1px 0;
         border-style: solid;
-        border-color: #fff;
+        border-color: $black;
         content: '';
         display: inline-block;
         vertical-align: middle;
@@ -46,6 +57,7 @@
         margin-top: -4px;
       }
     }
+
     &.opened {
       span {
         &:after {
@@ -60,25 +72,29 @@
 .form-field_copy {
   line-height: 45px;
 }
+
 .or-delimiter {
   margin-left: -24px;
   margin-right: -24px;
 }
+
 .transaction-instruction {
   counter-increment: trxNumber;
 }
+
 .transaction-item-title {
   text-transform: uppercase;
   font-size: 14px;
   line-height: 18px;
   padding: 6px 0 12px 50px;
   position: relative;
+
   &:before {
     content: counter(trxNumber);
     display: block;
     float: left;
-    background-color: #FCD600;
-    color: #000;
+    background-color: $blue-1;
+    color: $white;
     margin: -10px 0 10px -50px;
     font-weight: bold;
     font-size: 22px;
@@ -88,10 +104,12 @@
     text-align: center;
     line-height: 40px;
   }
+
   &.checked {
     &:before {
       content: '';
     }
+
     &:after {
       content: '';
       display: block;
@@ -100,7 +118,7 @@
       height: 16px;
       border-width: 0 3px 3px 0;
       border-style: solid;
-      border-color: #000;
+      border-color: $blue-2;
       left: 20px;
       margin-left: -7px;
       top: 2px;
@@ -110,7 +128,9 @@
 }
 
 @media screen and (max-width: 800px) {
-  .or-delimiter, .transaction-buttons {
+
+  .or-delimiter,
+  .transaction-buttons {
     margin-left: -4%;
     margin-right: -4%;
   }
@@ -130,6 +150,7 @@
   .btn-min.wallet-btn {
     font-size: 13px;
     padding: 2.5vw 5% 2.5vw 3%;
+
     .btn-ico {
       height: 6vw;
     }

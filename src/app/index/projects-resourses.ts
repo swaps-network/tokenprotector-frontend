@@ -34,43 +34,43 @@ const PROJECTS = [
 const PARTNERS = [
   {
     link: 'https://www.binance.com/ru/',
-    logo: './assets/images/new/partners/binance.png'
+    logo: './assets/images/new/partners/binance.svg'
   },
   {
     link: 'https://wavesplatform.com',
-    logo: './assets/images/new/partners/waves.png'
+    logo: './assets/images/new/partners/waves.svg'
   },
   {
     link: 'https://eospark.com',
-    logo: './assets/images/new/partners/eospark.png'
+    logo: './assets/images/new/partners/eospark.svg'
   },
   {
     link: 'https://meet.one',
-    logo: './assets/images/new/partners/meetone.png'
+    logo: './assets/images/new/partners/meet.svg'
   },
   {
     link: 'https://www.rsk.co',
-    logo: './assets/images/new/partners/rsk.png'
+    logo: './assets/images/new/partners/rsk.svg'
   },
   {
     link: 'https://www.coss.io',
-    logo: './assets/images/new/partners/coss.png'
+    logo: './assets/images/new/partners/coss.svg'
   },
   {
     link: '#',
-    logo: './assets/images/new/partners/trxmarket.png'
+    logo: './assets/images/new/partners/trx.svg'
   },
   {
     link: 'https://www.bancor.network',
-    logo: './assets/images/new/partners/bancor.png'
+    logo: './assets/images/new/partners/bancor.svg'
   },
   {
     link: 'https://bestrate.org',
-    logo: './assets/images/new/partners/bestrate.png'
+    logo: './assets/images/new/partners/bestrate.svg'
   },
   {
     link: 'https://swaps.network',
-    logo: './assets/images/new/partners/swapsnetwork.png'
+    logo: './assets/images/new/partners/swaps.svg'
   }
 ];
 

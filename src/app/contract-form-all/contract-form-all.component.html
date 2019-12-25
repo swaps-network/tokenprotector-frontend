@@ -89,13 +89,11 @@
                     placeholder="Ethereum address"
                     name="owner_address_1">
                 </div>
-              </div>
-              <div class="form-field">
                 <div class="form-field_text normal-font width-550-px">
-                    Your address which you want to protect from losing tokens (in case of losing private key/access). You will know private key of your address at the current moment.
-                  </div>
+                  Your address which you want to protect from losing tokens (in case of losing private key/access). You will know private key of your address at the current moment.
+                </div>
               </div>
-              <label class="form-field_label">Enter reserve</label>
+              <label class="form-field_label">Enter reserve address</label>
               <div class="form-field">
                 <div class="form-field_input width-550-px">
                     <input type="text"
@@ -107,24 +105,18 @@
                     placeholder="Ethereum address"
                     name="owner_address_2">
                 </div>
-              </div>
-              <div class="form-field">
                 <div class="form-field_text normal-font width-550-px">
-                    Reserve address which will get tokens from your address if conditions are met.
-                  </div>
-              </div>
-              <div class="grid-row">
-                <div class="grid-cell grid-cell-1-3 grid-cell-ps-1-2 grid-cell-vs-1">
-                  <button class="button button-tp button-tp-blue is-medium" [disabled]="!addressForm.valid || nextStepProcess" type="submit">
-                    <div class="lds-ellipsis" *ngIf="nextStepProcess">
-                      <span class="lds-ellipsis-container">
-                        <span></span><span></span><span></span><span></span>
-                      </span>
-                    </div>
-                    <span *ngIf="!nextStepProcess" class="caption">Next step</span>
-                  </button>
+                  Reserve address which will get tokens from your address if conditions are met.
                 </div>
               </div>
+              <button class="button button-tp button-tp-blue is-medium" [disabled]="(reqData.contract_details.owner_address === reqData.contract_details.reserve_address) || !addressForm.valid || nextStepProcess" type="submit">
+                <div class="lds-ellipsis" *ngIf="nextStepProcess">
+                  <span class="lds-ellipsis-container">
+                    <span></span><span></span><span></span><span></span>
+                  </span>
+                </div>
+                <span *ngIf="!nextStepProcess" class="caption">Next step</span>
+              </button>
 
             </div>
           </form>
@@ -135,17 +127,19 @@
                   'form-block__active': addressForm.valid && editableTokenProtector && (stepper.current === 1),
                   checked: conditionsForm.valid && (stepper.current > 1)
                }">
-            <div class="form-block_title" (click)="stepper.current = (!previewTrigger && addressForm.valid && editableTokenProtector && (stepper.current >= 1)) ? 1 : stepper.current;">Conditions</div>
-            <div class="form-block_fieldset">
-              <form #conditionsForm="ngForm" (submit)="nextStep(2)">
+               
+               <form #conditionsForm="ngForm" (submit)="nextStep(2)">
 
-                <div class="form-block_fieldset">
+                <div class="form-block_title" (click)="stepper.current = (!previewTrigger && addressForm.valid && editableTokenProtector && (stepper.current >= 1)) ? 1 : stepper.current;">Conditions</div>
+                
+              <div class="form-block_fieldset">
                   <label class="form-field_label">Transfer the tokens from your address to Reserve address in</label>
                   <div class="form-field">
                     <div class="form-field_input width-550-px d-flex">
                       <input matInput [matDatepicker]="datepicker"
                         required
                         readonly
+                        [min]="minDate"
                         [(ngModel)]="curDate"
                         (dateChange)="dateChange()"
                         name="active_to"
@@ -157,13 +151,11 @@
                         </button>
                       </span>
                     </div>
-                  </div>
-                  <div class="form-field">
                     <div class="form-field_text normal-font">
-                        You can cancel the Protection contract anytime before execution.
-                      </div>
+                      You can cancel the Protection contract anytime before execution.
                     </div>
                   </div>
+                
                   <div class="form-field">
                     <label class="form-field_label">Email for notifications (optional)</label>
                     <div class="form-field">
@@ -178,53 +170,61 @@
                     </div>
                   </div>
 
-                  <div class="form-field width-550-px">
-                    <button class="button button-tp button-tp-blue is-medium" [disabled]="!conditionsForm.valid || nextStepProcess" type="submit">
-                      <div class="lds-ellipsis" *ngIf="nextStepProcess">
-                        <span class="lds-ellipsis-container">
-                          <span></span><span></span><span></span><span></span>
-                        </span>
-                      </div>
-                      <span *ngIf="!nextStepProcess" class="caption">Next step</span>
-                    </button>
-                    <div *ngIf="error.status">
-                      <span>{{ error.message|json }}</span>
+                  <button class="button button-tp button-tp-blue is-medium" [disabled]="!conditionsForm.valid || nextStepProcess" type="submit">
+                    <div class="lds-ellipsis" *ngIf="nextStepProcess">
+                      <span class="lds-ellipsis-container">
+                        <span></span><span></span><span></span><span></span>
+                      </span>
                     </div>
-                  </div>
+                    <span *ngIf="!nextStepProcess" class="caption">Next step</span>
+                  </button>
 
+                </div>
               </form>
-            </div>
           </div>
 
 
           <div class="form-block"
                [ngClass]="{
                  hidden: !(addressForm.valid && conditionsForm.valid && (stepper.current === 2)),
-                  'form-block__active': addressForm.valid && conditionsForm.valid && editableTokenProtector && (stepper.current === 2),
+                  'form-block__active': stepper.current === 2,
                   checked: stepper.current > 2
                }">
-            <div class="form-block_title" (click)="stepper.current = (!previewTrigger && addressForm.valid && editableTokenProtector && (stepper.current >= 2)) ? 2 : stepper.current;">Preview</div>
-            <form class="form-block_fieldset" #previewForm="ngForm" (submit)="nextStep(3)">
-              <div class="grid-row">
-                <div class="grid-cell grid-cell-3-4 grid-cell-ps-1">
+               
+              <form #previewForm="ngForm" (submit)="nextStep(3)">
+              
+              <div class="form-block_title" (click)="stepper.current = (!previewTrigger && addressForm.valid && editableTokenProtector && (stepper.current >= 2)) ? 2 : stepper.current;">Preview</div>
+              
+              <div class="form-block_fieldset">
 
+                <div class="form-field">
                   <label class="form-field_label">Your address</label>
                   <div class="form-field">
-                    <div class="form-field_input width-550-px">
+                    <div class="form-field_input width-550-px d-flex ai-center pr-50">
                       <input type="text"
-                              class="min-text max-placeholder"
-                              maxlength="42"
-                              pattern="0x[0-9a-fA-F]{40}"
-                              disabled
-                              [(ngModel)]="reqData.contract_details.owner_address"
-                              placeholder="Ethereum address"
-                              name="check_owner_address_1">
+                        class="min-text max-placeholder"
+                        maxlength="42"
+                        pattern="0x[0-9a-fA-F]{40}"
+                        disabled
+                        [(ngModel)]="reqData.contract_details.owner_address"
+                        placeholder="Ethereum address"
+                        name="check_owner_address_1">
+                      <div class="form-field__copy">
+                        <button type="button"
+                                class="copy-btn"
+                                ngxClipboard [cbContent]="reqData.contract_details.owner_address"
+                                (cbOnSuccess)="onCopied('eth')">
+                          <img src="./assets/images/icons/copy.svg"/>
+                        </button>
+                      </div>
                     </div>
                   </div>
+                </div>
 
+                <div class="form-field">
                   <label class="form-field_label">Reserve address</label>
                   <div class="form-field">
-                    <div class="form-field_input width-550-px">
+                    <div class="form-field_input width-550-px d-flex ai-center pr-50">
                       <input type="text"
                         class="min-text max-placeholder width-100"
                         maxlength="42"
@@ -233,40 +233,49 @@
                         [(ngModel)]="reqData.contract_details.reserve_address"
                         placeholder="Ethereum address"
                         name="check_reverse_address_2">
+                      <div class="form-field__copy">
+                        <button type="button"
+                                class="copy-btn"
+                                ngxClipboard [cbContent]="reqData.contract_details.reserve_address"
+                                (cbOnSuccess)="onCopied('eth')">
+                          <img src="./assets/images/icons/copy.svg"/>
+                        </button>
+                      </div>
                     </div>
                   </div>
+                </div>
 
+                <div class="form-field">
                   <label class="form-field_label">Transfer the tokens from your address to Reserve address in</label>
                   <div class="form-field">
                     <div class="form-field_input width-550-px">
                       <input type="text"
-                            [email]="true"
-                            class="min-text max-placeholder"
-                            disabled
-                            [ngModel]="curDate|date"
-                            (ngModelChange)="curDate=$event"
-                            placeholder="Date"
-                            name="check_date">
+                        [email]="true"
+                        class="min-text max-placeholder"
+                        disabled
+                        [ngModel]="curDate|date"
+                        (ngModelChange)="curDate=$event"
+                        placeholder="Date"
+                        name="check_date">
                     </div>
                   </div>
+                </div>
 
+                <div class="form-field">
                   <label class="form-field_label">Email Address mail for notifications</label>
                   <div class="form-field">
                     <div class="form-field_input width-550-px">
                       <input type="email"
-                            [email]="true"
-                            class="min-text max-placeholder"
-                            disabled
-                            [(ngModel)]="reqData.contract_details.email"
-                            placeholder="Your email"
-                            name="check_email">
+                        [email]="true"
+                        class="min-text max-placeholder"
+                        disabled
+                        [(ngModel)]="reqData.contract_details.email"
+                        placeholder="Your email"
+                        name="check_email">
                     </div>
                   </div>
-
                 </div>
-              </div>
 
-              <div class="form-field">
                 <button class="button button-tp button-tp-blue is-medium" type="submit" [disabled]="nextStepProcess">
                   <div class="lds-ellipsis" *ngIf="nextStepProcess">
                     <span class="lds-ellipsis-container">
@@ -276,11 +285,7 @@
                   <span *ngIf="!nextStepProcess" class="caption">Next step</span>
                 </button>
 
-                <div *ngIf="error.status">
-                  <span>{{ error.message }}</span>
-                </div>
               </div>
-
             </form>
           </div>
 
@@ -314,139 +319,123 @@
                   'form-block__active': addressForm.valid && conditionsForm.valid && !editableTokenProtector && previewTrigger && (stepper.current === 4),
                   checked: paymentForm.valid && (stepper.current > 4)
                }">
-            <div class="form-block_title" (click)="stepper.current = (stepper.current === 4) ? 4 : stepper.current;">Deployment</div>
-            <form class="form-block_fieldset" #deploymentForm="ngForm" (submit)="nextStep(5)">
+               
+               <div class="form-block_title" (click)="stepper.current = (stepper.current === 4) ? 4 : stepper.current;">Deployment</div>
+               
+               <form class="form-block_fieldset" #deploymentForm="ngForm" (submit)="nextStep(5)">
+                 
+                <div class="form-field_deployment" *ngIf="reqData.state !== 'POSTPONED'">
+                  <div class="ff_deployment-progress"></div>
+                  <span class="ff_deployment-title">Contract Deployment is in progress...</span>
+                  <span class="ff_deployment-text">It can take 10-15 minutes, please wait</span>
+                </div>
 
-              <div class="form-field_deployment" *ngIf="reqData.state !== 'POSTPONED'">
-                <div class="ff_deployment-progress"></div>
-                <span class="ff_deployment-title">Contract Deployment is in progress...</span>
-                <span class="ff_deployment-text">It can take 10-15 minutes, please wait</span>
-              </div>
-
-              <div class="form-field_deployment" *ngIf="reqData.state === 'POSTPONED'">
-                <div class="ff_deployment-error"></div>
-                <span class="ff_deployment-title">Something went wrong</span>
-                <span class="ff_deployment-text">please try again later or contact us</span>
-              </div>
+                <div class="form-field_deployment" *ngIf="reqData.state === 'POSTPONED'">
+                  <div class="ff_deployment-error"></div>
+                  <span class="ff_deployment-title">Something went wrong</span>
+                  <span class="ff_deployment-text">please try again later or contact us</span>
+                </div>
 
             </form>
           </div>
 
           <div class="form-block" [ngClass]="{hidden: !(deploymentForm.valid && ( stepper.current === 5)), checked: (stepper.current >= 5),'form-block__active': (stepper.current === 5)}">
             <div class="form-block_title">Choose tokens for the protection</div>
-              <div class="form-block_fieldset">
-                <div class="form-block_text-token">
-                  You shall grant rights to the protection contract for transferring the tokens <br> if conditions are met.<br><br>
-                  Add every token which you need to protect:<br>
-                </div>
+            <div class="form-block_fieldset">
+              <div class="form-block_text-token">
+                You shall grant rights to the protection contract for transferring the tokens <br> if conditions are met.<br><br>
+                Add every token which you need to protect:<br>
+              </div>
 
+              <div class="form-block_tokens__list">
+                <div class="token_item" *ngFor="let token of tokens | FilterTokens:false:false:'':true">
+                  <span [className]="'token_item__title token_item__icon-'+token.token_name"><span class="token_item__image" [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>({{ token.token_short_name }}) {{ token.token_name }}</span>
+                  <span (click)="changeTokenStatus(token.address,false)" class="token_item__button token_item__button-active">APPROVED</span>
+                </div>
+              </div>
+
+              <div class="form-field_line"></div>
+
+              <div class="form-block_search-tokens">
+                <input type="text"
+                  class="min-text max-placeholder form-block_search-tokens_input"
+                  #searchTokensInput
+                  [(ngModel)]="searchToken"
+                  placeholder="Search"
+                  (input)="filterTokensLimit = 10">
+                <span class="form-block_search-tokens_input-icon"></span>
+                <span class="form-block_search-tokens_input-close" (click)="searchToken = ''"></span>
+              </div>
+
+              <div class="form-block_search-result" *ngIf="searchToken">
                 <div class="form-block_tokens__list">
-                  <div class="token_item" *ngFor="let token of tokens | FilterTokens:false:false:'':true">
-                    <span [className]="'token_item__title token_item__icon-'+token.token_name">({{ token.token_short_name }}) {{ token.token_name }}</span>
-                    <span (click)="changeTokenStatus(token.address,false)" class="token_item__button token_item__button-active">APPROVED</span>
-                  </div>
-                </div>
 
-                <div class="form-field_line"></div>
-
-                <div class="form-block_search-tokens">
-                  <input type="text"
-                    class="min-text max-placeholder form-block_search-tokens_input"
-                    #searchTokensInput
-                    [(ngModel)]="searchToken"
-                    placeholder="Search"
-                    (input)="filterTokensLimit = 10">
-                  <span class="form-block_search-tokens_input-icon"></span>
-                  <span class="form-block_search-tokens_input-close" (click)="searchToken = ''"></span>
-                </div>
-<!-- 
-                <div class="form-block_search-result" *ngIf="startSearch">
-                  <div class="form-block_tokens__list">
-                    <div class="token_item token_item__load">
-                      <div class="lds-ellipsis">
-                        <span class="lds-ellipsis-container">
-                          <span></span><span></span><span></span><span></span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
-
-                <div class="form-block_search-result" *ngIf="searchToken">
-                  <div class="form-block_tokens__list">
-
-                    <ng-container *ngIf="searchToken">
-                      <ng-container *ngFor="let token of tokens | FilterTokens:false:true:searchToken:false | slice:0:filterTokensLimit">
-                        <ng-container *ngIf="(tokens.length <= 0 || tokens === null)">
-                          <div class="token_item token_item__error">Tokens not found</div>
-                        </ng-container>
-                        <div class="token_item">
-                          <span [className]="'token_item__title token_item__icon-'+token.token_name">({{ token.token_short_name }}) {{ token.token_name }}</span>
-                          <span class="token_item__button" [class.token_item__button_active]="token === selectedToken" (click)="changeTokenStatus(token.address);onSelect(token)">
-                            <div class="lds-ellipsis">
-                              <span class="lds-ellipsis-container">
-                                <span></span><span></span><span></span><span></span>
-                              </span>
-                            </div>
-                            APPROVE
-                          </span>
-                        </div>
+                  <ng-container *ngIf="searchToken">
+                    <ng-container *ngFor="let token of tokens | FilterTokens:false:true:searchToken:false | slice:0:filterTokensLimit">
+                      <ng-container *ngIf="(tokens.length <= 0 || tokens === null)">
+                        <div class="token_item token_item__error">Tokens not found</div>
                       </ng-container>
-                      <div class="token_item token_item__more" (click)="loadMoreTokensFilter(tokens.length)" *ngIf="filterTokensLimit < tokens.length && filterTokensLimit !== tokens.length">Load more</div>
-                    </ng-container>
-                  </div>
-                </div>
-
-                <app-transaction
-                  *ngIf="reqData.state === 'DEPLOYED'"                  
-                >
-                </app-transaction>
-              
-                <div class="form-field_line"></div>
-
-                <div class="form-block_subtitle">POPULAR</div>
-                <div class="form-block_tokens__list">
-                  <div class="token_item" *ngFor="let token of tokens | FilterTokens:true:false:'':false">
-                    <span [className]="'token_item__title token_item__icon-'+token.token_name">({{ token.token_short_name }}) {{ token.token_name }}</span>
-                    <span class="token_item__button" (click)="changeTokenStatus(token.address)">
-                      <div class="lds-ellipsis">
-                        <span class="lds-ellipsis-container">
-                          <span></span><span></span><span></span><span></span>
+                      <div class="token_item">
+                        <span [className]="'token_item__title token_item__icon-'+token.token_name"><span class="token_item__image" [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>({{ token.token_short_name }}) {{ token.token_name }}</span>
+                        <span class="token_item__button" [class.token_item__button_active]="token === selectedToken" (click)="changeTokenStatus(token.address);onSelect(token)">
+                          <div class="lds-ellipsis">
+                            <span class="lds-ellipsis-container">
+                              <span></span><span></span><span></span><span></span>
+                            </span>
+                          </div>
+                          APPROVE
                         </span>
                       </div>
-                      APPROVE
-                    </span>
-                  </div>
+                    </ng-container>
+                    <div class="token_item token_item__more" (click)="loadMoreTokensFilter(tokens.length)" *ngIf="filterTokensLimit < tokens.length && filterTokensLimit !== tokens.length">Load more</div>
+                  </ng-container>
+
                 </div>
-                <div class="form-field_line"></div>
-                <div class="form-field__button">
-                  <button class="button button-tp button-tp-blue is-medium" type="submit" [disabled]="nextStepProcess">
-                    <div class="lds-ellipsis" *ngIf="nextStepProcess">
+              </div>
+
+              <app-transaction *ngIf="reqData.state === 'DEPLOYED'"></app-transaction>
+              
+              <div class="form-field_line"></div>
+
+              <div class="form-block_subtitle">POPULAR</div>
+              <div class="form-block_tokens__list">
+                <div class="token_item" *ngFor="let token of tokens | FilterTokens:true:false:'':false">
+                  <span [className]="'token_item__title token_item__icon-'+token.token_name"><span class="token_item__image" [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>({{ token.token_short_name }}) {{ token.token_name }}</span>
+                  <span class="token_item__button" (click)="changeTokenStatus(token.address)">
+                    <div class="lds-ellipsis">
                       <span class="lds-ellipsis-container">
                         <span></span><span></span><span></span><span></span>
                       </span>
                     </div>
-                    <span *ngIf="!nextStepProcess" class="caption">Next step</span>
-                  </button>
-
-                  <div *ngIf="error.status">
-                    <span>{{ error.message }}</span>
-                  </div>
+                    APPROVE
+                  </span>
                 </div>
               </div>
+              <div class="form-field_line"></div>
+              <div class="form-field__button">
+                <button class="button button-tp button-tp-blue is-medium" type="submit" [disabled]="nextStepProcess">
+                  <div class="lds-ellipsis" *ngIf="nextStepProcess">
+                    <span class="lds-ellipsis-container">
+                      <span></span><span></span><span></span><span></span>
+                    </span>
+                  </div>
+                  <span *ngIf="!nextStepProcess" class="caption">Next step</span>
+                </button>
+              </div>
             </div>
+          </div>
             
         </div>
       </div>
       
       <div class="right-contract">
         <div class="d-flex fd-column">
-          <span class="button button-tp button-tp-watch is-medium">
+          <!-- <span class="button button-tp button-tp-watch is-medium">
             <span class="caption">Watch instruction</span>
           </span>
           <span class="button button-tp button-tp-support button-tp-icon-support is-medium">
             <span class="caption">Support</span>
-          </span>
+          </span> -->
         </div>
       </div>
 

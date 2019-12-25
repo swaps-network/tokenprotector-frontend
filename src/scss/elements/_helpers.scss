@@ -51,6 +51,10 @@ ng-scrollbar-y {
     flex-wrap: wrap;
 }
 
+.ai-center {
+    align-items: center;
+}
+
 .fd-column {
     flex-direction: column;
 }
@@ -63,6 +67,10 @@ ng-scrollbar-y {
 
 .ai-center {
     align-items: center;
+}
+
+.pr-50 {
+    padding-right: 50px;
 }
 
 .container-contract {

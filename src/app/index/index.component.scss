@@ -1,5 +1,12 @@
 @import "../../scss/mixins";
 
+.section-page {
+  @include b(879) {
+    padding-top: 60px;
+    overflow: hidden;
+  }
+}
+
 .section-first-screen {
 
   @include b(769) {
@@ -277,14 +284,51 @@
 
   .title {
     margin-bottom: 15px;
+
+    @include b(875) {
+      width: 100%;
+      text-align: center;
+      display: block;
+    }
+
   }
 
   .grid-partners {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    justify-content: space-between;
-    grid-gap: 10%;
-    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+
+    a {
+      width: 20%;
+      margin-right: 0 !important;
+      margin-bottom: 30px;
+      text-align: center;
+      line-height: 90px;
+
+      @include b(875) {
+        width: 25%;
+      }
+
+      @include b(500) {
+        width: 50%;
+      }
+
+      img {
+        width: 75%;
+        position: relative;
+        color: black;
+
+        @include b(875) {
+          width: 50%;
+        }
+
+        @include b(500) {
+          width: 80%;
+        }
+      }
+    }
 
     @include b(875) {
       grid-template-columns: repeat(3, 1fr);
@@ -295,11 +339,6 @@
     }
   }
 
-  .image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 }
 
 .section-keep-in-touch {

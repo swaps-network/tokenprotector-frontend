@@ -18,6 +18,12 @@
   text-transform: capitalize;
 }
 
+.form-block {
+  &:after {
+    display: none !important;
+  }
+}
+
 .base-block-content {
   background-attachment: fixed;
 }
