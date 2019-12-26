@@ -215,6 +215,12 @@
   margin-right: auto;
   width: 62px;
 
+  &_gray {
+    span {
+      background-color: gray !important;
+    }
+  }
+
   span {
     position: absolute;
     top: 50%;

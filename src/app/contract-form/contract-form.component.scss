@@ -1,4 +1,5 @@
 @import '../../scss/vars';
+@import '../../scss/mixins';
 
 @import '~@angular/material/theming';
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
@@ -588,6 +589,11 @@ input.medium-text {
 
   .form-container {
     padding-left: 62px;
+
+    @include b(580) {
+      padding-left: 0;
+    }
+
   }
 
   .form-container_contract {

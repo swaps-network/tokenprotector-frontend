@@ -111,6 +111,7 @@
                   Reserve address which will get tokens from your address if conditions are met.
                 </div>
               </div>
+              <span *ngIf="reqData.contract_details.owner_address === reqData.contract_details.reserve_address" class="form-field error_text__address">use different addresses</span>
               <button class="button button-tp button-tp-blue is-medium" [disabled]="(reqData.contract_details.owner_address === reqData.contract_details.reserve_address) || !addressForm.valid || nextStepProcess" type="submit">
                 <div class="lds-ellipsis" *ngIf="nextStepProcess">
                   <span class="lds-ellipsis-container">
@@ -211,14 +212,6 @@
                         [(ngModel)]="reqData.contract_details.owner_address"
                         placeholder="Ethereum address"
                         name="check_owner_address_1">
-                      <div class="form-field__copy">
-                        <button type="button"
-                                class="copy-btn"
-                                ngxClipboard [cbContent]="reqData.contract_details.owner_address"
-                                (cbOnSuccess)="onCopied('eth')">
-                          <img src="./assets/images/icons/copy.svg"/>
-                        </button>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -235,14 +228,6 @@
                         [(ngModel)]="reqData.contract_details.reserve_address"
                         placeholder="Ethereum address"
                         name="check_reverse_address_2">
-                      <div class="form-field__copy">
-                        <button type="button"
-                                class="copy-btn"
-                                ngxClipboard [cbContent]="reqData.contract_details.reserve_address"
-                                (cbOnSuccess)="onCopied('eth')">
-                          <img src="./assets/images/icons/copy.svg"/>
-                        </button>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -343,7 +328,7 @@
 
           <div class="form-block" [ngClass]="{hidden: !(deploymentForm.valid && ( stepper.current === 5)), checked: (stepper.current >= 5),'form-block__active': (stepper.current === 5)}">
             <div class="form-block_title">Choose tokens for the protection</div>
-            <div class="form-block_fieldset">
+            <div class="form-block_fieldset" *ngIf="!confirmStatus">
               <div class="form-block_text-token">
                 You shall grant rights to the protection contract for transferring the tokens <br> if conditions are met.<br><br>
                 Add every token which you need to protect:<br>
@@ -414,8 +399,11 @@
                 </div>
               </div>
               <div class="form-field_line"></div>
+
+              <span *ngIf="confirmErrorMessage" class="form-field error_text__address">{{confirmErrorMessage || ''}}</span>
+
               <div class="form-field__button">
-                <button class="button button-tp button-tp-blue is-medium" type="submit" [disabled]="nextStepProcess">
+                <button (click)="nextStep(6)" class="button button-tp button-tp-blue is-medium" type="submit" [disabled]="nextStepProcess">
                   <div class="lds-ellipsis" *ngIf="nextStepProcess">
                     <span class="lds-ellipsis-container">
                       <span></span><span></span><span></span><span></span>
@@ -424,6 +412,11 @@
                   <span *ngIf="!nextStepProcess" class="caption">Next step</span>
                 </button>
               </div>
+            </div>
+            <div class="form-field_deployment" *ngIf="confirmStatus">
+              <div class="ff_deployment-progress"></div>
+              <span class="ff_deployment-title">Waiting for confirm</span>
+              <span class="ff_deployment-text">data sending to contract, please wait ...</span>
             </div>
           </div>
             

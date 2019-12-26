@@ -98,6 +98,32 @@ ng-scrollbar-y {
     }
 }
 
+.error_text {
+    &__address {
+        color: red;
+        font-weight: bold;
+        font-size: 12px;
+        margin-left: 5px;
+        display: block;
+    }
+}
+
+.mt-5 {
+    margin-top: 5px !important;
+}
+
+.bg-none {
+    background-color: none !important;
+    background-image: none !important;
+    background: none !important;
+}
+
+@media screen and (max-width: 580px) {
+    .container-contract {
+        padding-left: 0 !important;
+    }
+}
+
 @media screen and (max-width: 800px) {
     .container-contract {
         flex-wrap: wrap;

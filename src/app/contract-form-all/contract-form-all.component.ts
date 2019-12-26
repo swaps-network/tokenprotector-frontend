@@ -134,6 +134,8 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     current: 0
   }
 
+  public confirmErrorMessage:string = '';
+
   public editableTokenProtector:boolean = true;
   public previewTrigger:boolean = false;
   public nextStepProcess:boolean = false;
@@ -150,6 +152,8 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   public tokens;
   public searchToken;
   public selectedToken: any;
+  private contactEdited: boolean = false;
+  public confirmStatus: boolean = false;
   
   public tokensApproved = [];
   public savedApprovedTokens:any = [];
@@ -205,8 +209,13 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     });
 
     if (this.reqData) {
-      this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
-      this.checkContractStatus();
+      if (this.reqData.state != 'CREATED') {
+        this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
+        this.checkContractStatus();
+      }
+      else {
+        this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
+      }
     } else {
       this.reqData = {
         contract_type: 23,
@@ -359,7 +368,9 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
   public nextStep(stepNumber) {
 
-    (stepNumber <= 0) ? this.stepper.current = stepNumber : null;
+    if (stepNumber <= 0) {
+      this.stepper.current = stepNumber;
+    }
 
     if (stepNumber === 1) {
       let date = new Date();
@@ -371,17 +382,33 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
     if (stepNumber === 2) {
       this.reqData.contract_details.email ? null : this.reqData.contract_details.email = 'none@none';
-
-      console.log(this.curDate)
-
       this.nextStepProcess = true;
+      this.dateChange();
+
       if (!this.userGhost) {
-        this.contractsService.createContract(this.reqData).then((rez) => {
-          this.reqData = rez;
-          this.checkContractStatus();
-        }).catch(err => {
-          console.log(err);
-        });
+        if (this.reqData.id) {
+          console.log('have id')
+          console.log(this.reqData)
+          this.reqData.contract_details.eth_contract = null;
+          this.contractsService.updateContract(this.reqData).then((rez) => {
+            this.reqData = rez;
+            this.checkContractStatus();
+            this.stepper.current = stepNumber;
+            this.nextStepProcess = false;
+          }).catch(err => {
+            console.log(err);
+          });
+        }
+        else {
+          console.log('dont have id')
+          this.contractsService.createContract(this.reqData).then((rez) => {
+            this.reqData = rez;
+            this.stepper.current = stepNumber;
+            this.nextStepProcess = false;
+          }).catch(err => {
+            console.log(err);
+          });
+        }
       }
       else {
         this.preCreateProcess = true;
@@ -393,11 +420,13 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     
     if (stepNumber === 3 ) {
       this.nextStepProcess = true;
+      this.contactEdited = false;
       if (!this.userGhost) {
         this.contractsService.prepareForPayment(this.reqData.id).then((rez) => {
           this.reqData = rez;
           this.checkContractStatus();
         }).catch(err => {
+          this.nextStepProcess = false;
           console.log(err);
         });
       }
@@ -418,6 +447,34 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     } 
 
     (stepNumber === 5 && !this.userGhost) ? this.stepper.current = stepNumber : null;
+
+    if (stepNumber === 6) {
+      this.nextStepProcess = true;
+      this.confirmStatus = true;
+
+      if (!this.userGhost) {
+        if (this.reqData.id) {
+          this.contractsService.confirmContract(this.reqData.id).then((rez) => {
+            this.reqData = rez;
+            this.checkContractStatus();
+          }).catch(err => {
+            this.confirmStatus = false;
+            this.nextStepProcess = false;
+            console.log(err);
+          });
+        }
+        else {
+          this.userService.openAuthForm()
+            .then(() => { this.nextStep(6) }
+              , () => { this.nextStepProcess = false; });
+        }
+      }
+      else {
+        this.userService.openAuthForm()
+          .then(() => { }
+            , () => { this.preCreateProcess = false; this.nextStepProcess = false; });
+      }
+    }
   }
 
   private openLogInForm() {
@@ -439,38 +496,50 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         console.log(this.reqData.state);
         window.history.pushState(this.reqData.id, "Create Contract", "/create/" + this.reqData.id);
         this.stepper.current = 2;
-        this.changeStepsStatus(false, true, false);
-        break;
-      case 'WAITING_FOR_PAYMENT':
-        console.log(this.reqData.state);
-        this.costEmitter.emit(this.reqData.cost);
-        this.stepper.current = 3;
-        this.changeStepsStatus(false, true, false);
-        break;
-      case 'WAITING_FOR_PAYMENT':
-        console.log(this.reqData.state);
-        this.costEmitter.emit(this.reqData.cost);
-        this.stepper.current = 3;
-        this.changeStepsStatus(false, true, false);
-        break;
-      case 'POSTPONED':
-        console.log(this.reqData.state);
-        this.costEmitter.emit(this.reqData.cost);
-        this.stepper.current = 4;
-        this.changeStepsStatus(false, true, false);
+        this.changeStepsStatus(true, false, false);
         return;
+      case 'WAITING_FOR_PAYMENT':
+        console.log(this.reqData.state);
+        this.costEmitter.emit(this.reqData.cost);
+        //this.costEmitter.emit();
+        this.stepper.current = 3;
+        this.changeStepsStatus(false, true, false);
+        break;
       case 'WAITING_FOR_DEPLOYMENT':
         console.log(this.reqData.state);
         this.stepper.current = 4;
         this.changeStepsStatus(false, true, false);
         break;
+      case 'WAITING_FOR_APPROVE':
+        console.log(this.reqData.state);
+        this.stepper.current = 5;
+        this.changeStepsStatus(false, true, false);
+        break;
+      case 'WAITING_FOR_CONFIRM':
+        console.log(this.reqData.state);
+        this.confirmStatus = true;
+        this.tokensApproved = this.reqData.contract_details.approved_tokens;
+        this.stepper.current = 6;
+        this.changeStepsStatus(false, true, false);
+        break;
       case 'ACTIVE':
         console.log(this.reqData);
-        this.stepper.current = 5;
-        this.tokensApproved = this.reqData.contract_details.approved_tokens;
-        this.changeStepsStatus(false, true, false);
-        this.tokenApprovedInfo();
+        this.router.navigate(['/contract' + this.reqData.id]);
         break;
+      case 'FAIL_IN_CONFIRM':
+        console.log(this.reqData.state);
+        this.confirmStatus = false;
+        // this.costEmitter.emit(this.reqData.cost);
+        this.stepper.current = 5;
+        this.confirmErrorMessage = "Something went wrong, please try again or contact us";
+        this.changeStepsStatus(false, true, false);
+        return;
+      case 'POSTPONED':
+        console.log(this.reqData.state);
+        // this.costEmitter.emit(this.reqData.cost);
+        this.stepper.current = 4;
+        this.changeStepsStatus(false, true, false);
+        return;
       default:
         console.log(this.reqData.state);
         break;
@@ -483,7 +552,9 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   private getContractInformation() {
     let promise = this.contractsService.getContract(this.reqData.id);
     promise.then((result) => {
+      const costs = this.reqData.cost;
       this.reqData = result;
+      this.reqData.cost = costs;
       this.checkContractStatus();
     }).catch((error) => {
       console.log('something went wrong, please try again later or check your auth', error);
@@ -491,7 +562,6 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   };
 
   public dateChange() {
-
     var CurrentTime = new Date(this.curDate);
     CurrentTime.setMinutes(new Date().getMinutes() + 10);
     CurrentTime.setHours(new Date().getHours());

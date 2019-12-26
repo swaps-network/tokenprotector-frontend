@@ -65,6 +65,10 @@ export class ContractsService {
     return this.httpService.patch(`contracts/${data.id}/`, data).toPromise();
   }
 
+  public confirmContract(contractId) {
+    return this.httpService.post('confirm_protector_tokens/', { contract_id: contractId }).toPromise();
+  }
+
   public getContract(id) {
     return this.httpService.get(`contracts/${id}/`).toPromise();
   }

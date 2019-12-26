@@ -1,6 +1,6 @@
 <div class="form-block_fieldset">
   <div class="form-field_description price-contract">
-    SWAP's cost: {{fromBigNumber(contractCosts.USDT, 6)}} USDT
+    Deployment’s cost: {{fromBigNumber(contractCosts.USDT, 6)}} USDT
   </div><br/>
   <div class="form-field_line"></div><br/>
   <label class="form-field_label">Choose replenish method</label>
@@ -90,7 +90,7 @@
         to
       </div>
       <div class="form-field_input">
-        <div class="form-field_copy">
+        <div class="form-field__copy bg-none mt-5">
           <button type="button"
                   class="copy-btn"
                   [ngClass]="{copied: copiedAddresses['eth']}"
@@ -100,7 +100,7 @@
           </button>
         </div>
         <div class="form-field_input_data">
-          <input type="text" class="min-text dark-field"
+          <input type="text" class="min-text"
                  readonly
                  [value]="currentUser.internal_address"/>
           <div class="form-field_info-field form-field_small-desc">
@@ -120,6 +120,24 @@
     <label class="form-field_label">Select payment method:</label>
     <div class="form-field_input">
       <div class="grid-row">
+        <div class="grid-cell grid-cell-ls-1-2 grid-cell-vs-1">
+          <div class="form-field">
+            <button type="button"
+                    [disabled]="inProgress"
+                    (click)="payContractVia(replenishMethod)"
+                    class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100 btn-payment-method">
+              <img src="./assets/images/icons/web3clients/metamask.svg" class="btn-ico">
+
+              <span class="lds-ellipsis" *ngIf="inProgress">
+                <span class="lds-ellipsis-container">
+                  <span></span><span></span><span></span><span></span>
+                </span>
+              </span>
+
+              <span>Metamask</span>
+            </button>
+          </div>
+        </div>
         <div class="grid-cell grid-cell-ls-1-2 grid-cell-vs-1">
           <div class="form-field">
             <a [href]="'https://myetherwallet.com/interface/send-transaction/' +
@@ -145,24 +163,6 @@
 
           </div>
         </div>
-        <div class="grid-cell grid-cell-ls-1-2 grid-cell-vs-1">
-          <div class="form-field">
-            <button type="button"
-                    [disabled]="inProgress"
-                    (click)="payContractVia(replenishMethod)"
-                    class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100 btn-payment-method">
-              <img src="./assets/images/icons/web3clients/metamask.svg" class="btn-ico">
-
-              <span class="lds-ellipsis" *ngIf="inProgress">
-                <span class="lds-ellipsis-container">
-                  <span></span><span></span><span></span><span></span>
-                </span>
-              </span>
-
-              <span>Metamask</span>
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -176,7 +176,7 @@
         to
       </div>
       <div class="form-field_input d-flex ai-center">
-        <div class="form-field_copy">
+        <div class="form-field__copy bg-none">
           <button type="button"
                   class="copy-btn"
                   [ngClass]="{copied: copiedAddresses['btc']}"
@@ -186,7 +186,7 @@
           </button>
         </div>
         <div class="form-field_input_data width-100">
-          <input type="text" class="min-text dark-field"
+          <input type="text" class="min-text"
                  readonly
                  [value]="currentUser.internal_btc_address"/>
         </div>
@@ -198,7 +198,7 @@
 
   <div class="contract-pay-state">
     <span class="lds-ellipsis inline">
-      <span class="lds-ellipsis-container min">
+      <span class="lds-ellipsis-container lds-ellipsis-container_gray min">
         <span></span><span></span><span></span><span></span>
       </span>
     </span>&nbsp;&nbsp;
