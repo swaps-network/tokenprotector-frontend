@@ -14,7 +14,8 @@ import {MatDatepicker, MatDialog} from '@angular/material';
 import {ContractsService} from '../services/contracts/contracts.service';
 import {ActivatedRoute, ActivatedRouteSnapshot, Resolve, Router} from '@angular/router';
 import {UserService} from '../services/user/user.service';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
+import {CONTRACT_STATES} from '../contract-preview/contract-states';
 
 import {UserInterface} from '../services/user/user.interface';
 import {Location} from '@angular/common';
@@ -69,6 +70,27 @@ export interface IContract {
 }
 
 
+export interface IReqData {
+  id?: number;
+  contract_type?: number;
+  network: number;
+  balance?: number;
+  state?: string;
+  name: string;
+  detail?: string;
+  user?: number;
+  cost?: object;
+  contract_details: {
+    owner_address: string;
+    reserve_address: string;
+    end_timestamp: number;
+    email: string;
+    approved_tokens?: any;
+    eth_contract?: any;
+  };
+}
+
+
 export const MY_FORMATS = {
   useUtc: true,
   parse: {
@@ -93,7 +115,18 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
 
   @ViewChild('rateNotification') rateNotification: TemplateRef<any>;
 
-  public reqData: any;
+  public reqData: IReqData = {
+    contract_type: 23,
+    network: 1,
+    state: 'PREPARE',
+    name: 'TokenProtector',
+    contract_details: {
+      owner_address: '',
+      reserve_address: '',
+      end_timestamp: 1,
+      email: '',
+    }
+  };
   
   constructor(
     protected contractsService: ContractsService,
@@ -114,6 +147,8 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
   }
 
   public currentUser;
+  public curDate;
+  public states = CONTRACT_STATES;
 
   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
   @ViewChild('extraForm') public extraForm;
@@ -124,6 +159,8 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
 
   ngOnInit() {
     if (this.reqData) {
+      console.log(this.reqData)
+      this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
       //
     }
   }

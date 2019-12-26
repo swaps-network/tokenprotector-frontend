@@ -128,7 +128,8 @@
       <span class="title is-3">Partners</span>
       <div class="grid-partners">
         <a class="partners-item" *ngFor="let project of projects" href="{{project.link}}" target="_blank">
-          <img [src]="project.logo">
+          <img *ngIf="project.logo === './assets/images/new/partners/swaps.svg'" style="top: -10px;" [src]="project.logo">
+          <img *ngIf="project.logo !== './assets/images/new/partners/swaps.svg'" [src]="project.logo">
         </a>
       </div>
     </div>

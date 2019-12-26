@@ -5,26 +5,28 @@
     <div class="container-contract">
 
       <div class="left-contract">
-        <div class="form-container">
+        <div class="form-container form-container_contract">
 
-          <div class="form-block">
+          <div class="form-block form-block_contract">
 
             <div class="form-block_title__view">
-              <span class="form-block_title__view">Contract info</span>
-              <span class="form-block_title__view-status">Active</span>
+              <span class="form-block_title__view-title">Contract info</span>
+              <span class="form-block_title__view-status"
+                    [ngClass]="'contract-state__' + states[reqData.state].NUMBER">
+                {{states[reqData.state].TEXT}}</span>
             </div>
 
             <div class="form-field_line"></div>
 
             <label class="form-field_label">Your address</label>
             <div class="form-field">
-              <div class="form-field_input width-550-px">
+              <div class="form-field_input width-100">
                 <input type="text"
                         class="min-text max-placeholder"
                         maxlength="42"
                         pattern="0x[0-9a-fA-F]{40}"
                         disabled
-                        
+                        [(ngModel)]="reqData.contract_details.owner_address"
                         placeholder="Ethereum address"
                         name="check_owner_address_1">
               </div>
@@ -32,30 +34,30 @@
 
             <label class="form-field_label">Reserve address</label>
             <div class="form-field">
-              <div class="form-field_input width-550-px">
+              <div class="form-field_input width-100">
                 <input type="text"
                   class="min-text max-placeholder width-100"
                   maxlength="42"
                   pattern="0x[0-9a-fA-F]{40}"
                   disabled
-                  
+                  [(ngModel)]="reqData.contract_details.reserve_address"
                   placeholder="Ethereum address"
                   name="check_reverse_address_2">
               </div>
             </div>
 
             <div class="form-field_line"></div>
-
+    
             <div class="form-field_info-view">
               <div class="form-field_info-view_row">
                 <div class="form-field_info-view_column">
                   <span class="form-field_info-view_column-title">CLOSING DATE</span>
-                  <span class="form-field_info-view_column-date">05.11.2021</span>
+                  <span class="form-field_info-view_column-date">{{ curDate|date }}</span>
                 </div>
                 <div class="form-field_info-view_column">
                   <span class="form-field_info-view_column-title">Management address</span>
                   <div class="form-field_info-view_column-mail">
-                    <span class="form-field_info-view_column-mail_title">NYm@gmail.com</span>
+                    <span class="form-field_info-view_column-mail_title">{{ reqData.contract_details.email || 'none' }}</span>
                   </div>
                 </div>
               </div>

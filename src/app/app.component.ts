@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from './services/user/user.service';
 import {CookieService} from 'ngx-cookie-service';
-import {ActivationEnd, ActivationStart, NavigationStart, ResolveStart, Router} from '@angular/router';
-
-import {MODE, PROJECT_PARTS} from './app-routing.module';
+import {ActivationEnd, NavigationStart, Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +9,8 @@ import {MODE, PROJECT_PARTS} from './app-routing.module';
   styleUrls: ['./app.component.scss']
 })
 
-
 export class AppComponent implements OnInit {
-  title = 'mywish-swaps';
+  title = 'mywish-token-protector';
 
   public hideInstructionLink;
   public visibleWatchButton;
@@ -28,19 +25,6 @@ export class AppComponent implements OnInit {
 
     const body = document.getElementsByTagName('body')[0];
     this.router.events.subscribe((event) => {
-
-      if (event instanceof NavigationStart) {
-        if (MODE === 'PROD') {
-          for (const url in PROJECT_PARTS[MODE]) {
-            if (new RegExp(url).test(event.url)) {
-              if ((PROJECT_PARTS[MODE][url] !== location.hostname) && (location.hostname === PROJECT_PARTS[MODE].from)) {
-                // location.hostname = PROJECT_PARTS[MODE][url];
-                return;
-              }
-            }
-          }
-        }
-      }
 
       if (event instanceof ActivationEnd) {
         this.withHeader = !event.snapshot.data.noheader;
@@ -60,11 +44,6 @@ export class AppComponent implements OnInit {
         }
       }
 
-      if (event instanceof NavigationStart) {
-        if (event.id === 2) {
-
-        }
-      }
       this.notCookiesAccept = !this.cookieService.get('cookies-accept');
     });
   }
@@ -97,16 +76,11 @@ export class AppComponent implements OnInit {
     });
     liveChatContainer.removeAttribute('style');
 
-
-
     const frameContent = liveChatButtonFrame['contentWindow'] || liveChatButtonFrame['contentDocument'];
     const frameContentContainer = frameContent.document.getElementById('content-container');
 
-
     frameContentContainer.setAttribute('style', 'padding: 0 !important');
-
     frameContent.document.getElementById('full-view-button').style.height = '100%';
-
   }
 
   ngOnInit(): void {
@@ -135,6 +109,5 @@ export class AppComponent implements OnInit {
     }
 
     this.checkLiveChat();
-
   }
 }

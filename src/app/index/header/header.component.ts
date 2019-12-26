@@ -1,9 +1,9 @@
-import {Component, Inject, OnInit, PLATFORM_ID, TemplateRef, ViewChild} from '@angular/core';
-import {isPlatformBrowser} from '@angular/common';
-import {UserService} from '../../services/user/user.service';
-import {UserInterface} from '../../services/user/user.interface';
-import {MatDialog, MatDialogRef} from '@angular/material';
-import {NavigationStart, Router} from '@angular/router';
+import { Component, Inject, OnInit, PLATFORM_ID, TemplateRef, ViewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { UserService } from '../../services/user/user.service';
+import { UserInterface } from '../../services/user/user.interface';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { NavigationStart, Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -36,7 +36,6 @@ export class HeaderComponent implements OnInit {
       this.currentUser = userProfile;
     });
 
-
     this.isBrowser = isPlatformBrowser(platformId);
 
     if (this.isBrowser) {
@@ -54,24 +53,20 @@ export class HeaderComponent implements OnInit {
       }
     );
 
-
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.openedMenu = false;
         this.userMenuOpened = false;
       }
     });
-
   }
 
   public openAuth() {
-    this.userService.openAuthForm().then(() => {}, () => {});
+    this.userService.openAuthForm().then(() => { }, () => { });
   }
 
   ngOnInit() {
   }
-
-
 
   public openLogoutConfirmation() {
     this.logoutConfirmationModal = this.dialog.open(this.logoutConfirmation, {
@@ -86,8 +81,8 @@ export class HeaderComponent implements OnInit {
       this.logoutConfirmationModal.close();
     }).finally(() => {
       this.logoutProgress = false;
+      this.currentUser.is_ghost = true;
     });
   }
-
 
 }

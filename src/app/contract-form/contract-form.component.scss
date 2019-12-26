@@ -18,19 +18,83 @@
   text-transform: capitalize;
 }
 
+.form-container {
+  padding-left: 0;
+}
+
+
 .form-block {
-  &:after {
-    display: none !important;
+
+  &_contract {
+    &:after {
+      display: none !important;
+    }
+  }
+
+  &_title__view {
+    display: flex;
+    justify-content: space-between;
+
+    &-title {
+      color: black;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    &-status {
+      color: #2873FB;
+      font-weight: bold;
+    }
+  }
+
+}
+
+.form-field {
+  &_info {
+    &-view {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      &_row {
+        display: flex;
+      }
+
+      &_column {
+        display: flex;
+        flex-direction: column;
+        margin-right: 20px;
+
+        &-title {
+          font-size: 14px;
+          line-height: 16px;
+          text-transform: uppercase;
+          color: rgba(0, 0, 0, 0.6);
+        }
+
+        &-date {
+          font-size: 18px;
+          line-height: 21px;
+          color: black;
+          margin-top: 5px;
+        }
+
+        &-mail {
+          margin-top: 5px;
+
+          &_title {
+            font-size: 18px;
+            line-height: 21px;
+            color: #2873FB;
+          }
+        }
+      }
+    }
   }
 }
 
 .base-block-content {
   background-attachment: fixed;
-}
-
-.form-container {
-  padding-left: 62px;
-
 }
 
 .form-field_description {
@@ -523,7 +587,11 @@ input.medium-text {
   }
 
   .form-container {
-    padding-left: 0;
+    padding-left: 62px;
+  }
+
+  .form-container_contract {
+    padding-left: 0 !important;
   }
 }
 

@@ -44,7 +44,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ContactsComponent } from './contacts-component/contacts.component';
 import { TokensAllInputComponent } from './directives/tokens-all-input/tokens-all-input.component';
 import {HttpService} from './services/http/http.service';
-import {ContractEditV3Resolver, ContractFormAllComponent, ContractEditResolver2} from './contract-form-all/contract-form-all.component';
+import { ContractFormAllComponent, ContractEditResolver2 } from './contract-form-all/contract-form-all.component';
 import { ContractsPreviewV3Component } from './contracts-preview-v3/contracts-preview-v3.component';
 import { IndexIcoComponent } from './index-ico/index-ico.component';
 import { IndexIcoHeaderComponent } from './index-ico/index-ico-header/index-ico-header.component';
@@ -252,7 +252,6 @@ export function appInitializerFactory(translate: TranslateService, userService: 
     CookieService,
     ContractEditResolver,
     ContractsListResolver,
-    ContractEditV3Resolver,
     ContractEditResolver2,
     {
       provide: APP_INITIALIZER,

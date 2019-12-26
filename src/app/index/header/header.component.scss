@@ -44,17 +44,28 @@ header {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: #fefefe;
+  color: $black;
 
   &_list {
     list-style-type: none;
     padding: 0;
     margin: 0;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     &_item {
       display: inline-block;
       line-height: 13px;
       padding: 0;
+
+      .button {
+        width: 160px;
+        font-size: 15px;
+        padding: 20px;
+        margin-left: 5px;
+      }
 
       &.with-sublist {
         position: relative;
@@ -202,8 +213,15 @@ header {
     }
 
     &_list {
+      display: block;
+
       &_item {
         display: block;
+
+        .button {
+          margin-bottom: 20px;
+          margin-left: 25px;
+        }
 
         .header-link {
           padding-top: 15px;

@@ -898,6 +898,11 @@
   }
 }
 
+.input_field-error {
+  border: 1px solid red !important;
+  transition: 0.4s ease;
+}
+
 .field-error {
   display: none;
   color: rgba(255, 41, 68, 0.8);
