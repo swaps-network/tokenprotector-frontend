@@ -1,8 +1,8 @@
 <div class="form-block_fieldset">
   <div class="form-field_description price-contract">
     Deployment’s cost: {{fromBigNumber(contractCosts.USDT, 6)}} USDT
-  </div><br/>
-  <div class="form-field_line"></div><br/>
+  </div>
+  <div class="form-field_line"></div>
   <label class="form-field_label">Choose replenish method</label>
 
   <div class="form-field d-flex token-btn-wrap">
@@ -126,7 +126,7 @@
                     [disabled]="inProgress"
                     (click)="payContractVia(replenishMethod)"
                     class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100 btn-payment-method">
-              <img src="./assets/images/icons/web3clients/metamask.svg" class="btn-ico">
+              <img *ngIf="!inProgress" src="./assets/images/icons/web3clients/metamask.svg" class="btn-ico">
 
               <span class="lds-ellipsis" *ngIf="inProgress">
                 <span class="lds-ellipsis-container">
@@ -194,7 +194,7 @@
     </div>
   </div>
 
-  <div class="form-field_line"></div><br/>
+  <div class="form-field_line"></div>
 
   <div class="contract-pay-state">
     <span class="lds-ellipsis inline">

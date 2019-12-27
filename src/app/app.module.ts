@@ -141,12 +141,6 @@ export function appInitializerFactory(translate: TranslateService, userService: 
             index -= 1;
           }
 
-          // tokens = tokens.sort((a, b) => {
-          //   const aRank = a.rank || 100000;
-          //   const bRank = b.rank || 100000;
-          //   return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
-          // });
-
           console.log('only TEST ethereum tokens');
           console.log(tokens);
 

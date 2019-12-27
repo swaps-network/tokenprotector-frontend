@@ -36,7 +36,7 @@
               </li>
             </ul>
           </li>
-          <li class="header-menu_list_item">
+          <li class="header-menu_list_item" [ngClass]="{'hide_menu-button': (routeLinkPage === '/create') }">
             <span class="button button-tp button-tp-blue is-large" routerLink="/create"> 
               <span class="caption">Try it</span>
             </span>

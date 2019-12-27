@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
 
   private logoutConfirmationModal: MatDialogRef<any>;
   private logoutProgress: boolean;
+  public routeLinkPage: string;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId,
@@ -66,6 +67,9 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.router.events.subscribe(() => {
+      this.routeLinkPage = this.router.url;
+    });
   }
 
   public openLogoutConfirmation() {

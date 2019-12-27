@@ -139,7 +139,6 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   public editableTokenProtector:boolean = true;
   public previewTrigger:boolean = false;
   public nextStepProcess:boolean = false;
-  public userGhost: boolean = false;
   public curDate;
   public minDate;
 
@@ -172,30 +171,23 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   ) {
     this.reqData = this.route.snapshot.data.contract;
     this.currentUser = this.userService.getUserModel();
-    this.userService.getCurrentUser().subscribe((userProfile: UserInterface) => {
-      this.currentUser = userProfile;
-    });
 
-    this.subscriptionUser = this.userService.getCurrentUser(false, true).subscribe((user) => {
+    this.userService.getCurrentUser(false, true).subscribe((user: UserInterface) => {
       if (user.is_ghost) {
-        this.userGhost = true;
-        if (this.reqData.id) {
-          this.userService.openAuthForm()
-            .then(() => {
-              this.userGhost = false;
-            }
-              , () => { });
-        }
+        if (this.reqData.id) this.userService.openAuthForm();
       }
       else {
-        this.userGhost = false;
-        if (this.preCreateProcess) {
-          this.nextStep(2);
-        }
+        // if (!this.currentUser || this.currentUser.is_ghost) {
+          if (this.preCreateProcess) this.nextStep(2);
         if (this.reqData.id && !this.checker) {
-          this.checkContractStatus();
+          if (this.reqData.state != 'CREATED') {
+            this.checkContractStatus();
+          }
+          // this.checkContractStatus();
         }
+        // }
       }
+      this.currentUser = user;
     });
   }
 
@@ -209,13 +201,9 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     });
 
     if (this.reqData) {
-      if (this.reqData.state != 'CREATED') {
-        this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
-        this.checkContractStatus();
-      }
-      else {
-        this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
-      }
+      // if (this.reqData.state != 'CREATED') this.checkContractStatus();
+      this.checkContractStatus();
+      this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);  
     } else {
       this.reqData = {
         contract_type: 23,
@@ -327,24 +315,39 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   private tokenApprovedInfo() {
     let approveTokens = this.tokensApproved;
     let savedApprovedTokens = this.savedApprovedTokens;
-    let add = approveTokens.filter(item => savedApprovedTokens.indexOf(item) < 0);
-    let deleted = savedApprovedTokens.filter(item => approveTokens.indexOf(item) < 0);
+
+    let add = approveTokens.filter((item) => {
+      console.log(item, savedApprovedTokens);
+      return savedApprovedTokens.filter((savedItem) => {
+        return savedItem.address === item.address;
+      }).length;
+    });
+
+    // let deleted = savedApprovedTokens.filter(item => approveTokens.indexOf(item) < 0);
+    let deleted = savedApprovedTokens.filter((item) => {
+      console.log(item, approveTokens);
+      return approveTokens.indexOf(item) < 0;
+    });
+
+    console.log('approved', approveTokens);
+    console.log('add', add);
+    console.log('deleted', deleted);
 
     if (add || deleted) {
       this.tokens = this.tokens.map(token => {
-        if (add) {
-          add.forEach(approvedTokenAddress => {
-            if (token.address === approvedTokenAddress) { token.approved = true; }
-          })
-        }
-        if (deleted) {
-          deleted.forEach(approvedTokenAddress => {
-            if (token.address === approvedTokenAddress) { token.approved = false; }
-          })
-        }
+        if (add) add.forEach(approvedTokenAddress => {
+            token.approved = token.address === approvedTokenAddress.address;
+        })
+
+
+        if (deleted) deleted.forEach(approvedTokenAddress => {
+          if (token.address === approvedTokenAddress.address)
+            token.approved = false;
+        })
+        this.savedApprovedTokens = Object.assign([], approveTokens);
         return token;
       })
-      this.savedApprovedTokens = Object.assign([], approveTokens)
+      
     }
   }
 
@@ -357,27 +360,26 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       this.tokensApproved.splice(this.tokensApproved.findIndex(e => e.address === value), 1);
       return;
     }
+
     this.tokensApproved.push(value);
     this.openTrxWindow(value);
   }
 
-  public loadMoreTokensFilter(tokenLength:number) {
+  public loadMoreTokensFilter(tokenLength?:number) {
     if ((this.filterTokensLimit + 10) > tokenLength) this.filterTokensLimit = tokenLength;
     else this.filterTokensLimit = this.filterTokensLimit + 10;
   }
 
   public nextStep(stepNumber) {
 
-    if (stepNumber <= 0) {
-      this.stepper.current = stepNumber;
-    }
+    if (stepNumber <= 0) this.stepper.current = stepNumber;
 
     if (stepNumber === 1) {
       let date = new Date();
-      this.minDate = new Date(date.setDate(date.getDate()));
-      //this.minDate = new Date(date.setDate(date.getDate() + 1));
+      this.minDate = new Date(date.setDate(date.getDate())); // this.minDate = new Date(date.setDate(date.getDate() + 1));
       this.curDate = new Date(date.setDate(date.getDate() + 1095));
-      this.reqData.contract_details.owner_address === this.reqData.contract_details.reserve_address ? this.stepper.current = 0 : this.stepper.current = stepNumber;
+      this.reqData.contract_details.owner_address === this.reqData.contract_details.reserve_address ? null : this.stepper.current = stepNumber;
+      console.log('login here pls');
     }
 
     if (stepNumber === 2) {
@@ -385,43 +387,35 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       this.nextStepProcess = true;
       this.dateChange();
 
-      if (!this.userGhost) {
+      if (!this.currentUser.is_ghost) {
         if (this.reqData.id) {
-          console.log('have id')
-          console.log(this.reqData)
           this.reqData.contract_details.eth_contract = null;
           this.contractsService.updateContract(this.reqData).then((rez) => {
             this.reqData = rez;
             this.checkContractStatus();
             this.stepper.current = stepNumber;
             this.nextStepProcess = false;
-          }).catch(err => {
-            console.log(err);
-          });
+          }).catch(err => {console.log(err);});
         }
         else {
-          console.log('dont have id')
           this.contractsService.createContract(this.reqData).then((rez) => {
             this.reqData = rez;
             this.stepper.current = stepNumber;
             this.nextStepProcess = false;
-          }).catch(err => {
-            console.log(err);
-          });
+            window.history.pushState(this.reqData.id, "Create Contract", "/create/" + this.reqData.id);
+          }).catch(err => {console.log(err);});
         }
       }
       else {
         this.preCreateProcess = true;
-        this.userService.openAuthForm()
-          .then(() => {  }
-            , () => { this.preCreateProcess = false; this.nextStepProcess = false;});
+        this.userService.openAuthForm().then(() => { this.nextStep(2); }, (error) => { console.log(error); this.preCreateProcess = false; this.nextStepProcess = false;});
       }
     }
     
     if (stepNumber === 3 ) {
       this.nextStepProcess = true;
       this.contactEdited = false;
-      if (!this.userGhost) {
+      if (!this.currentUser.is_ghost) {
         this.contractsService.prepareForPayment(this.reqData.id).then((rez) => {
           this.reqData = rez;
           this.checkContractStatus();
@@ -435,24 +429,24 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       }
     }
 
-    if (stepNumber === 4 && !this.userGhost) {
+    if (stepNumber === 4 && !this.currentUser.is_ghost) {
       this.nextStepProcess = true;
-      if (!this.userGhost) {
+      if (!this.currentUser.is_ghost) {
         this.stepper.current = stepNumber;
         this.nextStepProcess = false;
       }
       else {
         this.openLogInForm();
       }
-    } 
+    }
 
-    (stepNumber === 5 && !this.userGhost) ? this.stepper.current = stepNumber : null;
+    (stepNumber === 5 && !this.currentUser.is_ghost) ? this.stepper.current = stepNumber : null;
 
     if (stepNumber === 6) {
       this.nextStepProcess = true;
       this.confirmStatus = true;
 
-      if (!this.userGhost) {
+      if (!this.currentUser.is_ghost) {
         if (this.reqData.id) {
           this.contractsService.confirmContract(this.reqData.id).then((rez) => {
             this.reqData = rez;
@@ -462,25 +456,13 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
             this.nextStepProcess = false;
             console.log(err);
           });
-        }
-        else {
-          this.userService.openAuthForm()
-            .then(() => { this.nextStep(6) }
-              , () => { this.nextStepProcess = false; });
-        }
-      }
-      else {
-        this.userService.openAuthForm()
-          .then(() => { }
-            , () => { this.preCreateProcess = false; this.nextStepProcess = false; });
-      }
+        } else this.userService.openAuthForm().then(() => { this.nextStep(6) }, () => { this.nextStepProcess = false; });
+      } else this.userService.openAuthForm().then(() => {}, () => { this.preCreateProcess = false; this.nextStepProcess = false; });
     }
   }
 
   private openLogInForm() {
-    this.userService.openAuthForm()
-      .then(() => { }
-        , () => { this.nextStepProcess = false; });
+    this.userService.openAuthForm().then(() => {}, () => { this.nextStepProcess = false; });
   }
 
   private changeStepsStatus(editable?:boolean,preview?:boolean,stepProcess?:boolean) {
@@ -491,17 +473,18 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
   private checkContractStatus() {
 
+    const user = this.currentUser || this.userService.getUserModel();
+
     switch (this.reqData.state) {
       case 'CREATED':
         console.log(this.reqData.state);
-        window.history.pushState(this.reqData.id, "Create Contract", "/create/" + this.reqData.id);
         this.stepper.current = 2;
         this.changeStepsStatus(true, false, false);
         return;
       case 'WAITING_FOR_PAYMENT':
+        console.trace();
         console.log(this.reqData.state);
         this.costEmitter.emit(this.reqData.cost);
-        //this.costEmitter.emit();
         this.stepper.current = 3;
         this.changeStepsStatus(false, true, false);
         break;
@@ -512,13 +495,14 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         break;
       case 'WAITING_FOR_APPROVE':
         console.log(this.reqData.state);
+        this.tokensApproved = this.reqData.contract_details.approved_tokens;
+        this.tokenApprovedInfo();
         this.stepper.current = 5;
         this.changeStepsStatus(false, true, false);
         break;
       case 'WAITING_FOR_CONFIRM':
         console.log(this.reqData.state);
         this.confirmStatus = true;
-        this.tokensApproved = this.reqData.contract_details.approved_tokens;
         this.stepper.current = 6;
         this.changeStepsStatus(false, true, false);
         break;
@@ -529,14 +513,12 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       case 'FAIL_IN_CONFIRM':
         console.log(this.reqData.state);
         this.confirmStatus = false;
-        // this.costEmitter.emit(this.reqData.cost);
         this.stepper.current = 5;
         this.confirmErrorMessage = "Something went wrong, please try again or contact us";
         this.changeStepsStatus(false, true, false);
         return;
       case 'POSTPONED':
         console.log(this.reqData.state);
-        // this.costEmitter.emit(this.reqData.cost);
         this.stepper.current = 4;
         this.changeStepsStatus(false, true, false);
         return;
@@ -544,8 +526,10 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         console.log(this.reqData.state);
         break;
     }
-    if (!this.userGhost)
-      this.checker = setTimeout(() => { this.getContractInformation() }, 5000);
+
+    // console.log(this.currentUser);
+
+    if (!user.is_ghost) this.checker = setTimeout(() => { this.getContractInformation() }, 5000);
     else this.checker = undefined;
   }
 
@@ -556,15 +540,14 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       this.reqData = result;
       this.reqData.cost = costs;
       this.checkContractStatus();
-    }).catch((error) => {
-      console.log('something went wrong, please try again later or check your auth', error);
-    });
+    }).catch((error) => {console.log('something went wrong, please try again later or check your auth', error);});
   };
 
   public dateChange() {
     var CurrentTime = new Date(this.curDate);
     CurrentTime.setMinutes(new Date().getMinutes() + 10);
-    CurrentTime.setHours(new Date().getHours());
+    if (new Date().getMinutes() >= 50) CurrentTime.setHours(new Date().getHours());
+    else CurrentTime.setHours(new Date().getHours() + 1);
     this.curDate = new Date(CurrentTime);
     console.log('Date chosen:', this.curDate);
     this.reqData.contract_details.end_timestamp = Math.floor(this.curDate / 1000);

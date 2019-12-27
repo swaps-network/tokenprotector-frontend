@@ -96,6 +96,10 @@
 
 .base-block-content {
   background-attachment: fixed;
+
+  @include b(580) {
+    padding-top: 80px !important;
+  }
 }
 
 .form-field_description {

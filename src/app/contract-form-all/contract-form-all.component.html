@@ -85,7 +85,7 @@
                     maxlength="42"
                     pattern="0x[0-9a-fA-F]{40}"
                     required
-                    [ngClass]="{'input_field-error': (reqData.contract_details.owner_address === reqData.contract_details.reserve_address)}"
+                    [ngClass]="{'input_field-error': (reqData.contract_details.owner_address != '') && (reqData.contract_details.reserve_address != '') && (reqData.contract_details.owner_address === reqData.contract_details.reserve_address)}"
                     [(ngModel)]="reqData.contract_details.owner_address"
                     placeholder="Ethereum address"
                     name="owner_address_1">
@@ -102,7 +102,7 @@
                     maxlength="42"
                     pattern="0x[0-9a-fA-F]{40}"
                     required
-                    [ngClass]="{'input_field-error': (reqData.contract_details.owner_address === reqData.contract_details.reserve_address)}"
+                    [ngClass]="{'input_field-error': (reqData.contract_details.owner_address != '') && (reqData.contract_details.reserve_address != '') && (reqData.contract_details.owner_address === reqData.contract_details.reserve_address)}"
                     [(ngModel)]="reqData.contract_details.reserve_address"
                     placeholder="Ethereum address"
                     name="owner_address_2">
@@ -111,7 +111,7 @@
                   Reserve address which will get tokens from your address if conditions are met.
                 </div>
               </div>
-              <span *ngIf="reqData.contract_details.owner_address === reqData.contract_details.reserve_address" class="form-field error_text__address">use different addresses</span>
+              <span *ngIf="(reqData.contract_details.owner_address != '') && (reqData.contract_details.reserve_address != '') && (reqData.contract_details.owner_address === reqData.contract_details.reserve_address)" class="form-field error_text__address">use different addresses</span>
               <button class="button button-tp button-tp-blue is-medium" [disabled]="(reqData.contract_details.owner_address === reqData.contract_details.reserve_address) || !addressForm.valid || nextStepProcess" type="submit">
                 <div class="lds-ellipsis" *ngIf="nextStepProcess">
                   <span class="lds-ellipsis-container">
@@ -128,7 +128,7 @@
                [ngClass]="{
                   hidden: !(addressForm.valid && (stepper.current === 1)),
                   'form-block__active': addressForm.valid && editableTokenProtector && (stepper.current === 1),
-                  checked: conditionsForm.valid && (stepper.current > 1)
+                  checked: stepper.current > 1
                }">
                
                <form #conditionsForm="ngForm" (submit)="nextStep(2)">
@@ -326,7 +326,7 @@
             </form>
           </div>
 
-          <div class="form-block" [ngClass]="{hidden: !(deploymentForm.valid && ( stepper.current === 5)), checked: (stepper.current >= 5),'form-block__active': (stepper.current === 5)}">
+          <div class="form-block" [ngClass]="{hidden: !(deploymentForm.valid && ( stepper.current === 5)), checked: (stepper.current >= 5),'form-block__active': (stepper.current >= 6)}">
             <div class="form-block_title">Choose tokens for the protection</div>
             <div class="form-block_fieldset" *ngIf="!confirmStatus">
               <div class="form-block_text-token">

@@ -52,21 +52,21 @@ export class ContractsListComponent implements OnInit {
         switch (contract.state) {
           case 'CREATED':
           case 'WAITING_FOR_PAYMENT':
-            this.router.navigate([`/view-v3${contract.id}`]);
+            this.router.navigate([`/contract/${contract.id}`]);
             break;
           default:
-            this.router.navigate([`/contract-v3/${contract.id}`]);
+            this.router.navigate([`/contract/${contract.id}`]);
             break;
         }
       } else {
-        this.router.navigate([`/contract-v3/${contract.id}`]);
+        this.router.navigate([`/contract/${contract.id}`]);
       }
     } else {
       switch (contract.state) {
         case 'CREATED':
         case 'WAITING_FOR_PAYMENT':
         case 'WAITING_FOR_DEPLOYMENT':
-          this.router.navigate([`/view/${contract.id}`]);
+          this.router.navigate([`/contract/${contract.id}`]);
           break;
         default:
           this.router.navigate([`/contract/${contract.id}`]);
