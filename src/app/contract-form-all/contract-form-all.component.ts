@@ -132,33 +132,33 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   public stepper: IStepper = {
     max: 5,
     current: 0
-  }
+  };
 
-  public confirmErrorMessage:string = '';
+  public confirmErrorMessage = '';
 
-  public editableTokenProtector:boolean = true;
-  public previewTrigger:boolean = false;
-  public nextStepProcess:boolean = false;
+  public editableTokenProtector = true;
+  public previewTrigger = false;
+  public nextStepProcess = false;
   public curDate;
   public minDate;
 
   public subscriptionUser;
   public currentUser;
   private checker;
-  public filterTokensLimit: number = 10;
+  public filterTokensLimit = 10;
   public copiedAddresses = {};
 
   public tokens;
   public searchToken;
   public selectedToken: any;
-  private contactEdited: boolean = false;
-  public confirmStatus: boolean = false;
-  
-  public tokensApproved = [];
-  public savedApprovedTokens:any = [];
-  public popular = ["0x36d10c6800d569bb8c4fe284a05ffe3b752f972c","0x006bea43baa3f7a6f765f14f10a1a1b08334ef45","0x03c780cd554598592b97b7256ddaad759945b125","0x01cc4151fe5f00efb8df2f90ff833725d3a482a3","0x8810c63470d38639954c6b41aac545848c46484a","0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650","0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4","0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D"];
+  private contactEdited = false;
+  public confirmStatus = false;
 
-  private preCreateProcess: boolean = false;
+  public tokensApproved = [];
+  public savedApprovedTokens: any = [];
+  public popular = ['0x36d10c6800d569bb8c4fe284a05ffe3b752f972c', '0x006bea43baa3f7a6f765f14f10a1a1b08334ef45', '0x03c780cd554598592b97b7256ddaad759945b125', '0x01cc4151fe5f00efb8df2f90ff833725d3a482a3', '0x8810c63470d38639954c6b41aac545848c46484a', '0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650', '0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4', '0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D'];
+
+  private preCreateProcess = false;
   private tokenContract: any;
 
   constructor(
@@ -174,12 +174,11 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
     this.userService.getCurrentUser(false, true).subscribe((user: UserInterface) => {
       if (user.is_ghost) {
-        if (this.reqData.id) this.userService.openAuthForm();
-      }
-      else {
+        if (this.reqData.id) { this.userService.openAuthForm(); }
+      } else {
         // if (!this.currentUser || this.currentUser.is_ghost) {
-          if (this.preCreateProcess) this.nextStep(2);
-        if (this.reqData.id && !this.checker) {
+          if (this.preCreateProcess) { this.nextStep(2); }
+          if (this.reqData.id && !this.checker) {
           if (this.reqData.state != 'CREATED') {
             this.checkContractStatus();
           }
@@ -192,18 +191,18 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
 
   ngOnInit() {
-    this.tokens = window['cmc_tokens'];
+    this.tokens = window.cmc_tokens;
 
     this.popular.map(tokenAddress => {
       this.tokens.find(token => {
-        if (token.address === tokenAddress) token.popular = true;
-      })
+        if (token.address === tokenAddress) { token.popular = true; }
+      });
     });
 
     if (this.reqData) {
       // if (this.reqData.state != 'CREATED') this.checkContractStatus();
       this.checkContractStatus();
-      this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);  
+      this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
     } else {
       this.reqData = {
         contract_type: 23,
@@ -226,15 +225,15 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
 
   ngAfterContentInit() { }
-  
+
   ngOnDestroy() {
-    if (this.checker) clearTimeout(this.checker);
+    if (this.checker) { clearTimeout(this.checker); }
   }
 
   public onCopied(field) {
-    if (this.copiedAddresses[field]) return;
+    if (this.copiedAddresses[field]) { return; }
     this.copiedAddresses[field] = true;
-    setTimeout(() => {this.copiedAddresses[field] = false;}, 1000);
+    setTimeout(() => {this.copiedAddresses[field] = false; }, 1000);
   }
 
   private openTrxWindow(tokenAddress) {
@@ -243,8 +242,10 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       (response) => {
         this.createTransactions(0, response.data);
       },
-      (error) => { console.trace(`Rejected: ${error}`) }
-    )
+      (error) => {
+
+      }
+    );
   }
 
   // private disAllow(amount, token) {
@@ -253,7 +254,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
   private createTransactions(amount, token) {
     try {
-      if (isNaN(amount)) return;
+      if (isNaN(amount)) { return; }
 
       const approveMethod = this.web3Service.getMethodInterface('approve');
       const approveSignature = this.web3Service.encodeFunctionCall(
@@ -313,45 +314,47 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
 
   private tokenApprovedInfo() {
-    let approveTokens = this.tokensApproved;
-    let savedApprovedTokens = this.savedApprovedTokens;
+    const approveTokens = this.tokensApproved;
+    const savedApprovedTokens = this.savedApprovedTokens;
 
-    let add = approveTokens.filter((item) => {
-      console.log(item, savedApprovedTokens);
-      return savedApprovedTokens.filter((savedItem) => {
-        return savedItem.address === item.address;
+
+    const add = approveTokens.filter((item) => {
+      return !savedApprovedTokens.filter((savedItem) => {
+        return savedItem === item.address;
       }).length;
+    }).map((t) => {
+      return t.address;
     });
 
-    // let deleted = savedApprovedTokens.filter(item => approveTokens.indexOf(item) < 0);
-    let deleted = savedApprovedTokens.filter((item) => {
-      console.log(item, approveTokens);
-      return approveTokens.indexOf(item) < 0;
+    const deleted = savedApprovedTokens.filter((item) => {
+        return !approveTokens.filter((approveItem) => {
+            return approveItem.address === item;
+        }).length;
+    }).map((t) => {
+        return t.address;
     });
 
-    console.log('approved', approveTokens);
-    console.log('add', add);
-    console.log('deleted', deleted);
-
-    if (add || deleted) {
-      this.tokens = this.tokens.map(token => {
-        if (add) add.forEach(approvedTokenAddress => {
-            token.approved = token.address === approvedTokenAddress.address;
-        })
-
-
-        if (deleted) deleted.forEach(approvedTokenAddress => {
-          if (token.address === approvedTokenAddress.address)
-            token.approved = false;
-        })
-        this.savedApprovedTokens = Object.assign([], approveTokens);
+    if (add.length || deleted.length) {
+      this.tokens = this.tokens.map((token) => {
+        if (add.length && add.indexOf(token.address) > -1) {
+          token.approved = true;
+        }
+        if (deleted.length && deleted.indexOf(token.address) > -1) {
+          token.approved = false;
+        }
         return token;
-      })
-      
+      });
+
+      this.savedApprovedTokens = this.tokens.filter((token) => {
+          return token.approved;
+      }).map((t) => {
+        return t.address;
+      });
+      console.log(this.savedApprovedTokens);
     }
   }
 
-  onSelect(token:any): void {
+  onSelect(token: any): void {
     this.selectedToken = token;
   }
 
@@ -365,17 +368,16 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     this.openTrxWindow(value);
   }
 
-  public loadMoreTokensFilter(tokenLength?:number) {
-    if ((this.filterTokensLimit + 10) > tokenLength) this.filterTokensLimit = tokenLength;
-    else this.filterTokensLimit = this.filterTokensLimit + 10;
+  public loadMoreTokensFilter(tokenLength?: number) {
+    if ((this.filterTokensLimit + 10) > tokenLength) { this.filterTokensLimit = tokenLength; } else { this.filterTokensLimit = this.filterTokensLimit + 10; }
   }
 
   public nextStep(stepNumber) {
 
-    if (stepNumber <= 0) this.stepper.current = stepNumber;
+    if (stepNumber <= 0) { this.stepper.current = stepNumber; }
 
     if (stepNumber === 1) {
-      let date = new Date();
+      const date = new Date();
       this.minDate = new Date(date.setDate(date.getDate())); // this.minDate = new Date(date.setDate(date.getDate() + 1));
       this.curDate = new Date(date.setDate(date.getDate() + 1095));
       this.reqData.contract_details.owner_address === this.reqData.contract_details.reserve_address ? null : this.stepper.current = stepNumber;
@@ -395,23 +397,21 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
             this.checkContractStatus();
             this.stepper.current = stepNumber;
             this.nextStepProcess = false;
-          }).catch(err => {console.log(err);});
-        }
-        else {
+          }).catch(err => {console.log(err); });
+        } else {
           this.contractsService.createContract(this.reqData).then((rez) => {
             this.reqData = rez;
             this.stepper.current = stepNumber;
             this.nextStepProcess = false;
-            window.history.pushState(this.reqData.id, "Create Contract", "/create/" + this.reqData.id);
-          }).catch(err => {console.log(err);});
+            window.history.pushState(this.reqData.id, 'Create Contract', '/create/' + this.reqData.id);
+          }).catch(err => {console.log(err); });
         }
-      }
-      else {
+      } else {
         this.preCreateProcess = true;
-        this.userService.openAuthForm().then(() => { this.nextStep(2); }, (error) => { console.log(error); this.preCreateProcess = false; this.nextStepProcess = false;});
+        this.userService.openAuthForm().then(() => { this.nextStep(2); }, (error) => { console.log(error); this.preCreateProcess = false; this.nextStepProcess = false; });
       }
     }
-    
+
     if (stepNumber === 3 ) {
       this.nextStepProcess = true;
       this.contactEdited = false;
@@ -423,8 +423,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
           this.nextStepProcess = false;
           console.log(err);
         });
-      }
-      else {
+      } else {
         this.openLogInForm();
       }
     }
@@ -434,8 +433,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       if (!this.currentUser.is_ghost) {
         this.stepper.current = stepNumber;
         this.nextStepProcess = false;
-      }
-      else {
+      } else {
         this.openLogInForm();
       }
     }
@@ -456,8 +454,8 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
             this.nextStepProcess = false;
             console.log(err);
           });
-        } else this.userService.openAuthForm().then(() => { this.nextStep(6) }, () => { this.nextStepProcess = false; });
-      } else this.userService.openAuthForm().then(() => {}, () => { this.preCreateProcess = false; this.nextStepProcess = false; });
+        } else { this.userService.openAuthForm().then(() => { this.nextStep(6); }, () => { this.nextStepProcess = false; }); }
+      } else { this.userService.openAuthForm().then(() => {}, () => { this.preCreateProcess = false; this.nextStepProcess = false; }); }
     }
   }
 
@@ -465,10 +463,10 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     this.userService.openAuthForm().then(() => {}, () => { this.nextStepProcess = false; });
   }
 
-  private changeStepsStatus(editable?:boolean,preview?:boolean,stepProcess?:boolean) {
+  private changeStepsStatus(editable?: boolean, preview?: boolean, stepProcess?: boolean) {
     this.editableTokenProtector = (editable || false);
-    this.previewTrigger = (preview || false);;
-    this.nextStepProcess = (stepProcess || false);;
+    this.previewTrigger = (preview || false);
+    this.nextStepProcess = (stepProcess || false);
   }
 
   private checkContractStatus() {
@@ -481,8 +479,8 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         this.stepper.current = 2;
         this.changeStepsStatus(true, false, false);
         return;
+
       case 'WAITING_FOR_PAYMENT':
-        console.trace();
         console.log(this.reqData.state);
         this.costEmitter.emit(this.reqData.cost);
         this.stepper.current = 3;
@@ -506,17 +504,20 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         this.stepper.current = 6;
         this.changeStepsStatus(false, true, false);
         break;
+
       case 'ACTIVE':
         console.log(this.reqData);
         this.router.navigate(['/contract' + this.reqData.id]);
         break;
+
       case 'FAIL_IN_CONFIRM':
         console.log(this.reqData.state);
         this.confirmStatus = false;
         this.stepper.current = 5;
-        this.confirmErrorMessage = "Something went wrong, please try again or contact us";
+        this.confirmErrorMessage = 'Something went wrong, please try again or contact us';
         this.changeStepsStatus(false, true, false);
         return;
+
       case 'POSTPONED':
         console.log(this.reqData.state);
         this.stepper.current = 4;
@@ -529,25 +530,23 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
     // console.log(this.currentUser);
 
-    if (!user.is_ghost) this.checker = setTimeout(() => { this.getContractInformation() }, 5000);
-    else this.checker = undefined;
+    if (!user.is_ghost) { this.checker = setTimeout(() => { this.getContractInformation(); }, 5000); } else { this.checker = undefined; }
   }
 
   private getContractInformation() {
-    let promise = this.contractsService.getContract(this.reqData.id);
+    const promise = this.contractsService.getContract(this.reqData.id);
     promise.then((result) => {
       const costs = this.reqData.cost;
       this.reqData = result;
       this.reqData.cost = costs;
       this.checkContractStatus();
-    }).catch((error) => {console.log('something went wrong, please try again later or check your auth', error);});
-  };
+    }).catch((error) => {console.log('something went wrong, please try again later or check your auth', error); });
+  }
 
   public dateChange() {
-    var CurrentTime = new Date(this.curDate);
+    const CurrentTime = new Date(this.curDate);
     CurrentTime.setMinutes(new Date().getMinutes() + 10);
-    if (new Date().getMinutes() >= 50) CurrentTime.setHours(new Date().getHours());
-    else CurrentTime.setHours(new Date().getHours() + 1);
+    if (new Date().getMinutes() >= 50) { CurrentTime.setHours(new Date().getHours()); } else { CurrentTime.setHours(new Date().getHours() + 1); }
     this.curDate = new Date(CurrentTime);
     console.log('Date chosen:', this.curDate);
     this.reqData.contract_details.end_timestamp = Math.floor(this.curDate / 1000);
@@ -569,24 +568,23 @@ export class ContractEditResolver2 implements Resolve<any> {
   private contractId: number;
 
   private getContractInformation(observer) {
-    let promise = this.contractsService.getContract(this.contractId);
+    const promise = this.contractsService.getContract(this.contractId);
     promise.then((result) => {
       observer.next(result);
       observer.complete();
     });
-  };
+  }
 
   resolve(route: ActivatedRouteSnapshot) {
     this.route = route;
 
     if (route.params.id) {
       this.contractId = route.params.id;
-      
+
       return new Observable((observer) => {
         const subscription = this.userService.getCurrentUser(false, true).subscribe((user) => {
           this.currentUser = user;
-          if (!user.is_ghost) this.getContractInformation(observer);
-          else {
+          if (!user.is_ghost) { this.getContractInformation(observer); } else {
             this.userService.openAuthForm()
               .then(() => { this.getContractInformation(observer); }
                 , () => { this.router.navigate(['/create']); });

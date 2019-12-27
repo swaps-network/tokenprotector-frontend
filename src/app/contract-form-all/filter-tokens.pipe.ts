@@ -12,7 +12,9 @@ export class FilterTokens implements PipeTransform {
     let tokensQuery = [];
 
     tokensQuery = tokensAll.filter((token) => {
-      if (isApproved && token.approved) return token;
+      if (isApproved) {
+        return token.approved;
+      }
       if (isPupular && token.popular && !token.approved) return token;
       if (isSearch) return ((token.token_name.toLowerCase().indexOf(search.toLowerCase()) > -1 || token.token_short_name.toLowerCase().indexOf(search.toLowerCase()) > -1) && !token.approved);
     });

@@ -335,7 +335,7 @@
               </div>
 
               <div class="form-block_tokens__list">
-                <div class="token_item" *ngFor="let token of tokens | FilterTokens:false:false:'':true">
+                <div class="token_item" *ngFor="let token of tokens | FilterTokens : false : false : '' : true">
                   <span [className]="'token_item__title token_item__icon-'+token.token_name"><span class="token_item__image" [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>({{ token.token_short_name }}) {{ token.token_name }}</span>
                   <span (click)="changeTokenStatus(token.address,false)" class="token_item__button token_item__button-active">APPROVED</span>
                 </div>
