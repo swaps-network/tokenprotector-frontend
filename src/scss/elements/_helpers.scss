@@ -108,6 +108,22 @@ ng-scrollbar-y {
     }
 }
 
+.beta_version-banner {
+    background-color: #8792A2;
+    display: flex;
+    justify-content: center;
+    color: white;
+    align-items: center;
+    height: 50px;
+    margin-top: -20px;
+    margin-bottom: 10px;
+    img {
+        width: 20px;
+        margin-right: 8px;
+        margin-top: 9px;
+    }
+}
+
 .mt-5 {
     margin-top: 5px !important;
 }

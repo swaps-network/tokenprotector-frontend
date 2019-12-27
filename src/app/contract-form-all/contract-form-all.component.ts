@@ -191,7 +191,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
 
   ngOnInit() {
-    this.tokens = window.cmc_tokens;
+    this.tokens = window['cmc_tokens'];
 
     this.popular.map(tokenAddress => {
       this.tokens.find(token => {
