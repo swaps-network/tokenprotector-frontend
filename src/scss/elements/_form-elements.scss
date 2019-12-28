@@ -628,6 +628,16 @@
 }
 
 .form-block {
+
+  &_error-posponed {
+    margin-left: -62px;
+
+    &:before,
+    &:after {
+      display: none !important;
+    }
+  }
+
   &_text-token {
     font-size: 16px;
     line-height: 18px;

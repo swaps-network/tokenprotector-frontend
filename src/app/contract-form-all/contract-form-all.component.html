@@ -2,7 +2,7 @@
   <div class="app-content-block">
 
     <!-- Mobile step counts -->
-    <div class="grid-row steps-mobile">
+    <!-- <div class="grid-row steps-mobile">
 
       <div class="grid-cell grid-cell-1-4">
         <div class="steps-mobile_item"
@@ -59,23 +59,25 @@
              }"></div>
       </div>
 
-    </div>
+    </div> -->
 
     <!-- Main form -->
     <div class="container-contract">
 
       <div class="left-contract">
-        <div class="form-container">
 
+        <div class="form-container">
+          
+          <!-- FIRST BLOCK: Input Address -->
           <form class="form-block"
                 #addressForm="ngForm"
-                (submit)="nextStep(1)"
+                (submit)="checkContractStatus('PREPARE_DATE_EMAIL')"
                 [ngClass]="{
-                    hidden: stepper.current !== 0,
-                    checked: (addressForm.valid) && (stepper.current > 0),
-                    'form-block__active': editableTokenProtector && (stepper.current === 0)
+                    hidden: reqData.state !== 'PREPARE_ADDRESS',
+                    checked: reqData.state !== 'PREPARE_ADDRESS',
+                    'form-block__active': reqData.state === 'PREPARE_ADDRESS'
                 }">
-            <div class="form-block_title" (click)="stepper.current = (!previewTrigger && editableTokenProtector) ? 0 : stepper.current">The address for the protection</div>
+            <div class="form-block_title" (click)="(reqData.state === ('PREPARE_DATE_EMAIL' || 'CREATED')) ? checkContractStatus('PREPARE_ADDRESS') : null">The address for the protection</div>
             <div class="form-block_fieldset">
               <label class="form-field_label">Enter your address</label>
               <div class="form-field">
@@ -112,28 +114,32 @@
                 </div>
               </div>
               <span *ngIf="(reqData.contract_details.owner_address != '') && (reqData.contract_details.reserve_address != '') && (reqData.contract_details.owner_address === reqData.contract_details.reserve_address)" class="form-field error_text__address">use different addresses</span>
-              <button class="button button-tp button-tp-blue is-medium" [disabled]="(reqData.contract_details.owner_address === reqData.contract_details.reserve_address) || !addressForm.valid || nextStepProcess" type="submit">
-                <div class="lds-ellipsis" *ngIf="nextStepProcess">
+              <button class="button button-tp button-tp-blue is-medium" [disabled]="(reqData.contract_details.owner_address === reqData.contract_details.reserve_address) || !addressForm.valid" type="submit">
+                <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
                   <span class="lds-ellipsis-container">
                     <span></span><span></span><span></span><span></span>
                   </span>
                 </div>
-                <span *ngIf="!nextStepProcess" class="caption">Next step</span>
+                <span *ngIf="!tsSrepper.button.process" class="caption">Next step</span>
               </button>
 
             </div>
           </form>
+          <!-- /FIRST BLOCK: Input Address -->
 
-          <div class="form-block"
+
+          <!-- SECOND BLOCK: Input Date and E-mail -->
+            <div class="form-block"
                [ngClass]="{
-                  hidden: !(addressForm.valid && (stepper.current === 1)),
-                  'form-block__active': addressForm.valid && editableTokenProtector && (stepper.current === 1),
-                  checked: stepper.current > 1
+                   hidden: reqData.state !== 'PREPARE_DATE_EMAIL',
+                   checked: reqData.state !== ['PREPARE_DATE_EMAIL','PREPARE_ADDRESS'],
+                  'form-block__active': reqData.state === 'PREPARE_DATE_EMAIL'
                }">
                
-               <form #conditionsForm="ngForm" (submit)="nextStep(2)">
+               
+               <form #conditionsForm="ngForm" (submit)="checkContractStatus('CREATE')">
 
-                <div class="form-block_title" (click)="stepper.current = (!previewTrigger && addressForm.valid && editableTokenProtector && (stepper.current >= 1)) ? 1 : stepper.current;">Conditions</div>
+                <div class="form-block_title" (click)="(reqData.state === ('CREATED' || 'UPDATED')) ? checkContractStatus('PREPARE_DATE_EMAIL') : null">Conditions</div>
                 
               <div class="form-block_fieldset">
                   <label class="form-field_label">Transfer the tokens from your address to Reserve address on</label>
@@ -173,30 +179,32 @@
                     </div>
                   </div>
 
-                  <button class="button button-tp button-tp-blue is-medium" [disabled]="!conditionsForm.valid || nextStepProcess" type="submit">
-                    <div class="lds-ellipsis" *ngIf="nextStepProcess">
+                  <button class="button button-tp button-tp-blue is-medium" [disabled]="!conditionsForm.valid" type="submit">
+                    <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
                       <span class="lds-ellipsis-container">
                         <span></span><span></span><span></span><span></span>
                       </span>
                     </div>
-                    <span *ngIf="!nextStepProcess" class="caption">Next step</span>
+                    <span *ngIf="!tsSrepper.button.process" class="caption">Next step</span>
                   </button>
 
                 </div>
               </form>
           </div>
+          <!-- /SECOND BLOCK: Input Date and E-mail -->
 
 
-          <div class="form-block"
+          <!-- THIRD BLOCK: Preview -->
+            <div class="form-block"
                [ngClass]="{
-                 hidden: !(addressForm.valid && conditionsForm.valid && (stepper.current === 2)),
-                  'form-block__active': stepper.current === 2,
-                  checked: stepper.current > 2
+                 hidden: reqData.state !== 'CREATED',
+                 checked: reqData.state !== 'CREATED',
+                 'form-block__active': reqData.state === 'CREATED'
                }">
                
-              <form #previewForm="ngForm" (submit)="nextStep(3)">
+              <form (submit)="checkContractStatus('CONFIRM_CONTRACT')">
               
-              <div class="form-block_title" (click)="stepper.current = (!previewTrigger && addressForm.valid && editableTokenProtector && (stepper.current >= 2)) ? 2 : stepper.current;">Preview</div>
+              <div class="form-block_title">Preview</div>
               
               <div class="form-block_fieldset">
 
@@ -263,28 +271,29 @@
                   </div>
                 </div>
 
-                <button class="button button-tp button-tp-blue is-medium" type="submit" [disabled]="nextStepProcess">
-                  <div class="lds-ellipsis" *ngIf="nextStepProcess">
+                <button class="button button-tp button-tp-blue is-medium" type="submit" [disabled]="tsSrepper.button.process">
+                  <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
                     <span class="lds-ellipsis-container">
                       <span></span><span></span><span></span><span></span>
                     </span>
                   </div>
-                  <span *ngIf="!nextStepProcess" class="caption">Next step</span>
+                  <span *ngIf="!tsSrepper.button.process" class="caption">Next step</span>
                 </button>
 
               </div>
             </form>
           </div>
+          <!-- /THIRD BLOCK: Preview -->
 
-
+          <!-- FOUR BLOCK: Payement -->
           <div class="form-block"
                [ngClass]="{
-                 hidden: !(previewTrigger && (stepper.current === 3)),
-                  'form-block__active': addressForm.valid && conditionsForm.valid && !editableTokenProtector && previewTrigger && (stepper.current === 3),
-                  checked: stepper.current > 3
+                 hidden: reqData.state !== 'WAITING_FOR_PAYMENT',
+                 checked: reqData.state !== ('PREPARE_DATE_EMAIL' || 'PREPARE_ADDRESS' || 'CREATED' || 'CREATE' || 'WAITING_FOR_PAYMENT'),
+                 'form-block__active': reqData.state === 'WAITING_FOR_PAYMENT'
                }">
-            <div class="form-block_title" (click)="stepper.current = (stepper.current === 3) ? 3 : stepper.current;">Payment</div>
-            <form class="form-block_fieldset" #paymentForm="ngForm" (submit)="nextStep(4)">
+            <div class="form-block_title">Payment</div>
+            <form class="form-block_fieldset">
               <div class="form-field">
                 
                 <app-contract-form-pay
@@ -298,18 +307,19 @@
 
             </form>
           </div>
+          <!-- /FOUR BLOCK: Payement -->
 
-
+          <!-- FIVE BLOCK: Deploy -->
           <div class="form-block"
                [ngClass]="{
-                 hidden: !(paymentForm.valid && (stepper.current === 4)),
-                  'form-block__active': addressForm.valid && conditionsForm.valid && !editableTokenProtector && previewTrigger && (stepper.current === 4),
-                  checked: paymentForm.valid && (stepper.current > 4)
+                 hidden: reqData.state !== 'WAITING_FOR_DEPLOYMENT',
+                 checked: reqData.state === ('WAITING_FOR_APPROVE' || 'WAITING_FOR_CONFIRM'),
+                 'form-block__active': reqData.state === ('WAITING_FOR_DEPLOYMENT' || 'PREPARE_DATE_EMAIL' || 'PREPARE_ADDRESS' || 'CREATED' || 'CREATE' || 'WAITING_FOR_PAYMENT')
                }">
                
-               <div class="form-block_title" (click)="stepper.current = (stepper.current === 4) ? 4 : stepper.current;">Deployment</div>
+               <div class="form-block_title">Deployment</div>
                
-               <form class="form-block_fieldset" #deploymentForm="ngForm" (submit)="nextStep(5)">
+               <form class="form-block_fieldset">
                  
                 <div class="form-field_deployment" *ngIf="reqData.state !== 'POSTPONED'">
                   <div class="ff_deployment-progress"></div>
@@ -325,17 +335,24 @@
 
             </form>
           </div>
+          <!-- /FIVE BLOCK: Deploy -->
 
-          <div class="form-block" [ngClass]="{hidden: !(deploymentForm.valid && ( stepper.current === 5)), checked: (stepper.current >= 5),'form-block__active': (stepper.current >= 6)}">
+
+          <!-- SIX BLOCK: Approve Tokens -->
+          <div class="form-block" [ngClass]="{
+            hidden: reqData.state !== 'WAITING_FOR_APPROVE', 
+            checked: reqData.state === ['WAITING_FOR_APPROVE','WAITING_FOR_DEPLOYMENT','WAITING_FOR_PAYMENT','CREATED'],
+            'form-block__active': reqData.state === 'WAITING_FOR_APPROVE'
+          }">
             <div class="form-block_title">Choose tokens for the protection</div>
-            <div class="form-block_fieldset" *ngIf="!confirmStatus">
+            <div class="form-block_fieldset" *ngIf="reqData.state !== 'FAIL_IN_CONFIRM'">
               <div class="form-block_text-token">
                 You shall grant rights to the protection contract for transferring the tokens <br> if conditions are met.<br><br>
                 Add every token which you need to protect:<br>
               </div>
 
               <div class="form-block_tokens__list">
-                <div class="token_item" *ngFor="let token of tokens | FilterTokens : false : false : '' : true">
+                <div class="token_item" *ngFor="let token of tokensData.tokens | FilterTokens : false : false : '' : true">
                   <span [className]="'token_item__title token_item__icon-'+token.token_name"><span class="token_item__image" [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>({{ token.token_short_name }}) {{ token.token_name }}</span>
                   <span (click)="changeTokenStatus(token.address,false)" class="token_item__button token_item__button-active">APPROVED</span>
                 </div>
@@ -347,19 +364,19 @@
                 <input type="text"
                   class="min-text max-placeholder form-block_search-tokens_input"
                   #searchTokensInput
-                  [(ngModel)]="searchToken"
+                  [(ngModel)]="tokensData.search"
                   placeholder="Search"
-                  (input)="filterTokensLimit = 10">
+                  (input)="tokensData.filterLimit = 10">
                 <span class="form-block_search-tokens_input-icon"></span>
-                <span class="form-block_search-tokens_input-close" (click)="searchToken = ''"></span>
+                <span class="form-block_search-tokens_input-close" (click)="tokensData.search = ''"></span>
               </div>
 
-              <div class="form-block_search-result" *ngIf="searchToken">
+              <div class="form-block_search-result" *ngIf="tokensData.search">
                 <div class="form-block_tokens__list">
 
-                  <ng-container *ngIf="searchToken">
-                    <ng-container *ngFor="let token of tokens | FilterTokens:false:true:searchToken:false | slice:0:filterTokensLimit">
-                      <ng-container *ngIf="(tokens.length <= 0 || tokens === null)">
+                  <ng-container *ngIf="tokensData.search">
+                    <ng-container *ngFor="let token of tokensData.tokens | FilterTokens:false:true:tokensData.search:false | slice:0:tokensData.filterLimit">
+                      <ng-container *ngIf="(tokensData.tokens.length <= 0 || tokensData.tokens === null)">
                         <div class="token_item token_item__error">Tokens not found</div>
                       </ng-container>
                       <div class="token_item">
@@ -374,7 +391,7 @@
                         </span>
                       </div>
                     </ng-container>
-                    <div class="token_item token_item__more" (click)="loadMoreTokensFilter(tokens.length)" *ngIf="filterTokensLimit < tokens.length && filterTokensLimit !== tokens.length">Load more</div>
+                    <div class="token_item token_item__more" (click)="loadMoreTokensFilter(tokensData.tokens.length)" *ngIf="tokensData.filterLimit < tokensData.tokens.length && tokensData.filterLimit !== tokensData.tokens.length">Load more</div>
                   </ng-container>
 
                 </div>
@@ -386,7 +403,7 @@
 
               <div class="form-block_subtitle">POPULAR</div>
               <div class="form-block_tokens__list">
-                <div class="token_item" *ngFor="let token of tokens | FilterTokens:true:false:'':false">
+                <div class="token_item" *ngFor="let token of tokensData.tokens | FilterTokens:true:false:'':false">
                   <span [className]="'token_item__title token_item__icon-'+token.token_name"><span class="token_item__image" [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>({{ token.token_short_name }}) {{ token.token_name }}</span>
                   <span class="token_item__button" (click)="changeTokenStatus(token.address)">
                     <div class="lds-ellipsis">
@@ -403,23 +420,34 @@
               <span *ngIf="confirmErrorMessage" class="form-field error_text__address">{{confirmErrorMessage || ''}}</span>
 
               <div class="form-field__button">
-                <button (click)="nextStep(6)" class="button button-tp button-tp-blue is-medium" type="submit" [disabled]="nextStepProcess">
-                  <div class="lds-ellipsis" *ngIf="nextStepProcess">
+                <button (click)="checkContractStatus('CONFIRM_APPROVE')" class="button button-tp button-tp-blue is-medium" type="submit" [disabled]="(tokensData.approved.length <= 0) && !tsSrepper.button.process">
+                  <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
                     <span class="lds-ellipsis-container">
                       <span></span><span></span><span></span><span></span>
                     </span>
                   </div>
-                  <span *ngIf="!nextStepProcess" class="caption">Next step</span>
+                  <span *ngIf="!tsSrepper.button.process" class="caption">Next step</span>
                 </button>
               </div>
             </div>
-            <div class="form-field_deployment" *ngIf="confirmStatus">
+            <div class="form-field_deployment" *ngIf="reqData.state === 'WAITING_FOR_CONFIRM'">
               <div class="ff_deployment-progress"></div>
               <span class="ff_deployment-title">Waiting for confirm</span>
               <span class="ff_deployment-text">data sending to contract, please wait ...</span>
             </div>
           </div>
-            
+          <!-- /SIX BLOCK: Approve Tokens -->
+
+          <!-- ERROR BLOCK: Posponed -->
+          <div class="form-block form-block_error-posponed" *ngIf="reqData.state === 'POSTPONED'">
+            <div class="form-field_deployment">
+              <div class="ff_deployment-error"></div>
+              <span class="ff_deployment-title">Something went wrong</span>
+              <span class="ff_deployment-text">please try again later or contact us</span>
+            </div>
+          </div>
+          <!-- /ERROR BLOCK: Posponed -->
+
         </div>
       </div>
       

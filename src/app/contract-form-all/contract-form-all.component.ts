@@ -9,11 +9,11 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/mat
 import { TransactionComponent } from '../transaction/transaction.component';
 import BigNumber from 'bignumber.js';
 
-import {HttpService} from '../services/http/http.service';
 import {Web3Service} from '../services/web3/web3.service';
 import {Observable} from 'rxjs';
 import { UserInterface } from '../services/user/user.interface';
 import {ERC20_TOKEN_ABI} from '../services/web3/web3.constants';
+import { ITsStepper } from '../services/variables/variables.interface';
 
 export interface IContractV3 {
 
@@ -91,9 +91,19 @@ export interface IReqData {
   };
 }
 
-export interface IStepper {
-  max: number;
-  current: number;
+export interface ITokens {
+  tokens: any;
+  popular: any;
+  approved: any;
+  saved: any;
+  filterLimit: number;
+  search: string;
+}
+
+export interface ITDate {
+  max: any;
+  min: any;
+  current: any;
 }
 
 @Component({
@@ -119,7 +129,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   public reqData: IReqData = {
     contract_type: 23,
     network: 1,
-    state: 'PREPARE',
+    state: 'PREPARE_ADDRESS',
     name: 'TokenProtector',
     contract_details: {
       owner_address: '',
@@ -129,37 +139,42 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     }
   };
 
-  public stepper: IStepper = {
-    max: 5,
-    current: 0
-  };
+  public tokensData: ITokens = {
+    tokens: window['cmc_tokens'],
+    popular: ['0x36d10c6800d569bb8c4fe284a05ffe3b752f972c', '0x006bea43baa3f7a6f765f14f10a1a1b08334ef45', '0x03c780cd554598592b97b7256ddaad759945b125', '0x01cc4151fe5f00efb8df2f90ff833725d3a482a3', '0x8810c63470d38639954c6b41aac545848c46484a', '0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650', '0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4', '0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D'],
+    approved: [],
+    saved: [],
+    filterLimit: 10,
+    search: ''
+  }
+  
+  public tsDate: ITDate = {
+    min: new Date().getDate() + 1,
+    max: null,
+    current: new Date().getDate() + 1095
+  }
+
+  public tsSrepper: ITsStepper = {
+    current: 'PREPARE_ADDRESS',
+    number: 0,
+    button: {
+      process: false,
+      error: false
+    }
+  }
+
+  private currentUser;
+  private checker;
+  private tokenContract: any;
+  public copiedAddresses = {};
+
+  // remove in future
 
   public confirmErrorMessage = '';
-
-  public editableTokenProtector = true;
-  public previewTrigger = false;
-  public nextStepProcess = false;
+  public selectedToken: any;
   public curDate;
   public minDate;
 
-  public subscriptionUser;
-  public currentUser;
-  private checker;
-  public filterTokensLimit = 10;
-  public copiedAddresses = {};
-
-  public tokens;
-  public searchToken;
-  public selectedToken: any;
-  private contactEdited = false;
-  public confirmStatus = false;
-
-  public tokensApproved = [];
-  public savedApprovedTokens: any = [];
-  public popular = ['0x36d10c6800d569bb8c4fe284a05ffe3b752f972c', '0x006bea43baa3f7a6f765f14f10a1a1b08334ef45', '0x03c780cd554598592b97b7256ddaad759945b125', '0x01cc4151fe5f00efb8df2f90ff833725d3a482a3', '0x8810c63470d38639954c6b41aac545848c46484a', '0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650', '0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4', '0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D'];
-
-  private preCreateProcess = false;
-  private tokenContract: any;
 
   constructor(
     protected contractsService: ContractsService,
@@ -173,41 +188,28 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     this.currentUser = this.userService.getUserModel();
 
     this.userService.getCurrentUser(false, true).subscribe((user: UserInterface) => {
-      if (user.is_ghost) {
-        if (this.reqData.id) { this.userService.openAuthForm(); }
-      } else {
-        // if (!this.currentUser || this.currentUser.is_ghost) {
-          if (this.preCreateProcess) { this.nextStep(2); }
-          if (this.reqData.id && !this.checker) {
-          if (this.reqData.state != 'CREATED') {
-            this.checkContractStatus();
-          }
-          // this.checkContractStatus();
-        }
-        // }
-      }
+      if (user.is_ghost)
+        if (this.reqData.id) this.userService.openAuthForm();
       this.currentUser = user;
     });
   }
 
   ngOnInit() {
-    this.tokens = window['cmc_tokens'];
 
-    this.popular.map(tokenAddress => {
-      this.tokens.find(token => {
+    this.tokensData.popular.map(tokenAddress => {
+      this.tokensData.tokens.find(token => {
         if (token.address === tokenAddress) { token.popular = true; }
       });
     });
 
     if (this.reqData) {
-      // if (this.reqData.state != 'CREATED') this.checkContractStatus();
-      this.checkContractStatus();
-      this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
+      this.tsDate.current = new Date(this.reqData.contract_details.end_timestamp * 1000);
+      console.log('have data: ', this.reqData);
     } else {
       this.reqData = {
         contract_type: 23,
         network: 1,
-        state: 'PREPARE',
+        state: 'PREPARE_ADDRESS',
         name: 'TokenProtector',
         contract_details: {
           owner_address: '',
@@ -217,11 +219,15 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         }
       } as IReqData;
 
-      this.stepper = {
-        max: 5,
-        current: 0
-      } as IStepper;
+      this.tsSrepper = {
+        current: 'PREPARE_ADDRESS',
+        button: {
+          process: false
+        }
+      }
+      console.log('dont have data: ', this.reqData);
     }
+    this.checkContractStatus();
   }
 
   ngAfterContentInit() { }
@@ -230,27 +236,200 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     if (this.checker) { clearTimeout(this.checker); }
   }
 
+  private checkContractStatus(stepperState?:string) {
+
+    const user = this.currentUser || this.userService.getUserModel();
+    this.reqData.state = stepperState || this.reqData.state;
+    
+    switch (this.reqData.state) {
+
+      case 'PREPARE_ADDRESS':
+        console.log(this.reqData.state);
+        this.tsSrepper.button.process = false;
+        this.tsSrepper.current = 'PREPARE_ADDRESS';
+        return;
+      
+      case 'PREPARE_DATE_EMAIL':
+        console.log(this.reqData.state);
+        this.tsSrepper.button.process = true;
+        if (this.reqData.contract_details.owner_address === this.reqData.contract_details.reserve_address) {
+          this.checkContractStatus('PREPARE_ADDRESS')
+        } else { this.tsSrepper.current = 'PREPARE_DATE_EMAIL' }
+        this.tsSrepper.button.process = false;
+        return;
+      
+      case 'CREATE':
+        console.log(this.reqData.state);
+        if (!this.currentUser.is_ghost) {
+          if (this.reqData.id) {
+            this.reqData.contract_details.eth_contract = null;
+            this.contractsService.updateContract(this.reqData).then((result) => {
+              this.reqData = result;
+            }).catch(err => { this.reqData.state = 'PREPARE_DATE_EMAIL';});
+          }
+          else {
+            this.reqData.contract_details.email ? null : this.reqData.contract_details.email = 'none@none';
+            this.contractsService.createContract(this.reqData).then((result) => {
+              window.history.pushState(this.reqData.id, 'Create Contract', '/create/' + result.id);
+              this.reqData = result;
+            }).catch(err => { this.reqData.state = 'PREPARE_DATE_EMAIL';});
+          }
+        } else { this.tsSrepper.button.process = true; this.reqData.state = 'PREPARE_DATE_EMAIL'; this.openLogInForm('CREATE');}
+        return;
+      
+      case 'CREATED':
+        console.log(this.reqData.state);
+        return;
+      
+      case 'CONFIRM_CONTRACT':
+        console.log(this.reqData.state);
+        if (!this.currentUser.is_ghost) {
+          this.contractsService.prepareForPayment(this.reqData.id).then((result) => {
+            this.reqData = result;
+            this.checkContractStatus();
+          }).catch(err => { this.reqData.state = 'CREATED'; console.log(err);});
+        } else {this.openLogInForm('CONFIRM_CONTRACT');}
+        break;
+
+      case 'WAITING_FOR_PAYMENT':
+        console.log(this.reqData.state);
+        this.costEmitter.emit(this.reqData.cost);
+        break;
+      
+      case 'WAITING_FOR_DEPLOYMENT':
+        console.log(this.reqData.state);
+        break;
+      
+      case 'WAITING_FOR_APPROVE':
+        console.log(this.reqData.state,this.reqData.contract_details.approved_tokens);
+        this.tokensData.approved = this.reqData.contract_details.approved_tokens;
+        this.tokenApprovedInfo();
+        break;
+      
+      case 'WAITING_FOR_CONFIRM':
+        console.log(this.reqData.state);
+        break;
+      
+      case 'CONFIRM_APPROVE':
+        console.log(this.reqData.state);
+        if (!this.currentUser.is_ghost) {
+          this.contractsService.confirmContract(this.reqData.id).then((result) => {
+            this.reqData = result;
+            this.checkContractStatus();
+          }).catch(err => {this.reqData.state = 'FAIL_IN_CONFIRM';console.log(err);});
+        } else {this.openLogInForm('CONFIRM_APPROVE');}
+
+      case 'ACTIVE':
+        this.router.navigate(['/contract/' + this.reqData.id]);
+        break;
+
+      case 'FAIL_IN_CONFIRM':
+        console.log(this.reqData.state);
+        this.confirmErrorMessage = 'Something went wrong, please try again or contact us';
+        return;
+
+      case 'POSTPONED':
+        console.log(this.reqData.state);
+        return;
+      
+      default:
+        console.log(this.reqData.state);
+        break;
+    }
+
+    if (!user.is_ghost) { this.checker = setTimeout(() => { this.getContractInformation(); }, 5000); } else { this.checker = undefined; }
+  }
+
+  private getContractInformation() {
+    const promise = this.contractsService.getContract(this.reqData.id);
+    promise.then((result) => {
+      const costs = this.reqData.cost;
+      this.reqData = result;
+      this.reqData.cost = costs;
+      this.checkContractStatus();
+    }).catch((error) => {console.log('something went wrong, please try again later or check your auth', error); });
+  }
+
+  private openLogInForm(state?:string) {
+    this.userService.openAuthForm().then(() => { this.checkContractStatus(state || this.reqData.state)}, () => { this.tsSrepper.button.process  = false; });
+  }
+
+  private tokenApprovedInfo() {
+    const approveTokens = this.tokensData.approved;
+    const savedApprovedTokens = this.tokensData.saved;
+
+    const add = approveTokens.filter((item) => {
+      return !savedApprovedTokens.filter((savedItem) => {
+        return savedItem === item.address;
+      }).length;
+    }).map((t) => {
+      return t.address;
+    });
+
+    const deleted = savedApprovedTokens.filter((item) => {
+        return !approveTokens.filter((approveItem) => {
+            return approveItem.address === item;
+        }).length;
+    }).map((t) => {
+        return t.address;
+    });
+
+    if (add.length || deleted.length) {
+      this.tokensData.tokens = this.tokensData.tokens.map((token) => {
+        if (add.length && add.indexOf(token.address) > -1) {
+          token.approved = true;
+        }
+        if (deleted.length && deleted.indexOf(token.address) > -1) {
+          token.approved = false;
+        }
+        return token;
+      });
+
+      this.tokensData.saved = this.tokensData.tokens.filter((token) => {
+          return token.approved;
+      }).map((t) => {
+        return t.address;
+      });
+    }
+  }
+
+  public changeTokenStatus(value: string, e?) {
+    this.openTrxWindow(value);
+  }
+
+  public onSelect(token: any): void {
+    this.selectedToken = token;
+  }
+
   public onCopied(field) {
     if (this.copiedAddresses[field]) { return; }
     this.copiedAddresses[field] = true;
     setTimeout(() => {this.copiedAddresses[field] = false; }, 1000);
   }
 
+  public loadMoreTokensFilter(tokenLength?: number) {
+    if ((this.tokensData.filterLimit + 10) > tokenLength) { this.tokensData.filterLimit = tokenLength; } else { this.tokensData.filterLimit = this.tokensData.filterLimit + 10; }
+  }
+
+  public dateChange() {
+    const CurrentTime = new Date(this.curDate);
+    CurrentTime.setMinutes(new Date().getMinutes() + 10);
+    if (new Date().getMinutes() >= 50) { CurrentTime.setHours(new Date().getHours()); } else { CurrentTime.setHours(new Date().getHours() + 1); }
+    this.curDate = new Date(CurrentTime);
+    console.log('Date chosen:', this.curDate);
+    this.reqData.contract_details.end_timestamp = Math.floor(this.curDate / 1000);
+    console.log(this.reqData.contract_details.end_timestamp);
+  }
+
+
   private openTrxWindow(tokenAddress) {
     console.log(tokenAddress);
     this.web3Service.getTokenInfo(tokenAddress).then(
       (response) => {
         this.createTransactions(0, response.data);
-      },
-      (error) => {
-
       }
     );
   }
-
-  // private disAllow(amount, token) {
-
-  // }
 
   private createTransactions(amount, token) {
     try {
@@ -313,245 +492,6 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     }
   }
 
-  private tokenApprovedInfo() {
-    const approveTokens = this.tokensApproved;
-    const savedApprovedTokens = this.savedApprovedTokens;
-
-
-    const add = approveTokens.filter((item) => {
-      return !savedApprovedTokens.filter((savedItem) => {
-        return savedItem === item.address;
-      }).length;
-    }).map((t) => {
-      return t.address;
-    });
-
-    const deleted = savedApprovedTokens.filter((item) => {
-        return !approveTokens.filter((approveItem) => {
-            return approveItem.address === item;
-        }).length;
-    }).map((t) => {
-        return t.address;
-    });
-
-    if (add.length || deleted.length) {
-      this.tokens = this.tokens.map((token) => {
-        if (add.length && add.indexOf(token.address) > -1) {
-          token.approved = true;
-        }
-        if (deleted.length && deleted.indexOf(token.address) > -1) {
-          token.approved = false;
-        }
-        return token;
-      });
-
-      this.savedApprovedTokens = this.tokens.filter((token) => {
-          return token.approved;
-      }).map((t) => {
-        return t.address;
-      });
-      console.log(this.savedApprovedTokens);
-    }
-  }
-
-  onSelect(token: any): void {
-    this.selectedToken = token;
-  }
-
-  public changeTokenStatus(value: string, e?) {
-    if (e === false) {
-      this.tokensApproved.splice(this.tokensApproved.findIndex(e => e.address === value), 1);
-      return;
-    }
-
-    this.tokensApproved.push(value);
-    this.openTrxWindow(value);
-  }
-
-  public loadMoreTokensFilter(tokenLength?: number) {
-    if ((this.filterTokensLimit + 10) > tokenLength) { this.filterTokensLimit = tokenLength; } else { this.filterTokensLimit = this.filterTokensLimit + 10; }
-  }
-
-  public nextStep(stepNumber) {
-
-    if (stepNumber <= 0) { this.stepper.current = stepNumber; }
-
-    if (stepNumber === 1) {
-      const date = new Date();
-      this.minDate = new Date(date.setDate(date.getDate())); // this.minDate = new Date(date.setDate(date.getDate() + 1));
-      this.curDate = new Date(date.setDate(date.getDate() + 1095));
-      this.reqData.contract_details.owner_address === this.reqData.contract_details.reserve_address ? null : this.stepper.current = stepNumber;
-      console.log('login here pls');
-    }
-
-    if (stepNumber === 2) {
-      this.reqData.contract_details.email ? null : this.reqData.contract_details.email = 'none@none';
-      this.nextStepProcess = true;
-      this.dateChange();
-
-      if (!this.currentUser.is_ghost) {
-        if (this.reqData.id) {
-          this.reqData.contract_details.eth_contract = null;
-          this.contractsService.updateContract(this.reqData).then((rez) => {
-            this.reqData = rez;
-            this.checkContractStatus();
-            this.stepper.current = stepNumber;
-            this.nextStepProcess = false;
-          }).catch(err => {console.log(err); });
-        } else {
-          this.contractsService.createContract(this.reqData).then((rez) => {
-            this.reqData = rez;
-            this.stepper.current = stepNumber;
-            this.nextStepProcess = false;
-            window.history.pushState(this.reqData.id, 'Create Contract', '/create/' + this.reqData.id);
-          }).catch(err => {console.log(err); });
-        }
-      } else {
-        this.preCreateProcess = true;
-        this.userService.openAuthForm().then(() => { this.nextStep(2); }, (error) => { console.log(error); this.preCreateProcess = false; this.nextStepProcess = false; });
-      }
-    }
-
-    if (stepNumber === 3 ) {
-      this.nextStepProcess = true;
-      this.contactEdited = false;
-      if (!this.currentUser.is_ghost) {
-        this.contractsService.prepareForPayment(this.reqData.id).then((rez) => {
-          this.reqData = rez;
-          this.checkContractStatus();
-        }).catch(err => {
-          this.nextStepProcess = false;
-          console.log(err);
-        });
-      } else {
-        this.openLogInForm();
-      }
-    }
-
-    if (stepNumber === 4 && !this.currentUser.is_ghost) {
-      this.nextStepProcess = true;
-      if (!this.currentUser.is_ghost) {
-        this.stepper.current = stepNumber;
-        this.nextStepProcess = false;
-      } else {
-        this.openLogInForm();
-      }
-    }
-
-    (stepNumber === 5 && !this.currentUser.is_ghost) ? this.stepper.current = stepNumber : null;
-
-    if (stepNumber === 6) {
-      this.nextStepProcess = true;
-      this.confirmStatus = true;
-
-      if (!this.currentUser.is_ghost) {
-        if (this.reqData.id) {
-          this.contractsService.confirmContract(this.reqData.id).then((rez) => {
-            this.reqData = rez;
-            this.checkContractStatus();
-          }).catch(err => {
-            this.confirmStatus = false;
-            this.nextStepProcess = false;
-            console.log(err);
-          });
-        } else { this.userService.openAuthForm().then(() => { this.nextStep(6); }, () => { this.nextStepProcess = false; }); }
-      } else { this.userService.openAuthForm().then(() => {}, () => { this.preCreateProcess = false; this.nextStepProcess = false; }); }
-    }
-  }
-
-  private openLogInForm() {
-    this.userService.openAuthForm().then(() => {}, () => { this.nextStepProcess = false; });
-  }
-
-  private changeStepsStatus(editable?: boolean, preview?: boolean, stepProcess?: boolean) {
-    this.editableTokenProtector = (editable || false);
-    this.previewTrigger = (preview || false);
-    this.nextStepProcess = (stepProcess || false);
-  }
-
-  private checkContractStatus() {
-
-    const user = this.currentUser || this.userService.getUserModel();
-
-    switch (this.reqData.state) {
-      case 'CREATED':
-        console.log(this.reqData.state);
-        this.stepper.current = 2;
-        this.changeStepsStatus(true, false, false);
-        return;
-
-      case 'WAITING_FOR_PAYMENT':
-        console.log(this.reqData.state);
-        this.costEmitter.emit(this.reqData.cost);
-        this.stepper.current = 3;
-        this.changeStepsStatus(false, true, false);
-        break;
-      case 'WAITING_FOR_DEPLOYMENT':
-        console.log(this.reqData.state);
-        this.stepper.current = 4;
-        this.changeStepsStatus(false, true, false);
-        break;
-      case 'WAITING_FOR_APPROVE':
-        console.log(this.reqData.state);
-        this.tokensApproved = this.reqData.contract_details.approved_tokens;
-        this.tokenApprovedInfo();
-        this.stepper.current = 5;
-        this.changeStepsStatus(false, true, false);
-        break;
-      case 'WAITING_FOR_CONFIRM':
-        console.log(this.reqData.state);
-        this.confirmStatus = true;
-        this.stepper.current = 6;
-        this.changeStepsStatus(false, true, false);
-        break;
-
-      case 'ACTIVE':
-        console.log(this.reqData);
-        this.router.navigate(['/contract' + this.reqData.id]);
-        break;
-
-      case 'FAIL_IN_CONFIRM':
-        console.log(this.reqData.state);
-        this.confirmStatus = false;
-        this.stepper.current = 5;
-        this.confirmErrorMessage = 'Something went wrong, please try again or contact us';
-        this.changeStepsStatus(false, true, false);
-        return;
-
-      case 'POSTPONED':
-        console.log(this.reqData.state);
-        this.stepper.current = 4;
-        this.changeStepsStatus(false, true, false);
-        return;
-      default:
-        console.log(this.reqData.state);
-        break;
-    }
-
-    // console.log(this.currentUser);
-
-    if (!user.is_ghost) { this.checker = setTimeout(() => { this.getContractInformation(); }, 5000); } else { this.checker = undefined; }
-  }
-
-  private getContractInformation() {
-    const promise = this.contractsService.getContract(this.reqData.id);
-    promise.then((result) => {
-      const costs = this.reqData.cost;
-      this.reqData = result;
-      this.reqData.cost = costs;
-      this.checkContractStatus();
-    }).catch((error) => {console.log('something went wrong, please try again later or check your auth', error); });
-  }
-
-  public dateChange() {
-    const CurrentTime = new Date(this.curDate);
-    CurrentTime.setMinutes(new Date().getMinutes() + 10);
-    if (new Date().getMinutes() >= 50) { CurrentTime.setHours(new Date().getHours()); } else { CurrentTime.setHours(new Date().getHours() + 1); }
-    this.curDate = new Date(CurrentTime);
-    console.log('Date chosen:', this.curDate);
-    this.reqData.contract_details.end_timestamp = Math.floor(this.curDate / 1000);
-    console.log(this.reqData.contract_details.end_timestamp);
-  }
 }
 
 @Injectable()
