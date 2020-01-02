@@ -100,49 +100,35 @@ export function appInitializerFactory(translate: TranslateService, userService: 
 
   const langToSet = window['jQuery']['cookie']('lng') || ((['en', 'zh', 'ko', 'ru'].indexOf(defaultLng) > -1) ? defaultLng : 'en');
 
-  // console.log(contractsService.getContracts);
-  
+  const IS_PRODUCTION = location.protocol === 'https:';
+
+  let tokenListAddress = '';
 
   return () => new Promise<any>((resolve: any, reject) => {
 
     translate.setDefaultLang('en');
+    
+    (IS_PRODUCTION) ? tokenListAddress = 'get_coinmarketcap_tokens/' : tokenListAddress = 'get_test_tokens/';
 
     translate.use(langToSet).subscribe(() => {
       const subscriber = userService.getCurrentUser(true).subscribe((user: UserInterface) => {
 
-        // httpService.get('get_coinmarketcap_tokens/').toPromise().then((tokens) => {
-        //   let index = tokens.length - 1;
-
-        //   while(index >= 0) {
-        //     if (tokens[index].platform !== 'ethereum')
-        //       tokens.splice(index, 1);
-        //     index -= 1;
-        //   }
-
-        //   tokens = tokens.sort((a, b) => {
-        //     const aRank = a.rank || 100000;
-        //     const bRank = b.rank || 100000;
-        //     return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
-        //   });
-
-        //   console.log('only sorted ethereum tokens');
-        //   console.log(tokens);
-
-        //   window['cmc_tokens'] = tokens;
-        //   resolve(null);
-        // });
-
-        httpService.get('get_test_tokens/').toPromise().then((tokens) => {
+        httpService.get(tokenListAddress).toPromise().then((tokens) => {
           let index = tokens.length - 1;
 
-          while (index >= 0) {
+          while(index >= 0) {
             if (tokens[index].platform !== 'ethereum')
               tokens.splice(index, 1);
             index -= 1;
           }
 
-          console.log('only TEST ethereum tokens');
-          console.log(tokens);
+          tokens = tokens.sort((a, b) => {
+            const aRank = a.rank || 100000;
+            const bRank = b.rank || 100000;
+            return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
+          });
+
+          console.log(tokenListAddress,tokens);
 
           window['cmc_tokens'] = tokens;
           resolve(null);

@@ -15,7 +15,7 @@ import {UserService} from '../services/user/user.service';
 
 import {SWAPS_V2} from '../contract-form-all/contract-v2-details';
 import {ContactOwnerComponent} from '../contact-owner/contact-owner.component';
-import {IContractV3} from '../contract-form-all/contract-form-all.component';
+import {IContractV3} from '../contract-form-all/contact-v3.interface';
 import {ERC20_TOKEN_ABI} from '../services/web3/web3.constants';
 
 

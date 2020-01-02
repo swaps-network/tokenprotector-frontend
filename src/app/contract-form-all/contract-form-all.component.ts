@@ -1,75 +1,20 @@
-import {AfterContentInit, Component, EventEmitter, Injectable, OnDestroy, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
-import {MY_FORMATS} from '../contract-form/contract-form.component';
-import {ContractsService} from '../services/contracts/contracts.service';
-import {UserService} from '../services/user/user.service';
-import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
-import {ActivatedRoute, ActivatedRouteSnapshot, Resolve, Router} from '@angular/router';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDatepicker, MatDialog} from '@angular/material';
+import { AfterContentInit, Component, EventEmitter, Injectable, OnDestroy, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { ActivatedRoute, ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDatepicker, MatDialog } from '@angular/material';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+
 import { TransactionComponent } from '../transaction/transaction.component';
-import BigNumber from 'bignumber.js';
+import { MY_FORMATS } from '../contract-form/contract-form.component';
 
-import {Web3Service} from '../services/web3/web3.service';
-import {Observable} from 'rxjs';
+import { UserService } from '../services/user/user.service';
+import { Web3Service } from '../services/web3/web3.service';
+import { ContractsService } from '../services/contracts/contracts.service';
+import { ERC20_TOKEN_ABI } from '../services/web3/web3.constants';
 import { UserInterface } from '../services/user/user.interface';
-import {ERC20_TOKEN_ABI} from '../services/web3/web3.constants';
-import { ITsStepper } from '../services/variables/variables.interface';
 
-export interface IContractV3 {
-
-  id?: number;
-  name: string;
-
-  base_address?: string;
-  quote_address?: string;
-  base_limit?: string;
-  quote_limit?: string;
-  stop_date?: number;
-  owner_address?: string;
-  public?: boolean|undefined;
-  unique_link?: string;
-  unique_link_url?: string;
-
-  broker_fee: boolean;
-  broker_fee_address: string;
-  broker_fee_base: number;
-  broker_fee_quote: number;
-
-  quote_coin_id?: number;
-  base_coin_id?: number;
-  comment?: string;
-  tokens_info?: {
-    base?: {
-      token: any;
-      amount?: string;
-    };
-    quote?: {
-      token: any;
-      amount?: string;
-    };
-  };
-
-  whitelist?: any;
-  whitelist_address?: any;
-  min_base_wei?: any;
-  memo_contract?: any;
-  min_quote_wei?: any;
-
-  state?: string;
-  isSwapped?: boolean;
-  isAuthor?: boolean;
-  user?: number;
-
-  delail?: string;
-
-  contract_state?: string;
-
-  isEthereum?: boolean;
-  notification?: boolean;
-  notification_tg: string;
-  notification_email: string;
-  created_date: string;
-}
+import { BigNumber } from 'bignumber.js';
+import { Observable } from 'rxjs';
 
 export interface IReqData {
   id?: number;
@@ -104,6 +49,15 @@ export interface ITDate {
   max: any;
   min: any;
   current: any;
+}
+
+export interface ITsStepper {
+  current?: string;
+  number?: number;
+  button?: {
+    process?: boolean;
+    error?: boolean;
+  }
 }
 
 @Component({
@@ -149,7 +103,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
   
   public tsDate: ITDate = {
-    min: new Date().getDate() + 1,
+    min: new Date(new Date().setDate(new Date().getDate())), // new Date(new Date().setDate(new Date().getDate() + 1))
     max: null,
     current: new Date().getDate() + 1095
   }
@@ -165,16 +119,12 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
   private currentUser;
   private checker;
-  private tokenContract: any;
   public copiedAddresses = {};
 
   // remove in future
 
   public confirmErrorMessage = '';
   public selectedToken: any;
-  public curDate;
-  public minDate;
-
 
   constructor(
     protected contractsService: ContractsService,
@@ -198,7 +148,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
     this.tokensData.popular.map(tokenAddress => {
       this.tokensData.tokens.find(token => {
-        if (token.address === tokenAddress) { token.popular = true; }
+        (token.address === tokenAddress) ? token.popular = true : null;
       });
     });
 
@@ -326,10 +276,12 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       case 'FAIL_IN_CONFIRM':
         console.log(this.reqData.state);
         this.confirmErrorMessage = 'Something went wrong, please try again or contact us';
+        (this.checker) ? clearTimeout(this.checker) : null;
         return;
 
       case 'POSTPONED':
         console.log(this.reqData.state);
+        (this.checker) ? clearTimeout(this.checker) : null;
         return;
       
       default:
@@ -412,15 +364,14 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
 
   public dateChange() {
-    const CurrentTime = new Date(this.curDate);
+    const CurrentTime = new Date(this.tsDate.current);
     CurrentTime.setMinutes(new Date().getMinutes() + 10);
-    if (new Date().getMinutes() >= 50) { CurrentTime.setHours(new Date().getHours()); } else { CurrentTime.setHours(new Date().getHours() + 1); }
-    this.curDate = new Date(CurrentTime);
-    console.log('Date chosen:', this.curDate);
-    this.reqData.contract_details.end_timestamp = Math.floor(this.curDate / 1000);
-    console.log(this.reqData.contract_details.end_timestamp);
+    (new Date().getMinutes() >= 50) ? CurrentTime.setHours(new Date().getHours() + 1) : CurrentTime.setHours(new Date().getHours());
+    this.tsDate.current = new Date(CurrentTime);
+    console.log('Date chosen: ', this.tsDate.current);
+    this.reqData.contract_details.end_timestamp = Math.floor(this.tsDate.current / 1000);
+    console.log('Timestamp: ',this.reqData.contract_details.end_timestamp);
   }
-
 
   private openTrxWindow(tokenAddress) {
     console.log(tokenAddress);
@@ -430,6 +381,8 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       }
     );
   }
+
+  // private removeTransactions(amount, token) {}
 
   private createTransactions(amount, token) {
     try {
@@ -446,8 +399,8 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       const checkAllowance = (wallet) => {
         return new Promise((resolve, reject) => {
           const tokenModel = token;
-          this.tokenContract = this.web3Service.getContract(ERC20_TOKEN_ABI, tokenModel.address);
-          this.tokenContract.methods.allowance(wallet, this.reqData.contract_details.eth_contract.address).call().then((result) => {
+          const tokenContract = this.web3Service.getContract(ERC20_TOKEN_ABI, tokenModel.address);
+          tokenContract.methods.allowance(wallet, this.reqData.contract_details.eth_contract.address).call().then((result) => {
             result = result ? result.toString(10) : result;
             result = result === '0' ? null : result;
             if (result && new BigNumber(result).minus(amount).isPositive()) {

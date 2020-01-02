@@ -67,54 +67,50 @@
       <div class="left-contract">
 
         <div class="form-container">
-          
+
           <!-- FIRST BLOCK: Input Address -->
-          <form class="form-block"
-                #addressForm="ngForm"
-                (submit)="checkContractStatus('PREPARE_DATE_EMAIL')"
-                [ngClass]="{
+          <form class="form-block" #addressForm="ngForm" (submit)="checkContractStatus('PREPARE_DATE_EMAIL')" [ngClass]="{
                     hidden: reqData.state !== 'PREPARE_ADDRESS',
                     checked: reqData.state !== 'PREPARE_ADDRESS',
                     'form-block__active': reqData.state === 'PREPARE_ADDRESS'
                 }">
-            <div class="form-block_title" (click)="(reqData.state === ('PREPARE_DATE_EMAIL' || 'CREATED')) ? checkContractStatus('PREPARE_ADDRESS') : null">The address for the protection</div>
+            <div class="form-block_title"
+              (click)="(reqData.state === ('PREPARE_DATE_EMAIL' || 'CREATED')) ? checkContractStatus('PREPARE_ADDRESS') : null">
+              The address for the protection</div>
             <div class="form-block_fieldset">
               <label class="form-field_label">Enter your address</label>
               <div class="form-field">
                 <div class="form-field_input width-550-px">
-                  <input type="text"
-                    class="min-text max-placeholder"
-                    maxlength="42"
-                    pattern="0x[0-9a-fA-F]{40}"
+                  <input type="text" class="min-text max-placeholder" maxlength="42" pattern="0x[0-9a-fA-F]{40}"
                     required
                     [ngClass]="{'input_field-error': (reqData.contract_details.owner_address != '') && (reqData.contract_details.reserve_address != '') && (reqData.contract_details.owner_address === reqData.contract_details.reserve_address)}"
-                    [(ngModel)]="reqData.contract_details.owner_address"
-                    placeholder="Ethereum address"
+                    [(ngModel)]="reqData.contract_details.owner_address" placeholder="Ethereum address"
                     name="owner_address_1">
                 </div>
                 <div class="form-field_text normal-font width-550-px">
-                  Your address which you want to protect from losing tokens (in case of losing private key/access). You will know private key of your address at the current moment.
+                  Your address which you want to protect from losing tokens (in case of losing private key/access). You
+                  will know private key of your address at the current moment.
                 </div>
               </div>
               <label class="form-field_label">Enter reserve address</label>
               <div class="form-field">
                 <div class="form-field_input width-550-px">
-                    <input type="text"
-                    class="min-text max-placeholder"
-                    maxlength="42"
-                    pattern="0x[0-9a-fA-F]{40}"
+                  <input type="text" class="min-text max-placeholder" maxlength="42" pattern="0x[0-9a-fA-F]{40}"
                     required
                     [ngClass]="{'input_field-error': (reqData.contract_details.owner_address != '') && (reqData.contract_details.reserve_address != '') && (reqData.contract_details.owner_address === reqData.contract_details.reserve_address)}"
-                    [(ngModel)]="reqData.contract_details.reserve_address"
-                    placeholder="Ethereum address"
+                    [(ngModel)]="reqData.contract_details.reserve_address" placeholder="Ethereum address"
                     name="owner_address_2">
                 </div>
                 <div class="form-field_text normal-font width-550-px">
                   Reserve address which will get tokens from your address if conditions are met.
                 </div>
               </div>
-              <span *ngIf="(reqData.contract_details.owner_address != '') && (reqData.contract_details.reserve_address != '') && (reqData.contract_details.owner_address === reqData.contract_details.reserve_address)" class="form-field error_text__address">use different addresses</span>
-              <button class="button button-tp button-tp-blue is-medium" [disabled]="(reqData.contract_details.owner_address === reqData.contract_details.reserve_address) || !addressForm.valid" type="submit">
+              <span
+                *ngIf="(reqData.contract_details.owner_address != '') && (reqData.contract_details.reserve_address != '') && (reqData.contract_details.owner_address === reqData.contract_details.reserve_address)"
+                class="form-field error_text__address">use different addresses</span>
+              <button class="button button-tp button-tp-blue is-medium"
+                [disabled]="(reqData.contract_details.owner_address === reqData.contract_details.reserve_address) || !addressForm.valid"
+                type="submit">
                 <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
                   <span class="lds-ellipsis-container">
                     <span></span><span></span><span></span><span></span>
@@ -127,98 +123,83 @@
           </form>
           <!-- /FIRST BLOCK: Input Address -->
 
-
           <!-- SECOND BLOCK: Input Date and E-mail -->
-            <div class="form-block"
-               [ngClass]="{
+          <div class="form-block" [ngClass]="{
                    hidden: reqData.state !== 'PREPARE_DATE_EMAIL',
                    checked: reqData.state !== ['PREPARE_DATE_EMAIL','PREPARE_ADDRESS'],
                   'form-block__active': reqData.state === 'PREPARE_DATE_EMAIL'
                }">
-               
-               
-               <form #conditionsForm="ngForm" (submit)="checkContractStatus('CREATE')">
 
-                <div class="form-block_title" (click)="(reqData.state === ('CREATED' || 'UPDATED')) ? checkContractStatus('PREPARE_DATE_EMAIL') : null">Conditions</div>
-                
+
+            <form #conditionsForm="ngForm" (submit)="checkContractStatus('CREATE')">
+
+              <div class="form-block_title"
+                (click)="(reqData.state === ('CREATED' || 'UPDATED')) ? checkContractStatus('PREPARE_DATE_EMAIL') : null">
+                Conditions</div>
+
               <div class="form-block_fieldset">
-                  <label class="form-field_label">Transfer the tokens from your address to Reserve address on</label>
-                  <div class="form-field">
-                    <div class="form-field_input width-550-px d-flex">
-                      <input matInput [matDatepicker]="datepicker"
-                        required
-                        readonly
-                        [min]="minDate"
-                        [(ngModel)]="curDate"
-                        (dateChange)="dateChange()"
-                        name="active_to"
-                        (click)="datepicker.open()" placeholder="Choose a date" class="min-text">
-                      <mat-datepicker #datepicker></mat-datepicker>
-                      <span class="mat-datepicker-toggle" (click)="datepicker.open()" >
-                        <button mat-button mat-icon-button type="button">
-                          <img src="./assets/images/icons/calendar.svg">
-                        </button>
-                      </span>
-                    </div>
-                    <div class="form-field_text normal-font">
-                      You can cancel the Protection contract anytime before execution.
-                    </div>
+                <label class="form-field_label">Transfer the tokens from your address to Reserve address on</label>
+                <div class="form-field">
+                  <div class="form-field_input width-550-px d-flex">
+                    <input matInput [matDatepicker]="datepicker" required readonly [min]="tsDate.min"
+                      [(ngModel)]="tsDate.current" (dateChange)="dateChange()" name="active_to"
+                      (click)="datepicker.open()" placeholder="Choose a date" class="min-text">
+                    <mat-datepicker #datepicker></mat-datepicker>
+                    <span class="mat-datepicker-toggle" (click)="datepicker.open()">
+                      <button mat-button mat-icon-button type="button">
+                        <img src="./assets/images/icons/calendar.svg">
+                      </button>
+                    </span>
                   </div>
-                
-                  <div class="form-field">
-                    <label class="form-field_label">Email for notifications (optional)</label>
-                    <div class="form-field">
-                      <div class="form-field_input width-550-px">
-                        <input type="email"
-                            class="min-text max-placeholder"
-                            [email]="true"
-                            [(ngModel)]="reqData.contract_details.email"
-                            placeholder="Enter your email"
-                            name="check_email">
-                      </div>
-                    </div>
+                  <div class="form-field_text normal-font">
+                    You can cancel the Protection contract anytime before execution.
                   </div>
-
-                  <button class="button button-tp button-tp-blue is-medium" [disabled]="!conditionsForm.valid" type="submit">
-                    <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
-                      <span class="lds-ellipsis-container">
-                        <span></span><span></span><span></span><span></span>
-                      </span>
-                    </div>
-                    <span *ngIf="!tsSrepper.button.process" class="caption">Next step</span>
-                  </button>
-
                 </div>
-              </form>
+
+                <div class="form-field">
+                  <label class="form-field_label">Email for notifications (optional)</label>
+                  <div class="form-field">
+                    <div class="form-field_input width-550-px">
+                      <input type="email" class="min-text max-placeholder" [email]="true"
+                        [(ngModel)]="reqData.contract_details.email" placeholder="Enter your email" name="check_email">
+                    </div>
+                  </div>
+                </div>
+
+                <button class="button button-tp button-tp-blue is-medium" [disabled]="!conditionsForm.valid"
+                  type="submit">
+                  <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
+                    <span class="lds-ellipsis-container">
+                      <span></span><span></span><span></span><span></span>
+                    </span>
+                  </div>
+                  <span *ngIf="!tsSrepper.button.process" class="caption">Next step</span>
+                </button>
+
+              </div>
+            </form>
           </div>
           <!-- /SECOND BLOCK: Input Date and E-mail -->
 
-
           <!-- THIRD BLOCK: Preview -->
-            <div class="form-block"
-               [ngClass]="{
+          <div class="form-block" [ngClass]="{
                  hidden: reqData.state !== 'CREATED',
                  checked: reqData.state !== 'CREATED',
                  'form-block__active': reqData.state === 'CREATED'
                }">
-               
-              <form (submit)="checkContractStatus('CONFIRM_CONTRACT')">
-              
+
+            <form (submit)="checkContractStatus('CONFIRM_CONTRACT')">
+
               <div class="form-block_title">Preview</div>
-              
+
               <div class="form-block_fieldset">
 
                 <div class="form-field">
                   <label class="form-field_label">Your address</label>
                   <div class="form-field">
                     <div class="form-field_input width-550-px d-flex ai-center pr-50">
-                      <input type="text"
-                        class="min-text max-placeholder"
-                        maxlength="42"
-                        pattern="0x[0-9a-fA-F]{40}"
-                        disabled
-                        [(ngModel)]="reqData.contract_details.owner_address"
-                        placeholder="Ethereum address"
+                      <input type="text" class="min-text max-placeholder" maxlength="42" pattern="0x[0-9a-fA-F]{40}"
+                        disabled [(ngModel)]="reqData.contract_details.owner_address" placeholder="Ethereum address"
                         name="check_owner_address_1">
                     </div>
                   </div>
@@ -228,14 +209,9 @@
                   <label class="form-field_label">Reserve address</label>
                   <div class="form-field">
                     <div class="form-field_input width-550-px d-flex ai-center pr-50">
-                      <input type="text"
-                        class="min-text max-placeholder width-100"
-                        maxlength="42"
-                        pattern="0x[0-9a-fA-F]{40}"
-                        disabled
-                        [(ngModel)]="reqData.contract_details.reserve_address"
-                        placeholder="Ethereum address"
-                        name="check_reverse_address_2">
+                      <input type="text" class="min-text max-placeholder width-100" maxlength="42"
+                        pattern="0x[0-9a-fA-F]{40}" disabled [(ngModel)]="reqData.contract_details.reserve_address"
+                        placeholder="Ethereum address" name="check_reverse_address_2">
                     </div>
                   </div>
                 </div>
@@ -244,13 +220,8 @@
                   <label class="form-field_label">Transfer the tokens from your address to Reserve address on</label>
                   <div class="form-field">
                     <div class="form-field_input width-550-px">
-                      <input type="text"
-                        [email]="true"
-                        class="min-text max-placeholder"
-                        disabled
-                        [ngModel]="curDate|date"
-                        (ngModelChange)="curDate=$event"
-                        placeholder="Date"
+                      <input type="text" [email]="true" class="min-text max-placeholder" disabled
+                        [ngModel]="tsDate.current|date" (ngModelChange)="tsDate.current=$event" placeholder="Date"
                         name="check_date">
                     </div>
                   </div>
@@ -260,18 +231,14 @@
                   <label class="form-field_label">Email Address mail for notifications</label>
                   <div class="form-field">
                     <div class="form-field_input width-550-px">
-                      <input type="email"
-                        [email]="true"
-                        class="min-text max-placeholder"
-                        disabled
-                        [(ngModel)]="reqData.contract_details.email"
-                        placeholder="Your email"
-                        name="check_email">
+                      <input type="email" [email]="true" class="min-text max-placeholder" disabled
+                        [(ngModel)]="reqData.contract_details.email" placeholder="Your email" name="check_email">
                     </div>
                   </div>
                 </div>
 
-                <button class="button button-tp button-tp-blue is-medium" type="submit" [disabled]="tsSrepper.button.process">
+                <button class="button button-tp button-tp-blue is-medium" type="submit"
+                  [disabled]="tsSrepper.button.process">
                   <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
                     <span class="lds-ellipsis-container">
                       <span></span><span></span><span></span><span></span>
@@ -286,8 +253,7 @@
           <!-- /THIRD BLOCK: Preview -->
 
           <!-- FOUR BLOCK: Payement -->
-          <div class="form-block"
-               [ngClass]="{
+          <div class="form-block" [ngClass]="{
                  hidden: reqData.state !== 'WAITING_FOR_PAYMENT',
                  checked: reqData.state !== ('PREPARE_DATE_EMAIL' || 'PREPARE_ADDRESS' || 'CREATED' || 'CREATE' || 'WAITING_FOR_PAYMENT'),
                  'form-block__active': reqData.state === 'WAITING_FOR_PAYMENT'
@@ -295,12 +261,9 @@
             <div class="form-block_title">Payment</div>
             <form class="form-block_fieldset">
               <div class="form-field">
-                
-                <app-contract-form-pay
-                  *ngIf="reqData.state === 'WAITING_FOR_PAYMENT'"
-                  [contractCosts]="reqData.cost"
-                  [costsEmitter]="costEmitter"
-                  [currentUser]="currentUser">
+
+                <app-contract-form-pay *ngIf="reqData.state === 'WAITING_FOR_PAYMENT'" [contractCosts]="reqData.cost"
+                  [costsEmitter]="costEmitter" [currentUser]="currentUser">
                 </app-contract-form-pay>
 
               </div>
@@ -310,33 +273,31 @@
           <!-- /FOUR BLOCK: Payement -->
 
           <!-- FIVE BLOCK: Deploy -->
-          <div class="form-block"
-               [ngClass]="{
+          <div class="form-block" [ngClass]="{
                  hidden: reqData.state !== 'WAITING_FOR_DEPLOYMENT',
                  checked: reqData.state === ('WAITING_FOR_APPROVE' || 'WAITING_FOR_CONFIRM'),
                  'form-block__active': reqData.state === ('WAITING_FOR_DEPLOYMENT' || 'PREPARE_DATE_EMAIL' || 'PREPARE_ADDRESS' || 'CREATED' || 'CREATE' || 'WAITING_FOR_PAYMENT')
                }">
-               
-               <div class="form-block_title">Deployment</div>
-               
-               <form class="form-block_fieldset">
-                 
-                <div class="form-field_deployment" *ngIf="reqData.state !== 'POSTPONED'">
-                  <div class="ff_deployment-progress"></div>
-                  <span class="ff_deployment-title">Contract Deployment is in progress...</span>
-                  <span class="ff_deployment-text">It can take 10-15 minutes, please wait</span>
-                </div>
 
-                <div class="form-field_deployment" *ngIf="reqData.state === 'POSTPONED'">
-                  <div class="ff_deployment-error"></div>
-                  <span class="ff_deployment-title">Something went wrong</span>
-                  <span class="ff_deployment-text">please try again later or contact us</span>
-                </div>
+            <div class="form-block_title">Deployment</div>
+
+            <form class="form-block_fieldset">
+
+              <div class="form-field_deployment" *ngIf="reqData.state !== 'POSTPONED'">
+                <div class="ff_deployment-progress"></div>
+                <span class="ff_deployment-title">Contract Deployment is in progress...</span>
+                <span class="ff_deployment-text">It can take 10-15 minutes, please wait</span>
+              </div>
+
+              <div class="form-field_deployment" *ngIf="reqData.state === 'POSTPONED'">
+                <div class="ff_deployment-error"></div>
+                <span class="ff_deployment-title">Something went wrong</span>
+                <span class="ff_deployment-text">please try again later or contact us</span>
+              </div>
 
             </form>
           </div>
           <!-- /FIVE BLOCK: Deploy -->
-
 
           <!-- SIX BLOCK: Approve Tokens -->
           <div class="form-block" [ngClass]="{
@@ -347,26 +308,28 @@
             <div class="form-block_title">Choose tokens for the protection</div>
             <div class="form-block_fieldset" *ngIf="reqData.state !== 'FAIL_IN_CONFIRM'">
               <div class="form-block_text-token">
-                You shall grant rights to the protection contract for transferring the tokens <br> if conditions are met.<br><br>
+                You shall grant rights to the protection contract for transferring the tokens <br> if conditions are
+                met.<br><br>
                 Add every token which you need to protect:<br>
               </div>
 
               <div class="form-block_tokens__list">
-                <div class="token_item" *ngFor="let token of tokensData.tokens | FilterTokens : false : false : '' : true">
-                  <span [className]="'token_item__title token_item__icon-'+token.token_name"><span class="token_item__image" [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>({{ token.token_short_name }}) {{ token.token_name }}</span>
-                  <span (click)="changeTokenStatus(token.address,false)" class="token_item__button token_item__button-active">APPROVED</span>
+                <div class="token_item"
+                  *ngFor="let token of tokensData.tokens | FilterTokens : false : false : '' : true">
+                  <span [className]="'token_item__title token_item__icon-'+token.token_name"><span
+                      class="token_item__image"
+                      [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>({{ token.token_short_name }})
+                    {{ token.token_name }}</span>
+                  <span (click)="changeTokenStatus(token.address,false)"
+                    class="token_item__button token_item__button-active">APPROVED</span>
                 </div>
               </div>
 
               <div class="form-field_line"></div>
 
               <div class="form-block_search-tokens">
-                <input type="text"
-                  class="min-text max-placeholder form-block_search-tokens_input"
-                  #searchTokensInput
-                  [(ngModel)]="tokensData.search"
-                  placeholder="Search"
-                  (input)="tokensData.filterLimit = 10">
+                <input type="text" class="min-text max-placeholder form-block_search-tokens_input" #searchTokensInput
+                  [(ngModel)]="tokensData.search" placeholder="Search" (input)="tokensData.filterLimit = 10">
                 <span class="form-block_search-tokens_input-icon"></span>
                 <span class="form-block_search-tokens_input-close" (click)="tokensData.search = ''"></span>
               </div>
@@ -375,13 +338,18 @@
                 <div class="form-block_tokens__list">
 
                   <ng-container *ngIf="tokensData.search">
-                    <ng-container *ngFor="let token of tokensData.tokens | FilterTokens:false:true:tokensData.search:false | slice:0:tokensData.filterLimit">
+                    <ng-container
+                      *ngFor="let token of tokensData.tokens | FilterTokens:false:true:tokensData.search:false | slice:0:tokensData.filterLimit">
                       <ng-container *ngIf="(tokensData.tokens.length <= 0 || tokensData.tokens === null)">
                         <div class="token_item token_item__error">Tokens not found</div>
                       </ng-container>
                       <div class="token_item">
-                        <span [className]="'token_item__title token_item__icon-'+token.token_name"><span class="token_item__image" [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>({{ token.token_short_name }}) {{ token.token_name }}</span>
-                        <span class="token_item__button" [class.token_item__button_active]="token === selectedToken" (click)="changeTokenStatus(token.address);onSelect(token)">
+                        <span [className]="'token_item__title token_item__icon-'+token.token_name"><span
+                            class="token_item__image"
+                            [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>({{ token.token_short_name }})
+                          {{ token.token_name }}</span>
+                        <span class="token_item__button" [class.token_item__button_active]="token === selectedToken"
+                          (click)="changeTokenStatus(token.address);onSelect(token)">
                           <div class="lds-ellipsis">
                             <span class="lds-ellipsis-container">
                               <span></span><span></span><span></span><span></span>
@@ -391,20 +359,25 @@
                         </span>
                       </div>
                     </ng-container>
-                    <div class="token_item token_item__more" (click)="loadMoreTokensFilter(tokensData.tokens.length)" *ngIf="tokensData.filterLimit < tokensData.tokens.length && tokensData.filterLimit !== tokensData.tokens.length">Load more</div>
+                    <div class="token_item token_item__more" (click)="loadMoreTokensFilter(tokensData.tokens.length)"
+                      *ngIf="tokensData.filterLimit < tokensData.tokens.length && tokensData.filterLimit !== tokensData.tokens.length">
+                      Load more</div>
                   </ng-container>
 
                 </div>
               </div>
 
               <app-transaction *ngIf="reqData.state === 'DEPLOYED'"></app-transaction>
-              
+
               <div class="form-field_line"></div>
 
               <div class="form-block_subtitle">POPULAR</div>
               <div class="form-block_tokens__list">
                 <div class="token_item" *ngFor="let token of tokensData.tokens | FilterTokens:true:false:'':false">
-                  <span [className]="'token_item__title token_item__icon-'+token.token_name"><span class="token_item__image" [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>({{ token.token_short_name }}) {{ token.token_name }}</span>
+                  <span [className]="'token_item__title token_item__icon-'+token.token_name"><span
+                      class="token_item__image"
+                      [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>({{ token.token_short_name }})
+                    {{ token.token_name }}</span>
                   <span class="token_item__button" (click)="changeTokenStatus(token.address)">
                     <div class="lds-ellipsis">
                       <span class="lds-ellipsis-container">
@@ -417,10 +390,13 @@
               </div>
               <div class="form-field_line"></div>
 
-              <span *ngIf="confirmErrorMessage" class="form-field error_text__address">{{confirmErrorMessage || ''}}</span>
+              <span *ngIf="confirmErrorMessage"
+                class="form-field error_text__address">{{confirmErrorMessage || ''}}</span>
 
               <div class="form-field__button">
-                <button (click)="checkContractStatus('CONFIRM_APPROVE')" class="button button-tp button-tp-blue is-medium" type="submit" [disabled]="(tokensData.approved.length <= 0) && !tsSrepper.button.process">
+                <button (click)="checkContractStatus('CONFIRM_APPROVE')"
+                  class="button button-tp button-tp-blue is-medium" type="submit"
+                  [disabled]="(tokensData.approved.length <= 0) && !tsSrepper.button.process">
                   <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
                     <span class="lds-ellipsis-container">
                       <span></span><span></span><span></span><span></span>
@@ -450,7 +426,7 @@
 
         </div>
       </div>
-      
+
       <div class="right-contract">
         <div class="d-flex fd-column">
           <!-- <span class="button button-tp button-tp-watch is-medium">
@@ -474,20 +450,21 @@
       <div class="info-modal-text">
         No contacting method has been selected.
         Please choose one of the contact methods.
-        As our practice shows, if we can stay in touch with you, we can quicker find you a second participant for the trade.
+        As our practice shows, if we can stay in touch with you, we can quicker find you a second participant for the
+        trade.
       </div>
-      <div class="contact-buttons"><br/><br/>
+      <div class="contact-buttons"><br /><br />
         <div class="grid-row">
           <div class="grid-cell grid-cell-ls-2-3 grid-cell-vs-1">
-            <button class="btn btn-yellow btn-min text-center btn-auto ls-width-100" (click)="requestData.notification = true" mat-dialog-close>
+            <button class="btn btn-yellow btn-min text-center btn-auto ls-width-100"
+              (click)="requestData.notification = true" mat-dialog-close>
               <span class="just-title">Add contact information</span>
             </button>
           </div>
           <div class="grid-cell grid-cell-1 show-ls">&nbsp;</div>
           <div class="grid-cell grid-cell-ls-2-3 grid-cell-vs-1">
-            <button class="btn btn-transparent btn-min text-center btn-auto with-bg ls-width-100"
-                    mat-dialog-close
-                    (click)="gotToForm(100)">
+            <button class="btn btn-transparent btn-min text-center btn-auto with-bg ls-width-100" mat-dialog-close
+              (click)="gotToForm(100)">
               <span class="just-title">Skip this step</span>
             </button>
           </div>
@@ -502,21 +479,20 @@
   <div class="dialog-block">
     <div class="dialog-block__content">
       <div class="info-modal-text">
-        Please note: That your pair can not be executed by smart contract. To make it decentralized please choose Ethereum based tokens.
+        Please note: That your pair can not be executed by smart contract. To make it decentralized please choose
+        Ethereum based tokens.
       </div>
-      <div class="contact-buttons"><br/><br/>
+      <div class="contact-buttons"><br /><br />
         <div class="grid-row">
           <div class="grid-cell grid-cell-ls-2-3 grid-cell-vs-1">
-            <button class="btn btn-yellow btn-min text-center btn-auto ls-width-100"
-                    mat-dialog-close>
+            <button class="btn btn-yellow btn-min text-center btn-auto ls-width-100" mat-dialog-close>
               <span class="just-title">Change</span>
             </button>
           </div>
           <div class="grid-cell grid-cell-1 show-ls">&nbsp;</div>
           <div class="grid-cell grid-cell-ls-2-3 grid-cell-vs-1">
-            <button class="btn btn-transparent btn-min text-center btn-auto with-bg ls-width-100"
-                    mat-dialog-close
-                    (click)="gotToForm(1)">
+            <button class="btn btn-transparent btn-min text-center btn-auto with-bg ls-width-100" mat-dialog-close
+              (click)="gotToForm(1)">
               <span class="just-title">Skip & continue</span>
             </button>
           </div>
@@ -525,15 +501,3 @@
     </div>
   </div>
 </ng-template>
-
-
-
-
-
-
-
-
-
-
-
-
