@@ -1,9 +1,15 @@
 @import "../../scss/mixins";
 
 .section-page {
+  padding-top: 100px;
+
   @include b(879) {
     padding-top: 60px;
     overflow: hidden;
+  }
+
+  @include b(500) {
+    padding-top: 150px;
   }
 }
 

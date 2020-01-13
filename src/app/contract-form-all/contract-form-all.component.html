@@ -2,64 +2,77 @@
   <div class="app-content-block">
 
     <!-- Mobile step counts -->
-    <!-- <div class="grid-row steps-mobile">
+    <div class="grid-row steps-mobile">
 
+      <!-- FIRST BLOCK: Input Address -->
       <div class="grid-cell grid-cell-1-4">
         <div class="steps-mobile_item"
-             (click)="stepper.current = (!previewTrigger && editableTokenProtector) ? 0 : stepper.current"
+             (click)="(['PREPARE_DATE_EMAIL','CREATED'].includes(reqData.state)) ? checkContractStatus('PREPARE_ADDRESS') : null"
              [ngClass]="{
-                'checked': (addressForm.valid) && (stepper.current > 0),
-                'active': editableTokenProtector && (stepper.current === 0),
-                'opened': stepper.current === 0
+               'active': reqData.state === 'PREPARE_ADDRESS',
+               'opened': reqData.state === 'PREPARE_ADDRESS',
+               'checked': reqData.state !== 'PREPARE_ADDRESS'
              }"></div>
       </div>
-      <div class="grid-cell grid-cell-1-4">
-        <div class="steps-mobile_item"
-             (click)="stepper.current = (!previewTrigger && addressForm.valid && editableTokenProtector && (stepper.current >= 1)) ? 1 : stepper.current;"
-             [ngClass]="{
-                'active': addressForm.valid && editableTokenProtector && (stepper.current === 1),
-                'checked': conditionsForm.valid && (stepper.current > 1),
-                'opened': stepper.current === 1
-             }"></div>
-      </div>
-      <div class="grid-cell grid-cell-1-4">
-        <div class="steps-mobile_item"
-             (click)="stepper.current = (!previewTrigger && addressForm.valid && editableTokenProtector && (stepper.current >= 2)) ? 2 : stepper.current;"
-             [ngClass]="{
-                'active': addressForm.valid && conditionsForm.valid && editableTokenProtector && (stepper.current === 2),
-                'checked': stepper.current > 2,
-                'opened': stepper.current === 2
-             }"></div>
-      </div>
-      <div class="grid-cell grid-cell-1-4">
-        <div class="steps-mobile_item"
-             (click)="stepper.current = (stepper.current === 3) ? 3 : stepper.current;"
-             [ngClass]="{
-                'active': addressForm.valid && conditionsForm.valid && !editableTokenProtector && previewTrigger && (stepper.current === 3),
-                'checked': stepper.current > 3,
-                'opened': stepper.current === 3
-             }"></div>
-      </div>
-      <div class="grid-cell grid-cell-1-4">
-        <div class="steps-mobile_item"
-             (click)="stepper.current = (stepper.current === 4) ? 4 : stepper.current;"
-             [ngClass]="{
-                'active': addressForm.valid && conditionsForm.valid && !editableTokenProtector && previewTrigger && (stepper.current === 4),
-                'checked': paymentForm.valid && (stepper.current > 4),
-                'opened': stepper.current === 4
-             }"></div>
-      </div>
-      <div class="grid-cell grid-cell-1-4">
-        <div class="steps-mobile_item"
-             (click)="stepper.current = (stepper.current === 5) ? 5 : stepper.current;"
-             [ngClass]="{
-                'active': addressForm.valid && conditionsForm.valid && !editableTokenProtector && previewTrigger && (stepper.current === 5),
-                'checked': (stepper.current >= 5),
-                'opened': stepper.current === 5
-             }"></div>
-      </div>
+      <!-- /FIRST BLOCK: Input Address -->
 
-    </div> -->
+      <!-- SECOND BLOCK: Input Date and E-mail -->
+      <div class="grid-cell grid-cell-1-4">
+        <div class="steps-mobile_item"
+             (click)="(['CREATED','UPDATED'].includes(reqData.state)) ? checkContractStatus('PREPARE_DATE_EMAIL') : null"
+             [ngClass]="{
+                'active': reqData.state === 'PREPARE_DATE_EMAIL',
+                'opened': reqData.state === 'PREPARE_DATE_EMAIL',
+                'checked': !['PREPARE_DATE_EMAIL','PREPARE_ADDRESS'].includes(reqData.state)
+              }"></div>
+            </div>
+      <!-- /SECOND BLOCK: Input Date and E-mail -->
+
+      <!-- THIRD BLOCK: Preview -->
+      <div class="grid-cell grid-cell-1-4">
+        <div class="steps-mobile_item"
+             [ngClass]="{
+                'active': reqData.state === 'CREATED',
+                'opened': reqData.state == 'CREATED',
+                'checked': !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED'].includes(reqData.state)
+             }"></div>
+      </div>
+      <!-- /THIRD BLOCK: Preview -->
+
+      <!-- FOUR BLOCK: Payement -->
+      <div class="grid-cell grid-cell-1-4">
+        <div class="steps-mobile_item"
+             [ngClass]="{
+                'active': reqData.state === 'WAITING_FOR_PAYMENT',
+                'opened': reqData.state === 'WAITING_FOR_PAYMENT',
+                'checked': !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state)
+              }"></div>
+      </div>
+      <!-- /FOUR BLOCK: Payement -->
+
+      <!-- FIVE BLOCK: Deploy -->
+      <div class="grid-cell grid-cell-1-4">
+        <div class="steps-mobile_item"
+             [ngClass]="{
+                'active': reqData.state === 'WAITING_FOR_DEPLOYMENT',
+                'opened': reqData.state === 'WAITING_FOR_DEPLOYMENT',
+                'checked': !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state)
+             }"></div>
+      </div>
+      <!-- /FIVE BLOCK: Deploy -->
+
+      <!-- SIX BLOCK: Approve Tokens -->
+      <div class="grid-cell grid-cell-1-4">
+        <div class="steps-mobile_item"
+             [ngClass]="{
+                'active': reqData.state === 'WAITING_FOR_APPROVE',
+                'opened': reqData.state === 'WAITING_FOR_APPROVE',
+                'checked': !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT', 'WAITING_FOR_APPROVE', 'WAITING_FOR_CONFIRM', 'WAITING_FOR_APPROVE', 'WAITING_FOR_DEPLOYMENT', 'WAITING_FOR_PAYMENT', 'CREATED'].includes(reqData.state)
+             }"></div>
+      </div>
+      <!-- /SIX BLOCK: Approve Tokens -->
+
+    </div>
 
     <!-- Main form -->
     <div class="container-contract">
@@ -74,9 +87,7 @@
                     checked: reqData.state !== 'PREPARE_ADDRESS',
                     'form-block__active': reqData.state === 'PREPARE_ADDRESS'
                 }">
-            <div class="form-block_title"
-              (click)="(reqData.state === ('PREPARE_DATE_EMAIL' || 'CREATED')) ? checkContractStatus('PREPARE_ADDRESS') : null">
-              The address for the protection</div>
+            <div class="form-block_title" (click)="(['PREPARE_DATE_EMAIL','CREATED'].includes(reqData.state)) ? checkContractStatus('PREPARE_ADDRESS') : null">The address for the protection</div>
             <div class="form-block_fieldset">
               <label class="form-field_label">Enter your address</label>
               <div class="form-field">
@@ -126,7 +137,7 @@
           <!-- SECOND BLOCK: Input Date and E-mail -->
           <div class="form-block" [ngClass]="{
                    hidden: reqData.state !== 'PREPARE_DATE_EMAIL',
-                   checked: reqData.state !== ['PREPARE_DATE_EMAIL','PREPARE_ADDRESS'],
+                   checked: !['PREPARE_DATE_EMAIL','PREPARE_ADDRESS'].includes(reqData.state),
                   'form-block__active': reqData.state === 'PREPARE_DATE_EMAIL'
                }">
 
@@ -134,7 +145,7 @@
             <form #conditionsForm="ngForm" (submit)="checkContractStatus('CREATE')">
 
               <div class="form-block_title"
-                (click)="(reqData.state === ('CREATED' || 'UPDATED')) ? checkContractStatus('PREPARE_DATE_EMAIL') : null">
+                (click)="(['CREATED','UPDATED'].includes(reqData.state)) ? checkContractStatus('PREPARE_DATE_EMAIL') : null">
                 Conditions</div>
 
               <div class="form-block_fieldset">
@@ -184,7 +195,7 @@
           <!-- THIRD BLOCK: Preview -->
           <div class="form-block" [ngClass]="{
                  hidden: reqData.state !== 'CREATED',
-                 checked: reqData.state !== 'CREATED',
+                 checked: !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED'].includes(reqData.state),
                  'form-block__active': reqData.state === 'CREATED'
                }">
 
@@ -255,7 +266,7 @@
           <!-- FOUR BLOCK: Payement -->
           <div class="form-block" [ngClass]="{
                  hidden: reqData.state !== 'WAITING_FOR_PAYMENT',
-                 checked: reqData.state !== ('PREPARE_DATE_EMAIL' || 'PREPARE_ADDRESS' || 'CREATED' || 'CREATE' || 'WAITING_FOR_PAYMENT'),
+                 checked: !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state),
                  'form-block__active': reqData.state === 'WAITING_FOR_PAYMENT'
                }">
             <div class="form-block_title">Payment</div>
@@ -275,7 +286,7 @@
           <!-- FIVE BLOCK: Deploy -->
           <div class="form-block" [ngClass]="{
                  hidden: reqData.state !== 'WAITING_FOR_DEPLOYMENT',
-                 checked: reqData.state === ('WAITING_FOR_APPROVE' || 'WAITING_FOR_CONFIRM'),
+                 checked: !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state),
                  'form-block__active': reqData.state === ('WAITING_FOR_DEPLOYMENT' || 'PREPARE_DATE_EMAIL' || 'PREPARE_ADDRESS' || 'CREATED' || 'CREATE' || 'WAITING_FOR_PAYMENT')
                }">
 
@@ -301,8 +312,8 @@
 
           <!-- SIX BLOCK: Approve Tokens -->
           <div class="form-block" [ngClass]="{
-            hidden: reqData.state !== 'WAITING_FOR_APPROVE', 
-            checked: reqData.state === ['WAITING_FOR_APPROVE','WAITING_FOR_DEPLOYMENT','WAITING_FOR_PAYMENT','CREATED'],
+            hidden: reqData.state !== 'WAITING_FOR_APPROVE',
+            checked: !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT', 'WAITING_FOR_APPROVE', 'WAITING_FOR_CONFIRM', 'WAITING_FOR_APPROVE', 'WAITING_FOR_DEPLOYMENT', 'WAITING_FOR_PAYMENT', 'CREATED'].includes(reqData.state),
             'form-block__active': reqData.state === 'WAITING_FOR_APPROVE'
           }">
             <div class="form-block_title">Choose tokens for the protection</div>

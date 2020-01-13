@@ -10,7 +10,7 @@
 
   &:before {
     content: '';
-    display: inline-block;
+    display: inline-block !important;
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -21,10 +21,13 @@
   &__0 {
     &:before {
       background-color: #fff;
+      box-shadow: 0px 0px 9px #fff;
     }
   }
 
   &__1 {
+    color: #15ff0f !important;
+
     &:before {
       background-color: #15ff0f;
       box-shadow: 0 0 9px rgba(21, 255, 15, 0.68);
@@ -32,13 +35,18 @@
   }
 
   &__2 {
+    color: $red !important;
+
     &:before {
       background-color: $red;
+      box-shadow: 0px 0px 9px $red;
     }
   }
 
   &__3,
   &__6 {
+    color: #ffd139 !important;
+
     &:before {
       background-color: #ffd139;
       box-shadow: 0 0 9px rgba(255, 209, 57, 0.68);
@@ -46,14 +54,20 @@
   }
 
   &__4 {
+    color: #0c660b !important;
+
     &:before {
       background-color: #0c660b;
+      box-shadow: 0px 0px 9px #0c660b;
     }
   }
 
   &__5 {
+    color: #660002 !important;
+
     &:before {
       background-color: #660002;
+      box-shadow: 0px 0px 9px #660002;
     }
   }
 }

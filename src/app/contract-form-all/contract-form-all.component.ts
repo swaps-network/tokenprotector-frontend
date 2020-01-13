@@ -186,7 +186,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     if (this.checker) { clearTimeout(this.checker); }
   }
 
-  private checkContractStatus(stepperState?:string) {
+  public checkContractStatus(stepperState?:string) {
 
     const user = this.currentUser || this.userService.getUserModel();
     this.reqData.state = stepperState || this.reqData.state;

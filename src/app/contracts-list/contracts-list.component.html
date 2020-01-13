@@ -1,7 +1,7 @@
 <div class="base-block-content">
   <div class="app-content-block">
-    <div class="my-contracts-title">My contracts</div>
-    <div class="my-contracts-empty" *ngIf="contractsList && !contractsList.length">
+    <div class="my-contracts-title mtb-20">My contracts</div>
+    <div class="my-contracts-empty mtb-20" *ngIf="contractsList && !contractsList.length">
       No contracts
     </div>
 
@@ -10,22 +10,33 @@
 
       <div class="public-swaps">
         <div class="grid-row public-swaps_head-row">
-          <div class="grid-cell grid-cell-3-9 public-swaps_head-cell">
-            <div class="public-swaps_head_content bold">
-              <b>Owner address</b>
+          <div class="grid-cell grid-cell-1-5 public-swaps_head-cell">
+            <div class="public-swaps_head_content bold fd-row">
+              <b>Contract name</b>
             </div>
           </div>
-          <div class="grid-cell grid-cell-3-9 public-swaps_head-cell">
-            <div class="public-swaps_head_content bold">
-              <b>Reserve address</b>
+          <div class="grid-cell grid-cell-1-3 public-swaps_head-cell">
+            <div class="public-swaps_head_content bold fd-row">
+              <b>Protected Address</b>
             </div>
           </div>
-          <div class="grid-cell grid-cell-1-4 public-swaps_head-cell">
+          <div class="grid-cell grid-cell-1-7 public-swaps_head-cell">
             <div class="public-swaps_head_content bold">
-              <b>Tokens</b>
+              <button class="sort-btn" (click)="applySort('creation')">
+                <span></span>
+              </button>
+              <b>Created<br>date</b>
             </div>
           </div>
-          <div class="grid-cell grid-cell-1-8 public-swaps_head-cell"
+          <div class="grid-cell grid-cell-1-7 public-swaps_head-cell">
+            <div class="public-swaps_head_content bold">
+              <button class="sort-btn" (click)="applySort('expire')">
+                <span></span>
+              </button>
+              <b>Execution<br>date</b>
+            </div>
+          </div>
+          <div class="grid-cell grid-cell-18 public-swaps_head-cell"
                [ngClass]="{'public-swaps_head-cell__sortable': selectedFilter.name === 'status', 'asc': selectedFilter.asc}">
             <div class="public-swaps_head_content bold">
               <button class="sort-btn" (click)="applySort('status')">
@@ -47,7 +58,15 @@
            (click)="toContract(contract)"
            *ngFor="let contract of contractsList">
 
-        <div class="grid-cell grid-cell-3-9 public-swaps_cell">
+        <div class="grid-cell grid-cell-1-5 public-swaps_cell">
+          <div class="public-swaps_cell_content">
+            <div class="swap-info">
+              {{contract.name || 'Token Protector' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-cell grid-cell-1-3 public-swaps_cell">
           <div class="public-swaps_cell_content">
             <div class="swap-info">
               {{contract.owner_address || contract.contract_details.owner_address }}
@@ -55,23 +74,23 @@
           </div>
         </div>
 
-        <div class="grid-cell grid-cell-3-9 public-swaps_cell">
+        <div class="grid-cell grid-cell-1-7 public-swaps_cell">
           <div class="public-swaps_cell_content">
             <div class="swap-info">
-              {{contract.reserve_address || contract.contract_details.reserve_address }}
+              {{ contract.created_date|date }}
             </div>
           </div>
         </div>
 
-        <div class="grid-cell grid-cell-1-4 public-swaps_cell">
+        <div class="grid-cell grid-cell-1-7 public-swaps_cell">
           <div class="public-swaps_cell_content">
             <div class="swap-info">
-              {{contract.approved_tokens || contract.contract_details.approved_tokens }}
+              {{ contract.contract_details.end_timestamp|date }}
             </div>
           </div>
         </div>
 
-        <div class="grid-cell grid-cell-1-8 public-swaps_cell">
+        <div class="grid-cell grid-cell-18 public-swaps_cell">
           <div class="public-swaps_cell_content">
             <div class="swap-info swap-info_status">
               <span class="contract-state"

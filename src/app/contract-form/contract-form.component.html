@@ -1,84 +1,138 @@
 <div class="base-block-content">
   <div class="app-content-block">
 
+    <div class="form-block_title__view-title mtb-20">Contract N{{ reqData.id }}</div>
+    
     <!-- Main form -->
-    <div class="container-contract">
+    <div class="container-contract container-contract__view">
 
       <div class="left-contract">
         <div class="form-container form-container_contract">
 
-          <div class="form-block form-block_contract">
+          <mat-tab-group dynamicHeight animationDuration="0ms" color="white" class="tp-tabs">
+            <mat-tab label="Contract info">
 
-            <div class="form-block_title__view">
-              <span class="form-block_title__view-title">Contract info</span>
-              <span class="form-block_title__view-status"
-                    [ngClass]="'contract-state__' + states[reqData.state].NUMBER">
-                {{states[reqData.state].TEXT}}</span>
-            </div>
+              <div class="form-block form-block_contract">
 
-            <div class="form-field_line"></div>
-
-            <label class="form-field_label">Your address</label>
-            <div class="form-field">
-              <div class="form-field_input width-100">
-                <input type="text"
-                        class="min-text max-placeholder"
-                        maxlength="42"
-                        pattern="0x[0-9a-fA-F]{40}"
-                        disabled
-                        [(ngModel)]="reqData.contract_details.owner_address"
-                        placeholder="Ethereum address"
-                        name="check_owner_address_1">
-              </div>
-            </div>
-
-            <label class="form-field_label">Reserve address</label>
-            <div class="form-field">
-              <div class="form-field_input width-100">
-                <input type="text"
-                  class="min-text max-placeholder width-100"
-                  maxlength="42"
-                  pattern="0x[0-9a-fA-F]{40}"
-                  disabled
-                  [(ngModel)]="reqData.contract_details.reserve_address"
-                  placeholder="Ethereum address"
-                  name="check_reverse_address_2">
-              </div>
-            </div>
-
-            <div class="form-field_line"></div>
-    
-            <div class="form-field_info-view">
-              <div class="form-field_info-view_row">
-                <div class="form-field_info-view_column">
-                  <span class="form-field_info-view_column-title">CLOSING DATE</span>
-                  <span class="form-field_info-view_column-date">{{ curDate|date }}</span>
+                <div class="form-block_title__view">
+                  <span></span>
+                  <span class="form-block_title__view-status"
+                        [ngClass]="'contract-state__' + states[reqData.state].NUMBER">
+                    {{ reqData.state }}</span>
                 </div>
-                <div class="form-field_info-view_column">
-                  <span class="form-field_info-view_column-title">Management address</span>
-                  <div class="form-field_info-view_column-mail">
-                    <span class="form-field_info-view_column-mail_title">{{ reqData.contract_details.email || 'none' }}</span>
+
+                <label class="form-field_label fw-b">Contract address</label>
+                <div class="form-field">
+                  <div class="form-field_input width-100">
+                    <input type="text"
+                            class="min-text max-placeholder"
+                            maxlength="42"
+                            pattern="0x[0-9a-fA-F]{40}"
+                            disabled
+                            [(ngModel)]="reqData.contract_details.eth_contract.address"
+                            placeholder="Ethereum address"
+                            name="check_owner_address_1">
+                            
+                    <button type="button" class="copy-btn copy-btn__pa" ngxClipboard [cbContent]="reqData.contract_details.eth_contract.address">
+                      <img src="./assets/images/icons/copy.svg"/>
+                    </button>
                   </div>
                 </div>
-              </div>
-              <div class="form-field_info-view_row">
-                <div class="btn btn-tp-white">
-                  <span class="caption">SOURCE CODE</span>
+
+                <label class="form-field_label fw-b">Protected address</label>
+                <div class="form-field">
+                  <div class="form-field_input width-100">
+                    <input type="text"
+                      class="min-text max-placeholder width-100"
+                      maxlength="42"
+                      pattern="0x[0-9a-fA-F]{40}"
+                      disabled
+                      [(ngModel)]="reqData.contract_details.owner_address"
+                      placeholder="Ethereum address"
+                      name="check_reverse_address_2">
+
+                      <button type="button" class="copy-btn copy-btn__pa" ngxClipboard [cbContent]="reqData.contract_details.owner_address">
+                        <img src="./assets/images/icons/copy.svg"/>
+                      </button>
+                  </div>
                 </div>
+                
+                <label class="form-field_label fw-b">Reserve address</label>
+                <div class="form-field">
+                  <div class="form-field_input width-100">
+                    <input type="text"
+                      class="min-text max-placeholder width-100"
+                      maxlength="42"
+                      pattern="0x[0-9a-fA-F]{40}"
+                      disabled
+                      [(ngModel)]="reqData.contract_details.reserve_address"
+                      placeholder="Ethereum address"
+                      name="check_reverse_address_2">
+
+                      <button type="button" class="copy-btn copy-btn__pa" ngxClipboard [cbContent]="reqData.contract_details.reserve_address"> 
+                        <img src="./assets/images/icons/copy.svg"/>
+                      </button>
+                  </div>
+                </div>
+
+                <label class="form-field_label fw-b">Protected tokens</label>
+                <div class="form-field__tokens-view">
+                  <div class="form-field__tokens-view_item" *ngFor="let token of tokensData.tokens | FilterTokens : false : false : '' : true">
+                    <span class="form-field__tokens-view_item-title">
+                      <span
+                          class="form-field__tokens-view_item-image"
+                          [ngStyle]="{'background-image':'url(' + token.image_link + ')'}">
+                      </span>
+                        {{ token.token_short_name }}
+                    </span>
+                  </div>
+                </div>
+        
+                <div class="form-field_info-view">
+                  <div class="form-field_info-view_row">
+                    <div class="form-field_info-view_column">
+                      <span class="form-field_info-view_column-title">Created date</span>
+                      <span class="form-field_info-view_column-date">{{ reqData.created_date|date }}</span>
+                    </div>
+                    <div class="form-field_info-view_column">
+                      <span class="form-field_info-view_column-title">Execution date</span>
+                      <span class="form-field_info-view_column-date">{{ curDate|date }}</span>
+                    </div>
+                    <div class="form-field_info-view_column">
+                      <span class="form-field_info-view_column-title">Notification e-mail</span>
+                      <div class="form-field_info-view_column-mail">
+                        <span class="form-field_info-view_column-mail_title">{{ reqData.contract_details.email || 'none' }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-field_line-view"></div>
+
+                <div class="form-field_view-button">
+                  <span class="button button-tp button-tp-blue is-large" [routerLink]="['/contracts']" routerLinkActive="router-link-active"><span class="caption">Back</span></span>
+                  <span class="button button-tp button-tp-gray_light is-large" *ngIf="!['POSTPONED','CANCELLED','EXPIRED'].includes(reqData.state)"><span class="caption" >Cancel contract</span></span>
+                </div>
+
               </div>
-            </div>
 
-            <div class="form-field_line"></div>
+            </mat-tab>
 
-            <div class="form-block_fieldset">
+            <mat-tab *ngIf="!['POSTPONED','CANCELLED','EXPIRED'].includes(reqData.state)" label="Source code">
+              <div class="form-block form-block_contract">
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, magni reiciendis ullam magnam accusantium consequuntur illum doloribus deserunt rem repellendus dolorem alias expedita suscipit? Magnam illum amet culpa consequuntur mollitia.
+                </p>
+              </div>
+            </mat-tab>
 
-            </div>
-          </div>
+
+          </mat-tab-group>
 
         </div>
       </div>
 
-      <div class="right-contract">
+      <div class="right-contract-view">
         <div class="d-flex fd-column">
           <!-- <span class="button button-tp button-tp-watch is-medium">
             <span class="caption">Watch instruction</span>

@@ -17,6 +17,7 @@ import {MatNativeDateModule, MatDatepickerModule, MAT_DATE_FORMATS, MatDialogMod
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { EthAddressDirective } from './directives/eth-address/eth-address.directive';
+import { MatTabsModule } from '@angular/material/tabs';
 import {EtherscanUrlPipe, EthTokenValidatorDirective} from './services/web3/web3.service';
 import {ContractsService} from './services/contracts/contracts.service';
 import {UserService} from './services/user/user.service';
@@ -201,6 +202,7 @@ export function appInitializerFactory(translate: TranslateService, userService: 
   ],
   imports: [
     TransferHttpCacheModule,
+    MatTabsModule,
     TranslateModule.forRoot({
         loader: {
           provide: TranslateLoader,

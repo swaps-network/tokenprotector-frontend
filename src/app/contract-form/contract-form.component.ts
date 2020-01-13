@@ -1,24 +1,15 @@
-import {
-  AfterContentInit,
-  Component,
-  EventEmitter,
-  Injectable,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  TemplateRef,
-  ViewChild
-} from '@angular/core';
-import {MatDatepicker, MatDialog} from '@angular/material';
-import {ContractsService} from '../services/contracts/contracts.service';
-import {ActivatedRoute, ActivatedRouteSnapshot, Resolve, Router} from '@angular/router';
-import {UserService} from '../services/user/user.service';
-import { Observable } from 'rxjs';
-import {CONTRACT_STATES} from '../contract-preview/contract-states';
+import { AfterContentInit, Component, Injectable, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ActivatedRoute, ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
+import { MatDatepicker } from '@angular/material';
 
-import {UserInterface} from '../services/user/user.interface';
-import {Location} from '@angular/common';
+import { UserService } from '../services/user/user.service';
+import { ContractsService } from '../services/contracts/contracts.service';
+import { UserInterface } from '../services/user/user.interface';
+
+import { CONTRACT_STATES } from '../contract-preview/contract-states';
+import { Observable } from 'rxjs';
+
+
 
 export interface IContractDetails {
   base_address?: string;
@@ -69,28 +60,6 @@ export interface IContract {
   user?: number;
 }
 
-
-export interface IReqData {
-  id?: number;
-  contract_type?: number;
-  network: number;
-  balance?: number;
-  state?: string;
-  name: string;
-  detail?: string;
-  user?: number;
-  cost?: object;
-  contract_details: {
-    owner_address: string;
-    reserve_address: string;
-    end_timestamp: number;
-    email: string;
-    approved_tokens?: any;
-    eth_contract?: any;
-  };
-}
-
-
 export const MY_FORMATS = {
   useUtc: true,
   parse: {
@@ -104,6 +73,35 @@ export const MY_FORMATS = {
   },
 };
 
+
+
+
+export interface IReqData {
+  id?: number;
+  contract_type?: number;
+  network: number;
+  balance?: number;
+  state?: string;
+  name: string;
+  detail?: string;
+  user?: number;
+  cost?: object;
+  created_date?: any;
+  contract_details: {
+    owner_address: string;
+    reserve_address: string;
+    end_timestamp: number;
+    email: string;
+    approved_tokens?: any;
+    eth_contract?: any;
+  };
+}
+
+export interface ITokens {
+  tokens: any;
+  approved: any;
+};
+
 @Component({
   selector: 'app-contract-form',
   templateUrl: './contract-form.component.html',
@@ -114,6 +112,8 @@ export const MY_FORMATS = {
 export class ContractFormComponent implements AfterContentInit, OnInit, OnDestroy {
 
   @ViewChild('rateNotification') rateNotification: TemplateRef<any>;
+  @ViewChild('extraForm') public extraForm;
+  @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
 
   public reqData: IReqData = {
     contract_type: 23,
@@ -126,15 +126,22 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
       end_timestamp: 1,
       email: '',
     }
-  };
+  }
+
+  public tokensData: ITokens = {
+    tokens: window['cmc_tokens'],
+    approved: ''
+  }
+
+  public currentUser;
+  public curDate;
+  public states = CONTRACT_STATES;
   
   constructor(
     protected contractsService: ContractsService,
     private userService: UserService,
-    private location: Location,
     private route: ActivatedRoute,
     protected router: Router,
-    private dialog: MatDialog
   ) {
 
     this.reqData = this.route.snapshot.data.contract;
@@ -146,22 +153,20 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
 
   }
 
-  public currentUser;
-  public curDate;
-  public states = CONTRACT_STATES;
-
-  @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
-  @ViewChild('extraForm') public extraForm;
-
-  @ViewChild('brokersForm') private brokersForm;
-
-
-
   ngOnInit() {
     if (this.reqData) {
-      console.log(this.reqData)
+      console.log(this.reqData);
+
+      this.reqData.contract_details.approved_tokens.map(tokenAddress => {
+        this.tokensData.tokens.find(token => {
+          (token.address === tokenAddress.address) ? token.approved = true : null;
+        });
+      });
+
       this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
-      //
+    }
+    else {
+      this.router.navigate(['/create']);
     }
   }
 

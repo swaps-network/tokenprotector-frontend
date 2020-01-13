@@ -210,6 +210,11 @@
     margin: 15px 0;
   }
 
+  &_line-view {
+    border-bottom: 2px dashed lightgray;
+    margin: 30px -25px;
+  }
+
   &_label {
     font-size: 14px;
     color: $form-section-color-label;
@@ -625,6 +630,56 @@
       }
     }
   }
+
+
+  &__tokens-view {
+
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -10px;
+    margin-bottom: 30px;
+
+    // &_row {
+
+    // }
+
+    &_item {
+      width: 124px;
+      height: 52px;
+      background-color: #F5F5F5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      margin-bottom: 10px;
+
+      &-title {
+        color: black;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &-image {
+        display: block;
+        width: 25px;
+        height: 25px;
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  &_view-button {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-bottom: 20px;
+  }
+
 }
 
 .form-block {

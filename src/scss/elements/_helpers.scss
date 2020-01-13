@@ -73,6 +73,10 @@ ng-scrollbar-y {
     padding-right: 50px;
 }
 
+.fd-row {
+    flex-direction: row !important;
+}
+
 .container-contract {
     display: flex;
     flex-direction: row;
@@ -80,6 +84,10 @@ ng-scrollbar-y {
     align-items: stretch;
     flex-wrap: nowrap;
     padding-left: 62px;
+
+    &__view {
+        padding-left: 0 !important;
+    }
 }
 
 .left-contract {
@@ -91,6 +99,16 @@ ng-scrollbar-y {
 .right-contract {
     order: 2;
     flex-basis: 320px;
+
+    .button {
+        max-width: 250px !important;
+        margin-bottom: 15px;
+    }
+}
+
+.right-contract-view {
+    order: 2;
+    flex-basis: 705px;
 
     .button {
         max-width: 250px !important;
@@ -117,15 +135,29 @@ ng-scrollbar-y {
     height: 50px;
     margin-top: -20px;
     margin-bottom: 10px;
+
     img {
         width: 20px;
         margin-right: 8px;
         margin-top: 9px;
     }
+
+    @include b(800) {
+        margin-top: 0;
+    }
 }
 
 .mt-5 {
     margin-top: 5px !important;
+}
+
+.mtb-20 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.fw-b {
+    font-weight: bold;
 }
 
 .bg-none {
@@ -149,7 +181,8 @@ ng-scrollbar-y {
         padding-right: 0;
     }
 
-    .right-contract {
+    .right-contract,
+    .right-contract-view {
         flex-basis: 100%;
         // order: 2;
 
