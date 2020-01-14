@@ -18,7 +18,7 @@
                   <span></span>
                   <span class="form-block_title__view-status"
                         [ngClass]="'contract-state__' + states[reqData.state].NUMBER">
-                    {{ reqData.state }}</span>
+                    {{ states[reqData.state].TEXT }}</span>
                 </div>
 
                 <label class="form-field_label fw-b">Contract address</label>
@@ -111,23 +111,127 @@
 
                 <div class="form-field_view-button">
                   <span class="button button-tp button-tp-blue is-large" [routerLink]="['/contracts']" routerLinkActive="router-link-active"><span class="caption">Back</span></span>
-                  <span class="button button-tp button-tp-gray_light is-large" *ngIf="!['POSTPONED','CANCELLED','EXPIRED'].includes(reqData.state)"><span class="caption" >Cancel contract</span></span>
+                  <span class="button button-tp button-tp-gray_light is-large" *ngIf="['ACTIVE'].includes(reqData.state)" (click)="cancelContract(reqData.contract_details.eth_contract);"><span class="caption" >Cancel contract</span></span>
                 </div>
 
               </div>
 
             </mat-tab>
 
-            <mat-tab *ngIf="!['POSTPONED','CANCELLED','EXPIRED'].includes(reqData.state)" label="Source code">
-              <div class="form-block form-block_contract">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, magni reiciendis ullam magnam accusantium consequuntur illum doloribus deserunt rem repellendus dolorem alias expedita suscipit? Magnam illum amet culpa consequuntur mollitia.
-                </p>
+            <mat-tab *ngIf="['ACTIVE','DONE'].includes(reqData.state)" label="Source code">
+              <div class="form-block form-block_contract pb-30">
+
+                <div class="form-field_source-text">
+                  <span class="form-field_source-text_title">Download:</span>
+                  <span class="form-field_source-text_title">Contract <a (click)="saveContractSourceCode();" >source code</a></span>
+                  <span class="form-field_source-text_title">Contract <a href="https://github.com/MyWishPlatform/token_saver" target="_blank">LibraLibraries & other files</a></span>
+                </div>
+
+                <div class="form-field_line-view"></div>
+
+                <div class="form-field_source-text">
+                  <span class="form-field_source-text_title">To verify contract source code by Etherscan please contact us by email or follow the instruction:</span>
+                </div>
+
+                <div class="form-field_source-text form-field_source-steps" data-step="1">
+                  <span class="form-field_source-text_title">Open contract address on <a [attr.href]="'https://ropsten.etherscan.io/address/'+reqData.contract_details.eth_contract.address+'#code'" target="_blank">etherscan</a></span>
+                </div>
+
+                <div class="form-field_source-text form-field_source-steps" data-step="2">
+                  <span class="form-field_source-text_title">In Contract Code tab choose "Verify And Publish"</span>
+                </div>
+
+                <div class="form-field_source-text form-field_source-steps" data-step="3">
+                  <div class="form-field">
+                    <label class="form-field_label fw-b">Enter Contract Name:</label>
+                    <div class="form-field_input width-100">
+                      <input type="text"
+                        class="min-text max-placeholder width-100"
+                        maxlength="42"
+                        pattern="0x[0-9a-fA-F]{40}"
+                        disabled
+                        [(ngModel)]="reqData.name"
+                        placeholder="Ethereum address"
+                        name="contract_name">
+
+                        <button type="button" class="copy-btn copy-btn__pa" ngxClipboard [cbContent]="reqData.name">
+                          <img src="./assets/images/icons/copy.svg"/>
+                        </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-field_source-text form-field_source-steps" data-step="4">
+                  <div class="form-field">
+                    <label class="form-field_label fw-b">Enter Contract Address:</label>
+                    <div class="form-field_input width-100">
+                      <input type="text"
+                        class="min-text max-placeholder width-100"
+                        maxlength="42"
+                        pattern="0x[0-9a-fA-F]{40}"
+                        disabled
+                        [(ngModel)]="reqData.contract_details.eth_contract.address"
+                        placeholder="Ethereum address"
+                        name="contract_address">
+
+                        <button type="button" class="copy-btn copy-btn__pa" ngxClipboard [cbContent]="reqData.contract_details.eth_contract.address">
+                          <img src="./assets/images/icons/copy.svg"/>
+                        </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-field_source-text form-field_source-steps" data-step="5">
+                  <div class="form-field">
+                    <label class="form-field_label fw-b">Fill out Compiler version:</label>
+                    <div class="form-field_input width-100">
+                      <input type="text"
+                        class="min-text max-placeholder width-100"
+                        disabled
+                        [(ngModel)]="reqData.contract_details.eth_contract.compiler_version"
+                        placeholder="Compiler version"
+                        name="contract_compiler_version">
+
+                        <button type="button" class="copy-btn copy-btn__pa" ngxClipboard [cbContent]="reqData.contract_details.eth_contract.compiler_version">
+                          <img src="./assets/images/icons/copy.svg"/>
+                        </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-field_source-text form-field_source-steps" data-step="6">
+                  <div class="form-field">
+                    <label class="form-field_label fw-b">Paste the Solidity Contract code:</label>
+                    <div class="form-field_input width-100">
+                      <textarea type="text"
+                        class="min-text max-placeholder width-100"
+                        maxlength="42"
+                        pattern="0x[0-9a-fA-F]{40}"
+                        disabled
+                        [(ngModel)]="reqData.contract_details.eth_contract.source_code"
+                        placeholder="Solidity Contract code"
+                        name="contract_source_code"></textarea>
+
+                        <button type="button" class="copy-btn copy-btn__pa" ngxClipboard [cbContent]="reqData.contract_details.eth_contract.source_code">
+                          <img src="./assets/images/icons/copy.svg"/>
+                        </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-field_source-text form-field_source-steps" data-step="7">
+                  <span class="form-field_source-text_title">Remove the parameters from the Constructor argument field ABI-encoded</span>
+                </div>
+
+                <div class="form-field_source-text form-field_source-steps" data-step="8">
+                  <span class="form-field_source-text_title">Others fields are not required. Press «Verify And Publish»</span>
+                </div>
+
               </div>
             </mat-tab>
 
 
-          </mat-tab-group>
+          </mat-tab-group> 
 
         </div>
       </div>

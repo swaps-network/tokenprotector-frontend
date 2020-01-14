@@ -1,13 +1,20 @@
 import { AfterContentInit, Component, Injectable, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute, ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { MatDatepicker } from '@angular/material';
 
 import { UserService } from '../services/user/user.service';
+import { Web3Service } from '../services/web3/web3.service';
+import { ERC20_TOKEN_ABI } from '../services/web3/web3.constants';
+
 import { ContractsService } from '../services/contracts/contracts.service';
 import { UserInterface } from '../services/user/user.interface';
 
 import { CONTRACT_STATES } from '../contract-preview/contract-states';
+import { BigNumber } from 'bignumber.js';
 import { Observable } from 'rxjs';
+
+import { TransactionComponent } from '../transaction/transaction.component';
 
 
 
@@ -142,6 +149,8 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
     private userService: UserService,
     private route: ActivatedRoute,
     protected router: Router,
+    private web3Service: Web3Service,
+    private dialog: MatDialog
   ) {
 
     this.reqData = this.route.snapshot.data.contract;
@@ -172,7 +181,70 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
 
   ngAfterContentInit() {}
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
+  
+  public saveContractSourceCode() {
+    const filename = this.reqData.name + '-' + this.reqData.contract_details.eth_contract.address + '.sol';
+    const data = this.reqData.contract_details.eth_contract.source_code;
+    const mime = 'text/plain';
+    
+    const blob = new Blob([data], { type: mime || 'text/plain' });
+
+    if (typeof window.navigator.msSaveBlob !== 'undefined') window.navigator.msSaveBlob(blob, filename);
+    else {
+      let blobURL = window.URL.createObjectURL(blob);
+      let tempLink = document.createElement('a');
+      tempLink.style.display = 'none';
+      tempLink.href = blobURL;
+      tempLink.setAttribute('download', filename); 
+      
+      if (typeof tempLink.download === 'undefined') {
+          tempLink.setAttribute('target', '_blank');
+      }
+      
+      document.body.appendChild(tempLink);
+      tempLink.click();
+      document.body.removeChild(tempLink);
+      window.URL.revokeObjectURL(blobURL);
+    }
+  }
+
+  private cancelContract(token) {
+    try {
+      const cancelMethod = this.web3Service.getMethodInterface('selfdestruction');
+      const approveSignature = this.web3Service.encodeFunctionCall(
+        cancelMethod, []
+      );
+
+      const approveTransaction = (wallet) => {
+        return this.web3Service.sendTransaction({
+          from: wallet.address,
+          to: token.address,
+          data: approveSignature
+        }, wallet.type);
+      };
+
+      const transactionsList: any[] = [{
+        title: 'Authorise the contract for decline it',
+        to: token.address,
+        data: approveSignature,
+        action: approveTransaction
+      }];
+
+      this.dialog.open(TransactionComponent, {
+        width: '38.65em',
+        panelClass: 'custom-dialog-container',
+        data: {
+          transactions: transactionsList,
+          title: 'Decline contract',
+          description: `For decline you need to make ${transactionsList.length} transactions: authorise the contract and make the transfer`
+        }
+      });
+
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
 }
 

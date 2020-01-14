@@ -27,6 +27,10 @@ export const CONTRACT_STATES = {
     NUMBER: 6,
     TEXT: 'Waiting'
   },
+  WAITING_FOR_APPROVE: {
+    NUMBER: 6,
+    TEXT: 'Waiting'
+  },
   WAITING_FOR_DEPLOYMENT: {
     NUMBER: 6,
     TEXT: 'Waiting'

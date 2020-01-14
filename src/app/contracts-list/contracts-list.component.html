@@ -85,7 +85,7 @@
         <div class="grid-cell grid-cell-1-7 public-swaps_cell">
           <div class="public-swaps_cell_content">
             <div class="swap-info">
-              {{ contract.contract_details.end_timestamp|date }}
+              {{ contract.contract_details.end_timestamp*1000 |date }}
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@
               <span class="contract-state"
                     style="float: none;"
                    [ngClass]="'contract-state__' + states[contract.state].NUMBER">
-                {{states[contract.state].TEXT}}
+                {{ states[contract.state].TEXT }}
               </span>
             </div>
           </div>
