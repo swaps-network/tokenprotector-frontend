@@ -84,6 +84,7 @@
                           [ngStyle]="{'background-image':'url(' + token.image_link + ')'}">
                       </span>
                         {{ token.token_short_name }}
+                        <span (click)="openTrxWindow(token.address,true)" class="deleteToken-contract">x</span>
                     </span>
                   </div>
                 </div>

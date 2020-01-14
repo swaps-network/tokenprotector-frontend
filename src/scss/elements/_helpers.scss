@@ -81,6 +81,21 @@ ng-scrollbar-y {
     padding-bottom: 30px !important;
 }
 
+.deleteToken-contract {
+    position: absolute;
+    color: gray;
+    transition: 0.5s;
+    top: 3px;
+    right: 8px;
+    line-height: 1;
+    font-size: 15px;
+    cursor: pointer;
+
+    &:hover {
+        color: red;
+    }
+}
+
 .container-contract {
     display: flex;
     flex-direction: row;

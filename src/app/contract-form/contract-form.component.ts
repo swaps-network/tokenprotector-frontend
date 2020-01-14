@@ -209,6 +209,83 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
     }
   }
 
+  private openTrxWindow(tokenAddress, disaprove?:boolean) {
+    console.log(tokenAddress);
+    this.web3Service.getTokenInfo(tokenAddress).then(
+      (response) => {
+        if (disaprove) {
+          console.log('disaprove'); this.createTransactions(0, response.data);
+        }
+        else { this.createTransactions(1, response.data); }
+      }
+    );
+  }
+
+  private createTransactions(amount, token) {
+    try {
+      if (isNaN(amount)) { return; }
+
+      const approveMethod = this.web3Service.getMethodInterface('approve');
+      const amountToApprove = (amount === 0) ? 0 : new BigNumber(90071992.5474099).times(Math.pow(10, token.decimals)).toString(10);
+
+      console.log(amountToApprove);
+
+      const approveSignature = this.web3Service.encodeFunctionCall(
+        approveMethod, [
+          this.reqData.contract_details.eth_contract.address,
+          amountToApprove
+        ]
+      );
+
+      const checkAllowance = (wallet) => {
+        return new Promise((resolve, reject) => {
+          const tokenModel = token;
+          const tokenContract = this.web3Service.getContract(ERC20_TOKEN_ABI, tokenModel.address);
+          tokenContract.methods.allowance(wallet, this.reqData.contract_details.eth_contract.address).call().then((result) => {
+            result = result ? result.toString(10) : result;
+            result = result === '0' ? null : result;
+            if (result && new BigNumber(result).minus(amount).isPositive()) {
+              resolve(true);
+            } else {
+              reject(false);
+            }
+          }, () => {
+            reject(false);
+          });
+        });
+      };
+
+      const approveTransaction = (wallet) => {
+        return this.web3Service.sendTransaction({
+          from: wallet.address,
+          to: token.address,
+          data: approveSignature
+        }, wallet.type);
+      };
+
+      const transactionsList: any[] = [{
+        title: 'Authorise the contract for getting ' + token.symbol + ' tokens',
+        to: token.address,
+        data: approveSignature,
+        checkComplete: checkAllowance,
+        action: approveTransaction
+      }];
+
+      this.dialog.open(TransactionComponent, {
+        width: '38.65em',
+        panelClass: 'custom-dialog-container',
+        data: {
+          transactions: transactionsList,
+          title: 'Contribute',
+          description: `For contribution you need to make ${transactionsList.length} transactions: authorise the contract and make the transfer`
+        }
+      });
+
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   private cancelContract(token) {
     try {
       const cancelMethod = this.web3Service.getMethodInterface('selfdestruction');

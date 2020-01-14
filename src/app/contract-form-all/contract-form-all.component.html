@@ -331,7 +331,7 @@
                       class="token_item__image"
                       [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>({{ token.token_short_name }})
                     {{ token.token_name }}</span>
-                  <span (click)="changeTokenStatus(token.address,false)"
+                  <span (click)="changeTokenStatus(token.address,true)"
                     class="token_item__button token_item__button-active">APPROVED</span>
                 </div>
               </div>

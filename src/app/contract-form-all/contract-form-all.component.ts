@@ -345,8 +345,8 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     }
   }
 
-  public changeTokenStatus(value: string, e?) {
-    this.openTrxWindow(value);
+  public changeTokenStatus(value: string, disaprove?: boolean) {
+    this.openTrxWindow(value, disaprove);
   }
 
   public onSelect(token: any): void {
@@ -373,26 +373,31 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     console.log('Timestamp: ',this.reqData.contract_details.end_timestamp);
   }
 
-  private openTrxWindow(tokenAddress) {
+  private openTrxWindow(tokenAddress, disaprove?:boolean) {
     console.log(tokenAddress);
     this.web3Service.getTokenInfo(tokenAddress).then(
       (response) => {
-        this.createTransactions(0, response.data);
+        if (disaprove) {
+          console.log('disaprove'); this.createTransactions(0, response.data);
+        }
+        else { this.createTransactions(1, response.data); }
       }
     );
   }
-
-  // private removeTransactions(amount, token) {}
 
   private createTransactions(amount, token) {
     try {
       if (isNaN(amount)) { return; }
 
       const approveMethod = this.web3Service.getMethodInterface('approve');
+      const amountToApprove = (amount === 0) ? 0 : new BigNumber(90071992.5474099).times(Math.pow(10, token.decimals)).toString(10);
+
+      console.log(amountToApprove);
+
       const approveSignature = this.web3Service.encodeFunctionCall(
         approveMethod, [
           this.reqData.contract_details.eth_contract.address,
-          new BigNumber(90071992.5474099).times(Math.pow(10, token.decimals)).toString(10)
+          amountToApprove
         ]
       );
 
