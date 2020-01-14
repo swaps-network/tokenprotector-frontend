@@ -17,8 +17,8 @@
                 <div class="form-block_title__view">
                   <span></span>
                   <span class="form-block_title__view-status"
-                        [ngClass]="'contract-state__' + states[reqData.state].NUMBER">
-                    {{ states[reqData.state].TEXT }}</span>
+                        [ngClass]="'contract-state__' + (states[reqData.state].NUMBER || reqData.state) ">
+                    {{ states[reqData.state].TEXT || reqData.state }}</span>
                 </div>
 
                 <label class="form-field_label fw-b">Contract address</label>
@@ -112,7 +112,7 @@
 
                 <div class="form-field_view-button">
                   <span class="button button-tp button-tp-blue is-large" [routerLink]="['/contracts']" routerLinkActive="router-link-active"><span class="caption">Back</span></span>
-                  <span class="button button-tp button-tp-gray_light is-large" *ngIf="['ACTIVE'].includes(reqData.state)" (click)="cancelContract(reqData.contract_details.eth_contract);"><span class="caption" >Cancel contract</span></span>
+                  <span class="button button-tp button-tp-gray_light is-large" *ngIf="['ACTIVE'].includes(reqData.state)" (click)="cancelContract();"><span class="caption" >Cancel contract</span></span>
                 </div>
 
               </div>

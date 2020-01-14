@@ -286,24 +286,28 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
     }
   }
 
-  private cancelContract(token) {
+  private cancelContract() {
+
     try {
-      const cancelMethod = this.web3Service.getMethodInterface('selfdestruction');
-      const approveSignature = this.web3Service.encodeFunctionCall(
+      let cancelMethod;
+      let approveSignature;
+
+      cancelMethod = this.web3Service.getMethodInterface('selfdestruction', this.reqData.contract_details.eth_contract.abi);
+      approveSignature = this.web3Service.encodeFunctionCall(
         cancelMethod, []
       );
 
       const approveTransaction = (wallet) => {
         return this.web3Service.sendTransaction({
           from: wallet.address,
-          to: token.address,
+          to: this.reqData.contract_details.eth_contract.address,
           data: approveSignature
         }, wallet.type);
       };
 
       const transactionsList: any[] = [{
         title: 'Authorise the contract for decline it',
-        to: token.address,
+        to: this.reqData.contract_details.eth_contract.address,
         data: approveSignature,
         action: approveTransaction
       }];

@@ -95,8 +95,8 @@
             <div class="swap-info swap-info_status">
               <span class="contract-state"
                     style="float: none;"
-                   [ngClass]="'contract-state__' + states[contract.state].NUMBER">
-                {{ states[contract.state].TEXT }}
+                   [ngClass]="'contract-state__' + (states[contract.state].NUMBER || reqData.state)">
+                {{ states[contract.state].TEXT || reqData.state }}
               </span>
             </div>
           </div>

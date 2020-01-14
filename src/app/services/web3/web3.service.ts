@@ -355,7 +355,7 @@ export class Web3Service {
     });
   }
 
-  public encodeFunctionCall(abi, data) {
+  public encodeFunctionCall(abi, data?) {
     return this.Web3.eth.abi.encodeFunctionCall(abi, data);
   }
 

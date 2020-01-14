@@ -266,8 +266,9 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
           this.contractsService.confirmContract(this.reqData.id).then((result) => {
             this.reqData = result;
             this.checkContractStatus();
-          }).catch(err => {this.reqData.state = 'FAIL_IN_CONFIRM';console.log(err);});
-        } else {this.openLogInForm('CONFIRM_APPROVE');}
+          }).catch(err => { this.reqData.state = 'FAIL_IN_CONFIRM'; console.log(err); });
+        } else { this.openLogInForm('CONFIRM_APPROVE'); }
+        break;
 
       case 'ACTIVE':
         this.router.navigate(['/contract/' + this.reqData.id]);
@@ -320,7 +321,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
     const deleted = savedApprovedTokens.filter((item) => {
         return !approveTokens.filter((approveItem) => {
-            return approveItem.address === item;
+            return item === approveItem.address;
         }).length;
     }).map((t) => {
         return t.address;
@@ -330,9 +331,11 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       this.tokensData.tokens = this.tokensData.tokens.map((token) => {
         if (add.length && add.indexOf(token.address) > -1) {
           token.approved = true;
+          console.log('add to approve',token);
         }
         if (deleted.length && deleted.indexOf(token.address) > -1) {
           token.approved = false;
+          console.log('removed from approved',token);
         }
         return token;
       });
