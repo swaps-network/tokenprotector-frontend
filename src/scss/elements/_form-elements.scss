@@ -313,7 +313,7 @@
       line-height: 23px;
       font-family: inherit;
       font-size: 18px !important;
-      padding: 13px 13px 13px;
+      padding: 13px 40px 13px 13px;
 
 
       &:not(.min-text),
@@ -1012,6 +1012,15 @@
       }
 
     }
+  }
+}
+
+.form-block_title__click {
+  cursor: pointer;
+  transition: 0.4s ease;
+
+  &:hover {
+    background-color: #ebedf1;
   }
 }
 

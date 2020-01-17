@@ -136,13 +136,14 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
   }
 
   public tokensData: ITokens = {
-    tokens: window['cmc_tokens'],
+    tokens: Object.assign(window['cmc_tokens']),
     approved: ''
   }
 
   public currentUser;
   public curDate;
   public states = CONTRACT_STATES;
+  private checker;
   
   constructor(
     protected contractsService: ContractsService,
@@ -168,8 +169,12 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
 
       this.reqData.contract_details.approved_tokens.map(tokenAddress => {
         this.tokensData.tokens.find(token => {
-          (token.address === tokenAddress.address) ? token.approved = true : null;
+          (token.address === tokenAddress.address) ? token.approved = true : false;
         });
+      });
+
+      this.tokensData.approved = this.tokensData.tokens.filter((token) => {
+        return token.approved;
       });
 
       this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
@@ -181,7 +186,9 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
 
   ngAfterContentInit() {}
 
-  ngOnDestroy(): void { }
+  ngOnDestroy(): void { 
+    if (this.checker) { clearTimeout(this.checker); }
+  }
   
   public saveContractSourceCode() {
     const filename = this.reqData.name + '-' + this.reqData.contract_details.eth_contract.address + '.sol';
@@ -281,10 +288,14 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
         }
       });
 
+      this.getContractInformation(true);
+
     } catch (e) {
       console.log(e);
     }
   }
+
+  
 
   private cancelContract() {
 
@@ -321,10 +332,44 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
           description: `For decline you need to make ${transactionsList.length} transactions: authorise the contract and make the transfer`
         }
       });
+      this.getContractInformation();
 
     } catch (e) {
+      this.checker = undefined;
       console.log(e);
     }
+  }
+
+  private getContractInformation(unapprove?:boolean) {
+    console.log('contract: ', this.reqData.state, this.reqData.contract_details.approved_tokens);
+    this.checker = setTimeout(() => { this.getContractInformation(); }, 15000);
+
+    const promise = this.contractsService.getContract(this.reqData.id);
+    promise.then((result) => {
+      this.reqData = result;
+      if (result.state === 'CANCELLED') clearTimeout(this.checker);
+      if (unapprove && result.contract_details.approved_tokens.length <= 1) {
+        clearTimeout(this.checker);
+      }
+      else {
+
+        this.reqData.contract_details.approved_tokens.map(tokenAddress => {
+          this.tokensData.tokens.find(token => {
+            if (token.address === tokenAddress.address) {
+              token.approved = true;
+            }
+            else {
+              token.approved = false;
+            }
+          });
+        });
+
+        this.tokensData.approved = this.tokensData.tokens.filter((token) => {
+          return token.approved;
+        });
+
+      }
+    }).catch((error) => { console.log('something went wrong, please try again later or check your auth', error); });
   }
 
 }
@@ -346,7 +391,8 @@ export class ContractEditResolver implements Resolve<any> {
 
   private getContractInformation(observer, isPublic?) {
     let promise = this.contractsService.getContract(this.contractId);
-    promise.then((result) => {observer.next(result);});
+    promise.then((result) => { observer.next(result); });
+    promise.catch((error) => { console.log('Error, cant find contract', error) });
     observer.complete();
   };
 

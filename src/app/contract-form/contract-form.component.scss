@@ -6,6 +6,29 @@
 
 @import '../transaction/transaction.component';
 
+
+.base-block-content {
+  @include b(580) {
+    padding-top: 130px !important;
+  }
+}
+
+.mat-tab-group {
+  font-family: "Ubuntu", sans-serif;
+}
+
+.create-new-contract {
+  padding-top: 129px;
+  min-height: 100vh;
+  padding-bottom: 60px;
+  box-sizing: border-box;
+  background-attachment: fixed;
+
+  @include b(580) {
+    padding-top: 130px !important;
+  }
+}
+
 .form-field-select {
   box-sizing: border-box;
   background-color: #F4F4F4;
@@ -64,6 +87,18 @@
 }
 
 .form-field {
+
+  &_view {
+    &-button {
+      @include b(580) {
+        .button-tp {
+          max-width: 100% !important;
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+
   &_info {
     &-view {
       display: flex;
@@ -72,12 +107,16 @@
 
       &_row {
         display: flex;
+        flex-wrap: wrap;
       }
 
       &_column {
         display: flex;
         flex-direction: column;
-        margin-right: 60px;
+        margin-right: 10px;
+        margin-bottom: 20px;
+        width: 150px;
+
 
         &-title {
           font-size: 14px;
@@ -111,7 +150,7 @@
   background-attachment: fixed;
 
   @include b(580) {
-    padding-top: 80px !important;
+    padding-top: 80px;
   }
 }
 
@@ -264,12 +303,12 @@
   }
 
   &__active &_title {
-    cursor: pointer;
+    // cursor: pointer;
     font-weight: bold;
     font-size: 25px;
 
     &:hover {
-      background-color: $white-1;
+      // background-color: $white-1;
     }
   }
 

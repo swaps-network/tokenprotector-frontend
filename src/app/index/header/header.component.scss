@@ -1,4 +1,5 @@
 @import '../../../scss/vars';
+@import '../../../scss/mixins';
 
 header {
   padding-top: 20px;
@@ -135,6 +136,10 @@ header {
 
   .opened-list & {
     display: block;
+
+    @include b(800) {
+      display: contents;
+    }
   }
 
   &_item {}

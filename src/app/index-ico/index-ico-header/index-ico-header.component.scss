@@ -121,7 +121,7 @@ header {
   }
 
   .opened-list & {
-    display: block;
+    display: contents;
   }
 
   &_item {}

@@ -57,7 +57,7 @@ const PARTNERS = [
     logo: './assets/images/new/partners/coss.svg'
   },
   {
-    link: '#',
+    link: 'https://poloniex.org/',
     logo: './assets/images/new/partners/trx.svg'
   },
   {

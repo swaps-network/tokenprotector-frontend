@@ -77,14 +77,14 @@
 
                 <label class="form-field_label fw-b">Protected tokens</label>
                 <div class="form-field__tokens-view">
-                  <div class="form-field__tokens-view_item" *ngFor="let token of tokensData.tokens | FilterTokens : false : false : '' : true">
+                  <div class="form-field__tokens-view_item" *ngFor="let token of tokensData.approved">
                     <span class="form-field__tokens-view_item-title">
                       <span
                           class="form-field__tokens-view_item-image"
                           [ngStyle]="{'background-image':'url(' + token.image_link + ')'}">
                       </span>
                         {{ token.token_short_name }}
-                        <span (click)="openTrxWindow(token.address,true)" class="deleteToken-contract">x</span>
+                        <span *ngIf="(['ACTIVE'].includes(reqData.state) && (reqData.contract_details.approved_tokens.length > 1))" (click)="openTrxWindow(token.address,true)" class="deleteToken-contract">x</span>
                     </span>
                   </div>
                 </div>
@@ -125,7 +125,7 @@
                 <div class="form-field_source-text">
                   <span class="form-field_source-text_title">Download:</span>
                   <span class="form-field_source-text_title">Contract <a (click)="saveContractSourceCode();" >source code</a></span>
-                  <span class="form-field_source-text_title">Contract <a href="https://github.com/MyWishPlatform/token_saver" target="_blank">LibraLibraries & other files</a></span>
+                  <span class="form-field_source-text_title">Contract <a href="https://github.com/MyWishPlatform/token_saver" target="_blank">Libraries & other files</a></span>
                 </div>
 
                 <div class="form-field_line-view"></div>
@@ -201,6 +201,10 @@
                 </div>
 
                 <div class="form-field_source-text form-field_source-steps" data-step="6">
+                  <span class="form-field_source-text_title">Select "Yes" in option "Optimization"</span>
+                </div>
+
+                <div class="form-field_source-text form-field_source-steps" data-step="7">
                   <div class="form-field">
                     <label class="form-field_label fw-b">Paste the Solidity Contract code:</label>
                     <div class="form-field_input width-100">
@@ -220,11 +224,11 @@
                   </div>
                 </div>
 
-                <div class="form-field_source-text form-field_source-steps" data-step="7">
+                <div class="form-field_source-text form-field_source-steps" data-step="8">
                   <span class="form-field_source-text_title">Remove the parameters from the Constructor argument field ABI-encoded</span>
                 </div>
 
-                <div class="form-field_source-text form-field_source-steps" data-step="8">
+                <div class="form-field_source-text form-field_source-steps" data-step="9">
                   <span class="form-field_source-text_title">Others fields are not required. Press «Verify And Publish»</span>
                 </div>
 

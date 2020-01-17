@@ -7,9 +7,16 @@
   <br/>
 
   <div class="text-center" *ngIf="!resendError && !emailConfirmProgress">
-    <button class="btn btn-transparent" (click)="getConfirmEmail()">
+
+    <button type="submit" class="button button-tp button-tp-blue" [disabled]="emailConfirmProgress" (click)="getConfirmEmail()">
+      <span class="lds-ellipsis" *ngIf="emailConfirmProgress">
+        <span class="lds-ellipsis-container">
+          <span></span><span></span><span></span><span></span>
+        </span>
+      </span>
       <span translate="AUTH_POPUP.CONFIRM_EMAIL_FORM.RESEND_BUTTON"></span>
     </button>
+
   </div>
 
   <div *ngIf="allTimerSeconds" class="email-confirm-timer-text text-center">

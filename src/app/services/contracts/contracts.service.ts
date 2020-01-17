@@ -70,7 +70,7 @@ export class ContractsService {
   }
 
   public getContract(id) {
-    return this.httpService.get(`contracts/${id}/`).toPromise();
+    return this.httpService.get(`contracts/${id}/`).toPromise().catch((err) => { console.log('error', err.status) });
   }
 
   public getContracts() {

@@ -48,11 +48,8 @@
           <div class="clearfix-block"></div>
         </div>
       </div>
-    </div>
 
-
-
-    <div class="public-swaps_body" *ngIf="contractsList.length">
+          <div class="public-swaps_body" *ngIf="contractsList.length">
 
       <div class="grid-row public-swaps_row as-link"
            (click)="toContract(contract)"
@@ -95,8 +92,8 @@
             <div class="swap-info swap-info_status">
               <span class="contract-state"
                     style="float: none;"
-                   [ngClass]="'contract-state__' + (states[contract.state].NUMBER || reqData.state)">
-                {{ states[contract.state].TEXT || reqData.state }}
+                   [ngClass]="'contract-state__' + (states[contract.state].NUMBER || contract.state)">
+                {{ states[contract.state].TEXT || contract.state }}
               </span>
             </div>
           </div>
@@ -104,6 +101,12 @@
 
       </div>
     </div>
+
+  </div>
+
+
+
+
 
 </div>
 

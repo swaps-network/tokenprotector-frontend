@@ -94,8 +94,8 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   };
 
   public tokensData: ITokens = {
-    tokens: window['cmc_tokens'],
-    popular: ['0x36d10c6800d569bb8c4fe284a05ffe3b752f972c', '0x006bea43baa3f7a6f765f14f10a1a1b08334ef45', '0x03c780cd554598592b97b7256ddaad759945b125', '0x01cc4151fe5f00efb8df2f90ff833725d3a482a3', '0x8810c63470d38639954c6b41aac545848c46484a', '0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650', '0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4', '0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D'],
+    tokens: Object.assign(window['cmc_tokens']),
+    popular: ['0x5aed0f4b4c6a8e5c271b7e6768c77dc627cddc6d','0x7f7143631f89e1bbe955a7859cbf3ee082cc2898','0xa0379b1ac68027a76373adc7800d87eb5c3fac5e','0x36d10c6800d569bb8c4fe284a05ffe3b752f972c', '0x006bea43baa3f7a6f765f14f10a1a1b08334ef45', '0x03c780cd554598592b97b7256ddaad759945b125', '0x01cc4151fe5f00efb8df2f90ff833725d3a482a3', '0x8810c63470d38639954c6b41aac545848c46484a', '0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650', '0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4', '0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D'],
     approved: [],
     saved: [],
     filterLimit: 10,
@@ -145,6 +145,14 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
 
   ngOnInit() {
+
+    // this.tokensData.tokens = window['cmc_tokens'];
+    this.tokensData.tokens = Object.assign(window['cmc_tokens']);
+    // Object.assign(this.tokensData.tokens, window['cmc_tokens']);
+
+    this.tokensData.tokens.map(token => {
+      token.approved = false;
+    });
 
     this.tokensData.popular.map(tokenAddress => {
       this.tokensData.tokens.find(token => {
@@ -218,7 +226,6 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
             }).catch(err => { this.reqData.state = 'PREPARE_DATE_EMAIL';});
           }
           else {
-            this.reqData.contract_details.email ? null : this.reqData.contract_details.email = 'none@none';
             this.contractsService.createContract(this.reqData).then((result) => {
               window.history.pushState(this.reqData.id, 'Create Contract', '/create/' + result.id);
               this.reqData = result;
@@ -290,7 +297,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         break;
     }
 
-    if (!user.is_ghost) { this.checker = setTimeout(() => { this.getContractInformation(); }, 5000); } else { this.checker = undefined; }
+    if (!user.is_ghost && this.reqData.state != 'ACTIVE') { this.checker = setTimeout(() => { this.getContractInformation(); }, 5000); } else { this.checker = undefined; }
   }
 
   private getContractInformation() {
@@ -320,12 +327,14 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     });
 
     const deleted = savedApprovedTokens.filter((item) => {
-        return !approveTokens.filter((approveItem) => {
-            return item === approveItem.address;
-        }).length;
+      return !approveTokens.filter((approveItem) => {
+        return approveItem.address === item;
+      }).length;
     }).map((t) => {
         return t.address;
     });
+
+    console.log('deleted', deleted);
 
     if (add.length || deleted.length) {
       this.tokensData.tokens = this.tokensData.tokens.map((token) => {
@@ -340,12 +349,16 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         return token;
       });
 
-      this.tokensData.saved = this.tokensData.tokens.filter((token) => {
+      this.tokensData.saved = Object.assign(this.tokensData.tokens.filter((token) => {
           return token.approved;
       }).map((t) => {
         return t.address;
-      });
+      }));
+
+      console.log('saved tokens - have add/delete', this.tokensData.saved);
     }
+
+    console.log('saved tokens', this.tokensData.saved);
   }
 
   public changeTokenStatus(value: string, disaprove?: boolean) {
@@ -430,23 +443,45 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         }, wallet.type);
       };
 
-      const transactionsList: any[] = [{
-        title: 'Authorise the contract for getting ' + token.symbol + ' tokens',
-        to: token.address,
-        data: approveSignature,
-        checkComplete: checkAllowance,
-        action: approveTransaction
-      }];
+      if (amount === 0) {
 
-      this.dialog.open(TransactionComponent, {
-        width: '38.65em',
-        panelClass: 'custom-dialog-container',
-        data: {
-          transactions: transactionsList,
-          title: 'Contribute',
-          description: `For contribution you need to make ${transactionsList.length} transactions: authorise the contract and make the transfer`
-        }
-      });
+        const transactionsList: any[] = [{
+          title: 'Cancel approve for  ' + token.symbol + ' tokens',
+          to: token.address,
+          data: approveSignature,
+          checkComplete: checkAllowance,
+          action: approveTransaction
+        }];
+
+        this.dialog.open(TransactionComponent, {
+          width: '38.65em',
+          panelClass: 'custom-dialog-container',
+          data: {
+            transactions: transactionsList,
+            title: 'Cancel Approve',
+          }
+        });
+      }
+      else {
+
+        const transactionsList: any[] = [{
+          title: 'Authorise the contract for transfer ' + token.symbol + ' tokens',
+          to: token.address,
+          data: approveSignature,
+          checkComplete: checkAllowance,
+          action: approveTransaction
+        }];
+
+        this.dialog.open(TransactionComponent, {
+          width: '38.65em',
+          panelClass: 'custom-dialog-container',
+          data: {
+            transactions: transactionsList,
+            title: 'Approve',
+          }
+        });
+      }
+
 
     } catch (e) {
       console.log(e);

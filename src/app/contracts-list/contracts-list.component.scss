@@ -36,7 +36,7 @@
   line-height: 26px;
   display: inline-block;
   vertical-align: middle;
-  font-size: 16px;
+  font-size: 14px;
   word-break: break-all;
   color: $black;
 
@@ -60,6 +60,8 @@
 
   &_body {
     overflow: visible;
+    min-width: 800px;
+    white-space: nowrap;
   }
 
   &_empty {
