@@ -45,7 +45,7 @@
              [ngClass]="{
                 'active': reqData.state === 'WAITING_FOR_PAYMENT',
                 'opened': reqData.state === 'WAITING_FOR_PAYMENT',
-                'checked': !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state)
+                'checked': !['FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state)
               }"></div>
       </div>
       <!-- /FOUR BLOCK: Payement -->
@@ -56,7 +56,7 @@
              [ngClass]="{
                 'active': reqData.state === 'WAITING_FOR_DEPLOYMENT',
                 'opened': reqData.state === 'WAITING_FOR_DEPLOYMENT',
-                'checked': !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state)
+                'checked': !['FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state)
              }"></div>
       </div>
       <!-- /FIVE BLOCK: Deploy -->
@@ -67,7 +67,7 @@
              [ngClass]="{
                 'active': reqData.state === 'WAITING_FOR_APPROVE',
                 'opened': reqData.state === 'WAITING_FOR_APPROVE',
-                'checked': !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT', 'WAITING_FOR_APPROVE', 'WAITING_FOR_CONFIRM', 'WAITING_FOR_APPROVE', 'WAITING_FOR_DEPLOYMENT', 'WAITING_FOR_PAYMENT', 'CREATED'].includes(reqData.state)
+                'checked': !['FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT', 'WAITING_FOR_APPROVE', 'WAITING_FOR_CONFIRM', 'WAITING_FOR_APPROVE', 'WAITING_FOR_DEPLOYMENT', 'WAITING_FOR_PAYMENT', 'CREATED'].includes(reqData.state)
              }"></div>
       </div>
       <!-- /SIX BLOCK: Approve Tokens -->
@@ -264,7 +264,7 @@
           <!-- FOUR BLOCK: Payement -->
           <div class="form-block" [ngClass]="{
                  hidden: reqData.state !== 'WAITING_FOR_PAYMENT',
-                 checked: !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state),
+                 checked: !['FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state),
                  'form-block__active': reqData.state === 'WAITING_FOR_PAYMENT'
                }">
             <div class="form-block_title">Payment</div>
@@ -284,7 +284,7 @@
           <!-- FIVE BLOCK: Deploy -->
           <div class="form-block" [ngClass]="{
                  hidden: reqData.state !== 'WAITING_FOR_DEPLOYMENT',
-                 checked: !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state),
+                 checked: !['FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state),
                  'form-block__active': reqData.state === ('WAITING_FOR_DEPLOYMENT' || 'PREPARE_DATE_EMAIL' || 'PREPARE_ADDRESS' || 'CREATED' || 'CREATE' || 'WAITING_FOR_PAYMENT')
                }">
 
@@ -311,7 +311,7 @@
           <!-- SIX BLOCK: Approve Tokens -->
           <div class="form-block" [ngClass]="{
             hidden: reqData.state !== 'WAITING_FOR_APPROVE',
-            checked: !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT', 'WAITING_FOR_APPROVE', 'WAITING_FOR_CONFIRM', 'WAITING_FOR_APPROVE', 'WAITING_FOR_DEPLOYMENT', 'WAITING_FOR_PAYMENT', 'CREATED'].includes(reqData.state),
+            checked: !['FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT', 'WAITING_FOR_APPROVE', 'WAITING_FOR_CONFIRM', 'WAITING_FOR_APPROVE', 'WAITING_FOR_DEPLOYMENT', 'WAITING_FOR_PAYMENT', 'CREATED'].includes(reqData.state),
             'form-block__active': reqData.state === 'WAITING_FOR_APPROVE'
           }">
             <div class="form-block_title">Adding tokens to the contract</div>
@@ -423,11 +423,21 @@
           <!-- /SIX BLOCK: Approve Tokens -->
 
           <!-- ERROR BLOCK: Posponed -->
-          <div class="form-block form-block_error-posponed" *ngIf="reqData.state === 'POSTPONED'">
+          <div class="form-block form-block_error-posponed" *ngIf="['FAILED','POSTPONED'].includes(reqData.state)">
             <div class="form-field_deployment">
               <div class="ff_deployment-error"></div>
               <span class="ff_deployment-title">Something went wrong</span>
               <span class="ff_deployment-text">please try again later or contact us</span>
+            </div>
+          </div>
+          <!-- /ERROR BLOCK: Posponed -->
+
+          <!-- ERROR BLOCK: Money -->
+          <div class="form-block form-block_error-posponed" *ngIf="['EXPIRED','TIME_IS_UP'].includes(reqData.state)">
+            <div class="form-field_deployment">
+              <div class="ff_deployment-error"></div>
+              <span class="ff_deployment-title">Your contract has expired</span>
+              <span class="ff_deployment-text">please create a new one</span>
             </div>
           </div>
           <!-- /ERROR BLOCK: Posponed -->

@@ -15,6 +15,14 @@ export const CONTRACT_STATES = {
     NUMBER: 3,
     TEXT: 'Expired'
   },
+  TIME_IS_UP: {
+    NUMBER: 2,
+    TEXT: 'Expired'
+  },
+  FAILED: {
+    NUMBER: 2,
+    TEXT: 'Failed'
+  },
   DONE: {
     NUMBER: 4,
     TEXT: 'Done'
@@ -32,6 +40,10 @@ export const CONTRACT_STATES = {
     TEXT: 'Waiting'
   },
   WAITING_FOR_DEPLOYMENT: {
+    NUMBER: 6,
+    TEXT: 'Waiting'
+  },
+  WAITING_FOR_EXECUTION: {
     NUMBER: 6,
     TEXT: 'Waiting'
   },

@@ -103,7 +103,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
   
   public tsDate: ITDate = {
-    min: new Date(new Date().setDate(new Date().getDate())), // new Date(new Date().setDate(new Date().getDate() + 1))
+    min: new Date(new Date().setDate(new Date().getDate() + 1)), //new Date(new Date().setDate(new Date().getDate()))
     max: null,
     current: new Date().getDate() + 1095
   }
@@ -235,8 +235,10 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         return;
       
       case 'CREATED':
+      case 'WAITING_FOR_CONFIRM':
+      case 'WAITING_FOR_DEPLOYMENT':
         console.log(this.reqData.state);
-        return;
+        break;
       
       case 'CONFIRM_CONTRACT':
         console.log(this.reqData.state);
@@ -253,18 +255,10 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         this.costEmitter.emit(this.reqData.cost);
         break;
       
-      case 'WAITING_FOR_DEPLOYMENT':
-        console.log(this.reqData.state);
-        break;
-      
       case 'WAITING_FOR_APPROVE':
         console.log(this.reqData.state,this.reqData.contract_details.approved_tokens);
         this.tokensData.approved = this.reqData.contract_details.approved_tokens;
         this.tokenApprovedInfo();
-        break;
-      
-      case 'WAITING_FOR_CONFIRM':
-        console.log(this.reqData.state);
         break;
       
       case 'CONFIRM_APPROVE':
@@ -278,6 +272,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         break;
 
       case 'ACTIVE':
+      case 'WAITING_FOR_EXECUTION':
         this.router.navigate(['/contract/' + this.reqData.id]);
         break;
 
@@ -288,6 +283,10 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         return;
 
       case 'POSTPONED':
+      case 'CANCELLED':
+      case 'FAILED':
+      case 'TIME_IS_UP':
+      case 'EXPIRED':
         console.log(this.reqData.state);
         (this.checker) ? clearTimeout(this.checker) : null;
         return;
@@ -381,8 +380,9 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
   public dateChange() {
     const CurrentTime = new Date(this.tsDate.current);
-    CurrentTime.setMinutes(new Date().getMinutes() + 10);
-    (new Date().getMinutes() >= 50) ? CurrentTime.setHours(new Date().getHours() + 1) : CurrentTime.setHours(new Date().getHours());
+    CurrentTime.setMinutes(new Date().getMinutes());
+    // (new Date().getMinutes() >= 50) ? CurrentTime.setHours(new Date().getHours() + 1) : CurrentTime.setHours(new Date().getHours());
+    CurrentTime.setHours(new Date().getHours() + 1)
     this.tsDate.current = new Date(CurrentTime);
     console.log('Date chosen: ', this.tsDate.current);
     this.reqData.contract_details.end_timestamp = Math.floor(this.tsDate.current / 1000);

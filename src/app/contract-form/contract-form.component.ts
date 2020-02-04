@@ -164,6 +164,16 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
   }
 
   ngOnInit() {
+
+    // this.tokensData.approved = [];
+    // this.tokensData.tokens = Object.assign(window['cmc_tokens']);
+    console.log('APPROVED TOKENS:',this.tokensData.approved);
+    console.log('TOKENS:', this.tokensData.tokens);
+    
+    this.tokensData.tokens.map(token => {
+      token.approved = false;
+    });
+
     if (this.reqData) {
       console.log(this.reqData);
 
