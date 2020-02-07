@@ -255,11 +255,11 @@
           background-color: lightgray;
           margin-top: 7px;
 
-          &:before {
+          span {
             background-color: #2873FB;
             height: 100%;
-            width: 40%;
-            content: '';
+            // width: 40%;
+            // content: '';
             display: block;
           }
         }

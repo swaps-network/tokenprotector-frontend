@@ -43,7 +43,7 @@ export interface ITokens {
   saved: any;
   check: any;
   removed: any;
-  removedSaved: any;
+  blockchain_approve: any;
   filterLimit: number;
   search: string;
 }
@@ -102,7 +102,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     saved: [],
     check: [],
     removed: [],
-    removedSaved: [],
+    blockchain_approve: [],
     filterLimit: 10,
     search: ''
   }
@@ -280,7 +280,6 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
             this.tsSrepper.button.process = false;
           }).catch(err => { this.reqData.state = 'CREATED'; console.log(err); });
         } else {this.openLogInForm('CONFIRM_CONTRACT'); this.tsSrepper.button.process = false;}
-        // this.tsSrepper.button.process = false;
         break;
 
       case 'WAITING_FOR_PAYMENT':
@@ -289,22 +288,30 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         break;
       
       case 'WAITING_FOR_APPROVE':
-        console.log(this.reqData.state,this.reqData.contract_details.approved_tokens);
+        console.log(this.reqData.state);
         this.tokensData.approved = this.reqData.contract_details.approved_tokens;
-        // this.tokensData.approved = this.tokensData.approved.concat(this.tokensData.check);
-        // this.tokensData.approved = this.reqData.contract_details.approved_tokens;
-        console.log('checked array',this.tokensData.check);
         this.tokenApprovedInfo();
-        return;
+        break;
       
       case 'CONFIRM_APPROVE':
         console.log(this.reqData.state);
         if (!this.currentUser.is_ghost) {
-          this.contractsService.confirmContract(this.reqData.id).then((result) => {
+          console.log(this.tokensData.saved.length,this.tokensData.saved,);
+          this.contractsService.confirmContract(this.reqData.id,this.tokensData.saved).then((result) => {
             this.reqData = result;
             this.checkContractStatus();
           }).catch(err => { this.reqData.state = 'FAIL_IN_CONFIRM'; console.log(err); });
         } else { this.openLogInForm('CONFIRM_APPROVE'); }
+        break;
+
+      case 'SKIP_CONFIRM_APPROVE':
+        console.log(this.reqData.state);
+        if (!this.currentUser.is_ghost) {
+          this.contractsService.skipConfirmContract(this.reqData.id).then((result) => {
+            this.reqData = result;
+            this.checkContractStatus();
+          }).catch(err => { this.reqData.state = 'FAIL_IN_CONFIRM'; console.log(err); });
+        } else { this.openLogInForm('SKIP_CONFIRM_APPROVE'); }
         break;
 
       case 'ACTIVE':
@@ -350,71 +357,44 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
 
   private tokenApprovedInfo() {
+    const approvedToken = this.tokensData.approved.map(token => {return token.address}); // с бекенда
+    const blockchain_approve = this.tokensData.blockchain_approve; // с фронта
+    const removedToken = this.tokensData.removed; // с фронта
 
-    // this.tokensData.check.map(tokenCheck => {
-    //   this.tokensData.approved.find(tokenApproved => {
-    //     if (tokenCheck.address != tokenApproved.address) {this.tokensData.approved.push(tokenCheck);console.log('PUSHED',tokenCheck)};
-    //   });
-    // });
+    console.log('I.   add:',approvedToken);
+    console.log('II.  add front:',blockchain_approve);
+    console.log('III. remove front:',removedToken);
 
-    // this.tokensData.check.forEach(token => {
-    //   const approvedToken = this.tokensData.approved.filter((t) => t.address != token.address)[0];
-    //   if(approvedToken) {this.tokensData.approved.push(token);console.log('pushed:',token)};
-    // });
+    console.log('1. backend approve:',approvedToken);
 
-    // this.tokensData.approved = this.tokensData.approved.concat(this.tokensData.check);
+    blockchain_approve.map(blockchain_approved => {
+      if (!approvedToken.includes(blockchain_approved)) {
+        approvedToken.push(blockchain_approved);
+      }
+    });
 
-    // console.log(this.tokensData.approved.length,this.tokensData.saved.length);
+    console.log('2. front approve:',approvedToken);
 
-    // if (this.tokensData.approved.length != this.tokensData.saved.length) {
-      console.log('add:',this.tokensData.approved);
+    const saveTokens = approvedToken.filter(approved => {
+      return !removedToken.includes(approved);
+    });
 
-      // this.tokensData.approved.map(tokenAddress => {
-      //   this.tokensData.tokens.find(token => {
-      //     (token.address === tokenAddress) ? token.approved = true : token.approved = false;
-      //     // return token;
-      //   });
-      // });
-  
+    console.log('3. front approve after remove:', saveTokens);
 
-      // this.tokensData.tokens = this.tokensData.tokens.map(token => {
-      //   token.approved = false;
-      // });
+    if(saveTokens.length != this.tokensData.saved.length){
+      console.log(saveTokens.length,this.tokensData.saved.length)
 
-      this.tokensData.tokens.forEach(token => {
-        let approvedToken = this.tokensData.approved.filter((t) => t.address === token.address)[0];
-        token.approved = !!approvedToken;
+      const newTokens = this.tokensData.tokens.map(token => {
+        if (saveTokens.includes(token.address)) {token.approved = true;}
+        else {token.approved = false;}
+        (this.networkMode[this.reqData.network].popular.includes(token.address)) ? token.popular = true : token.popular = false;
+        return token;
       });
 
-      // this.tokensData.tokens = this.tokensData.tokens.map((token) => {
-      //   token.approved = true;        
-      //   return token;
-      // });
-      
-      // this.tokensData.saved = Object.assign(this.tokensData.approved);
-      // console.log('saved tokens', this.tokensData.saved);
-    // }
-
-    // if (this.tokensData.removedSaved.length != this.tokensData.removed.length) {
-    //   console.log('remove',this.tokensData.removed.length);
-    //   console.log(this.tokensData.removed);
-
-    //   this.tokensData.tokens.forEach(token => {
-    //     const removedToken = this.tokensData.removed.filter((t) => t.address === token.address)[0];
-    //     token.approved = !!removedToken;
-    //   });
-        
-    //   // this.tokensData.removed.map(tokenRemoved => {
-    //   //   this.tokensData.tokens.find(token => {
-    //   //     if (tokenRemoved.address != token.address) token.approved = false;
-    //   //     return token;
-    //   //   });
-    //   // });
-
-    //   this.tokensData.removedSaved = Object.assign(this.tokensData.removed);
-    // }
-  
-    // console.log('saved tokens', this.tokensData.saved);
+      this.tokensData.tokens = Object.assign(newTokens);
+      this.tokensData.saved = Object.assign(saveTokens);
+    }
+    
   }
 
   public changeTokenStatus(value: string, disaprove?: boolean) {
@@ -472,12 +452,10 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
               result = result === '0' ? null : result;
 
               if (result && new BigNumber(result).minus(amount).isPositive()) {
-                console.log('BLOCKCHAIN TOKEN IF:',result);
-
                 if(amount != 0) {
-                  console.log('approved now:',this.tokensData.approved);
-                  this.tokensData.approved.push({'address':token.address,'is_confirmed': false});
-                  console.log('approved:',this.tokensData.approved);
+                  console.log('BLOCKCHAIN TOKEN IF:',result);
+                  this.tokensData.blockchain_approve.push(token.address);
+                  this.tokensData.removed.filter(item => item !== token.address);
                   this.tokenApprovedInfo();
                   clearInterval(interval);
                 }
@@ -485,12 +463,10 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
                 resolve(true);
 
               } else {
-                console.log('BLOCKCHAIN TOKEN ELSE:', result);
-
+                
                 if(amount === 0) {
-                  console.log('approved now:',this.tokensData.approved);
-                  this.tokensData.approved = this.tokensData.approved.filter(item => item.address !== token.address);
-                  console.log('approved removed:',this.tokensData.approved);
+                  console.log('BLOCKCHAIN TOKEN ELSE:', result);
+                  this.tokensData.removed.push(token.address);
                   this.tokenApprovedInfo();
                   clearInterval(interval);
                 }

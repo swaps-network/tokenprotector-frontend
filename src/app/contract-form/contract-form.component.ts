@@ -144,6 +144,11 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
   public curDate;
   public states = CONTRACT_STATES;
   private checker;
+  public showInfoMsg:boolean = true;
+  public toggleAddTokens:boolean = false;
+  public dateToExecute:number = 0;
+  public dateToExecuteRagne:number = 0;
+  public executeRagne:number = 0;
   
   constructor(
     protected contractsService: ContractsService,
@@ -165,8 +170,6 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
 
   ngOnInit() {
 
-    // this.tokensData.approved = [];
-    // this.tokensData.tokens = Object.assign(window['cmc_tokens']);
     console.log('APPROVED TOKENS:',this.tokensData.approved);
     console.log('TOKENS:', this.tokensData.tokens);
     
@@ -188,6 +191,9 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
       });
 
       this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
+      this.dateToExecute = Math.round((new Date(this.curDate).getTime() - new Date().getTime()) / (24 * 60 * 60 * 1000));
+      this.dateToExecuteRagne = Math.round((new Date(this.reqData.created_date).getTime() - new Date(this.curDate).getTime()) / (24 * 60 * 60 * 1000))*-1;
+      this.executeRagne = 100/(this.dateToExecuteRagne*(this.dateToExecuteRagne - this.dateToExecute));
     }
     else {
       this.router.navigate(['/create']);

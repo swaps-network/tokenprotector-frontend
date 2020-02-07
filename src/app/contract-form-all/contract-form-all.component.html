@@ -322,7 +322,7 @@
                 </app-contract-form-pay>
 
               </div>
-
+              <span class="form-field_network-mode">{{ networkMode[reqData.network].name }}</span>
             </form>
           </div>
           <!-- /FIVE BLOCK: Payement -->
@@ -357,13 +357,13 @@
 
           <!-- SEVEN BLOCK: Approve Tokens -->
           <div class="form-block" [ngClass]="{
-            hidden: reqData.state !== 'WAITING_FOR_APPROVE',
+            hidden: !['SKIP_CONFIRM_APPROVE','WAITING_FOR_APPROVE'].includes(reqData.state),
             checked: !['CHOOSE_NETWORK','FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATING_UPDATE', 'WAITING_FOR_PAYMENT', 'WAITING_FOR_APPROVE', 'WAITING_FOR_CONFIRM', 'WAITING_FOR_APPROVE', 'WAITING_FOR_DEPLOYMENT', 'WAITING_FOR_PAYMENT', 'CREATED'].includes(reqData.state),
             'form-block__active': reqData.state === 'WAITING_FOR_APPROVE'
           }">
             <div class="form-block_title">Adding tokens to the contract</div>
             <div class="form-block_fieldset" *ngIf="reqData.state !== 'FAIL_IN_CONFIRM'">
-              <div class="form-block_text-token">
+              <div [className]="'form-block_text-token form-block_text-token-'+tokensData.approved.length">
                 You shall grant rights to the protection contract for transferring the tokens <br> if conditions are
                 met.<br><br>
                 Add every token which you need to protect:<br>
@@ -380,7 +380,7 @@
                 </div>
               </div>
 
-              <div class="form-field_line"></div>
+              <div *ngIf="tokensData.approved.length != 0" class="form-field_line"></div>
 
               <div class="form-block_search-tokens">
                 <input type="text" class="min-text max-placeholder form-block_search-tokens_input" #searchTokensInput
@@ -401,7 +401,9 @@
                       <div class="token_item">
                         <span [className]="'token_item__title token_item__icon-'+token.token_name"><span
                             class="token_item__image"
-                            [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>{{ token.token_short_name }}</span>
+                            [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>
+                            <span>{{ token.token_short_name }}</span>
+                        </span>
                         <span class="token_item__button" [class.token_item__button_active]="token === selectedToken"
                           (click)="changeTokenStatus(token.address);onSelect(token)">
                           <div class="lds-ellipsis">
@@ -447,7 +449,7 @@
                 class="form-field error_text__address">{{confirmErrorMessage || ''}}</span>
 
               <span class="form-field_network-mode">{{ networkMode[reqData.network].name }}</span>
-              <div class="form-field__button">
+              <div class="form-field__button d-flex jc-sb fw-w">
                 <button (click)="checkContractStatus('CONFIRM_APPROVE')"
                   class="button button-tp button-tp-blue is-medium" type="submit"
                   [disabled]="(tokensData.approved.length <= 0) && !tsSrepper.button.process">
@@ -458,9 +460,20 @@
                   </div>
                   <span *ngIf="!tsSrepper.button.process" class="caption">Next step</span>
                 </button>
+
+                <button (click)="checkContractStatus('SKIP_CONFIRM_APPROVE')"
+                  class="button button-tp button-tp-gray_light is-medium" type="submit">
+                  <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
+                    <span class="lds-ellipsis-container">
+                      <span></span><span></span><span></span><span></span>
+                    </span>
+                  </div>
+                  <span *ngIf="!tsSrepper.button.process" class="caption">Skip this step</span>
+                </button>
+
               </div>
             </div>
-            <div class="form-field_deployment" *ngIf="reqData.state === 'WAITING_FOR_CONFIRM'">
+            <div class="form-field_deployment" *ngIf="['CONFIRM_APPROVE','CONFIRM_APPROVE','WAITING_FOR_CONFIRM'].includes(reqData.state)">
               <div class="ff_deployment-progress"></div>
               <span class="ff_deployment-title">Confirmation is in progress</span>
               <span class="ff_deployment-text">please wait...</span>

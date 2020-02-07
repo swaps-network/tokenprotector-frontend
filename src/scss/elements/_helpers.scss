@@ -69,6 +69,14 @@ ng-scrollbar-y {
     align-items: center;
 }
 
+.jc-sb {
+    justify-content: space-between;
+}
+
+.fw-w {
+    flex-wrap: wrap;
+}
+
 .pr-50 {
     padding-right: 50px;
 }
@@ -81,18 +89,67 @@ ng-scrollbar-y {
     padding-bottom: 30px !important;
 }
 
-.deleteToken-contract {
-    position: absolute;
-    color: gray;
-    transition: 0.5s;
-    top: 3px;
-    right: 8px;
-    line-height: 1;
-    font-size: 15px;
-    cursor: pointer;
+.contract-add-tokens_blue {
+    background-color: #2873FB !important;
+    font-weight: bold;
+    transition: 0.4s ease;
+
+    span {
+        color: white !important;
+    }
 
     &:hover {
-        color: red;
+        opacity: 0.4;
+        cursor: pointer;
+    }
+}
+
+.contract-search-add-tokens {
+    margin-right: -25px;
+    margin-left: -25px;
+    padding: 20px 25px !important;
+    border-top: 15px solid #f4f4f4;
+    border-bottom: 15px solid #f4f4f4;
+    margin-bottom: 25px;
+    position: relative;
+    overflow: hidden;
+
+    &-close {
+        position: absolute;
+        font-size: 16px;
+        color: gray;
+        transition: 0.4s;
+        top: 25px;
+        right: 25px;
+        z-index: 99;
+        
+        &:hover {
+            color: black;
+        }
+    }
+}
+
+.deleteToken-contract {
+    position: absolute;
+    transition: 0.3s;
+    cursor: pointer;
+    background-color: white;
+    padding: 5px;
+    border-radius: 4em;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: -3px;
+    right: -3px;
+    line-height: 0;
+    font-size: 12px;
+    color: black;
+
+    &:hover {
+        color: white;
+        background-color: red;
     }
 }
 
