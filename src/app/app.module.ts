@@ -68,7 +68,6 @@ export class TranslateBrowserLoader implements TranslateLoader {
               private suffix: string = '.json',
               private transferState: TransferState,
               private http: HttpClient) {
-
   }
 
   public getTranslation(lang: string): Observable<any> {
@@ -88,12 +87,9 @@ export class TranslateBrowserLoader implements TranslateLoader {
   }
 }
 
-
 export function exportTranslateStaticLoader(http: HttpClient, transferState: TransferState) {
   return new TranslateBrowserLoader('./assets/i18n/', '.json?_t=' + (new Date).getTime(), transferState, http);
 }
-
-
 
 export function appInitializerFactory(translate: TranslateService, userService: UserService, httpService: HttpService, contractsService: ContractsService) {
 
@@ -101,20 +97,37 @@ export function appInitializerFactory(translate: TranslateService, userService: 
 
   const langToSet = window['jQuery']['cookie']('lng') || ((['en', 'zh', 'ko', 'ru'].indexOf(defaultLng) > -1) ? defaultLng : 'en');
 
-  const IS_PRODUCTION = location.protocol === 'https:';
-
-  let tokenListAddress = '';
-
   return () => new Promise<any>((resolve: any, reject) => {
 
     translate.setDefaultLang('en');
     
-    (IS_PRODUCTION) ? tokenListAddress = 'get_coinmarketcap_tokens/' : tokenListAddress = 'get_test_tokens/';
-
     translate.use(langToSet).subscribe(() => {
       const subscriber = userService.getCurrentUser(true).subscribe((user: UserInterface) => {
 
-        httpService.get(tokenListAddress).toPromise().then((tokens) => {
+        const http1 = httpService.get('get_coinmarketcap_tokens/').toPromise().then((tokens) => {
+          let index = tokens.length - 1;
+
+          while(index >= 0) {
+            if (tokens[index].platform !== 'ethereum')
+              tokens.splice(index, 1);
+            index -= 1;
+          }
+
+          // window['cmc_tokens_main'] = tokens;
+
+          tokens = tokens.sort((a, b) => {
+            const aRank = a.rank || 100000;
+            const bRank = b.rank || 100000;
+            return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
+          });
+
+          window['cmc_tokens_main'] = tokens;
+          console.log(tokens);
+
+          // resolve(null);
+        });
+
+        const http2 = httpService.get('get_test_tokens/').toPromise().then((tokens) => {
           let index = tokens.length - 1;
 
           while(index >= 0) {
@@ -129,9 +142,12 @@ export function appInitializerFactory(translate: TranslateService, userService: 
             return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
           });
 
-          console.log(tokenListAddress,tokens);
+          console.log(tokens);
 
           window['cmc_tokens'] = tokens;
+        });
+
+        Promise.all([http1, http2]).then(function() {
           resolve(null);
         });
 

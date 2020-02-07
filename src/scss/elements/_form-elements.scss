@@ -130,6 +130,95 @@
     }
   }
 
+  &_radio {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 27px;
+    color: #2873FB;
+    padding: 20px 20px 20px 60px;
+    border: 1px solid lightgrey;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+
+      &:checked {
+        ~.checkmark-checked {
+          display: block;
+        }
+
+        ~.checkmark {
+          &:after {
+            display: block;
+          }
+        }
+      }
+
+    }
+
+    .checkmark {
+      position: absolute;
+      top: 22px;
+      left: 20px;
+      height: 20px;
+      width: 20px;
+      background-color: white;
+      border: 1px solid #2873FB;
+      border-radius: 50%;
+
+      &:after {
+        top: 4px;
+        left: 4px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #2873FB;
+        content: "";
+        position: absolute;
+        display: none;
+      }
+
+      &-checked {
+        border-left: 5px solid #2873FB;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        height: 100%;
+        display: none;
+      }
+    }
+
+    &-text {
+      color: black;
+      margin-left: 15px;
+    }
+  }
+
+  &_network-mode {
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    text-transform: capitalize;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 27px;
+    color: #C74F4F;
+  }
+
   &_deployment {
     display: flex;
     justify-content: center;

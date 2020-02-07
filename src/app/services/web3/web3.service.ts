@@ -121,7 +121,7 @@ export class Web3Service {
 
 
   public getContract(abi, address) {
-    return this.Web3.eth.Contract(abi, address);
+    return new this.Web3.eth.Contract(abi, address);
   }
 
 

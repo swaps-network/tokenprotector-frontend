@@ -1,13 +1,27 @@
 <div class="base-block-content">
   <div class="app-content-block">
-
-    <div class="form-block_title__view-title mtb-20">Contract N{{ reqData.id }}</div>
     
     <!-- Main form -->
     <div class="container-contract container-contract__view">
 
       <div class="left-contract">
-        <div class="form-container form-container_contract">
+        <div class="form-container form-container_contract form-block_contract__info">
+
+          <div *ngIf="reqData.network == 2" class="form-block form-block_contract">
+            <p class="form-block_contract-up">Thank you, your deal was created and added to our OTC Global Liquidity Pool.</p>
+            <div class="form-block_contract-info">
+              <span class="form-block_contract-info__close">X</span>
+              <span class="form-block_contract-info__title">Reminder</span>
+              <span class="form-block_contract-info__subtitle">Please follow these steps to close your deal faster</span>
+              <div class="form-block_contract-info__steps">
+                <div class="form-block_contract-info__step" data-step="1">Fill in your contact details - so our manager can connect with you</div>
+                <div class="form-block_contract-info__step" data-step="2">Copy the link and share with your community</div>
+                <div class="form-block_contract-info__step" data-step="3">Make sure that filled your part</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-block_title__view-title mtb-20">Contract N{{ reqData.id }} <span class="networkmode" [ngClass]="{'networkmode__main': reqData.network === 1}" >{{ reqData.network == 1 ? 'Mainnet' : 'Testnet' }}</span></div>
 
           <mat-tab-group dynamicHeight animationDuration="0ms" color="white" class="tp-tabs">
             <mat-tab label="Contract info">
@@ -98,6 +112,10 @@
                     <div class="form-field_info-view_column">
                       <span class="form-field_info-view_column-title">Execution date</span>
                       <span class="form-field_info-view_column-date">{{ curDate|date }}</span>
+                    </div>
+                    <div class="form-field_info-view_column">
+                      <span class="form-field_info-view_column-title"><b>21</b> days left</span>
+                      <div class="form-field_info-view_column-days_left"></div>
                     </div>
                     <div class="form-field_info-view_column">
                       <span class="form-field_info-view_column-title">Notification e-mail</span>

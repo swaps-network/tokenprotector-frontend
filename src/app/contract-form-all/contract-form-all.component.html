@@ -4,7 +4,19 @@
     <!-- Mobile step counts -->
     <div class="grid-row steps-mobile">
 
-      <!-- FIRST BLOCK: Input Address -->
+      <!-- FIRST BLOCK: Choose Mode -->
+      <div class="grid-cell grid-cell-1-4">
+        <div class="steps-mobile_item"
+              (click)="(['PREPARE_ADDRESS','PREPARE_DATE_EMAIL'].includes(reqData.state)) ? checkContractStatus('CHOOSE_NETWORK') : null"
+              [ngClass]="{
+                'active': reqData.state === 'CHOOSE_NETWORK',
+                'opened': reqData.state === 'CHOOSE_NETWORK',
+                'checked': reqData.state !== 'CHOOSE_NETWORK'
+              }"></div>
+      </div>
+      <!-- /FIRST BLOCK: Choose Mode -->
+
+      <!-- SECOND BLOCK: Input Address -->
       <div class="grid-cell grid-cell-1-4">
         <div class="steps-mobile_item"
              (click)="(['PREPARE_DATE_EMAIL','CREATED'].includes(reqData.state)) ? checkContractStatus('PREPARE_ADDRESS') : null"
@@ -14,63 +26,63 @@
                'checked': reqData.state !== 'PREPARE_ADDRESS'
              }"></div>
       </div>
-      <!-- /FIRST BLOCK: Input Address -->
+      <!-- /SECOND BLOCK: Input Address -->
 
-      <!-- SECOND BLOCK: Input Date and E-mail -->
+      <!-- THIRD BLOCK: Input Date and E-mail -->
       <div class="grid-cell grid-cell-1-4">
         <div class="steps-mobile_item"
              (click)="(['CREATED','UPDATED'].includes(reqData.state)) ? checkContractStatus('PREPARE_DATE_EMAIL') : null"
              [ngClass]="{
-                'active': reqData.state === 'PREPARE_DATE_EMAIL',
-                'opened': reqData.state === 'PREPARE_DATE_EMAIL',
-                'checked': !['PREPARE_DATE_EMAIL','PREPARE_ADDRESS'].includes(reqData.state)
+                'active': ['PREPARE_DATE_EMAIL','CREATING_UPDATE'].includes(reqData.state),
+                'opened': ['PREPARE_DATE_EMAIL','CREATING_UPDATE'].includes(reqData.state),
+                'checked': !['CHOOSE_NETWORK','PREPARE_DATE_EMAIL','PREPARE_ADDRESS'].includes(reqData.state)
               }"></div>
             </div>
-      <!-- /SECOND BLOCK: Input Date and E-mail -->
+      <!-- /THIRD BLOCK: Input Date and E-mail -->
 
-      <!-- THIRD BLOCK: Preview -->
+      <!-- FOUR BLOCK: Preview -->
       <div class="grid-cell grid-cell-1-4">
         <div class="steps-mobile_item"
              [ngClass]="{
                 'active': reqData.state === 'CREATED',
                 'opened': reqData.state == 'CREATED',
-                'checked': !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED'].includes(reqData.state)
+                'checked': !['CHOOSE_NETWORK','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED'].includes(reqData.state)
              }"></div>
       </div>
-      <!-- /THIRD BLOCK: Preview -->
+      <!-- /FOUR BLOCK: Preview -->
 
-      <!-- FOUR BLOCK: Payement -->
+      <!-- FIVE BLOCK: Payement -->
       <div class="grid-cell grid-cell-1-4">
         <div class="steps-mobile_item"
              [ngClass]="{
                 'active': reqData.state === 'WAITING_FOR_PAYMENT',
                 'opened': reqData.state === 'WAITING_FOR_PAYMENT',
-                'checked': !['FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state)
+                'checked': !['CHOOSE_NETWORK','FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATING_UPDATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state)
               }"></div>
       </div>
-      <!-- /FOUR BLOCK: Payement -->
+      <!-- /FIVE BLOCK: Payement -->
 
-      <!-- FIVE BLOCK: Deploy -->
+      <!-- SIX BLOCK: Deploy -->
       <div class="grid-cell grid-cell-1-4">
         <div class="steps-mobile_item"
              [ngClass]="{
                 'active': reqData.state === 'WAITING_FOR_DEPLOYMENT',
                 'opened': reqData.state === 'WAITING_FOR_DEPLOYMENT',
-                'checked': !['FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state)
+                'checked': !['CHOOSE_NETWORK','FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATING_UPDATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state)
              }"></div>
       </div>
-      <!-- /FIVE BLOCK: Deploy -->
+      <!-- /SIX BLOCK: Deploy -->
 
-      <!-- SIX BLOCK: Approve Tokens -->
+      <!-- SEVEN BLOCK: Approve Tokens -->
       <div class="grid-cell grid-cell-1-4">
         <div class="steps-mobile_item"
              [ngClass]="{
                 'active': reqData.state === 'WAITING_FOR_APPROVE',
                 'opened': reqData.state === 'WAITING_FOR_APPROVE',
-                'checked': !['FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT', 'WAITING_FOR_APPROVE', 'WAITING_FOR_CONFIRM', 'WAITING_FOR_APPROVE', 'WAITING_FOR_DEPLOYMENT', 'WAITING_FOR_PAYMENT', 'CREATED'].includes(reqData.state)
+                'checked': !['CHOOSE_NETWORK','FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATING_UPDATE', 'WAITING_FOR_PAYMENT', 'WAITING_FOR_APPROVE', 'WAITING_FOR_CONFIRM', 'WAITING_FOR_APPROVE', 'WAITING_FOR_DEPLOYMENT', 'WAITING_FOR_PAYMENT', 'CREATED'].includes(reqData.state)
              }"></div>
       </div>
-      <!-- /SIX BLOCK: Approve Tokens -->
+      <!-- /SEVEN BLOCK: Approve Tokens -->
 
     </div>
 
@@ -81,10 +93,43 @@
 
         <div class="form-container">
 
-          <!-- FIRST BLOCK: Input Address -->
+          <!-- FIRST BLOCK: Choose network -->
+          <form class="form-block" #addressForm="ngForm" (submit)="checkContractStatus('PREPARE_ADDRESS')" [ngClass]="{
+                    hidden: reqData.state !== 'CHOOSE_NETWORK',
+                    checked: reqData.state !== 'CHOOSE_NETWORK',
+                    'form-block__active': reqData.state === 'CHOOSE_NETWORK'
+                }">
+            <div class="form-block_title" [ngClass]="{'form-block_title__click': ['PREPARE_ADDRESS','PREPARE_DATE_EMAIL'].includes(reqData.state)}" (click)="(['PREPARE_ADDRESS','PREPARE_DATE_EMAIL'].includes(reqData.state)) ? checkContractStatus('CHOOSE_NETWORK') : null">Choose Mode</div>
+            <div class="form-block_fieldset">
+              <div class="form-field">
+                <label class="form-field_radio">Mainnet <span class="form-field_radio-text">$25</span>
+                  <input [(ngModel)]="reqData.network" type="radio" name="mode" [value]="1">
+                  <span class="checkmark"></span>
+                  <span class="checkmark-checked"></span>
+                </label>
+                <label class="form-field_radio">Testnet <span class="form-field_radio-text">Free of Charge</span>
+                  <input [(ngModel)]="reqData.network" type="radio" name="mode" [value]="2">
+                  <span class="checkmark"></span>
+                  <span class="checkmark-checked"></span>
+                </label>
+              </div>
+              <span class="form-field_network-mode">{{ networkMode[reqData.network].name }}</span>
+              <button class="button button-tp button-tp-blue is-medium" type="submit">
+                <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
+                  <span class="lds-ellipsis-container">
+                    <span></span><span></span><span></span><span></span>
+                  </span>
+                </div>
+                <span *ngIf="!tsSrepper.button.process" class="caption">Next step</span>
+              </button>
+            </div>
+          </form>
+          <!-- /FIRST BLOCK: Choose network -->
+
+          <!-- SECOND BLOCK: Input Address -->
           <form class="form-block" #addressForm="ngForm" (submit)="checkContractStatus('PREPARE_DATE_EMAIL')" [ngClass]="{
                     hidden: reqData.state !== 'PREPARE_ADDRESS',
-                    checked: reqData.state !== 'PREPARE_ADDRESS',
+                    checked: !['CHOOSE_NETWORK'].includes(reqData.state),
                     'form-block__active': reqData.state === 'PREPARE_ADDRESS'
                 }">
             <div class="form-block_title" [ngClass]="{'form-block_title__click': ['PREPARE_DATE_EMAIL','CREATED'].includes(reqData.state)}" (click)="(['PREPARE_DATE_EMAIL','CREATED'].includes(reqData.state)) ? checkContractStatus('PREPARE_ADDRESS') : null">The address for the protection</div>
@@ -119,6 +164,7 @@
               <span
                 *ngIf="(reqData.contract_details.owner_address != '') && (reqData.contract_details.reserve_address != '') && ((reqData.contract_details.owner_address | uppercase) == (reqData.contract_details.reserve_address | uppercase))"
                 class="form-field error_text__address">use different addresses</span>
+              <span class="form-field_network-mode">{{ networkMode[reqData.network].name }}</span>
               <button class="button button-tp button-tp-blue is-medium"
                 [disabled]="((reqData.contract_details.owner_address | uppercase) == (reqData.contract_details.reserve_address | uppercase)) || !addressForm.valid"
                 type="submit">
@@ -132,17 +178,16 @@
 
             </div>
           </form>
-          <!-- /FIRST BLOCK: Input Address -->
+          <!-- /SECOND BLOCK: Input Address -->
 
-          <!-- SECOND BLOCK: Input Date and E-mail -->
+          <!-- THIRD BLOCK: Input Date and E-mail -->
           <div class="form-block" [ngClass]="{
-                   hidden: reqData.state !== 'PREPARE_DATE_EMAIL',
-                   checked: !['PREPARE_DATE_EMAIL','PREPARE_ADDRESS'].includes(reqData.state),
-                  'form-block__active': reqData.state === 'PREPARE_DATE_EMAIL'
+                   hidden: !['PREPARE_DATE_EMAIL','CREATING_UPDATE'].includes(reqData.state),
+                   checked: !['CHOOSE_NETWORK','PREPARE_DATE_EMAIL','PREPARE_ADDRESS','CREATING_UPDATE'].includes(reqData.state),
+                  'form-block__active': ['PREPARE_DATE_EMAIL','CREATING_UPDATE'].includes(reqData.state)
                }">
 
-
-            <form #conditionsForm="ngForm" (submit)="checkContractStatus('CREATE')">
+            <form #conditionsForm="ngForm" (submit)="checkContractStatus('CREATING_UPDATE')">
 
               <div class="form-block_title" [ngClass]="{'form-block_title__click': ['UPDATED','CREATED'].includes(reqData.state)}" (click)="(['CREATED','UPDATED'].includes(reqData.state)) ? checkContractStatus('PREPARE_DATE_EMAIL') : null">Conditions</div>
 
@@ -175,8 +220,8 @@
                   </div>
                 </div>
 
-                <button class="button button-tp button-tp-blue is-medium" [disabled]="!conditionsForm.valid"
-                  type="submit">
+                <span class="form-field_network-mode">{{ networkMode[reqData.network].name }}</span>
+                <button class="button button-tp button-tp-blue is-medium" [disabled]="!conditionsForm.valid" type="submit">
                   <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
                     <span class="lds-ellipsis-container">
                       <span></span><span></span><span></span><span></span>
@@ -188,13 +233,13 @@
               </div>
             </form>
           </div>
-          <!-- /SECOND BLOCK: Input Date and E-mail -->
+          <!-- /THIRD BLOCK: Input Date and E-mail -->
 
-          <!-- THIRD BLOCK: Preview -->
+          <!-- FOUR BLOCK: Preview -->
           <div class="form-block" [ngClass]="{
-                 hidden: reqData.state !== 'CREATED',
-                 checked: !['PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED'].includes(reqData.state),
-                 'form-block__active': reqData.state === 'CREATED'
+                 hidden: !['CREATED','CONFIRM_CONTRACT'].includes(reqData.state),
+                 checked: !['CHOOSE_NETWORK','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATING_UPDATE','CONFIRM_CONTRACT'].includes(reqData.state),
+                 'form-block__active': ['CREATED','CONFIRM_CONTRACT'].includes(reqData.state)
                }">
 
             <form (submit)="checkContractStatus('CONFIRM_CONTRACT')">
@@ -246,6 +291,7 @@
                   </div>
                 </div>
 
+                <span class="form-field_network-mode">{{ networkMode[reqData.network].name }}</span>
                 <button class="button button-tp button-tp-blue is-medium" type="submit"
                   [disabled]="tsSrepper.button.process">
                   <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
@@ -259,12 +305,12 @@
               </div>
             </form>
           </div>
-          <!-- /THIRD BLOCK: Preview -->
+          <!-- /FOUR BLOCK: Preview -->
 
-          <!-- FOUR BLOCK: Payement -->
+          <!-- FIVE BLOCK: Payement -->
           <div class="form-block" [ngClass]="{
                  hidden: reqData.state !== 'WAITING_FOR_PAYMENT',
-                 checked: !['FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state),
+                 checked: !['CHOOSE_NETWORK','FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATING_UPDATE', 'WAITING_FOR_PAYMENT','CONFIRM_CONTRACT'].includes(reqData.state),
                  'form-block__active': reqData.state === 'WAITING_FOR_PAYMENT'
                }">
             <div class="form-block_title">Payment</div>
@@ -279,13 +325,13 @@
 
             </form>
           </div>
-          <!-- /FOUR BLOCK: Payement -->
+          <!-- /FIVE BLOCK: Payement -->
 
-          <!-- FIVE BLOCK: Deploy -->
+          <!-- SIX BLOCK: Deploy -->
           <div class="form-block" [ngClass]="{
                  hidden: reqData.state !== 'WAITING_FOR_DEPLOYMENT',
-                 checked: !['FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state),
-                 'form-block__active': reqData.state === ('WAITING_FOR_DEPLOYMENT' || 'PREPARE_DATE_EMAIL' || 'PREPARE_ADDRESS' || 'CREATED' || 'CREATE' || 'WAITING_FOR_PAYMENT')
+                 checked: !['CHOOSE_NETWORK','FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATING_UPDATE', 'WAITING_FOR_PAYMENT'].includes(reqData.state),
+                 'form-block__active': reqData.state === ('WAITING_FOR_DEPLOYMENT' || 'PREPARE_DATE_EMAIL' || 'PREPARE_ADDRESS' || 'CREATED' || 'CREATING_UPDATE' || 'WAITING_FOR_PAYMENT')
                }">
 
             <div class="form-block_title">Deployment</div>
@@ -304,14 +350,15 @@
                 <span class="ff_deployment-text">please try again later or contact us</span>
               </div>
 
+              <span class="form-field_network-mode">{{ networkMode[reqData.network].name }}</span>
             </form>
           </div>
-          <!-- /FIVE BLOCK: Deploy -->
+          <!-- /SIX BLOCK: Deploy -->
 
-          <!-- SIX BLOCK: Approve Tokens -->
+          <!-- SEVEN BLOCK: Approve Tokens -->
           <div class="form-block" [ngClass]="{
             hidden: reqData.state !== 'WAITING_FOR_APPROVE',
-            checked: !['FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATE', 'WAITING_FOR_PAYMENT', 'WAITING_FOR_APPROVE', 'WAITING_FOR_CONFIRM', 'WAITING_FOR_APPROVE', 'WAITING_FOR_DEPLOYMENT', 'WAITING_FOR_PAYMENT', 'CREATED'].includes(reqData.state),
+            checked: !['CHOOSE_NETWORK','FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATING_UPDATE', 'WAITING_FOR_PAYMENT', 'WAITING_FOR_APPROVE', 'WAITING_FOR_CONFIRM', 'WAITING_FOR_APPROVE', 'WAITING_FOR_DEPLOYMENT', 'WAITING_FOR_PAYMENT', 'CREATED'].includes(reqData.state),
             'form-block__active': reqData.state === 'WAITING_FOR_APPROVE'
           }">
             <div class="form-block_title">Adding tokens to the contract</div>
@@ -354,8 +401,7 @@
                       <div class="token_item">
                         <span [className]="'token_item__title token_item__icon-'+token.token_name"><span
                             class="token_item__image"
-                            [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>({{ token.token_short_name }})
-                          {{ token.token_name }}</span>
+                            [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>{{ token.token_short_name }}</span>
                         <span class="token_item__button" [class.token_item__button_active]="token === selectedToken"
                           (click)="changeTokenStatus(token.address);onSelect(token)">
                           <div class="lds-ellipsis">
@@ -384,8 +430,7 @@
                 <div class="token_item" *ngFor="let token of tokensData.tokens | FilterTokens:true:false:'':false">
                   <span [className]="'token_item__title token_item__icon-'+token.token_name"><span
                       class="token_item__image"
-                      [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>({{ token.token_short_name }})
-                    {{ token.token_name }}</span>
+                      [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>{{ token.token_short_name }}</span>
                   <span class="token_item__button" (click)="changeTokenStatus(token.address)">
                     <div class="lds-ellipsis">
                       <span class="lds-ellipsis-container">
@@ -401,6 +446,7 @@
               <span *ngIf="confirmErrorMessage"
                 class="form-field error_text__address">{{confirmErrorMessage || ''}}</span>
 
+              <span class="form-field_network-mode">{{ networkMode[reqData.network].name }}</span>
               <div class="form-field__button">
                 <button (click)="checkContractStatus('CONFIRM_APPROVE')"
                   class="button button-tp button-tp-blue is-medium" type="submit"
@@ -420,7 +466,7 @@
               <span class="ff_deployment-text">please wait...</span>
             </div>
           </div>
-          <!-- /SIX BLOCK: Approve Tokens -->
+          <!-- /SEVEN BLOCK: Approve Tokens -->
 
           <!-- ERROR BLOCK: Posponed -->
           <div class="form-block form-block_error-posponed" *ngIf="['FAILED','POSTPONED'].includes(reqData.state)">
