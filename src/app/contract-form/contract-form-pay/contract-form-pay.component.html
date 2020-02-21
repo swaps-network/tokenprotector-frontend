@@ -24,6 +24,19 @@
         <input type="radio"
                 name="payment-method"
                 [(ngModel)]="replenishMethod"
+                value="USDT" checked="checked"/>
+        <span class="btn btn-payment btn-normal-weight width-100">
+            <img class="btn-payment_ico" src="./assets/images/icons/coins/usdt.svg">
+            <span class="btn-payment_txt">USDT</span>
+          </span>
+      </label>
+    </div>
+
+    <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
+      <label class="checkbox-block">
+        <input type="radio"
+                name="payment-method"
+                [(ngModel)]="replenishMethod"
                 value="WISH" checked="checked"/>
         <span class="btn btn-payment btn-normal-weight width-100">
           <img class="btn-payment_ico" src="./assets/images/icons/coins/wish.png">
@@ -78,6 +91,9 @@
         <span *ngIf="replenishMethod === 'ETH'">
           {{fromBigNumber(contractCosts.ETH, 18) | number : '.0-5'}} ETH
         </span>
+        <span *ngIf="replenishMethod === 'USDT'">
+          {{fromBigNumber(contractCosts.USDT, 6) | number : '.0-5'}} USDT
+        </span>
         <span *ngIf="replenishMethod === 'SWAP'">
           {{fromBigNumber(contractCosts.SWAP, 18) | number : '.0-5'}} SWAP
         </span>
@@ -113,6 +129,27 @@
           </div>
         </div>
       </div>
+
+      <div class="form-field_input" *ngIf="['BNB','WISH'].includes(replenishMethod)">
+        <div class="form-field_info-field form-field_small-desc">
+          <span class="float-left">Memo</span>
+        </div>
+        <div class="form-field__copy bg-none mt-5">
+          <button type="button"
+                  class="copy-btn"
+                  [ngClass]="{copied: copiedAddresses['memo']}"
+                  ngxClipboard [cbContent]="currentUser.memo"
+                  (cbOnSuccess)="onCopied('memo')">
+            <img src="./assets/images/icons/copy.svg"/>
+          </button>
+        </div>
+        <div class="form-field_input_data">
+          <input type="text" class="min-text"
+                 readonly
+                 [value]="currentUser.memo"/>
+        </div>
+      </div>
+
     </div>
 
     <div class="or-delimiter"><div></div><span>OR</span><div></div></div>
@@ -202,7 +239,7 @@
         <span></span><span></span><span></span><span></span>
       </span>
     </span>&nbsp;&nbsp;
-    Waiting for payment
+    Waiting for payment (5 confirmations)
   </div>
 
 </div>

@@ -96,6 +96,9 @@ export function appInitializerFactory(translate: TranslateService, userService: 
   const defaultLng = (navigator.language || navigator['browserLanguage']).split('-')[0];
 
   const langToSet = window['jQuery']['cookie']('lng') || ((['en', 'zh', 'ko', 'ru'].indexOf(defaultLng) > -1) ? defaultLng : 'en');
+  
+  const popularMainTokens = ['0x5aed0f4b4c6a8e5c271b7e6768c77dc627cddc6d','0x7f7143631f89e1bbe955a7859cbf3ee082cc2898','0xa0379b1ac68027a76373adc7800d87eb5c3fac5e','0x36d10c6800d569bb8c4fe284a05ffe3b752f972c', '0x006bea43baa3f7a6f765f14f10a1a1b08334ef45', '0x03c780cd554598592b97b7256ddaad759945b125', '0x01cc4151fe5f00efb8df2f90ff833725d3a482a3', '0x8810c63470d38639954c6b41aac545848c46484a', '0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650', '0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4', '0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D'];
+  const popularTestTokens = ['0x5aed0f4b4c6a8e5c271b7e6768c77dc627cddc6d','0x7f7143631f89e1bbe955a7859cbf3ee082cc2898','0xa0379b1ac68027a76373adc7800d87eb5c3fac5e','0x36d10c6800d569bb8c4fe284a05ffe3b752f972c', '0x006bea43baa3f7a6f765f14f10a1a1b08334ef45', '0x03c780cd554598592b97b7256ddaad759945b125', '0x01cc4151fe5f00efb8df2f90ff833725d3a482a3', '0x8810c63470d38639954c6b41aac545848c46484a', '0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650', '0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4', '0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D'];
 
   return () => new Promise<any>((resolve: any, reject) => {
 
@@ -121,6 +124,12 @@ export function appInitializerFactory(translate: TranslateService, userService: 
             return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
           });
 
+          popularMainTokens.map(tokenAddress => {
+            tokens.find(token => {
+              (token.address === tokenAddress) ? token.popular = true : null;
+            });
+          });
+
           window['cmc_tokens_main'] = tokens;
           console.log(tokens);
 
@@ -140,6 +149,12 @@ export function appInitializerFactory(translate: TranslateService, userService: 
             const aRank = a.rank || 100000;
             const bRank = b.rank || 100000;
             return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
+          });
+
+          popularTestTokens.map(tokenAddress => {
+            tokens.find(token => {
+              (token.address === tokenAddress) ? token.popular = true : null;
+            });
           });
 
           console.log(tokens);

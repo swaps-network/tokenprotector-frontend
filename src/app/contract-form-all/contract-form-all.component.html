@@ -103,17 +103,17 @@
             <div class="form-block_fieldset">
               <div class="form-field">
                 <label class="form-field_radio">Mainnet <span class="form-field_radio-text">$25</span>
-                  <input [(ngModel)]="reqData.network" type="radio" name="mode" [value]="1">
+                  <input (click)="changeNetwork(1);" [(ngModel)]="reqData.network" type="radio" name="mode" [value]="1">
                   <span class="checkmark"></span>
                   <span class="checkmark-checked"></span>
                 </label>
                 <label class="form-field_radio">Testnet <span class="form-field_radio-text">Free of Charge</span>
-                  <input [(ngModel)]="reqData.network" type="radio" name="mode" [value]="2">
+                  <input (click)="changeNetwork(2);" [(ngModel)]="reqData.network" type="radio" name="mode" [value]="2">
                   <span class="checkmark"></span>
                   <span class="checkmark-checked"></span>
                 </label>
               </div>
-              <span class="form-field_network-mode">{{ networkMode[reqData.network].name }}</span>
+              <span class="form-field_network-mode" [ngClass]="{'cl-networkmode__main' : reqData.network == 1}" >{{ networkMode[reqData.network].name }}</span>
               <button class="button button-tp button-tp-blue is-medium" type="submit">
                 <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
                   <span class="lds-ellipsis-container">
@@ -164,7 +164,7 @@
               <span
                 *ngIf="(reqData.contract_details.owner_address != '') && (reqData.contract_details.reserve_address != '') && ((reqData.contract_details.owner_address | uppercase) == (reqData.contract_details.reserve_address | uppercase))"
                 class="form-field error_text__address">use different addresses</span>
-              <span class="form-field_network-mode">{{ networkMode[reqData.network].name }}</span>
+              <span class="form-field_network-mode" [ngClass]="{'cl-networkmode__main' : reqData.network == 1}" >{{ networkMode[reqData.network].name }}</span>
               <button class="button button-tp button-tp-blue is-medium"
                 [disabled]="((reqData.contract_details.owner_address | uppercase) == (reqData.contract_details.reserve_address | uppercase)) || !addressForm.valid"
                 type="submit">
@@ -220,7 +220,7 @@
                   </div>
                 </div>
 
-                <span class="form-field_network-mode">{{ networkMode[reqData.network].name }}</span>
+                <span class="form-field_network-mode" [ngClass]="{'cl-networkmode__main' : reqData.network == 1}" >{{ networkMode[reqData.network].name }}</span>
                 <button class="button button-tp button-tp-blue is-medium" [disabled]="!conditionsForm.valid" type="submit">
                   <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
                     <span class="lds-ellipsis-container">
@@ -291,7 +291,7 @@
                   </div>
                 </div>
 
-                <span class="form-field_network-mode">{{ networkMode[reqData.network].name }}</span>
+                <span class="form-field_network-mode" [ngClass]="{'cl-networkmode__main' : reqData.network == 1}" >{{ networkMode[reqData.network].name }}</span>
                 <button class="button button-tp button-tp-blue is-medium" type="submit"
                   [disabled]="tsSrepper.button.process">
                   <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
@@ -322,7 +322,7 @@
                 </app-contract-form-pay>
 
               </div>
-              <span class="form-field_network-mode">{{ networkMode[reqData.network].name }}</span>
+              <span class="form-field_network-mode" [ngClass]="{'cl-networkmode__main' : reqData.network == 1}" >{{ networkMode[reqData.network].name }}</span>
             </form>
           </div>
           <!-- /FIVE BLOCK: Payement -->
@@ -350,7 +350,7 @@
                 <span class="ff_deployment-text">please try again later or contact us</span>
               </div>
 
-              <span class="form-field_network-mode">{{ networkMode[reqData.network].name }}</span>
+              <span class="form-field_network-mode" [ngClass]="{'cl-networkmode__main' : reqData.network == 1}" >{{ networkMode[reqData.network].name }}</span>
             </form>
           </div>
           <!-- /SIX BLOCK: Deploy -->
@@ -404,13 +404,7 @@
                             [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>
                             <span>{{ token.token_short_name }}</span>
                         </span>
-                        <span class="token_item__button" [class.token_item__button_active]="token === selectedToken"
-                          (click)="changeTokenStatus(token.address);onSelect(token)">
-                          <div class="lds-ellipsis">
-                            <span class="lds-ellipsis-container">
-                              <span></span><span></span><span></span><span></span>
-                            </span>
-                          </div>
+                        <span class="token_item__button" (click)="changeTokenStatus(token.address);">
                           APPROVE
                         </span>
                       </div>
@@ -433,14 +427,7 @@
                   <span [className]="'token_item__title token_item__icon-'+token.token_name"><span
                       class="token_item__image"
                       [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>{{ token.token_short_name }}</span>
-                  <span class="token_item__button" (click)="changeTokenStatus(token.address)">
-                    <div class="lds-ellipsis">
-                      <span class="lds-ellipsis-container">
-                        <span></span><span></span><span></span><span></span>
-                      </span>
-                    </div>
-                    APPROVE
-                  </span>
+                  <span class="token_item__button" (click)="changeTokenStatus(token.address)">APPROVE</span>
                 </div>
               </div>
               <div class="form-field_line"></div>
@@ -448,11 +435,9 @@
               <span *ngIf="confirmErrorMessage"
                 class="form-field error_text__address">{{confirmErrorMessage || ''}}</span>
 
-              <span class="form-field_network-mode">{{ networkMode[reqData.network].name }}</span>
+              <span class="form-field_network-mode" [ngClass]="{'cl-networkmode__main' : reqData.network == 1}" >{{ networkMode[reqData.network].name }}</span>
               <div class="form-field__button d-flex jc-sb fw-w">
-                <button (click)="checkContractStatus('CONFIRM_APPROVE')"
-                  class="button button-tp button-tp-blue is-medium" type="submit"
-                  [disabled]="(tokensData.approved.length <= 0) && !tsSrepper.button.process">
+                <button [disabled]="tokensData.saved.length <= 0" (click)="checkContractStatus('CONFIRM_APPROVE')" class="button button-tp button-tp-blue is-medium" type="submit">
                   <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
                     <span class="lds-ellipsis-container">
                       <span></span><span></span><span></span><span></span>
@@ -461,7 +446,7 @@
                   <span *ngIf="!tsSrepper.button.process" class="caption">Next step</span>
                 </button>
 
-                <button (click)="checkContractStatus('SKIP_CONFIRM_APPROVE')"
+                <button *ngIf="tokensData.saved.lenngth != 0" (click)="checkContractStatus('SKIP_CONFIRM_APPROVE')"
                   class="button button-tp button-tp-gray_light is-medium" type="submit">
                   <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
                     <span class="lds-ellipsis-container">
@@ -575,6 +560,31 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #metaMaskErrorTpl>
+  <div class="dialog-block">
+    <div class="dialog-block__content">
+
+      <button class="dialog-closer" mat-dialog-close>
+        <img src="./assets/images/icons/cross-w.svg">
+      </button>
+
+      <div class="transaction-title">
+        {{ metaMaskError.type || 'Error' }}
+      </div>
+
+      <div class="transaction-description"
+           [innerHTML]="metaMaskError.msg || 'unknown error'"></div>
+
+      <div class="alert-window-buttons text-center">
+        <button class="button button-tp button-tp-blue" mat-dialog-close="" type="button">
+          <span class="caption">&nbsp;&nbsp;&nbsp;Close&nbsp;&nbsp;&nbsp;</span>
+        </button>
+      </div>
+
     </div>
   </div>
 </ng-template>

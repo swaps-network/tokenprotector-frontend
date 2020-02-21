@@ -31,7 +31,8 @@ export interface TokenInfoInterface {
   isEthereum?: boolean;
 }
 
-const IS_PRODUCTION = location.protocol === 'https:';
+let IS_PRODUCTION = location.protocol === 'https:';
+// let IS_PRODUCTION = window['network_mode_web3'];
 
 
 
@@ -59,6 +60,26 @@ export class Web3Service {
     private httpService: HttpService
   ) {
     this.cacheTokens = {};
+    console.log('WEB3 CONSTRUCTOR');
+
+    // this.connectMetamask();
+  }
+
+  private providers;
+  private Web3;
+
+  private cacheTokens: {
+    [address: string]: any
+  };
+
+  private currentCall;
+
+  public init(network?:number) {
+
+    console.log('init web3');
+    console.log('web3 mode:', network);
+    network == 1 ? console.log('selected mainnetwork:',ETH_NETWORKS.INFURA_ADDRESS) : console.log('selected testnetwork', ETH_NETWORKS.ROPSTEN_INFURA_ADDRESS);
+
     this.providers = {};
     try {
       // if (metaMaskProvider && metaMaskProvider.publicConfigStore) {
@@ -78,25 +99,37 @@ export class Web3Service {
     try {
       this.providers.infura =
         new Web3.providers.HttpProvider(
-          IS_PRODUCTION ? ETH_NETWORKS.INFURA_ADDRESS : ETH_NETWORKS.ROPSTEN_INFURA_ADDRESS
+          network == 1 ? ETH_NETWORKS.INFURA_ADDRESS : ETH_NETWORKS.ROPSTEN_INFURA_ADDRESS
         );
     } catch (err) {
       console.log('Infura not found');
     }
+
+    network == 1 ? IS_PRODUCTION = true : IS_PRODUCTION = false;
+    
     this.Web3 = new Web3(this.providers.infura);
 
-    // this.connectMetamask();
   }
 
-  private providers;
-  private Web3;
+  public changeNetwork(network?) {
+    console.log('change network');
+    network == 1 ? console.log('selected mainnetwork:',ETH_NETWORKS.INFURA_ADDRESS) : console.log('selected testnetwork', ETH_NETWORKS.ROPSTEN_INFURA_ADDRESS);
+    this.Web3.providers.HttpProvider(network == 1 ? ETH_NETWORKS.INFURA_ADDRESS : ETH_NETWORKS.ROPSTEN_INFURA_ADDRESS);
+    console.log('metamask network:',Number(window['ethereum'].networkVersion));
 
-  private cacheTokens: {
-    [address: string]: any
-  };
+    if (window['ethereum'] && window['ethereum'].isMetaMask) {
+      const networkVersion = Number(window['ethereum'].networkVersion);
+      const usedNetworkVersion = network == 1 ? 1 : 3;
+        if (usedNetworkVersion !== networkVersion) {
+          console.log('please change network in  metamask')
+        }
+    }
+    else {
+      console.log('metamask not found. please install it to use that application');
+    }
 
-  private currentCall;
-
+    network == 1 ? IS_PRODUCTION = true : IS_PRODUCTION = false;
+  }
 
   public getSignedMetaMaskMsg(msg, addr) {
 
@@ -119,11 +152,29 @@ export class Web3Service {
     });
   }
 
+  public checkMetamaskAddress(owner) {
+    return new Promise((resolve, reject) => {
+      if (window['ethereum'] && window['ethereum'].isMetaMask) {
+        const networkVersion = Number(window['ethereum'].networkVersion);
+        const usedNetworkVersion = IS_PRODUCTION ? 1 : 3;
+
+        if (usedNetworkVersion !== networkVersion) {
+          reject('please change network in metamask');
+        }
+        else {
+          if(window['ethereum'].selectedAddress.toLowerCase() === owner.toLowerCase()) resolve(true);
+          else reject('Owner contract are not owner metamask');      
+        }
+      }
+      else {
+        reject('metamask underfined');
+      }
+    });
+  }
 
   public getContract(abi, address) {
     return new this.Web3.eth.Contract(abi, address);
   }
-
 
   public getMethodInterface(methodName, abi?) {
     abi = abi || ERC20_TOKEN_ABI;
@@ -284,8 +335,8 @@ export class Web3Service {
     return tokenPromise;
   }
 
-
   private getAccountsByProvider(providerName, ifEnabled?) {
+    console.log('======================================START SUBSCRIBER======================================')
 
     return new Observable((observer) => {
       const usedNetworkVersion = IS_PRODUCTION ? 1 : 3;
@@ -300,7 +351,9 @@ export class Web3Service {
           });
           return;
         }
+
         window['ethereum'].on('accountsChanged', (accounts) => {
+          console.log('refresh');
           observer.next({
             type: providerName,
             addresses: accounts
@@ -336,6 +389,7 @@ export class Web3Service {
   }
 
   public getAccounts(owner?, ifEnabled?) {
+    console.log('======================================START GET ACCOUNTS======================================')
     const addressesDictionary: any = {};
     return new Observable((observer) => {
       const accountsSubscriber = this.getAccountsByProvider('metamask', ifEnabled).subscribe((addresses: any) => {

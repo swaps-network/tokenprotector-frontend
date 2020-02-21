@@ -112,6 +112,10 @@
   }
 }
 
+.cl-networkmode__main {
+  color: #17AA5C !important;
+}
+
 
 .base-block-content {
   @include b(580) {
@@ -254,6 +258,7 @@
           width: 100%;
           background-color: lightgray;
           margin-top: 7px;
+          overflow: hidden;
 
           span {
             background-color: #2873FB;

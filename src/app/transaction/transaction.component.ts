@@ -112,11 +112,6 @@ export class TransactionComponent implements OnInit, OnDestroy {
     }
 
     if (transaction.onlyOwner && (wallet.address.toLowerCase() !== transaction.onlyOwner.toLowerCase())) {
-      console.log('=============');
-      console.log('sended:',transaction.onlyOwner)
-      console.log('wallet:',wallet.address)
-      console.log('=============');
-
       this.metamaskError = {
         msg: 'This address is not authorized for the operation. Please choose another address in MetaMask.'
       };

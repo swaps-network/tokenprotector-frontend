@@ -1,7 +1,7 @@
 import { AfterContentInit, Component, EventEmitter, Injectable, OnDestroy, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { ActivatedRoute, ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDatepicker, MatDialog } from '@angular/material';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDatepicker, MatDialog, MatDialogRef } from '@angular/material';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { TransactionComponent } from '../transaction/transaction.component';
@@ -83,6 +83,10 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   @Output() costEmitter = new EventEmitter<any>();
   @Output() QuoteTokenCustom = new EventEmitter<any>();
 
+  @ViewChild('metaMaskErrorTpl') metaMaskErrorTpl: TemplateRef<any>;
+  private metaMaskErrorModal: MatDialogRef<any>;
+  public metaMaskError: any = [];
+
   public reqData: IReqData = {
     contract_type: 23,
     network: 1,
@@ -124,7 +128,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
   public networkMode = [
     {name: 'Error',tokens: [],popular: []},
-    {name: 'Mainnet',tokens: [],popular: ['0x5aed0f4b4c6a8e5c271b7e6768c77dc627cddc6d','0x7f7143631f89e1bbe955a7859cbf3ee082cc2898','0xa0379b1ac68027a76373adc7800d87eb5c3fac5e','0x36d10c6800d569bb8c4fe284a05ffe3b752f972c', '0x006bea43baa3f7a6f765f14f10a1a1b08334ef45', '0x03c780cd554598592b97b7256ddaad759945b125', '0x01cc4151fe5f00efb8df2f90ff833725d3a482a3', '0x8810c63470d38639954c6b41aac545848c46484a', '0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650', '0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4', '0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D']},
+    {name: 'Mainnet',tokens: [],popular: ['0xdac17f958d2ee523a2206206994597c13d831ec7','0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48','0x6b175474e89094c44da98b954eedeac495271d0f','0x514910771af9ca656af840dff83e8264ecf986ca']},
     {name: 'Testnet',tokens: [],popular: ['0x5aed0f4b4c6a8e5c271b7e6768c77dc627cddc6d','0x7f7143631f89e1bbe955a7859cbf3ee082cc2898','0xa0379b1ac68027a76373adc7800d87eb5c3fac5e','0x36d10c6800d569bb8c4fe284a05ffe3b752f972c', '0x006bea43baa3f7a6f765f14f10a1a1b08334ef45', '0x03c780cd554598592b97b7256ddaad759945b125', '0x01cc4151fe5f00efb8df2f90ff833725d3a482a3', '0x8810c63470d38639954c6b41aac545848c46484a', '0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650', '0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4', '0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D']}
   ]
 
@@ -158,7 +162,9 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
   ngOnInit() {
 
-    if (this.reqData) this.tsDate.current = new Date(this.reqData.contract_details.end_timestamp * 1000);
+    if (this.reqData) {
+      this.tsDate.current = new Date(this.reqData.contract_details.end_timestamp * 1000);
+    }
     else {
       this.reqData = {
         contract_type: 23,
@@ -174,14 +180,14 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       } as ITsStepper;
     }
 
+    this.web3Service.init(this.reqData.network);
+    this.web3Service.changeNetwork(this.reqData.network);
     
-    // setTimeout(() => {
-      this.networkMode[1].tokens = Object.assign(window['cmc_tokens_main']);
-      this.networkMode[2].tokens = Object.assign(window['cmc_tokens']);
-      this.tokenProtectorInit();
-      this.checkContractStatus();
-    // },1000);
-    
+    this.networkMode[1].tokens = Object.assign(window['cmc_tokens_main']);
+    this.networkMode[2].tokens = Object.assign(window['cmc_tokens']);
+    console.log(this.reqData);
+    this.tokenProtectorInit();
+    this.checkContractStatus();
 
   }
 
@@ -195,18 +201,24 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
 
   public tokenProtectorInit() {
-    console.log('dasdasdas:',this.networkMode[this.reqData.network].tokens)
     this.tokensData.tokens = Object.assign(this.networkMode[this.reqData.network].tokens);
-
-    this.networkMode[this.reqData.network].popular.map(tokenAddress => {
-      this.tokensData.tokens.find(token => {
-        (token.address === tokenAddress) ? token.popular = true : null;
-      });
-    });
+    // this.networkMode[this.reqData.network].popular.map(tokenAddress => {
+    //   this.tokensData.tokens.find(token => {
+    //     (token.address === tokenAddress) ? token.popular = true : null;
+    //   });
+    //   this.networkMode[this.reqData.network].tokens.find(token => {
+    //     (token.address === tokenAddress) ? token.popular = true : null;
+    //   });
+    // });
 
     this.tokensData.tokens.map(token => {
       token.approved = false;
     });
+  }
+
+  public changeNetwork(network?) {
+    this.web3Service.changeNetwork(network);
+    this.tokensData.tokens = Object.assign(this.networkMode[network].tokens);
   }
 
   public checkContractStatus(stepperState?:string) {
@@ -296,7 +308,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       case 'CONFIRM_APPROVE':
         console.log(this.reqData.state);
         if (!this.currentUser.is_ghost) {
-          console.log(this.tokensData.saved.length,this.tokensData.saved,);
+          console.log(this.tokensData.saved.length,this.tokensData.saved);
           this.contractsService.confirmContract(this.reqData.id,this.tokensData.saved).then((result) => {
             this.reqData = result;
             this.checkContractStatus();
@@ -358,14 +370,14 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
   private tokenApprovedInfo() {
     const approvedToken = this.tokensData.approved.map(token => {return token.address}); // с бекенда
-    const blockchain_approve = this.tokensData.blockchain_approve; // с фронта
-    const removedToken = this.tokensData.removed; // с фронта
+    const blockchain_approve = this.tokensData.blockchain_approve; // с фронта добавлено
+    const removedToken = this.tokensData.removed; // с фронта удаленр
 
     console.log('I.   add:',approvedToken);
     console.log('II.  add front:',blockchain_approve);
-    console.log('III. remove front:',removedToken);
+    console.log('II. remove front:',removedToken);
 
-    console.log('1. backend approve:',approvedToken);
+    // console.log('1. backend approve:',approvedToken);
 
     blockchain_approve.map(blockchain_approved => {
       if (!approvedToken.includes(blockchain_approved)) {
@@ -373,13 +385,13 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       }
     });
 
-    console.log('2. front approve:',approvedToken);
+    // console.log('2. front approve:',approvedToken);
 
     const saveTokens = approvedToken.filter(approved => {
       return !removedToken.includes(approved);
     });
 
-    console.log('3. front approve after remove:', saveTokens);
+    // console.log('3. front approve after remove:', saveTokens);
 
     if(saveTokens.length != this.tokensData.saved.length){
       console.log(saveTokens.length,this.tokensData.saved.length)
@@ -387,53 +399,46 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       const newTokens = this.tokensData.tokens.map(token => {
         if (saveTokens.includes(token.address)) {token.approved = true;}
         else {token.approved = false;}
-        (this.networkMode[this.reqData.network].popular.includes(token.address)) ? token.popular = true : token.popular = false;
+        // (this.networkMode[this.reqData.network].popular.includes(token.address)) ? token.popular = true : token.popular = false;
         return token;
       });
 
       this.tokensData.tokens = Object.assign(newTokens);
       this.tokensData.saved = Object.assign(saveTokens);
     }
-    
   }
 
   public changeTokenStatus(value: string, disaprove?: boolean) {
     this.openTrxWindow(value, disaprove);
   }
 
-  public onSelect(token: any): void {
-    this.selectedToken = token;
-  }
-
-  public onCopied(field) {
-    if (this.copiedAddresses[field]) { return; }
-    this.copiedAddresses[field] = true;
-    setTimeout(() => {this.copiedAddresses[field] = false; }, 1000);
-  }
-
-  public loadMoreTokensFilter(tokenLength?: number) {
-    if ((this.tokensData.filterLimit + 10) > tokenLength) { this.tokensData.filterLimit = tokenLength; } else { this.tokensData.filterLimit = this.tokensData.filterLimit + 10; }
-  }
-
-  public dateChange() {
-    const CurrentTime = new Date(this.tsDate.current);
-    CurrentTime.setMinutes(new Date().getMinutes());
-    // (new Date().getMinutes() >= 50) ? CurrentTime.setHours(new Date().getHours() + 1) : CurrentTime.setHours(new Date().getHours());
-    CurrentTime.setHours(new Date().getHours() + 1)
-    this.tsDate.current = new Date(CurrentTime);
-    console.log('Date chosen: ', this.tsDate.current);
-    this.reqData.contract_details.end_timestamp = Math.floor(this.tsDate.current / 1000);
-    console.log('Timestamp: ',this.reqData.contract_details.end_timestamp);
-  }
-
   private openTrxWindow(tokenAddress, disaprove?:boolean) {
+
     console.log(tokenAddress);
-    this.web3Service.getTokenInfo(tokenAddress).then(
-      (response) => {
-        if (disaprove) {this.createTransactions(0, response.data);}
-        else { this.createTransactions(1, response.data); }
-      }
-    ).catch(err => { console.log(err)});
+    const checkUserProvider = this.web3Service.checkMetamaskAddress(this.reqData.contract_details.owner_address);
+    console.log('checkUserProvider:',checkUserProvider);
+
+    checkUserProvider.then(()=> { 
+
+      this.web3Service.getTokenInfo(tokenAddress).then(
+        (response) => {
+          if (disaprove) {this.createTransactions(0, response.data);}
+          else { this.createTransactions(1, response.data); }
+        }
+      ).catch(err => { console.log(err)});
+
+    }).catch(err => {
+
+      console.log(err);
+      this.metaMaskError.type = 'Metamask error';
+      this.metaMaskError.msg = err;
+      this.metaMaskErrorModal = this.dialog.open(this.metaMaskErrorTpl, {
+        width: '480px',
+        panelClass: 'custom-dialog-container'
+      });
+
+    });
+
   }
 
   public startCheckAllowance(token,amount){
@@ -553,6 +558,32 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     } catch (e) {
       console.log(e);
     }
+  }
+
+
+  // public onSelect(token: any): void {
+  //   this.selectedToken = token;
+  // }
+
+  public onCopied(field) {
+    if (this.copiedAddresses[field]) { return; }
+    this.copiedAddresses[field] = true;
+    setTimeout(() => {this.copiedAddresses[field] = false; }, 1000);
+  }
+
+  public loadMoreTokensFilter(tokenLength?: number) {
+    if ((this.tokensData.filterLimit + 10) > tokenLength) { this.tokensData.filterLimit = tokenLength; } else { this.tokensData.filterLimit = this.tokensData.filterLimit + 10; }
+  }
+
+  public dateChange() {
+    const CurrentTime = new Date(this.tsDate.current);
+    CurrentTime.setMinutes(new Date().getMinutes());
+    // (new Date().getMinutes() >= 50) ? CurrentTime.setHours(new Date().getHours() + 1) : CurrentTime.setHours(new Date().getHours());
+    CurrentTime.setHours(new Date().getHours() + 1)
+    this.tsDate.current = new Date(CurrentTime);
+    console.log('Date chosen: ', this.tsDate.current);
+    this.reqData.contract_details.end_timestamp = Math.floor(this.tsDate.current / 1000);
+    console.log('Timestamp: ',this.reqData.contract_details.end_timestamp);
   }
 
 }

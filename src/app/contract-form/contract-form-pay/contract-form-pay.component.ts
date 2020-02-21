@@ -52,6 +52,7 @@ export class ContractFormPayComponent implements OnInit, OnDestroy {
     this.updateAddresses();
     this.updateDataFields();
     this.costsEmitter.subscribe((cost) => {
+      console.log('cost',cost);
       this.contractCosts = cost;
       this.updateDataFields();
     });
