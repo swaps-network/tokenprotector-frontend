@@ -90,12 +90,23 @@ ng-scrollbar-y {
 }
 
 .contract-add-tokens_blue {
-    background-color: #2873FB !important;
-    font-weight: bold;
+    // background-color: #2873FB !important;
+    padding: 0 !important;
+    height: 45px !important;
+    // font-weight: bold;
     transition: 0.4s ease;
 
     span {
-        color: white !important;
+        // color: white !important;
+        font-size: 12px !important;
+        margin-left: 0 !important;
+
+        &:before {
+            width: 10px !important;
+            height: 10px !important;
+            background-size: 6px !important;
+            margin-right: 3px !important;
+        }
     }
 
     &:hover {
@@ -125,8 +136,13 @@ ng-scrollbar-y {
         
         &:hover {
             color: black;
+            cursor: pointer;
         }
     }
+}
+
+button:focus {
+    outline: none !important;
 }
 
 .deleteToken-contract {

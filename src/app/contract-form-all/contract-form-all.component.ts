@@ -107,7 +107,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     check: [],
     removed: [],
     blockchain_approve: [],
-    filterLimit: 10,
+    filterLimit: 9,
     search: ''
   }
   
@@ -163,6 +163,13 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   ngOnInit() {
 
     if (this.reqData) {
+
+      if(['ACTIVE','DONE'].includes(this.reqData.state)) {
+        console.log('REDIREEEEEEEEEEEEEEEEEEEEEEEEEECR')
+        this.router.navigate([`/contract/${this.reqData.id}`]);
+        return;
+      }
+
       this.tsDate.current = new Date(this.reqData.contract_details.end_timestamp * 1000);
     }
     else {
@@ -254,6 +261,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         this.tsSrepper.button.process = true;
         // setTimeout(() => {
           if (!this.currentUser.is_ghost) {
+            if(!this.reqData.contract_details.email) this.reqData.contract_details.email = 'none';
             if (this.reqData.id) {
               this.reqData.contract_details.eth_contract = null;
               this.contractsService.updateContract(this.reqData).then((result) => {
@@ -572,7 +580,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
 
   public loadMoreTokensFilter(tokenLength?: number) {
-    if ((this.tokensData.filterLimit + 10) > tokenLength) { this.tokensData.filterLimit = tokenLength; } else { this.tokensData.filterLimit = this.tokensData.filterLimit + 10; }
+    if (((this.tokensData.filterLimit + 6) > tokenLength) && ((this.tokensData.filterLimit + 6) != tokenLength)) { this.tokensData.filterLimit = tokenLength; } else { this.tokensData.filterLimit = this.tokensData.filterLimit + 6; }
   }
 
   public dateChange() {
@@ -618,7 +626,9 @@ export class ContractEditResolver2 implements Resolve<any> {
       return new Observable((observer) => {
         const subscription = this.userService.getCurrentUser(false, true).subscribe((user) => {
           this.currentUser = user;
-          if (!user.is_ghost) { this.getContractInformation(observer); } else {
+          if (!user.is_ghost) {
+            this.getContractInformation(observer);
+          } else {
             this.userService.openAuthForm()
               .then(() => { this.getContractInformation(observer); }
                 , () => { this.router.navigate(['/create']); });

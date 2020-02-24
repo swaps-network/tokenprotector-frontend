@@ -8,15 +8,14 @@
         <div class="form-container form-container_contract form-block_contract__info">
 
           <div *ngIf="showInfoMsg" class="form-block form-block_contract">
-            <p class="form-block_contract-up">Thank you, your deal was created and added to our OTC Global Liquidity Pool.</p>
+            <p class="form-block_contract-up">Thank you, your protector contract was successfully created.</p>
             <div class="form-block_contract-info">
               <span class="form-block_contract-info__close" (click)="showInfoMsg=false;">X</span>
-              <span class="form-block_contract-info__title">Reminder</span>
-              <span class="form-block_contract-info__subtitle">Please follow these steps to close your deal faster</span>
+              <span class="form-block_contract-info__title">Rules</span>
               <div class="form-block_contract-info__steps">
-                <div class="form-block_contract-info__step" data-step="1">Fill in your contact details - so our manager can connect with you</div>
-                <div class="form-block_contract-info__step" data-step="2">Copy the link and share with your community</div>
-                <div class="form-block_contract-info__step" data-step="3">Make sure that filled your part</div>
+                <div class="form-block_contract-info__step" data-step="1">Please make sure that you have added tokens (Protected tokens section)</div>
+                <div class="form-block_contract-info__step" data-step="2">For contract’s management, you will have access to Protected address</div>
+                <div class="form-block_contract-info__step" data-step="3">You are the contract owner and you can cancel your contract anytime before the execution</div>
               </div>
             </div>
           </div>
@@ -98,13 +97,14 @@
                           [ngStyle]="{'background-image':'url(' + token.image_link + ')'}">
                       </span>
                       <span>{{ token.token_short_name }}</span>
-                      <span *ngIf="(['ACTIVE'].includes(reqData.state) && (reqData.contract_details.approved_tokens.length > 1))" (click)="openTrxWindow(token.address,true)" class="deleteToken-contract">x</span>
+                      <span *ngIf="(['ACTIVE'].includes(reqData.state) && (reqData.contract_details.approved_tokens.length > 1) && (tokensData.saved.length > 1))" (click)="openTrxWindow(token.address,true)" class="deleteToken-contract">x</span>
                     </span>
                   </div>
-                  <div *ngIf="!toggleAddTokens" class="form-field__tokens-view_item contract-add-tokens_blue" (click)="toggleAddTokens = true;">
-                    <span class="form-field__tokens-view_item-title" style="width: 100%;">
-                      <span>+ Add Tokens</span>
-                    </span>
+                  <!-- <div *ngIf="!toggleAddTokens" class="form-field__tokens-view_item contract-add-tokens_blue" (click)="toggleAddTokens = true;"> -->
+                  <div *ngIf="!toggleAddTokens" class="contract-add-tokens_blue button button-tp button-tp-blue" (click)="toggleAddTokens = true;">
+                    <!-- <span class="form-field__tokens-view_item-title" style="width: 100%;"> -->
+                      <span class="caption">Add Tokens</span>
+                    <!-- </span> -->
                   </div>
                 </div>
 
@@ -112,7 +112,7 @@
                   <span class="contract-search-add-tokens-close" (click)="toggleAddTokens = false;">X</span>
                   <div class="form-block_search-tokens">
                     <input type="text" class="min-text max-placeholder form-block_search-tokens_input" #searchTokensInput
-                      [(ngModel)]="tokensData.search" placeholder="Search" (input)="tokensData.filterLimit = 10">
+                      [(ngModel)]="tokensData.search" placeholder="Search" (input)="tokensData.filterLimit = 6">
                     <span class="form-block_search-tokens_input-icon"></span>
                     <span class="form-block_search-tokens_input-close" (click)="tokensData.search = ''"></span>
                   </div>
@@ -135,7 +135,7 @@
                           </div>
                         </ng-container>
                         <div class="token_item token_item__more" (click)="loadMoreTokensFilter(tokensData.tokens.length)"
-                          *ngIf="tokensData.filterLimit < tokensData.tokens.length && tokensData.filterLimit !== tokensData.tokens.length">
+                        *ngIf="(tokensData.filterLimit < ((tokensData.tokens|FilterTokens:false:true:tokensData.search:false).length)) && (tokensData.filterLimit != (tokensData.tokens|FilterTokens:false:true:tokensData.search:false).length)">
                           Load more</div>
                       </ng-container>
                     </div>
@@ -153,25 +153,29 @@
                       <span class="form-field_info-view_column-title">Execution date</span>
                       <span class="form-field_info-view_column-date">{{ curDate|date }}</span>
                     </div>
+  
+                    <div class="form-field_info-view_column">
+                      <span class="form-field_info-view_column-title">Notification e-mail</span>
+                      <div class="form-field_info-view_column-date">
+                        <!-- <span class="form-field_info-view_column-mail_title">{{ reqData.contract_details.email || 'none' }}</span> -->
+                        {{ reqData.contract_details.email || 'none' }}
+                      </div>
+                    </div>
+
                     <div class="form-field_info-view_column">
                       <span class="form-field_info-view_column-title"><b>{{ dateToExecute }}</b> days left</span>
                       <div class="form-field_info-view_column-days_left">
                         <span [ngStyle]="{'width':executeRagne +'%'}"></span>
                       </div>
                     </div>
-                    <div class="form-field_info-view_column">
-                      <span class="form-field_info-view_column-title">Notification e-mail</span>
-                      <div class="form-field_info-view_column-mail">
-                        <span class="form-field_info-view_column-mail_title">{{ reqData.contract_details.email || 'none' }}</span>
-                      </div>
-                    </div>
+
                   </div>
                 </div>
 
                 <div class="form-field_line-view"></div>
 
                 <div class="form-field_view-button">
-                  <span class="button button-tp button-tp-blue is-large" [routerLink]="['/contracts']" routerLinkActive="router-link-active"><span class="caption">Back</span></span>
+                  <span class="button button-tp button-tp-blue is-large" [routerLink]="['/contracts']" routerLinkActive="router-link-active"><span class="caption">My Contracts</span></span>
                   <span class="button button-tp button-tp-gray_light is-large" *ngIf="['ACTIVE'].includes(reqData.state)" (click)="cancelContract();"><span class="caption" >Cancel contract</span></span>
                 </div>
 
@@ -195,7 +199,7 @@
                 </div>
 
                 <div class="form-field_source-text form-field_source-steps" data-step="1">
-                  <span class="form-field_source-text_title">Open contract address on <a [attr.href]="'https://ropsten.etherscan.io/address/'+reqData.contract_details.eth_contract.address+'#code'" target="_blank">etherscan</a></span>
+                  <span class="form-field_source-text_title">Open contract address on <a [attr.href]="reqData.network === 1 ? 'https://etherscan.io/'+reqData.contract_details.eth_contract.address+'#code' : 'https://ropsten.etherscan.io/address/'+reqData.contract_details.eth_contract.address+'#code'" target="_blank">etherscan</a></span>
                 </div>
 
                 <div class="form-field_source-text form-field_source-steps" data-step="2">

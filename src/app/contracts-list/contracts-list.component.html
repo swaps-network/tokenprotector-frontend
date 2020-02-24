@@ -10,12 +10,19 @@
 
       <div class="public-swaps">
         <div class="grid-row public-swaps_head-row">
-          <div class="grid-cell grid-cell-1-5 public-swaps_head-cell">
+          <div class="grid-cell grid-cell-1-7 public-swaps_head-cell">
             <div class="public-swaps_head_content bold fd-row">
               <b>Contract name</b>
             </div>
           </div>
-          <div class="grid-cell grid-cell-1-3 public-swaps_head-cell">
+
+          <div class="grid-cell grid-cell-13-3 public-swaps_head-cell">
+            <div class="public-swaps_head_content bold fd-row">
+              <b>Mode</b>
+            </div>
+          </div>
+
+          <div class="grid-cell grid-cell-29 public-swaps_head-cell">
             <div class="public-swaps_head_content bold fd-row">
               <b>Protected Address</b>
             </div>
@@ -55,15 +62,23 @@
            (click)="toContract(contract)"
            *ngFor="let contract of contractsList">
 
-        <div class="grid-cell grid-cell-1-5 public-swaps_cell">
+        <div class="grid-cell grid-cell-1-7 public-swaps_cell">
           <div class="public-swaps_cell_content">
             <div class="swap-info">
-              {{contract.name || 'Token Protector' }}
+              {{ contract.name || 'Token Protector' }}
             </div>
           </div>
         </div>
 
-        <div class="grid-cell grid-cell-1-3 public-swaps_cell">
+        <div class="grid-cell grid-cell-13-3 public-swaps_cell">
+          <div class="public-swaps_cell_content">
+            <div class="swap-info">
+              {{ contract.network === 2 ? 'Testnet' : 'Mainnet' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-cell grid-cell-29 public-swaps_cell">
           <div class="public-swaps_cell_content">
             <div class="swap-info">
               {{contract.owner_address || contract.contract_details.owner_address }}

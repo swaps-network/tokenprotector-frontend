@@ -214,8 +214,7 @@
                   <label class="form-field_label">Email for notifications (optional)</label>
                   <div class="form-field">
                     <div class="form-field_input width-550-px">
-                      <input type="email" class="min-text max-placeholder" [email]="true"
-                        [(ngModel)]="reqData.contract_details.email" placeholder="Enter your email" name="check_email">
+                      <input class="min-text max-placeholder" [(ngModel)]="reqData.contract_details.email" placeholder="Enter your email" name="check_email">
                     </div>
                   </div>
                 </div>
@@ -308,7 +307,7 @@
           <!-- /FOUR BLOCK: Preview -->
 
           <!-- FIVE BLOCK: Payement -->
-          <div class="form-block" [ngClass]="{
+          <div *ngIf="reqData.network === 1" class="form-block" [ngClass]="{
                  hidden: reqData.state !== 'WAITING_FOR_PAYMENT',
                  checked: !['CHOOSE_NETWORK','FAILED','POSTPONED','EXPIRED','TIME_IS_UP','PREPARE_DATE_EMAIL', 'PREPARE_ADDRESS', 'CREATED', 'CREATING_UPDATE', 'WAITING_FOR_PAYMENT','CONFIRM_CONTRACT'].includes(reqData.state),
                  'form-block__active': reqData.state === 'WAITING_FOR_PAYMENT'
@@ -363,10 +362,10 @@
           }">
             <div class="form-block_title">Adding tokens to the contract</div>
             <div class="form-block_fieldset" *ngIf="reqData.state !== 'FAIL_IN_CONFIRM'">
+
+              
               <div [className]="'form-block_text-token form-block_text-token-'+tokensData.approved.length">
-                You shall grant rights to the protection contract for transferring the tokens <br> if conditions are
-                met.<br><br>
-                Add every token which you need to protect:<br>
+                You shall grant rights to the protection contract for transferring the tokens <br> if conditions are met.
               </div>
 
               <div class="form-block_tokens__list">
@@ -379,12 +378,17 @@
                     class="token_item__button token_item__button-active">APPROVED</span>
                 </div>
               </div>
+              
+
+              <div [className]="'form-block_text-token form-block_text-token-'+tokensData.approved.length">
+                <br>Add every token which you need to protect:<br>
+              </div>
 
               <div *ngIf="tokensData.approved.length != 0" class="form-field_line"></div>
 
               <div class="form-block_search-tokens">
                 <input type="text" class="min-text max-placeholder form-block_search-tokens_input" #searchTokensInput
-                  [(ngModel)]="tokensData.search" placeholder="Search" (input)="tokensData.filterLimit = 10">
+                  [(ngModel)]="tokensData.search" placeholder="Search" (input)="tokensData.filterLimit = 6" >
                 <span class="form-block_search-tokens_input-icon"></span>
                 <span class="form-block_search-tokens_input-close" (click)="tokensData.search = ''"></span>
               </div>
@@ -410,7 +414,7 @@
                       </div>
                     </ng-container>
                     <div class="token_item token_item__more" (click)="loadMoreTokensFilter(tokensData.tokens.length)"
-                      *ngIf="tokensData.filterLimit < tokensData.tokens.length && tokensData.filterLimit !== tokensData.tokens.length">
+                      *ngIf="(tokensData.filterLimit < ((tokensData.tokens|FilterTokens:false:true:tokensData.search:false).length)) && (tokensData.filterLimit != (tokensData.tokens|FilterTokens:false:true:tokensData.search:false).length)">
                       Load more</div>
                   </ng-container>
 
@@ -437,7 +441,7 @@
 
               <span class="form-field_network-mode" [ngClass]="{'cl-networkmode__main' : reqData.network == 1}" >{{ networkMode[reqData.network].name }}</span>
               <div class="form-field__button d-flex jc-sb fw-w">
-                <button [disabled]="tokensData.saved.length <= 0" (click)="checkContractStatus('CONFIRM_APPROVE')" class="button button-tp button-tp-blue is-medium" type="submit">
+                <button [disabled]="tokensData.saved.length > 0" (click)="checkContractStatus('CONFIRM_APPROVE')" class="button button-tp button-tp-blue is-medium" type="submit">
                   <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
                     <span class="lds-ellipsis-container">
                       <span></span><span></span><span></span><span></span>
@@ -446,7 +450,7 @@
                   <span *ngIf="!tsSrepper.button.process" class="caption">Next step</span>
                 </button>
 
-                <button *ngIf="tokensData.saved.lenngth != 0" (click)="checkContractStatus('SKIP_CONFIRM_APPROVE')"
+                <button *ngIf="tokensData.saved.length <= 0" (click)="checkContractStatus('SKIP_CONFIRM_APPROVE')"
                   class="button button-tp button-tp-gray_light is-medium" type="submit">
                   <div class="lds-ellipsis" *ngIf="tsSrepper.button.process">
                     <span class="lds-ellipsis-container">

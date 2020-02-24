@@ -169,7 +169,7 @@
     <div class="transaction-buttons">
       <div class="grid-row">
         <div class="grid-cell grid-cell-1-3 grid-cell-vs-1-2">
-          <button class="button button-tp button-tp-blue is-medium width-100" mat-dialog-close>
+          <button class="button button-tp button-tp-blue width-100" mat-dialog-close>
             <span class="caption">Close</span>
           </button>
         </div>
@@ -196,7 +196,7 @@
            [innerHTML]="this.metamaskError.msg"></div>
 
       <div class="alert-window-buttons text-center">
-        <button class="btn btn-yellow btn-auto btn-min" (click)="closeMetaMaskError()" type="button">
+        <button ngbAutofocus class="btn btn-yellow btn-auto btn-min" (click)="closeMetaMaskError()" type="button">
           <span>&nbsp;&nbsp;&nbsp;Close&nbsp;&nbsp;&nbsp;</span>
         </button>
       </div>

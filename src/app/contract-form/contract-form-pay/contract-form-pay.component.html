@@ -152,10 +152,10 @@
 
     </div>
 
-    <div class="or-delimiter"><div></div><span>OR</span><div></div></div>
+    <div class="or-delimiter" *ngIf="['SWAP','ETH'].includes(replenishMethod)"><div></div><span>OR</span><div></div></div>
 
-    <label class="form-field_label">Select payment method:</label>
-    <div class="form-field_input">
+    <label class="form-field_label" *ngIf="['SWAP','ETH'].includes(replenishMethod)">Select payment method:</label>
+    <div class="form-field_input" *ngIf="['SWAP','ETH'].includes(replenishMethod)">
       <div class="grid-row">
         <div class="grid-cell grid-cell-ls-1-2 grid-cell-vs-1">
           <div class="form-field">
@@ -231,7 +231,7 @@
     </div>
   </div>
 
-  <div class="form-field_line"></div>
+  <div class="form-field_line" *ngIf="['SWAP','ETH'].includes(replenishMethod)"></div>
 
   <div class="contract-pay-state">
     <span class="lds-ellipsis inline">

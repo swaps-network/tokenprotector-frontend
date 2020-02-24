@@ -150,7 +150,7 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
     check: [],
     removed: [],
     blockchain_approve: [],
-    filterLimit: 10,
+    filterLimit: 6,
     search: ''
   }
 
@@ -169,7 +169,7 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
   public toggleAddTokens:boolean = false;
   public dateToExecute:number = 0;
   public dateToExecuteRagne:number = 0;
-  public executeRagne:number = 0;
+  public executeRagne:number;
   
   constructor(
     protected contractsService: ContractsService,
@@ -206,20 +206,22 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
       });
 
       this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
-      this.dateToExecute = Math.round((new Date(this.curDate).getTime() - new Date().getTime()) / (24 * 60 * 60 * 1000));
-      this.dateToExecuteRagne = Math.round((new Date(this.reqData.created_date).getTime() - new Date(this.curDate).getTime()) / (24 * 60 * 60 * 1000))*-1;
-      if(this.dateToExecuteRagne != this.dateToExecute) this.executeRagne = 100/(this.dateToExecute*(this.dateToExecuteRagne - this.dateToExecute))*10;
-      else this.executeRagne = 0;
-      
-      console.log('execute date:',this.dateToExecute)
-      console.log('execute date:',this.dateToExecuteRagne)
+      this.dateToExecute = Math.round((new Date(this.curDate).getTime() - new Date().getTime()) / (24 * 60 * 60 * 1000)); // осталось дней
+      this.dateToExecuteRagne = Math.round((new Date(this.reqData.created_date).getTime() - new Date(this.curDate).getTime()) / (24 * 60 * 60 * 1000))*-1; // разница от начала и конца в днях
+      this.executeRagne = ((this.dateToExecuteRagne - this.dateToExecute)/this.dateToExecuteRagne*100); // % от разницы и оставшихся дней
 
       if(this.dateToExecute <= 0 || this.dateToExecute === -0) {
-        console.log('change execute:',this.executeRagne);
         this.dateToExecute = 0;
         this.executeRagne = 100;
       }
-      console.log('unknown execute:',this.executeRagne);
+
+      console.log('execute date:',this.dateToExecute)
+      console.log('execute date:',this.dateToExecuteRagne)
+      console.log('% = ', this.executeRagne);
+
+      // if(this.dateToExecuteRagne != this.dateToExecute) this.executeRagne = 100/(this.dateToExecute*(this.dateToExecuteRagne - this.dateToExecute))*10;
+      // else this.executeRagne = 0;
+      
 
       this.web3Service.init(this.reqData.network);
       this.web3Service.changeNetwork(this.reqData.network);
@@ -318,6 +320,10 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
     }
 
     console.log('TOKENS APPROVED',this.tokensData.saved);
+  }
+
+  public loadMoreTokensFilter(tokenLength?: number) {
+    if (((this.tokensData.filterLimit + 6) > tokenLength) && ((this.tokensData.filterLimit + 6) != tokenLength)) { this.tokensData.filterLimit = tokenLength; } else { this.tokensData.filterLimit = this.tokensData.filterLimit + 6; }
   }
 
   public changeTokenStatus(value: string, disaprove?: boolean) {

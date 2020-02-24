@@ -159,11 +159,11 @@ export class Web3Service {
         const usedNetworkVersion = IS_PRODUCTION ? 1 : 3;
 
         if (usedNetworkVersion !== networkVersion) {
-          reject('please change network in metamask');
+          reject('Wrong network.<br> Please change network. For TestNet choose Ropsten.');
         }
         else {
           if(window['ethereum'].selectedAddress.toLowerCase() === owner.toLowerCase()) resolve(true);
-          else reject('Owner contract are not owner metamask');      
+          else reject('You must use protected address for Approve.');      
         }
       }
       else {
@@ -347,7 +347,7 @@ export class Web3Service {
         if (usedNetworkVersion !== networkVersion) {
           observer.error({
             code: 2,
-            msg: 'Please choose main net network in Metamask.'
+            msg: 'Wrong network. Please change network.<br> For TestNet choose Ropsten.'
           });
           return;
         }
@@ -379,7 +379,7 @@ export class Web3Service {
       } else {
         observer.error({
           code: 1,
-          msg: 'Metamask extension is not found. You can install it from <a href="https://metamask.io" target="_blank">metamask.io</a>'
+          msg: 'Metamask extension is not found.<br> You can install it from <a href="https://metamask.io" target="_blank">metamask.io</a>'
         });
       }
       return {
