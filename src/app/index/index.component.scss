@@ -8,8 +8,12 @@
     overflow: hidden;
   }
 
+  @include b(768) {
+    padding-top: 90px;
+  }
+
   @include b(500) {
-    padding-top: 150px;
+    padding-top: 90px;
   }
 }
 
@@ -82,22 +86,22 @@
     }
 
     .button-tp {
-      width: 170px;
+      width: 220px;
       font-weight: bold;
       font-size: 18px;
-      height: 42px;
+      height: 60px;
       padding: 0;
       color: white;
 
       span {
-        font-size: 14px;
+        font-size: 20px;
       }
     }
   }
 }
 
 .section-how-it-works {
-  margin-top: -200px;
+  margin-top: -130px;
 
   @include b(769) {
     margin-top: -100px;
@@ -252,6 +256,8 @@
 }
 
 .section-middle-block {
+  padding: 0;
+
   .container {
     background-color: white;
     background-image: url('/assets/images/new/protect-your-tokens-now.png');
@@ -262,7 +268,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 200px;
+    height: 280px;
     margin-bottom: 50px;
 
     .title {
@@ -271,7 +277,8 @@
     }
 
     .button-tp {
-      width: 170px;
+      // width: 170px;
+      width: 200px;
       font-weight: bold;
       font-size: 18px;
       height: 42px;
@@ -284,6 +291,63 @@
     }
   }
 
+}
+
+.section-client-trust {
+  .client-trust-block {
+    display: flex;
+    margin-top: 70px;
+    flex-wrap: wrap;
+
+    &-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 50px;
+      cursor: default;
+      margin-bottom: 30px;
+
+      span {
+        &:nth-child(1) {
+          font-size: 40px;
+          font-weight: bold;
+          color: black;
+        }
+
+        &:nth-child(2) {
+          color: gray;
+          font-size: 18px;
+        }
+      }
+    }
+
+    .icon-shield {
+      &:before {
+        content: '';
+        display: block;
+        background-image: url('/assets/images/icons/c-trust-shield.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        width: 120px;
+        height: 120px;
+        margin-right: 15px;
+      }
+    }
+
+    .icon-mywish {
+      &:before {
+        content: '';
+        display: block;
+        background-image: url('/assets/images/icons/c-trust-mywish.svg');
+        background-position: center;
+        background-size: contain;
+        width: 120px;
+        height: 120px;
+        margin-right: 15px;
+      }
+    }
+  }
 }
 
 .section-partners {
@@ -311,7 +375,7 @@
       margin-right: 0 !important;
       margin-bottom: 30px;
       text-align: center;
-      line-height: 90px;
+      line-height: 40px;
 
       @include b(875) {
         width: 25%;

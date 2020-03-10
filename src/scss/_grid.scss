@@ -1,3 +1,5 @@
+@import "mixins";
+
 .grid-row {
   margin: 0 -1vw;
 
@@ -27,6 +29,10 @@
     float: right !important;
   }
 
+  &.grid-cell-17 {
+    width: 17%;
+  }
+
   &.grid-cell-18 {
     width: 18.1%;
   }
@@ -40,7 +46,7 @@
   }
 
   &.grid-cell-29 {
-    width: 29%;
+    width: 20%;
   }
 
   &.grid-cell-1-2 {

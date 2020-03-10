@@ -9,9 +9,11 @@
   </div>
 
   <div class="form-field">
+    
     <a class="button button-tp button-tp-facebook button-tp-icon-facebook width-100"
-       *ngIf="social.FB"
-       (click)="FBAuth()">
+    *ngIf="social.FB"
+    (click)="FBAuth()"
+    >
       <span class="caption" translate="AUTH_POPUP.BUTTONS.LOGIN_FACEBOOK"></span>
     </a>
   </div>
@@ -19,7 +21,8 @@
   <div class="form-field">
     <a class="button button-tp button-tp-google button-tp-icon-google width-100"
        *ngIf="social.GA"
-       (click)="GoogleAuth()">
+       (click)="GoogleAuth()"
+    >
       <span class="caption" translate="AUTH_POPUP.BUTTONS.LOGIN_GOOGLE"></span>
     </a>
   </div>

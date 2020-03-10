@@ -218,20 +218,25 @@ button:focus {
     }
 }
 
+.mb-10 {
+    margin-bottom: 10px;
+}
+
 .beta_version-banner {
+    font-size: 14px;
     background-color: #8792A2;
     display: flex;
     justify-content: center;
     color: white;
     align-items: center;
-    height: 50px;
+    height: 35px;
     margin-top: -20px;
     margin-bottom: 10px;
 
     img {
-        width: 20px;
-        margin-right: 8px;
-        margin-top: 9px;
+        width: 22px;
+        margin-right: 10px;
+        margin-top: 0px;
     }
 
     @include b(800) {

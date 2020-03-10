@@ -105,7 +105,8 @@
         </span>
         to
       </div>
-      <div class="form-field_input">
+
+      <div class="form-field_input" *ngIf="!['BNB','WISH'].includes(replenishMethod)">
         <div class="form-field__copy bg-none mt-5">
           <button type="button"
                   class="copy-btn"
@@ -119,6 +120,31 @@
           <input type="text" class="min-text"
                  readonly
                  [value]="currentUser.internal_address"/>
+          <div class="form-field_info-field form-field_small-desc">
+            <span class="float-left">
+              Gas price 30 gwei
+            </span>
+            <span class="float-left">
+              Gas limit 100.000
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-field_input" *ngIf="['BNB','WISH'].includes(replenishMethod)">
+        <div class="form-field__copy bg-none mt-5">
+          <button type="button"
+                  class="copy-btn"
+                  [ngClass]="{copied: copiedAddresses['bnb_address']}"
+                  ngxClipboard [cbContent]="currentUser.bnb_address"
+                  (cbOnSuccess)="onCopied('bnb_address')">
+            <img src="./assets/images/icons/copy.svg"/>
+          </button>
+        </div>
+        <div class="form-field_input_data">
+          <input type="text" class="min-text"
+                 readonly
+                 [value]="currentUser.bnb_address"/>
           <div class="form-field_info-field form-field_small-desc">
             <span class="float-left">
               Gas price 30 gwei
@@ -152,10 +178,10 @@
 
     </div>
 
-    <div class="or-delimiter" *ngIf="['SWAP','ETH'].includes(replenishMethod)"><div></div><span>OR</span><div></div></div>
+    <div class="or-delimiter" *ngIf="['SWAP','ETH','USDT'].includes(replenishMethod)"><div></div><span>OR</span><div></div></div>
 
-    <label class="form-field_label" *ngIf="['SWAP','ETH'].includes(replenishMethod)">Select payment method:</label>
-    <div class="form-field_input" *ngIf="['SWAP','ETH'].includes(replenishMethod)">
+    <label class="form-field_label" *ngIf="['SWAP','ETH','USDT'].includes(replenishMethod)">Select payment method:</label>
+    <div class="form-field_input" *ngIf="['SWAP','ETH','USDT'].includes(replenishMethod)">
       <div class="grid-row">
         <div class="grid-cell grid-cell-ls-1-2 grid-cell-vs-1">
           <div class="form-field">

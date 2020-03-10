@@ -48,6 +48,9 @@ export class ContractFormPayComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    console.log(this.currentUser);
+
     this.replenishMethod = 'SWAP';
     this.updateAddresses();
     this.updateDataFields();
