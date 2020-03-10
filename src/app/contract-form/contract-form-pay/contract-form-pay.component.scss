@@ -1,3 +1,5 @@
+@import '../../../scss/mixins';
+
 .transaction {
   &-title {
     font-size: 25px;
@@ -30,6 +32,10 @@
 .token-btn-wrap {
   margin: 0 20px -10px -10px;
   padding-bottom: 20px;
+
+  @include b(600) {
+    margin: 0;
+  }
 }
 
 .contract-pay-state {

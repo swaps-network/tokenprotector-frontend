@@ -10,14 +10,17 @@
 
       <div class="public-swaps">
         <div class="grid-row public-swaps_head-row">
-          <div class="grid-cell grid-cell-1-7 public-swaps_head-cell">
+          <div class="grid-cell grid-cell-17 public-swaps_head-cell">
             <div class="public-swaps_head_content bold fd-row">
               <b>Contract name</b>
             </div>
           </div>
 
           <div class="grid-cell grid-cell-13-3 public-swaps_head-cell">
-            <div class="public-swaps_head_content bold fd-row">
+            <div class="public-swaps_head_content bold">
+              <button class="sort-btn" (click)="applySort('network')">
+                <span></span>
+              </button>
               <b>Mode</b>
             </div>
           </div>
@@ -27,7 +30,7 @@
               <b>Protected Address</b>
             </div>
           </div>
-          <div class="grid-cell grid-cell-1-7 public-swaps_head-cell">
+          <div class="grid-cell grid-cell-17 public-swaps_head-cell">
             <div class="public-swaps_head_content bold">
               <button class="sort-btn" (click)="applySort('creation')">
                 <span></span>
@@ -35,7 +38,7 @@
               <b>Created<br>date</b>
             </div>
           </div>
-          <div class="grid-cell grid-cell-1-7 public-swaps_head-cell">
+          <div class="grid-cell grid-cell-17 public-swaps_head-cell">
             <div class="public-swaps_head_content bold">
               <button class="sort-btn" (click)="applySort('expire')">
                 <span></span>
@@ -62,7 +65,7 @@
            (click)="toContract(contract)"
            *ngFor="let contract of contractsList">
 
-        <div class="grid-cell grid-cell-1-7 public-swaps_cell">
+        <div class="grid-cell grid-cell-17 public-swaps_cell">
           <div class="public-swaps_cell_content">
             <div class="swap-info">
               {{ contract.name || 'Token Protector' }}
@@ -86,7 +89,7 @@
           </div>
         </div>
 
-        <div class="grid-cell grid-cell-1-7 public-swaps_cell">
+        <div class="grid-cell grid-cell-17 public-swaps_cell">
           <div class="public-swaps_cell_content">
             <div class="swap-info">
               {{ contract.created_date|date }}
@@ -94,7 +97,7 @@
           </div>
         </div>
 
-        <div class="grid-cell grid-cell-1-7 public-swaps_cell">
+        <div class="grid-cell grid-cell-17 public-swaps_cell">
           <div class="public-swaps_cell_content">
             <div class="swap-info">
               {{ contract.contract_details.end_timestamp*1000 |date }}

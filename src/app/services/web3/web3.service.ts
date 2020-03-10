@@ -61,8 +61,9 @@ export class Web3Service {
   ) {
     this.cacheTokens = {};
     console.log('WEB3 CONSTRUCTOR');
+    this.init()
 
-    // this.connectMetamask();
+    //this.connectMetamask();
   }
 
   private providers;
@@ -106,15 +107,37 @@ export class Web3Service {
     }
 
     network == 1 ? IS_PRODUCTION = true : IS_PRODUCTION = false;
-    
+
+
     this.Web3 = new Web3(this.providers.infura);
+
+    // this.changeNetwork();
+
+    // const ethprovider = new Web3.providers.HttpProvider("http://10.0.0.42:7545");
+    // const web3 = new Web3('http://');
+    // web3.setProvider(ethprovider);
+    
+    // this.Web3 = new Web3(this.providers.infura);
+    // console.log('PROVIDER', this.providers.infura)
+    // console.log('WEB3', this.Web3)
 
   }
 
   public changeNetwork(network?) {
     console.log('change network');
     network == 1 ? console.log('selected mainnetwork:',ETH_NETWORKS.INFURA_ADDRESS) : console.log('selected testnetwork', ETH_NETWORKS.ROPSTEN_INFURA_ADDRESS);
-    this.Web3.providers.HttpProvider(network == 1 ? ETH_NETWORKS.INFURA_ADDRESS : ETH_NETWORKS.ROPSTEN_INFURA_ADDRESS);
+
+    console.log('WEB3 before', this.Web3._currentProvider);
+
+    let newProvider = new Web3.providers.HttpProvider(
+      network == 1 ? ETH_NETWORKS.INFURA_ADDRESS : ETH_NETWORKS.ROPSTEN_INFURA_ADDRESS
+    );
+
+    this.Web3 = new Web3(newProvider);
+
+    console.log('WEB3 after', this.Web3._currentProvider);
+
+    
     console.log('metamask network:',Number(window['ethereum'].networkVersion));
 
     if (window['ethereum'] && window['ethereum'].isMetaMask) {
@@ -162,8 +185,13 @@ export class Web3Service {
           reject('Wrong network.<br> Please change network. For TestNet choose Ropsten.');
         }
         else {
-          if(window['ethereum'].selectedAddress.toLowerCase() === owner.toLowerCase()) resolve(true);
-          else reject('You must use protected address for Approve.');      
+          if(!window['ethereum'].selectedAddress) {
+            reject('Please check that you are logged in Metamask.');
+          }
+          else {
+            if(window['ethereum'].selectedAddress.toLowerCase() === owner.toLowerCase()) resolve(true);
+            else reject('You must use protected address for Approve.');
+          }
         }
       }
       else {

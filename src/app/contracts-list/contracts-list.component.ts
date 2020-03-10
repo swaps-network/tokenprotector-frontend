@@ -20,23 +20,15 @@ export class ContractsListComponent implements OnInit {
   private contractForDeleting;
   public selectedFilter: any;
 
-
   @ViewChild('deleteConfirmation') deleteConfirmation;
   private deleteConfirmationModal: MatDialogRef<any>;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService,
     private dialog: MatDialog,
     private contractsService: ContractsService
   ) {
-    this.userService.getCurrentUser().subscribe((userProfile: UserInterface) => {
-      if (userProfile.is_ghost) {
-        this.router.navigate(['/trades']);
-      }
-    });
-
     this.contractsList = this.route.snapshot.data.contracts.results;
     this.selectedFilter = {};
 
@@ -110,6 +102,15 @@ export class ContractsListComponent implements OnInit {
           }
         });
         break;
+      case 'network':
+        this.contractsList = this.contractsList.sort((contract1, contract2) => {
+          if (this.selectedFilter.asc) {
+            return (contract1.network > contract2.network) ? 1 : -1;
+          } else {
+            return (contract2.network > contract1.network) ? 1 : -1;
+          }
+        });
+        break;
       case 'expire':
         this.contractsList = this.contractsList.sort((contract1, contract2) => {
 
@@ -161,6 +162,13 @@ export class ContractsListResolver implements Resolve<any> {
     private router: Router
   ) {}
 
+  private getContractInformation(observer) {
+    this.contractsService.getContracts().then((contracts) => {
+      observer.next(contracts);
+      observer.complete();
+    });
+  }
+
   resolve(route: ActivatedRouteSnapshot) {
     return new Observable((observer) => {
       const subscription = this.userService.getCurrentUser(false, true).subscribe((user) => {
@@ -170,7 +178,10 @@ export class ContractsListResolver implements Resolve<any> {
             observer.complete();
           });
         } else {
-          this.router.navigate(['/create']);
+          this.userService.openAuthForm()
+              .then(() => { this.getContractInformation(observer); }
+                , () => { this.router.navigate(['/']); });
+          // this.router.navigate(['/']);
         }
         subscription.unsubscribe();
       });

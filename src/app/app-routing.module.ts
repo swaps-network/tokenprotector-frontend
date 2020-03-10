@@ -17,7 +17,7 @@ const routes: Routes = [
     path: 'create',
     component: ContractFormAllComponent,
     data: {
-      // support: true
+      network: 1
     }
   }, {
     path: 'create/:id',

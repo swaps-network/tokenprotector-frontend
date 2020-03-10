@@ -5,11 +5,15 @@
     <div class="section section-first-screen is-not-padding-horisontal">
       <div class="container is-fluid">
         <span class="title">
-          Save your tokens in case <br>of losing private keys.
+          Protect your tokens in case <br>of losing private keys
         </span>
         <span class="subtitle">
           Decentralized protection for your tokens. <br>Get tokens to your reserve wallet.
         </span>
+        <span class="button button-tp button-tp-blue home-screen-btn" routerLink="/create"> 
+          <span class="caption">Try it</span>
+        </span>
+        <span class="small">The price is $25</span>
       </div>
     </div>
     <!-- /first scereen -->
@@ -36,7 +40,7 @@
             <div class="column-content-info">
               <div class="content-info-block">
                 <span class="content-info-block-text">Main address</span>
-                <span class="content-info-block-text">Reserve address</span>
+                <span class="content-info-block-text">Backup address</span>
               </div>
             </div>
           </div>
@@ -60,7 +64,7 @@
             <div class="column-content-info">
               <div class="content-info-block content-info-block-arrow">
                 <span class="content-info-block-text">Main address</span>
-                <span class="content-info-block-text">Reserve address</span>
+                <span class="content-info-block-text">Backup address</span>
               </div>
             </div>
           </div>
@@ -79,7 +83,7 @@
     </div>
     <!-- /how it works -->
     <!-- count-text-block -->
-    <div class="section section-count-text-block is-not-padding-horisontal">
+    <!-- <div class="section section-count-text-block is-not-padding-horisontal">
 
       <div class="columns is-multiline is-8 is-variable">
 
@@ -105,7 +109,7 @@
           </p>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- /count-text-block -->
     <!-- middle-block -->
     <div class="section section-middle-block is-not-padding-horisontal">
@@ -113,16 +117,41 @@
         <span class="title">
           Protect your tokens now:
         </span>
+        <br>
         <div class="form-keep-in-touch">
-          <a [routerLink]="['/create']" routerLinkActive="router-link-active"  class="button button-tp button-tp-blue is-large">
-            <span class="caption">
-              Create Contract
+          <a [routerLink]="['/create']" [queryParams]="{ network: 1 }" routerLinkActive="router-link-active"  class="button button-tp button-tp-blue mb-10">
+            <span class="caption caption-info" data-caption-info="$25">
+              Mainnet
+            </span>
+          </a>
+          <a [routerLink]="['/create']" [queryParams]="{ network: 2 }" routerLinkActive="router-link-active"  class="button button-tp button-tp-gray">
+            <span class="caption caption-info" data-caption-info="Free">
+              Testnet
             </span>
           </a>
         </div>
       </div>
     </div>
     <!-- /middle-block -->
+    <div class="section section-client-trust is-not-padding-horisontal">
+      <span class="title is-3">Our clients trust us</span>
+      <div class="client-trust-block">
+        <div class="client-trust-block-item icon-mywish">
+          <div class="client-trust-block-item-text">
+            <span>10,166</span>
+            <br>
+            <span>Users</span>
+          </div>
+        </div>
+        <div class="client-trust-block-item icon-shield">
+          <div class="client-trust-block-item-text">
+            <span>7,169</span>
+            <br>
+            <span>Contracts</span>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- partners -->
     <div class="section section-partners is-not-padding-horisontal">
       <span class="title is-3">Partners</span>

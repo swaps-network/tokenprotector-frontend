@@ -86,6 +86,7 @@ export class HeaderComponent implements OnInit {
     }).finally(() => {
       this.logoutProgress = false;
       this.currentUser.is_ghost = true;
+      window.location.reload();
     });
   }
 

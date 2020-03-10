@@ -40,6 +40,10 @@
   word-break: break-all;
   color: $black;
 
+  width: 100%;
+  position: relative;
+  overflow: auto;
+
   &_no-bold {
     font-weight: normal;
   }
@@ -89,7 +93,7 @@
         // transform: scale(1.02);
         box-shadow: none;
         border-radius: 0px;
-        transform: scale(0.99);
+        // transform: scale(0.99);
 
         // .public-swaps_body {
         //   overflow: visible !important;
@@ -105,7 +109,7 @@
     &_content {
       line-height: 70px;
       margin: 2px 2px 1px 1px;
-      padding: 0 14px;
+      padding: 0 10px;
       background-color: white;
       color: #fff;
       border-radius: 0px;
@@ -118,6 +122,9 @@
 
     .swap-info {
       color: $blue-1;
+    }
+    .contract-state{
+      color: $blue-1 !important;
     }
   }
 

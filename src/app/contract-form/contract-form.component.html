@@ -6,15 +6,14 @@
 
       <div class="left-contract">
         <div class="form-container form-container_contract form-block_contract__info">
-
-          <div *ngIf="showInfoMsg" class="form-block form-block_contract">
+          <div *ngIf="firstViewBanner === 'true'" class="form-block form-block_contract form-block-up">
             <p class="form-block_contract-up">Thank you, your protector contract was successfully created.</p>
             <div class="form-block_contract-info">
-              <span class="form-block_contract-info__close" (click)="showInfoMsg=false;">X</span>
-              <span class="form-block_contract-info__title">Rules</span>
+              <!-- <span class="form-block_contract-info__close" (click)="showInfoMsg=false;">X</span> -->
+              <span class="form-block_contract-info__title">Reminder</span>
               <div class="form-block_contract-info__steps">
                 <div class="form-block_contract-info__step" data-step="1">Please make sure that you have added tokens (Protected tokens section)</div>
-                <div class="form-block_contract-info__step" data-step="2">For contract’s management, you will have access to Protected address</div>
+                <div class="form-block_contract-info__step" data-step="2">For contract’s management, you will need access to Protected address</div>
                 <div class="form-block_contract-info__step" data-step="3">You are the contract owner and you can cancel your contract anytime before the execution</div>
               </div>
             </div>
@@ -89,7 +88,7 @@
                 </div>
 
                 <label class="form-field_label fw-b">Protected tokens</label>
-                <div class="form-field__tokens-view">
+                <div *ngIf="downloadTokens" class="form-field__tokens-view">
                   <div class="form-field__tokens-view_item" *ngFor="let token of tokensData.tokens | FilterTokens : false : false : '' : true">
                     <span class="form-field__tokens-view_item-title">
                       <span
@@ -101,45 +100,65 @@
                     </span>
                   </div>
                   <!-- <div *ngIf="!toggleAddTokens" class="form-field__tokens-view_item contract-add-tokens_blue" (click)="toggleAddTokens = true;"> -->
-                  <div *ngIf="!toggleAddTokens" class="contract-add-tokens_blue button button-tp button-tp-blue" (click)="toggleAddTokens = true;">
+                  <div *ngIf="!toggleAddTokens && !['CANCELLED','POSTPONED','DONE','EXPIRED','TIME_IS_UP'].includes(reqData.state)" class="contract-add-tokens_blue button button-tp button-tp-blue" (click)="toggleAddTokensClick()">
                     <!-- <span class="form-field__tokens-view_item-title" style="width: 100%;"> -->
                       <span class="caption">Add Tokens</span>
                     <!-- </span> -->
                   </div>
                 </div>
 
+                <div *ngIf="!downloadTokens">
+                  <div class="block-loading_min">
+                    <div class="block-loading_min-progress"></div>
+                    <span class="block-loading_min-text">Tokens are downloading, please wait...</span>
+                  </div>
+                </div>
+
                 <div class="form-block_fieldset contract-search-add-tokens" *ngIf="toggleAddTokens">
-                  <span class="contract-search-add-tokens-close" (click)="toggleAddTokens = false;">X</span>
-                  <div class="form-block_search-tokens">
-                    <input type="text" class="min-text max-placeholder form-block_search-tokens_input" #searchTokensInput
-                      [(ngModel)]="tokensData.search" placeholder="Search" (input)="tokensData.filterLimit = 6">
-                    <span class="form-block_search-tokens_input-icon"></span>
-                    <span class="form-block_search-tokens_input-close" (click)="tokensData.search = ''"></span>
+
+                  <div *ngIf="checkMainnTokens">
+
+                    <span class="contract-search-add-tokens-close" (click)="toggleAddTokens = false;">X</span>
+                    <div class="form-block_search-tokens">
+                      <input type="text" class="min-text max-placeholder form-block_search-tokens_input" #searchTokensInput
+                        [(ngModel)]="tokensData.search" placeholder="Search" (input)="tokensData.filterLimit = 6">
+                      <span class="form-block_search-tokens_input-icon"></span>
+                      <span class="form-block_search-tokens_input-close" (click)="tokensData.search = ''"></span>
+                    </div>
+  
+                    <div class="form-block_search-result" *ngIf="tokensData.search">
+                      <div class="form-block_tokens__list">
+                        
+                        <ng-container *ngIf="tokensData.search">
+                          <ng-container *ngFor="let token of tokensData.tokens | FilterTokens:false:true:tokensData.search:false | slice:0:tokensData.filterLimit">
+                            <ng-container *ngIf="(!(tokensData.tokens|FilterTokens:false:true:tokensData.search:false ).length)">
+                              <div class="token_item token_item__error">Tokens not found</div>
+                            </ng-container>
+                            <div class="token_item">
+                              <span [className]="'token_item__title token_item__icon-'+token.token_name"><span
+                                  class="token_item__image"
+                                  [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>
+                                  <span>{{ token.token_short_name }}</span>
+                              </span>
+                              <span class="token_item__button" (click)="changeTokenStatus(token.address);">APPROVE</span>
+                            </div>
+                          </ng-container>
+                          <div class="token_item token_item__more" (click)="loadMoreTokensFilter(tokensData.tokens.length)"
+                          *ngIf="(tokensData.filterLimit < ((tokensData.tokens|FilterTokens:false:true:tokensData.search:false).length)) && (tokensData.filterLimit != (tokensData.tokens|FilterTokens:false:true:tokensData.search:false).length)">
+                            Load more</div>
+                        </ng-container>
+                      </div>
+                    </div>
+
                   </div>
 
-                  <div class="form-block_search-result" *ngIf="tokensData.search">
-                    <div class="form-block_tokens__list">
-
-                      <ng-container *ngIf="tokensData.search">
-                        <ng-container *ngFor="let token of tokensData.tokens | FilterTokens:false:true:tokensData.search:false | slice:0:tokensData.filterLimit">
-                          <ng-container *ngIf="(tokensData.tokens.length <= 0 || tokensData.tokens === null)">
-                            <div class="token_item token_item__error">Tokens not found</div>
-                          </ng-container>
-                          <div class="token_item">
-                            <span [className]="'token_item__title token_item__icon-'+token.token_name"><span
-                                class="token_item__image"
-                                [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>
-                                <span>{{ token.token_short_name }}</span>
-                            </span>
-                            <span class="token_item__button" (click)="changeTokenStatus(token.address);">APPROVE</span>
-                          </div>
-                        </ng-container>
-                        <div class="token_item token_item__more" (click)="loadMoreTokensFilter(tokensData.tokens.length)"
-                        *ngIf="(tokensData.filterLimit < ((tokensData.tokens|FilterTokens:false:true:tokensData.search:false).length)) && (tokensData.filterLimit != (tokensData.tokens|FilterTokens:false:true:tokensData.search:false).length)">
-                          Load more</div>
-                      </ng-container>
+                  <div *ngIf="!checkMainnTokens">
+                    <div class="block-loading_min">
+                      <div class="block-loading_min-progress"></div>
+                      <span class="block-loading_min-text">Tokens are downloading, please wait...</span>
                     </div>
                   </div>
+                  
                 </div>
 
         

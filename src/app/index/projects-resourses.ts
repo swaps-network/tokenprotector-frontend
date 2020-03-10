@@ -41,6 +41,10 @@ const PARTNERS = [
     logo: './assets/images/new/partners/waves.svg'
   },
   {
+    link: 'https://neo.org/',
+    logo: './assets/images/new/partners/neo.svg'
+  },
+  {
     link: 'https://eospark.com',
     logo: './assets/images/new/partners/eospark.svg'
   },
@@ -58,19 +62,15 @@ const PARTNERS = [
   },
   {
     link: 'https://poloniex.org/',
-    logo: './assets/images/new/partners/trx.svg'
-  },
-  {
-    link: 'https://www.bancor.network',
-    logo: './assets/images/new/partners/bancor.svg'
+    logo: './assets/images/new/partners/polonidex.svg'
   },
   {
     link: 'https://bestrate.org',
     logo: './assets/images/new/partners/bestrate.svg'
   },
   {
-    link: 'https://swaps.network',
-    logo: './assets/images/new/partners/swaps.svg'
+    link: 'https://www.bancor.network',
+    logo: './assets/images/new/partners/bancor.svg'
   }
 ];
 

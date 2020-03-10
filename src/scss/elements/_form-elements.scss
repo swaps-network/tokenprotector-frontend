@@ -1,5 +1,58 @@
 @import '../vars';
 
+.form-field_min-text-link {
+
+  cursor: pointer;
+  font-size: 12px;
+  color: green($color: #000000);
+
+}
+
+
+.block-loading {
+
+  &_min {
+    margin-bottom: 15px;
+    background: whitesmoke;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    &-progress {
+      height: 50px;
+      width: 50px;
+      margin: 7px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:before {
+        content: '';
+        width: 20px;
+        height: 20px;
+        border-left: 2px solid #707070;
+        border-right: 2px solid #707070;
+        border-top: 2px solid #ffffff00;
+        border-bottom: 2px solid #707070;
+        border-radius: 50px 50px 50px 50px;
+        animation: rotating 2s linear infinite;
+      }
+    }
+
+    &-text {
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+      color: rgba(0, 0, 0, 0.6);
+      margin: 7px 0;
+    }
+
+  }
+
+}
+
 .form-field {
   margin-bottom: 20px;
 
@@ -232,6 +285,28 @@
         height: 85px;
         width: 85px;
         background-color: rgba(0, 0, 0, 0.1);
+        margin: 7px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:before {
+          content: '';
+          width: 30px;
+          height: 30px;
+          border-left: 3px solid #000000;
+          border-right: 3px solid #000000;
+          border-top: 3px solid #ffffff00;
+          border-bottom: 3px solid #000000;
+          border-radius: 50px 50px 50px 50px;
+          animation: rotating 2s linear infinite;
+        }
+      }
+
+      &-progress-nobg {
+        height: 85px;
+        width: 85px;
+        // background-color: rgba(0, 0, 0, 0.1);
         margin: 7px 0;
         display: flex;
         justify-content: center;
@@ -1175,6 +1250,18 @@
 .form-block_title__click {
   cursor: pointer;
   transition: 0.4s ease;
+
+  &:before {
+    content: '';
+    width: 62px;
+    background: transparent;
+    height: 62px;
+    display: block;
+    position: absolute;
+    left: -62px;
+    top: 0;
+    z-index: 1;
+  }
 
   &:hover {
     background-color: #ebedf1;
