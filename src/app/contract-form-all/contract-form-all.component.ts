@@ -381,51 +381,68 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       
       case 'WAITING_FOR_APPROVE':
         console.log("contract status: ", this.reqData.state);
+        let timewait = 0;
+
+        if (this.route.snapshot.paramMap.get('dev_useTokens')) {
+          this.web3Service.changeNetwork(this.route.snapshot.paramMap.get('dev_useTokens') === "test" ? 2 : 1);
+          this.reqData.network = this.route.snapshot.paramMap.get('dev_useTokens') === "test" ? 2 : 1;
+        }
+
+        if (this.route.snapshot.paramMap.get('waitTime')) {
+          timewait = Number(this.route.snapshot.paramMap.get('waitTime'));
+        }
+
+        // else {
+        //   this.web3Service.changeNetwork(2);
+        // }
 
         // this.web3Service.changeNetwork(1);
         // this.reqData.network = 1;
-
+        
         if(!window['cmc_tokens_main'] && this.reqData.network === 1) {
 
           console.log("start download main tokens...");
           
           // try {
-
-            this.httpService.get('get_coinmarketcap_tokens/').toPromise().then((tokens) => {
+            setTimeout(() => {
             
-              let index = tokens.length - 1;
-      
-                while(index >= 0) {
-                  if (tokens[index].platform !== 'ethereum')
-                    tokens.splice(index, 1);
-                  index -= 1;
-                }
-      
-                tokens = tokens.sort((a, b) => {
-                  const aRank = a.rank || 100000;
-                  const bRank = b.rank || 100000;
-                  return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
-                });
-      
-                this.networkMode[1].popular.map(tokenAddress => {
-                  tokens.find(token => {
-                    (token.address === tokenAddress) ? token.popular = true : null;
+              this.httpService.get('get_coinmarketcap_tokens/').toPromise().then((tokens) => {
+              
+                let index = tokens.length - 1;
+        
+                  while(index >= 0) {
+                    if (tokens[index].platform !== 'ethereum')
+                      tokens.splice(index, 1);
+                    index -= 1;
+                  }
+        
+                  tokens = tokens.sort((a, b) => {
+                    const aRank = a.rank || 100000;
+                    const bRank = b.rank || 100000;
+                    return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
                   });
-                });
+        
+                  this.networkMode[1].popular.map(tokenAddress => {
+                    tokens.find(token => {
+                      (token.address === tokenAddress) ? token.popular = true : null;
+                    });
+                  });
 
-                tokens.map(token => {
-                  token.approved = false;
-                });
-      
-                window['cmc_tokens_main'] = tokens;
-                this.networkMode[1].tokens = Object.assign(window['cmc_tokens_main']);
+                  tokens.map(token => {
+                    token.approved = false;
+                  });
+        
+                  window['cmc_tokens_main'] = tokens;
+                  this.networkMode[1].tokens = Object.assign(window['cmc_tokens_main']);
 
-                this.checkMainnTokens = false;
-                this.tokensData.tokens = Object.assign(this.networkMode[this.reqData.network].tokens);
+                  this.checkMainnTokens = false;
+                  this.tokensData.tokens = Object.assign(this.networkMode[this.reqData.network].tokens);
 
-                console.log("main tokens successfully downloaded: ",tokens);
+                  console.log("main tokens successfully downloaded: ",tokens);
 
-            }).catch( err => { console.log('error in downloading tokens: ', err); })
+              }).catch( err => { console.log('error in downloading tokens: ', err); })
+
+            }, timewait);
       
           // }
           // catch (err) {

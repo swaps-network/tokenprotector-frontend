@@ -4,7 +4,8 @@
 
   cursor: pointer;
   font-size: 12px;
-  color: green($color: #000000);
+  color: black;
+  text-decoration: underline;
 
 }
 
@@ -1250,7 +1251,7 @@
 .form-block_title__click {
   cursor: pointer;
   transition: 0.4s ease;
-
+  
   &:before {
     content: '';
     width: 62px;
