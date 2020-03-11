@@ -302,6 +302,11 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
         default : this.networkMode[2].tokens = Object.assign(this.testTokens.dev); break;
       }
 
+      if (this.route.snapshot.paramMap.get('dev_useTokens')) {
+        this.web3Service.changeNetwork(this.route.snapshot.paramMap.get('dev_useTokens') === "test" ? 2 : 1);
+        this.reqData.network = this.route.snapshot.paramMap.get('dev_useTokens') === "test" ? 2 : 1;
+      }
+
       this.reseachTokens();
 
     }
@@ -324,7 +329,7 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
 
       if(window['cmc_tokens_main']) {
 
-        console.log("start apply research main tokens...");
+        console.log("start apply research main tokens...",window['cmc_tokens_main']);
 
         window['cmc_tokens_main'].map(token => {
           token.approved = false;
@@ -338,35 +343,40 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
         console.log("start find research main tokens...");
 
         this.endTokien = this.tokensData.approved.length;
+
+        if(this.tokensData.approved.length === 0) {
+          this.downloadTokens = true;
+        }
+        else {
   
-        this.tokensData.approved.map((token) => {
-          console.log(token.address)
-    
-            this.web3Service.getTokenInfo(token.address).then((response) => {
-              // response.data.approved = true;
-              console.log(response.data)
-              this.tokensData.tokens_prepare.push(
-                {
-                  token_name: response.data.name,
-                  token_short_name: response.data.symbol,
-                  platform: "ethereum",
-                  address: response.data.adress,
-                  image_link: "",
-                  approved: true
-                }
-              );
-              this.startTokien = this.startTokien + 1;
+          this.tokensData.approved.map((token) => {
+            console.log(token.address)
       
-              if(this.startTokien === this.endTokien) {
-                this.tokensData.tokens = Object.assign(this.tokensData.tokens_prepare);
-                this.downloadTokens = true;
-              } 
+              this.web3Service.getTokenInfo(token.address).then((response) => {
+                console.log(response.data)
+                this.tokensData.tokens_prepare.push(
+                  {
+                    token_name: response.data.name,
+                    token_short_name: response.data.symbol,
+                    platform: "ethereum",
+                    address: response.data.adress,
+                    image_link: "",
+                    approved: true
+                  }
+                );
+                this.startTokien = this.startTokien + 1;
+        
+                if(this.startTokien === this.endTokien) {
+                  this.tokensData.tokens = Object.assign(this.tokensData.tokens_prepare);
+                  this.downloadTokens = true;
+                } 
+        
+              }).catch(err => {
+                console.log("something went wrong...", err);
+              });
       
-            }).catch(err => {
-              console.log("something went wrong...", err);  
-            });
-    
-        });
+          });
+        }
 
         console.log("end find research main tokens...");
       }

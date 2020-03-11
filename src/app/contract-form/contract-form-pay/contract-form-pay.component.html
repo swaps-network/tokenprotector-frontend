@@ -6,31 +6,6 @@
   <label class="form-field_label">Choose replenish method</label>
 
   <div class="form-field d-flex token-btn-wrap">
-    <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
-      <label class="checkbox-block">
-        <input type="radio"
-                name="payment-method"
-                [(ngModel)]="replenishMethod"
-                value="SWAP" checked="checked"/>
-        <span class="btn btn-payment btn-normal-weight width-100">
-            <img class="btn-payment_ico" src="./assets/images/swap-icon.svg">
-            <span class="btn-payment_txt">SWAP</span>
-          </span>
-      </label>
-    </div>
-
-    <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
-      <label class="checkbox-block">
-        <input type="radio"
-                name="payment-method"
-                [(ngModel)]="replenishMethod"
-                value="USDT" checked="checked"/>
-        <span class="btn btn-payment btn-normal-weight width-100">
-            <img class="btn-payment_ico" src="./assets/images/icons/coins/usdt.svg">
-            <span class="btn-payment_txt">USDT</span>
-          </span>
-      </label>
-    </div>
 
     <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
       <label class="checkbox-block">
@@ -82,6 +57,33 @@
         </span>
       </label>
     </div>
+
+    <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
+      <label class="checkbox-block">
+        <input type="radio"
+                name="payment-method"
+                [(ngModel)]="replenishMethod"
+                value="SWAP" checked="checked"/>
+        <span class="btn btn-payment btn-normal-weight width-100">
+            <img class="btn-payment_ico" src="./assets/images/swap-icon.svg">
+            <span class="btn-payment_txt">SWAP</span>
+          </span>
+      </label>
+    </div>
+
+    <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
+      <label class="checkbox-block">
+        <input type="radio"
+                name="payment-method"
+                [(ngModel)]="replenishMethod"
+                value="USDT" checked="checked"/>
+        <span class="btn btn-payment btn-normal-weight width-100">
+            <img class="btn-payment_ico" src="./assets/images/icons/coins/usdt.svg">
+            <span class="btn-payment_txt">USDT</span>
+          </span>
+      </label>
+    </div>
+    
   </div>
 
   <div *ngIf="replenishMethod !== 'BTC'">
