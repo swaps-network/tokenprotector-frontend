@@ -19,6 +19,8 @@ import { Observable } from 'rxjs';
 import { setTimeout } from 'timers';
 import { resolve } from 'url';
 
+
+
 export interface IReqData {
   id?: number;
   contract_type?: number;
@@ -112,6 +114,8 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     filterLimit: 9,
     search: ''
   }
+
+  // declare dataLayer;
   
   public tsDate: ITDate = {
     min: new Date(new Date().setDate(new Date().getDate() + 1)),// new Date(new Date().setDate(new Date().getDate())),
@@ -154,9 +158,9 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       // {token_name: "dfg", token_short_name: "dfg", platform: "ethereum", address: "0x37d825aab5aaa605d4a1d4f0634171373de307eb", popular: true}
     ],
     prod: [
-      {token_name: "Doken", token_short_name: "Dok", platform: "ethereum", address: "0x15dd8f5b635bdd37814e01701617efefad7f7106", popular: false},
-      {token_name: "EJACOIN", token_short_name: "EJAC", platform: "ethereum", address: "0x6b6073fb17858f40885fb3af5bdb17e3609109fa", popular: false},
-      {token_name: "USB", token_short_name: "USB", platform: "ethereum", address: "0xb0843018873a96a47733657f3e72802b82da9f3e", popular: false}
+      {token_name: "Doken", token_short_name: "Dok", platform: "ethereum", address: "0x15dd8f5b635bdd37814e01701617efefad7f7106", popular: true},
+      {token_name: "EJACOIN", token_short_name: "EJAC", platform: "ethereum", address: "0x6b6073fb17858f40885fb3af5bdb17e3609109fa", popular: true},
+      {token_name: "USB", token_short_name: "USB", platform: "ethereum", address: "0xb0843018873a96a47733657f3e72802b82da9f3e", popular: true}
       // {token_name: "EIB", token_short_name: "EIB", platform: "ethereum", address: "0xe3307fe212faa38b3dfc390585650278c672fb82", popular: false},
       // {token_name: "LimitedToken", token_short_name: "LTT", platform: "ethereum", address: "0x02c7b1503a423db4db2c8c32352aca096a2c73ab", popular: false},
       // {token_name: "NetCash", token_short_name: "NCH", platform: "ethereum", address: "0x3ced044e30bb187347bcb1d4a912ed027d4e4589", popular: false},
@@ -475,6 +479,18 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
             this.reqData = result;
             this.checkContractStatus();
             this.reqData.state = 'WAITING_FOR_CONFIRM';
+
+            if(this.reqData.network === 1) {
+              window['dataLayer'].push({
+                'event': 'protector_main'
+              });
+            }
+            else {
+              window['dataLayer'].push({
+                'event': 'protector_test'
+              });
+            }
+
           }).catch(err => { this.reqData.state = 'FAIL_IN_CONFIRM'; console.log("something went wrong...", err); });
         } else { this.openLogInForm('CONFIRM_APPROVE'); }
         break;
@@ -486,6 +502,18 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
             this.reqData = result;
             this.checkContractStatus();
             this.reqData.state = 'WAITING_FOR_CONFIRM';
+
+            if(this.reqData.network === 1) {
+              window['dataLayer'].push({
+                'event': 'protector_main'
+              });
+            }
+            else {
+              window['dataLayer'].push({
+                'event': 'protector_test'
+              });
+            }
+
           }).catch(err => { this.reqData.state = 'FAIL_IN_CONFIRM'; console.log("something went wrong...", err); });
         } else { this.openLogInForm('SKIP_CONFIRM_APPROVE'); }
         break;
