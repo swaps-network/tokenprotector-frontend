@@ -74,7 +74,7 @@ export class ContractsService {
   }
 
   public getContract(id) {
-    return this.httpService.get(`contracts/${id}/`).toPromise().catch((err) => { console.log('error', err.status) });
+    return this.httpService.get(`contracts/${id}/`).toPromise();
   }
 
   public getContracts() {

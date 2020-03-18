@@ -204,6 +204,8 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   private useFirtsToken: Boolean = true;
   private checkMainnTokens: Boolean = true;
 
+  private checkTokens = [];
+
   private currentUser;
   private checker;
   public copiedAddresses = {};
@@ -281,11 +283,17 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   ngAfterContentInit() { }
 
   ngOnDestroy() {
-    if (this.checker) { clearTimeout(this.checker); }
+    // if (this.checker) { clearTimeout(this.checker); }
+    this.checker = undefined;
+    // clearTimeout(this.checker);
     this.tokensData.tokens.map(token => {
       token.approved = false;
     });
-    this.reqData.state = this.reqData.state || "POSTPONED";
+    this.reqData.state = "CHOOSE_NETWORK";
+
+    this.checkTokens.forEach((interval) => {
+      clearInterval(interval);
+    })
   }
 
   public changeNetwork(network?) {
@@ -543,7 +551,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         break;
     }
 
-    if (!user.is_ghost && this.reqData.state != 'ACTIVE') { this.checker = setTimeout(() => { this.getContractInformation(); }, 5000); } else { this.checker = undefined; }
+    if (!user.is_ghost && this.reqData.state != 'ACTIVE') { this.checker = setTimeout(() => { if(this.checker) { this.getContractInformation(); } }, 5000); } else { this.checker = undefined; }
   }
 
   private getContractInformation() {
@@ -607,38 +615,18 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   private openTrxWindow(tokenAddress, disaprove?:boolean) {
 
     console.log(tokenAddress);
-    const checkUserProvider = this.web3Service.checkMetamaskAddress(this.reqData.contract_details.owner_address);
-    console.log('checkUserProvider:',checkUserProvider);
 
-    checkUserProvider.then(()=> { 
-
-      this.web3Service.getTokenInfo(tokenAddress).then(
-        (response) => {
-          if (disaprove) {this.createTransactions(0, response.data);}
-          else { this.createTransactions(1, response.data); }
-        }
-      ).catch(err => { 
-        console.log("something went wrong...", err);
-      
-        this.metaMaskError.type = 'Error';
-        this.metaMaskError.msg = 'Something went wrong. Please try again or contact us.';
-        this.metaMaskErrorModal = this.dialog.open(this.metaMaskErrorTpl, {
-          width: '480px',
-          panelClass: 'custom-dialog-container'
-        });
-      
-      });
-
+    this.web3Service.getTokenInfo(tokenAddress).then((response) => {
+      if (disaprove) {this.createTransactions(0, response.data);}
+      else { this.createTransactions(1, response.data); }
     }).catch(err => {
-      console.log("something went wrong...", err);
-  
+      console.log(err);
       this.metaMaskError.type = 'Metamask error';
       this.metaMaskError.msg = err;
       this.metaMaskErrorModal = this.dialog.open(this.metaMaskErrorTpl, {
         width: '480px',
         panelClass: 'custom-dialog-container'
       });
-
     });
 
   }
@@ -687,6 +675,8 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
           });
 
       }, 5000)
+
+      this.checkTokens.push(interval);
   }
 
 
@@ -737,11 +727,12 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       }
       else {
 
+        console.log("transactions addasda")
+
         const transactionsList: any[] = [{
           title: 'Authorise the contract for transfer ' + token.symbol + ' tokens',
           to: token.address,
           data: approveSignature,
-          //checkComplete: this.startCheckAllowance(token,amountToApprove),
           action: approveTransaction,
           onlyOwner: this.reqData.contract_details.owner_address
         }];
