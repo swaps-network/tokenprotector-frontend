@@ -165,7 +165,7 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
     ],
     prod: [
       {token_name: "Doken", token_short_name: "Dok", platform: "ethereum", address: "0x15dd8f5b635bdd37814e01701617efefad7f7106", popular: true},
-      {token_name: "EJACOIN", token_short_name: "EJAC", platform: "ethereum", address: "0x6b6073fb17858f40885fb3af5bdb17e3609109fa", popular: true},
+      {token_name: "Amary filo", token_short_name: "AMFI", platform: "ethereum", address: "0x149879fabe5101d5bd280bf5a50bd7557cd9ba35", popular: true},
       {token_name: "USB", token_short_name: "USB", platform: "ethereum", address: "0xb0843018873a96a47733657f3e72802b82da9f3e", popular: true}
     ]
   }
@@ -181,6 +181,8 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
   private startTokien = 0;
   private endTokien = 0;
   public downloadTokens: Boolean = false;
+
+  private main_tokens;
 
   private checkTokens = [];
 
@@ -222,7 +224,6 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
       return token.approved;
     });
 
-
     if (this.reqData) {
 
       window.history.pushState(this.reqData.id, 'Contract', '/contract/' + this.reqData.id);
@@ -232,8 +233,6 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
           (token.address === tokenAddress.address) ? token.approved = true : false;
         });
       });
-
-      // this.reqData.network = 1;
 
       this.checkContractState();
 
@@ -273,7 +272,6 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
   ngAfterContentInit() {}
 
   ngOnDestroy(): void { 
-    // if (this.checker) { clearTimeout(this.checker); }
     this.checker = undefined;
 
     this.reqData.state = "CHOOSE_NETWORK";
@@ -288,61 +286,55 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
     console.log("initialize research tokens...");
 
     if( this.reqData.network === 1 ) {
-      console.log("start research main tokens...");
 
-      if(window['cmc_tokens_main']) {
+      if(!window['cmc_tokens_main']) {
+        console.log("start download main tokens...");
+        
+        this.main_tokens = this.httpService.get('get_coinmarketcap_tokens/').toPromise().then((tokens) => {
+          
+          let index = tokens.length - 1;
+    
+          while(index >= 0) {
+            if (tokens[index].platform !== 'ethereum')
+              tokens.splice(index, 1);
+            index -= 1;
+          }
+    
+          tokens = tokens.sort((a, b) => {
+            const aRank = a.rank || 100000;
+            const bRank = b.rank || 100000;
+            return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
+          });
 
-        console.log("start apply research main tokens...",window['cmc_tokens_main']);
+          this.reqData.contract_details.approved_tokens.map(token => {
+            tokens.map(t => {
+              if(t.address === token.address) t.approved = true;
+              console.log(t.address, t.approved)
+              return t
+            })
+          })
+    
+          window['cmc_tokens_main'] = tokens;
+    
+          this.networkMode[1].tokens = Object.assign(window['cmc_tokens_main']);
+          this.tokensData.tokens = Object.assign(window['cmc_tokens_main']);
 
-        window['cmc_tokens_main'].map(token => {
-          token.approved = false;
-        });
+          this.downloadTokens = true;
+          this.checkMainnTokens = true;
+    
+          console.log("main tokens successfully downloaded: ",tokens);
+      
+        }).catch( err => { console.log('error in downloading tokens: ', err); })
 
-        this.networkMode[1].tokens = Object.assign(window['cmc_tokens_main']);
-
-        console.log("end apply research main tokens...");
       }
       else {
-        console.log("start find research main tokens...");
-
-        this.endTokien = this.tokensData.approved.length;
-
-        if(this.tokensData.approved.length === 0) {
-          this.downloadTokens = true;
-        }
-        else {
-  
-          this.tokensData.approved.map((token) => {
-            console.log(token.address)
-      
-              this.web3Service.getTokenInfo(token.address).then((response) => {
-                console.log(response.data)
-                this.tokensData.tokens_prepare.push(
-                  {
-                    token_name: response.data.name,
-                    token_short_name: response.data.symbol,
-                    platform: "ethereum",
-                    address: response.data.adress,
-                    image_link: "",
-                    approved: true
-                  }
-                );
-                this.startTokien = this.startTokien + 1;
-        
-                if(this.startTokien === this.endTokien) {
-                  this.tokensData.tokens = Object.assign(this.tokensData.tokens_prepare);
-                  this.downloadTokens = true;
-                } 
-        
-              }).catch(err => {
-                console.log("something went wrong...", err);
-              });
-      
-          });
-        }
-
-        console.log("end find research main tokens...");
+        this.networkMode[1].tokens = Object.assign(window['cmc_tokens_main']);
+        this.tokensData.tokens = Object.assign(window['cmc_tokens_main']);
+        this.downloadTokens = true;
       }
+
+      this.checkMainnTokens = true;
+      this.tokenApprovedInfo(true);
     }
     
     if( this.reqData.network === 2) {
@@ -357,9 +349,8 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
       this.downloadTokens = true;
 
       console.log("end research test tokens...");
+      this.tokenApprovedInfo(true);
     }
-
-    this.tokenApprovedInfo(true);
 
     console.log("end initialize research tokens...");
   }
@@ -402,64 +393,8 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
     }
   }
 
-
   public toggleAddTokensClick() {
-
     this.toggleAddTokens = true;
-
-    if( this.reqData.network === 1 ){
-      if( !window['cmc_tokens_main'] ) {
-
-        console.log("start download main tokens...");
-
-        this.httpService.get('get_coinmarketcap_tokens/').toPromise().then((tokens) => {
-        
-          let index = tokens.length - 1;
-    
-          while(index >= 0) {
-            if (tokens[index].platform !== 'ethereum')
-              tokens.splice(index, 1);
-            index -= 1;
-          }
-    
-          tokens = tokens.sort((a, b) => {
-            const aRank = a.rank || 100000;
-            const bRank = b.rank || 100000;
-            return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
-          });
-    
-          this.networkMode[1].popular.map(tokenAddress => {
-            tokens.find(token => {
-              (token.address === tokenAddress) ? token.popular = true : null;
-            });
-          });
-    
-          tokens.map(token => {
-            token.approved = false;
-          });
-    
-          window['cmc_tokens_main'] = tokens;
-    
-          this.networkMode[1].tokens = Object.assign(window['cmc_tokens_main']);
-          this.tokensData.tokens = Object.assign(this.networkMode[this.reqData.network].tokens);
-          this.tokenApprovedInfo(true);
-    
-          this.checkMainnTokens = true;
-    
-          console.log("main tokens successfully downloaded: ",tokens);
-    
-        }).catch( err => { console.log('error in downloading tokens: ', err); })
-
-      }
-      else {
-        this.checkMainnTokens = true;
-      }
-    }
-    else {
-      this.checkMainnTokens = true;
-    }
-  
-    this.tokenApprovedInfo();
   }
 
   private tokenApprovedInfo(first?:boolean) {

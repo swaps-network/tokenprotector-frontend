@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './index/header/header.component';
 import { StartFormComponent } from './index/start-form/start-form.component';
 import { IndexComponent } from './index/index.component';
+import { WillComponent } from './will/index.component';
 import {HttpClient, HttpClientModule, HttpClientXsrfModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ContractEditResolver, ContractFormComponent} from './contract-form/contract-form.component';
@@ -186,6 +187,7 @@ export function appInitializerFactory(translate: TranslateService, userService: 
     HeaderComponent,
     StartFormComponent,
     IndexComponent,
+    WillComponent,
     ContractFormComponent,
     EthAddressDirective,
     EthTokenValidatorDirective,

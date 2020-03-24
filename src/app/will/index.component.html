@@ -5,18 +5,19 @@
     <div class="section section-first-screen is-not-padding-horisontal">
       <div class="container is-fluid">
         <span class="title">
-          Protect your tokens in case <br>of losing private keys
+          Life is full of surprises. <br> We help you get ready.
         </span>
         <span class="subtitle">
-          Decentralized protection for your tokens. <br>Get tokens to your backup wallet.
+          Setup your crypto inheritance
         </span>
-        <span class="button button-tp button-tp-blue home-screen-btn" routerLink="/create"> 
+        <span class="button button-tp button-tp-blue home-screen-btn" routerLink="/create">
           <span class="caption">Try it</span>
         </span>
-        <span class="small">The price is $25</span>
+        <!-- <span class="small">The price is $25</span> -->
       </div>
     </div>
     <!-- /first scereen -->
+
     <!-- second screen -->
     <div class="section section-count-text-block-one is-not-padding-horisontal">
       <div class="columns is-multiline is-variable">
@@ -38,30 +39,32 @@
       </div>
     </div>
     <!-- /second screen -->
+
     <!-- how it works -->
     <div class="section section-how-it-works is-not-padding-horisontal">
       <span class="title">How it works</span>
       <div class="columns is-multiline columns is-variable is-1">
         <div class="column">
           <div data-count="1" class="column-content">
-            <span class="title title-blue" (click)="btnClick();" >
-              Create <br>contract
+            <span class="title title-blue" (click)="btnClick();">
+              Make <br> Crypto Will
             </span>
             <div class="column-content-info">
               <img class="column is-1 is-mobile" src="./assets/images/new/how-it-works/man-1.svg">
-              <span class="text">Created <br>by MyWish</span>
+              <img class="column is-1 is-mobile" style="height:60px;max-width: 70px;min-width: 70px;"
+                src="./assets/images/new/how-it-works/arrow-blue-will.svg">
             </div>
           </div>
         </div>
         <div class="column">
           <div data-count="2" class="column-content">
             <span class="title title-gray">
-              Configure <br>the contract
+              Protection <br> contract
             </span>
             <div class="column-content-info">
               <div class="content-info-block">
                 <span class="content-info-block-text">Main address</span>
-                <span class="content-info-block-text">Backup address</span>
+                <span class="content-info-block-text">Heir address</span>
               </div>
             </div>
           </div>
@@ -69,23 +72,24 @@
         <div class="column">
           <div data-count="3" class="column-content">
             <span class="title title-blue">
-              Lose <br>private key
+              Bad surprise
             </span>
-            <div class="column-content-info">
-              <img class="column is-1 is-mobile" src="./assets/images/new/how-it-works/man-2.svg">
-              <span class="text">Wait <br>some time</span>
+            <div class="column-content-info fd-c">
+              <img class="column is-1 is-mobile" style="height:60px;"
+                src="./assets/images/new/how-it-works/arrow-blue-will.svg">
+              <img class="column is-1 is-mobile w-max" src="./assets/images/new/how-it-works/car-blue-will.svg">
             </div>
           </div>
         </div>
         <div class="column">
           <div data-count="4" class="column-content">
             <span class="title title-gray">
-              Contract's <br>execution
+              Contract <br>execution
             </span>
             <div class="column-content-info">
               <div class="content-info-block content-info-block-arrow">
                 <span class="content-info-block-text">Main address</span>
-                <span class="content-info-block-text">Backup address</span>
+                <span class="content-info-block-text arrow-right">Heir address</span>
               </div>
             </div>
           </div>
@@ -93,10 +97,10 @@
         <div class="column">
           <div data-count="5" class="column-content">
             <span class="title title-blue">
-              Tokens <br>received
+              Inheritance <br>received
             </span>
             <div class="column-content-info">
-              <img class="column is-1 is-mobile" src="./assets/images/new/how-it-works/man-3.svg">
+              <img class="column is-1 is-mobile w-max" src="./assets/images/new/how-it-works/woman-with-child-will.svg">
             </div>
           </div>
         </div>
@@ -140,12 +144,14 @@
         </span>
         <br>
         <div class="form-keep-in-touch">
-          <a [routerLink]="['/create']" [queryParams]="{ network: 1 }" routerLinkActive="router-link-active"  class="button button-tp button-tp-blue mb-10">
+          <a [routerLink]="['/create']" [queryParams]="{ network: 1 }" routerLinkActive="router-link-active"
+            class="button button-tp button-tp-blue mb-10">
             <span class="caption caption-info" data-caption-info="$25">
               Mainnet
             </span>
           </a>
-          <a [routerLink]="['/create']" [queryParams]="{ network: 2 }" routerLinkActive="router-link-active"  class="button button-tp button-tp-gray">
+          <a [routerLink]="['/create']" [queryParams]="{ network: 2 }" routerLinkActive="router-link-active"
+            class="button button-tp button-tp-gray">
             <span class="caption caption-info" data-caption-info="Free">
               Testnet
             </span>
@@ -178,7 +184,8 @@
       <span class="title is-3">Partners</span>
       <div class="grid-partners">
         <a class="partners-item" *ngFor="let project of projects" href="{{project.link}}" target="_blank">
-          <img *ngIf="project.logo === './assets/images/new/partners/swaps.svg'" style="top: -10px;" [src]="project.logo">
+          <img *ngIf="project.logo === './assets/images/new/partners/swaps.svg'" style="top: -10px;"
+            [src]="project.logo">
           <img *ngIf="project.logo !== './assets/images/new/partners/swaps.svg'" [src]="project.logo">
         </a>
       </div>

@@ -159,7 +159,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     ],
     prod: [
       {token_name: "Doken", token_short_name: "Dok", platform: "ethereum", address: "0x15dd8f5b635bdd37814e01701617efefad7f7106", popular: true},
-      {token_name: "EJACOIN", token_short_name: "EJAC", platform: "ethereum", address: "0x6b6073fb17858f40885fb3af5bdb17e3609109fa", popular: true},
+      {token_name: "Amary filo", token_short_name: "AMFI", platform: "ethereum", address: "0x149879fabe5101d5bd280bf5a50bd7557cd9ba35", popular: true},
       {token_name: "USB", token_short_name: "USB", platform: "ethereum", address: "0xb0843018873a96a47733657f3e72802b82da9f3e", popular: true}
       // {token_name: "EIB", token_short_name: "EIB", platform: "ethereum", address: "0xe3307fe212faa38b3dfc390585650278c672fb82", popular: false},
       // {token_name: "LimitedToken", token_short_name: "LTT", platform: "ethereum", address: "0x02c7b1503a423db4db2c8c32352aca096a2c73ab", popular: false},
@@ -198,8 +198,8 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     {name: 'Testnet',tokens: [],popular: ['0x5aed0f4b4c6a8e5c271b7e6768c77dc627cddc6d','0x7f7143631f89e1bbe955a7859cbf3ee082cc2898','0xa0379b1ac68027a76373adc7800d87eb5c3fac5e','0x36d10c6800d569bb8c4fe284a05ffe3b752f972c', '0x006bea43baa3f7a6f765f14f10a1a1b08334ef45', '0x03c780cd554598592b97b7256ddaad759945b125', '0x01cc4151fe5f00efb8df2f90ff833725d3a482a3', '0x8810c63470d38639954c6b41aac545848c46484a', '0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650', '0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4', '0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D']}
   ]
 
-  private popularMainTokens = ['0xdac17f958d2ee523a2206206994597c13d831ec7','0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48','0x6b175474e89094c44da98b954eedeac495271d0f','0x514910771af9ca656af840dff83e8264ecf986ca'];
-  private popularTestTokens = ['0x5aed0f4b4c6a8e5c271b7e6768c77dc627cddc6d','0x7f7143631f89e1bbe955a7859cbf3ee082cc2898','0xa0379b1ac68027a76373adc7800d87eb5c3fac5e','0x36d10c6800d569bb8c4fe284a05ffe3b752f972c', '0x006bea43baa3f7a6f765f14f10a1a1b08334ef45', '0x03c780cd554598592b97b7256ddaad759945b125', '0x01cc4151fe5f00efb8df2f90ff833725d3a482a3', '0x8810c63470d38639954c6b41aac545848c46484a', '0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650', '0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4', '0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D'];
+  // private popularMainTokens = ['0xdac17f958d2ee523a2206206994597c13d831ec7','0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48','0x6b175474e89094c44da98b954eedeac495271d0f','0x514910771af9ca656af840dff83e8264ecf986ca'];
+  // private popularTestTokens = ['0x5aed0f4b4c6a8e5c271b7e6768c77dc627cddc6d','0x7f7143631f89e1bbe955a7859cbf3ee082cc2898','0xa0379b1ac68027a76373adc7800d87eb5c3fac5e','0x36d10c6800d569bb8c4fe284a05ffe3b752f972c', '0x006bea43baa3f7a6f765f14f10a1a1b08334ef45', '0x03c780cd554598592b97b7256ddaad759945b125', '0x01cc4151fe5f00efb8df2f90ff833725d3a482a3', '0x8810c63470d38639954c6b41aac545848c46484a', '0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650', '0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4', '0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D'];
   
   private useFirtsToken: Boolean = true;
   private checkMainnTokens: Boolean = true;
@@ -411,11 +411,12 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         // this.web3Service.changeNetwork(1);
         // this.reqData.network = 1;
         
-        if(!window['cmc_tokens_main'] && this.reqData.network === 1) {
-
-          console.log("start download main tokens...");
+        if(this.reqData.network === 1) {
           
-          // try {
+          if(!window['cmc_tokens_main']) {
+
+            console.log("start download main tokens...");
+          
             setTimeout(() => {
             
               this.httpService.get('get_coinmarketcap_tokens/').toPromise().then((tokens) => {
@@ -436,7 +437,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
         
                   this.networkMode[1].popular.map(tokenAddress => {
                     tokens.find(token => {
-                      (token.address === tokenAddress) ? token.popular = true : null;
+                      (token.address === tokenAddress) ? token.popular = true : false;
                     });
                   });
 
@@ -447,28 +448,24 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
                   window['cmc_tokens_main'] = tokens;
                   this.networkMode[1].tokens = Object.assign(window['cmc_tokens_main']);
 
-                  this.checkMainnTokens = false;
-                  this.tokensData.tokens = Object.assign(this.networkMode[this.reqData.network].tokens);
-
                   console.log("main tokens successfully downloaded: ",tokens);
+
+                  this.tokensData.tokens = Object.assign(this.networkMode[this.reqData.network].tokens);
+                  this.checkMainnTokens = false;
 
               }).catch( err => { console.log('error in downloading tokens: ', err); })
 
             }, timewait);
-      
-          // }
-          // catch (err) {
-          //   console.log('error in downloading tokens: ', err); 
-          // }
-        }
-        else {
-          this.checkMainnTokens = false;
+          } else {
+            this.tokensData.tokens = Object.assign(this.networkMode[this.reqData.network].tokens);
+            this.checkMainnTokens = false;
+          }
         }
 
-        if(window['cmc_tokens_main'] && this.checkMainnTokens) { 
-          this.tokensData.tokens = Object.assign(this.networkMode[this.reqData.network].tokens);
-          this.checkMainnTokens = false;
-        }
+        // if(window['cmc_tokens_main']) { 
+        //   this.tokensData.tokens = Object.assign(this.networkMode[this.reqData.network].tokens);
+        //   this.checkMainnTokens = false;
+        // }
 
         if(this.useFirtsToken && this.reqData.network != 1) {
           this.tokensData.tokens = Object.assign(this.networkMode[this.reqData.network].tokens);

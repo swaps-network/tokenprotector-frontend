@@ -17,77 +17,6 @@
   }
 }
 
-.section-count-text-block-one {
-  margin-top: -70px;
-
-  @include b(769) {
-    margin-bottom: 50px;
-  }
-
-  .columns {
-    .column {
-      padding: 10px;
-      min-width: 280px;
-
-      p {
-        display: flex;
-        flex-direction: column;
-        font-size: 16px;
-        background: white;
-        padding: 20px 30px;
-        position: relative;
-
-        &:before {
-          content: attr(data-count);
-          font-size: 20px;
-          font-weight: bold;
-          color: #2873FB;
-        }
-        
-        &:after {
-          content: '';
-          background-position: center;
-          background-size: contain;
-          background-repeat: no-repeat;
-          position: absolute;
-          right: 0;
-          bottom: 0;
-        }
-      }
-
-      &:nth-child(1) {
-        p {
-          &:after {
-            background-image: url(/assets/images/new/second/lock.svg);
-            width: 70px;
-            height: 100px;
-          }
-        }
-      }
-
-      &:nth-child(2) {
-        p {
-          &:after {
-            background-image: url(/assets/images/new/second/hand.svg);
-            width: 90px;
-            height: 90px;
-          }
-        }
-      }
-
-      &:nth-child(3) {
-        p {
-          &:after {
-            background-image: url(/assets/images/new/second/clock.svg);
-            width: 90px;
-            height: 90px;
-          }
-        }
-      }
-    }
-  }
-}
-
 .section-first-screen {
 
   @include b(769) {
@@ -95,8 +24,9 @@
   }
 
   .container {
-    background-image: url('/assets/images/new/header.svg');
-    background-size: cover;
+    background-image: url('/assets/images/new/header-will.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
     background-position: right center;
     padding-top: 100px;
     height: 450px;
@@ -231,6 +161,51 @@
           align-items: center;
           margin-top: -25px;
           font-weight: 500;
+
+        }
+
+        .arrow-right {
+          position: relative;
+
+          &:after {
+            content: '';
+            background-image: url('/assets/images/new/how-it-works/arrow-blue-will.svg');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            width: 60px;
+            height: 40px;
+            position: absolute;
+            right: -30px;
+
+            @include b(1240) {
+              transform: rotate(90deg);
+              right: 0;
+              left: 0;
+              bottom: -30px;
+              margin: 0 auto;
+            }
+
+            @include b(1000) {
+              transform: rotate(0deg);
+              right: -30px;
+              left: auto;
+              bottom: auto;
+            }
+
+            @include b(760) {
+              transform: rotate(90deg);
+              right: 20px;
+              bottom: -40px;
+              margin: 0 auto;
+            }
+
+          }
+        }
+
+        .w-max {
+          min-width: 175px;
+          max-width: 175px;
         }
 
         &-info {
@@ -307,19 +282,72 @@
   }
 }
 
-.section-count-text-block {
+.section-count-text-block-one {
+  margin-top: -80px;
+
+
+  @include b(769) {
+    margin-bottom: 50px;
+  }
+
   .columns {
     .column {
+      padding: 10px;
+      min-width: 280px;
+
       p {
         display: flex;
         flex-direction: column;
         font-size: 16px;
+        background: white;
+        padding: 20px 30px;
+        position: relative;
 
         &:before {
           content: attr(data-count);
-          font-size: 50px;
+          font-size: 20px;
           font-weight: bold;
           color: #2873FB;
+        }
+        
+        &:after {
+          content: '';
+          background-position: center;
+          background-size: contain;
+          background-repeat: no-repeat;
+          position: absolute;
+          right: 0;
+          bottom: 0;
+        }
+      }
+
+      &:nth-child(1) {
+        p {
+          &:after {
+            background-image: url(/assets/images/new/second/lock.svg);
+            width: 70px;
+            height: 100px;
+          }
+        }
+      }
+
+      &:nth-child(2) {
+        p {
+          &:after {
+            background-image: url(/assets/images/new/second/hand.svg);
+            width: 90px;
+            height: 90px;
+          }
+        }
+      }
+
+      &:nth-child(3) {
+        p {
+          &:after {
+            background-image: url(/assets/images/new/second/clock.svg);
+            width: 90px;
+            height: 90px;
+          }
         }
       }
     }

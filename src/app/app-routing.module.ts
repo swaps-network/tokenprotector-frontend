@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { IndexComponent } from './index/index.component';
+import { WillComponent } from './will/index.component';
 import { ContractFormComponent } from './contract-form/contract-form.component';
 import { ContractsListComponent, ContractsListResolver } from './contracts-list/contracts-list.component';
 import { ContractFormAllComponent, ContractEditResolver2 } from './contract-form-all/contract-form-all.component';
@@ -40,7 +41,17 @@ const routes: Routes = [
     resolve: {
       contracts: ContractsListResolver
     }
+  }, {
+    path: 'dashboard/first_entry',
+    redirectTo: '/'
+  },{
+    path: 'first_entry',
+    redirectTo: '/'
+  },{
+    path: 'will',
+    component: WillComponent
   },
+  
 ];
 
 @NgModule({
