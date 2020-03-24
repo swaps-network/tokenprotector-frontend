@@ -347,6 +347,7 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
       })
 
       this.downloadTokens = true;
+      this.checkMainnTokens = true;
 
       console.log("end research test tokens...");
       this.tokenApprovedInfo(true);
