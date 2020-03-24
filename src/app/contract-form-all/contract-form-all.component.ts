@@ -402,10 +402,15 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
           }
         }
 
-        if(this.useFirtsToken && this.reqData.network != 1) {
+        if(this.reqData.network === 2) {
           this.tokensData.tokens = Object.assign(this.networkMode[this.reqData.network].tokens);
-          this.useFirtsToken = false;
+          this.checkMainnTokens = false;
         }
+
+        // if(this.useFirtsToken && this.reqData.network != 1) {
+        //   this.tokensData.tokens = Object.assign(this.networkMode[this.reqData.network].tokens);
+        //   this.useFirtsToken = false;
+        // }
 
         this.tokensData.approved = this.reqData.contract_details.approved_tokens;
         this.tokenApprovedInfo();
