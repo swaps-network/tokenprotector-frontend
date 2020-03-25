@@ -127,7 +127,7 @@ export class Web3Service {
     console.log('WEB3 before', this.Web3._currentProvider);
 
     let newProvider = new Web3.providers.HttpProvider(
-      network == 1 ? ETH_NETWORKS.INFURA_ADDRESS : ETH_NETWORKS.ROPSTEN_INFURA_ADDRESS
+      network === 1 ? ETH_NETWORKS.INFURA_ADDRESS : ETH_NETWORKS.ROPSTEN_INFURA_ADDRESS
     );
 
     this.Web3 = new Web3(newProvider);
@@ -149,7 +149,7 @@ export class Web3Service {
     //   console.log('metamask not found. please install it to use that application');
     // }
 
-    // IS_PRODUCTION = network === 1;
+    IS_PRODUCTION = network === 1;
 
   }
 
@@ -370,6 +370,8 @@ export class Web3Service {
 
       if (window['ethereum'] && window['ethereum'].isMetaMask) {
         const networkVersion = Number(window['ethereum'].networkVersion);
+
+        console.log(usedNetworkVersion,networkVersion)
 
         if (usedNetworkVersion !== networkVersion) {
           observer.error({

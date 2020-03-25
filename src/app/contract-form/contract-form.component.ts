@@ -293,12 +293,22 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
         this.main_tokens = this.httpService.get('get_coinmarketcap_tokens/').toPromise().then((tokens) => {
           
           let index = tokens.length - 1;
+
+          let tokeEth = tokens.filter((t) => t.platform == "ethereum")
+          console.log('find ethh tokens FROM SORT BY ETHERIUM', tokeEth, tokeEth.length)
+          console.log("find token USDT FROM SORT BY ETHERIUM:",tokeEth.find(t => t.address == "0xdac17f958d2ee523a2206206994597c13d831ec7"))
+
+          console.log("I GET TOKENS FROM REQUEST",tokens, tokens.length)
+
+          console.log("find token USDT FROM REQUEST:",tokens.find(t => t.address == "0xdac17f958d2ee523a2206206994597c13d831ec7"))
     
           while(index >= 0) {
             if (tokens[index].platform !== 'ethereum')
               tokens.splice(index, 1);
             index -= 1;
           }
+
+          console.log("find token:",tokens.find(t => t.address === "0xdac17f958d2ee523a2206206994597c13d831ec7"))
     
           tokens = tokens.sort((a, b) => {
             const aRank = a.rank || 100000;
@@ -306,24 +316,73 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
             return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
           });
 
-          this.reqData.contract_details.approved_tokens.map(token => {
-            tokens.map(t => {
-              if(t.address === token.address) t.approved = true;
-              console.log(t.address, t.approved)
-              return t
-            })
-          })
+          console.log("find token:",tokens.find(t => t.address === "0xdac17f958d2ee523a2206206994597c13d831ec7"))
+
+          // this.reqData.contract_details.approved_tokens.map(token => {
+
+          //   console.log("One",token)
+
+          //   // tokens.map(t => {
+          //   //   if(t.address === token.address) {
+          //   //     console.log("1",t,token)
+          //   //     t.approved = true;
+          //   //     console.log("2",t,token)
+          //   //   }
+          //   //   return t
+          //   // })
+
+          //   console.log("find token:",tokens.find(t => t.address == token.address))
+
+          //   tokens.filter(t => {
+          //     if(t.address == token.address) {
+          //       console.log("1",t,token)
+          //       t.approved = true;
+          //       console.log("2",t,token)
+          //     }
+          //     // return t
+          //   })
+          // })
     
           window['cmc_tokens_main'] = tokens;
+
     
+          console.log("main tokens successfully downloaded: ",tokens);
+      
+        }).then(() => {
+
+          console.log("next: ",window['cmc_tokens_main'].length, window['cmc_tokens_main'] );
+
+          this.reqData.contract_details.approved_tokens.map(token => {
+            console.log("One",token)
+
+            // tokens.map(t => {
+            //   if(t.address === token.address) {
+            //     console.log("1",t,token)
+            //     t.approved = true;
+            //     console.log("2",t,token)
+            //   }
+            //   return t
+            // })
+
+            console.log("find token:",window['cmc_tokens_main'].find(t => t.address == token.address))
+
+            window['cmc_tokens_main'].filter(t => {
+              if(t.address == token.address) {
+                console.log("1",t,token)
+                t.approved = true;
+                console.log("2",t,token)
+              }
+              // return t
+            })
+          })
+
+              
           this.networkMode[1].tokens = Object.assign(window['cmc_tokens_main']);
           this.tokensData.tokens = Object.assign(window['cmc_tokens_main']);
 
           this.downloadTokens = true;
           this.checkMainnTokens = true;
-    
-          console.log("main tokens successfully downloaded: ",tokens);
-      
+
         }).catch( err => { console.log('error in downloading tokens: ', err); })
 
       }
@@ -359,6 +418,12 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
   private checkContractState() {
     console.log(this.reqData.state);
     var error: boolean = false;
+
+    // if(window['cmc_tokens_main']) {
+    //   console.log("TOKENS WINDOW: ",window['cmc_tokens_main'].length, window['cmc_tokens_main'] );
+    //   console.log("TOKENS DATA: ",this.tokensData.tokens.length, this.tokensData.tokens );
+    // }
+    
 
     const promise = this.contractsService.getContract(this.reqData.id);
     promise.then((result) => {
@@ -529,7 +594,7 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
       if (isNaN(amount)) { return; }
 
       const approveMethod = this.web3Service.getMethodInterface('approve');
-      const amountToApprove = (amount === 0) ? 0 : new BigNumber(90071992.5474099).times(Math.pow(10, token.decimals)).toString(10);
+      const amountToApprove = (amount === 0) ? 0 : new BigNumber(90071992.5474099).times(Math.pow(10, Math.max(token.decimals,7))).toString(10);
 
       this.startCheckAllowance(token,amountToApprove);
       this.getContractInformation();
