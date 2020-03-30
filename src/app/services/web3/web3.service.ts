@@ -174,31 +174,6 @@ export class Web3Service {
     });
   }
 
-  // public checkMetamaskAddress(owner) {
-  //   return new Promise((resolve, reject) => {
-  //     if (window['ethereum'] && window['ethereum'].isMetaMask) {
-  //       const networkVersion = Number(window['ethereum'].networkVersion);
-  //       const usedNetworkVersion = IS_PRODUCTION ? 1 : 3;
-
-  //       if (usedNetworkVersion !== networkVersion) {
-  //         reject('Wrong network.<br> Please change network. For TestNet choose Ropsten.');
-  //       }
-  //       else {
-  //         if(!window['ethereum'].selectedAddress) {
-  //           reject('Please check that you are logged in Metamask.');
-  //         }
-  //         else {
-  //           if(window['ethereum'].selectedAddress.toLowerCase() === owner.toLowerCase()) resolve(true);
-  //           else reject('You must use protected address for Approve.');
-  //         }
-  //       }
-  //     }
-  //     else {
-  //       // reject('metamask underfined');
-  //     }
-  //   });
-  // }
-
   public getContract(abi, address) {
     return new this.Web3.eth.Contract(abi, address);
   }
@@ -478,10 +453,6 @@ export class Web3Service {
       });
     });
   }
-
-
-
-
 
   public getSWAPSCoinInfo(data) {
 

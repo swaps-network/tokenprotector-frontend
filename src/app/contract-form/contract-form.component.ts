@@ -228,12 +228,6 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
 
       window.history.pushState(this.reqData.id, 'Contract', '/contract/' + this.reqData.id);
 
-      this.reqData.contract_details.approved_tokens.map(tokenAddress => {
-        this.tokensData.tokens.find(token => {
-          (token.address === tokenAddress.address) ? token.approved = true : false;
-        });
-      });
-
       this.checkContractState();
 
       this.curDate = new Date(this.reqData.contract_details.end_timestamp * 1000);
@@ -248,8 +242,6 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
 
       this.web3Service.changeNetwork(this.reqData.network);
 
-      this.tokensData.approved = this.reqData.contract_details.approved_tokens;
-
       switch(window.location.host) {
         case 'devprot.mywish.io' : this.networkMode[2].tokens = Object.assign(this.testTokens.dev); break;
         case 'protector.mywish.io' : this.networkMode[2].tokens = Object.assign(this.testTokens.prod); break;
@@ -261,7 +253,36 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
         this.reqData.network = this.route.snapshot.paramMap.get('dev_useTokens') === "test" ? 2 : 1;
       }
 
-      this.reseachTokens();
+      const contractTokensCount = this.reqData.contract_details.approved_tokens.length;
+      var endAddtokes = 0;
+
+      this.reqData.contract_details.approved_tokens.map(tokenContract => {
+        console.log('check: ',tokenContract.address)
+        this.web3Service.getTokenInfo(tokenContract.address).then((response) => {
+          this.web3Service.getContract(ERC20_TOKEN_ABI, response.data.address).methods.allowance(this.reqData.contract_details.owner_address, this.reqData.contract_details.eth_contract.address).call().then((result) => {
+            const amount = 0;
+            result = result ? result.toString(10) : result;
+            result = result === '0' ? null : result;
+
+            console.log(result)
+  
+            if (result && new BigNumber(result).minus(amount).isPositive()) {
+              // if(amount != 0) {
+                console.log("add to approved:",tokenContract.address)
+                this.tokensData.approved.push({"address":tokenContract.address});
+              // }
+            }
+
+            endAddtokes = endAddtokes + 1;
+            console.log("counts of tokens", contractTokensCount,endAddtokes)
+
+            if(contractTokensCount === endAddtokes) {
+              console.log("copmlete approved tokens : contract approved tokens", this.tokensData.approved, this.reqData.contract_details.approved_tokens)
+              this.reseachTokens();
+            }
+          }, (err) => {console.log(err);});
+        })
+      });
 
     }
     else {
@@ -293,22 +314,12 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
         this.main_tokens = this.httpService.get('get_coinmarketcap_tokens/').toPromise().then((tokens) => {
           
           let index = tokens.length - 1;
-
-          let tokeEth = tokens.filter((t) => t.platform == "ethereum")
-          console.log('find ethh tokens FROM SORT BY ETHERIUM', tokeEth, tokeEth.length)
-          console.log("find token USDT FROM SORT BY ETHERIUM:",tokeEth.find(t => t.address == "0xdac17f958d2ee523a2206206994597c13d831ec7"))
-
-          console.log("I GET TOKENS FROM REQUEST",tokens, tokens.length)
-
-          console.log("find token USDT FROM REQUEST:",tokens.find(t => t.address == "0xdac17f958d2ee523a2206206994597c13d831ec7"))
     
           while(index >= 0) {
             if (tokens[index].platform !== 'ethereum')
               tokens.splice(index, 1);
             index -= 1;
           }
-
-          console.log("find token:",tokens.find(t => t.address === "0xdac17f958d2ee523a2206206994597c13d831ec7"))
     
           tokens = tokens.sort((a, b) => {
             const aRank = a.rank || 100000;
@@ -316,73 +327,24 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
             return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
           });
 
-          console.log("find token:",tokens.find(t => t.address === "0xdac17f958d2ee523a2206206994597c13d831ec7"))
-
-          // this.reqData.contract_details.approved_tokens.map(token => {
-
-          //   console.log("One",token)
-
-          //   // tokens.map(t => {
-          //   //   if(t.address === token.address) {
-          //   //     console.log("1",t,token)
-          //   //     t.approved = true;
-          //   //     console.log("2",t,token)
-          //   //   }
-          //   //   return t
-          //   // })
-
-          //   console.log("find token:",tokens.find(t => t.address == token.address))
-
-          //   tokens.filter(t => {
-          //     if(t.address == token.address) {
-          //       console.log("1",t,token)
-          //       t.approved = true;
-          //       console.log("2",t,token)
-          //     }
-          //     // return t
-          //   })
-          // })
-    
-          window['cmc_tokens_main'] = tokens;
-
-    
-          console.log("main tokens successfully downloaded: ",tokens);
-      
-        }).then(() => {
-
-          console.log("next: ",window['cmc_tokens_main'].length, window['cmc_tokens_main'] );
-
-          this.reqData.contract_details.approved_tokens.map(token => {
-            console.log("One",token)
-
-            // tokens.map(t => {
-            //   if(t.address === token.address) {
-            //     console.log("1",t,token)
-            //     t.approved = true;
-            //     console.log("2",t,token)
-            //   }
-            //   return t
-            // })
-
-            console.log("find token:",window['cmc_tokens_main'].find(t => t.address == token.address))
-
-            window['cmc_tokens_main'].filter(t => {
-              if(t.address == token.address) {
-                console.log("1",t,token)
+          this.tokensData.approved.map(token => {
+            tokens.filter(t => {
+              if(t.address.toLowerCase() == token.address.toLowerCase()) {
                 t.approved = true;
-                console.log("2",t,token)
               }
-              // return t
             })
           })
 
-              
+          window['cmc_tokens_main'] = tokens;
+  
           this.networkMode[1].tokens = Object.assign(window['cmc_tokens_main']);
           this.tokensData.tokens = Object.assign(window['cmc_tokens_main']);
 
           this.downloadTokens = true;
           this.checkMainnTokens = true;
-
+    
+          console.log("main tokens successfully downloaded: ",tokens);
+      
         }).catch( err => { console.log('error in downloading tokens: ', err); })
 
       }
@@ -492,7 +454,7 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
       console.log(saveTokens.length,this.tokensData.saved.length)
 
       const newTokens = this.tokensData.tokens.map(token => {
-        if (saveTokens.includes(token.address)) {token.approved = true;}
+        if (saveTokens.includes(token.address.toLowerCase())) {token.approved = true;}
         else {token.approved = false;}
         // (this.networkMode[this.reqData.network].popular.includes(token.address)) ? token.popular = true : token.popular = false;
         return token;
