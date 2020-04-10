@@ -41,7 +41,6 @@ export class HeaderComponent implements OnInit {
   ) {
 
 
-
     this.currentUser = this.userService.getUserModel();
     this.userService.getCurrentUser().subscribe((userProfile: UserInterface) => {
       this.currentUser = userProfile;
@@ -76,15 +75,23 @@ export class HeaderComponent implements OnInit {
     this.languagesList = [
       {
         lng: 'en',
-        title: 'en'
+        title: 'en',
+        active: true
       },
       {
         lng: 'zh',
-        title: 'zh'
+        title: 'zh',
+        active: false
       },
       {
-        lng: 'ja',
-        title: 'ja'
+        lng: 'ko',
+        title: 'ko',
+        active: false
+      },
+      {
+        lng: 'ru',
+        title: 'ru',
+        active: false
       }
     ];
 
@@ -92,6 +99,7 @@ export class HeaderComponent implements OnInit {
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.setActiveLanguage(event);
     });
+    
     this.setActiveLanguage({
       lang: translate.currentLang
     });
@@ -102,19 +110,23 @@ export class HeaderComponent implements OnInit {
 
   private setActiveLanguage(event) {
     if (this.currLanguage) {
-      this.languagesList.filter((lang) => {
-        return lang['lng'] === this.currLanguage;
-      })[0].active = false;
+      this.languagesList.map((lang) => {
+        if(lang['lng'] === this.currLanguage) lang['active'] = true;
+        else lang['active'] = false;
+        // return lang['lng'] === this.currLanguage;
+      });
     }
     this.currLanguage = event.lang;
 
-    // if (this.isBrowser) {
-    //   jQuery['cookie']('lng', this.currLanguage);
-    // }
+    if (this.isBrowser) {
+      window['jQuery']['cookie']('lng', this.currLanguage);
+    }
 
-    this.languagesList.filter((lang) => {
-      return lang['lng'] === this.currLanguage;
-    })[0].active = true;
+    this.languagesList.map((lang) => {
+      if(lang['lng'] === this.currLanguage) lang['active'] = true;
+      else lang['active'] = false;
+      // return lang['lng'] === this.currLanguage;
+    });
     this.languagesList.sort((a, b) => {
       return b.active ? 1 : -1;
     });
@@ -125,6 +137,7 @@ export class HeaderComponent implements OnInit {
     this.openedLngList = !this.openedLngList;
   }
 
+  
   public setLanguage(lng) {
     this.translator.use(lng);
   }

@@ -1,9 +1,9 @@
 <div class="form-block_fieldset">
   <div class="form-field_description price-contract">
-    Deployment’s cost: {{fromBigNumber(contractCosts.USDT, 6)}} USDT
+    {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_1' | translate }} {{fromBigNumber(contractCosts.USDT, 6)}} USDT
   </div>
   <div class="form-field_line"></div>
-  <label class="form-field_label">Choose replenish method</label>
+  <label class="form-field_label" [innerHTML]="'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_2' | translate"></label>
 
   <div class="form-field d-flex token-btn-wrap">
 
@@ -89,7 +89,7 @@
   <div *ngIf="replenishMethod !== 'BTC'">
     <div class="form-field">
       <div class="form-field_label bold">
-        Send
+        {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_3' | translate }}
         <span *ngIf="replenishMethod === 'ETH'">
           {{fromBigNumber(contractCosts.ETH, 18) | number : '.0-5'}} ETH
         </span>
@@ -105,7 +105,7 @@
         <span *ngIf="replenishMethod === 'BNB'">
           {{fromBigNumber(contractCosts.BNB, 18) | number : '.0-5'}} BNB
         </span>
-        to
+        {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_4' | translate }}
       </div>
 
       <div class="form-field_input" *ngIf="!['BNB','WISH'].includes(replenishMethod)">
@@ -124,10 +124,10 @@
                  [value]="currentUser.internal_address"/>
           <div class="form-field_info-field form-field_small-desc">
             <span class="float-left">
-              Gas price 30 gwei
+              {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_5' | translate }} 30 gwei
             </span>
             <span class="float-left">
-              Gas limit 100.000
+              {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_6' | translate }} 100.000
             </span>
           </div>
         </div>
@@ -149,10 +149,10 @@
                  [value]="currentUser.bnb_address"/>
           <div class="form-field_info-field form-field_small-desc">
             <span class="float-left">
-              Gas price 30 gwei
+              {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_5' | translate }} 30 gwei
             </span>
             <span class="float-left">
-              Gas limit 100.000
+              {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_6' | translate }} 100.000
             </span>
           </div>
         </div>
@@ -180,9 +180,9 @@
 
     </div>
 
-    <div class="or-delimiter" *ngIf="['SWAP','ETH','USDT'].includes(replenishMethod)"><div></div><span>OR</span><div></div></div>
+    <div class="or-delimiter" *ngIf="['SWAP','ETH','USDT'].includes(replenishMethod)"><div></div><span>{{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_8' | translate }}</span><div></div></div>
 
-    <label class="form-field_label" *ngIf="['SWAP','ETH','USDT'].includes(replenishMethod)">Select payment method:</label>
+    <label class="form-field_label" *ngIf="['SWAP','ETH','USDT'].includes(replenishMethod)">{{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_9' | translate }}</label>
     <div class="form-field_input" *ngIf="['SWAP','ETH','USDT'].includes(replenishMethod)">
       <div class="grid-row">
         <div class="grid-cell grid-cell-ls-1-2 grid-cell-vs-1">
@@ -199,7 +199,7 @@
                 </span>
               </span>
 
-              <span>Metamask</span>
+              <span>{{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_10' | translate }}</span>
             </button>
           </div>
         </div>
@@ -215,7 +215,7 @@
                type="button"
                class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100 btn-payment-method">
               <img src="./assets/images/icons/web3clients/myetherwallet.svg" class="btn-ico">
-              MEW
+              {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_11' | translate }}
             </a>
 
             <button type="button"
@@ -223,7 +223,7 @@
                     *ngIf="inProgress"
                     class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100 btn-payment-method">
               <img src="./assets/images/icons/web3clients/myetherwallet.svg" class="btn-ico">
-              MEW
+              {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_11' | translate }}
             </button>
 
           </div>
@@ -236,9 +236,9 @@
   <div *ngIf="replenishMethod === 'BTC'">
     <div class="form-field">
       <div class="form-field_label bold">
-        Send
+        {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_3' | translate }}
         {{fromBigNumber(contractCosts.BTC, 8) | number : '.0-5'}} BTC
-        to
+        {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_4' | translate }}
       </div>
       <div class="form-field_input d-flex ai-center">
         <div class="form-field__copy bg-none">
@@ -267,7 +267,7 @@
         <span></span><span></span><span></span><span></span>
       </span>
     </span>&nbsp;&nbsp;
-    Waiting for payment (5 confirmations)
+    {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_7' | translate }}
   </div>
 
 </div>

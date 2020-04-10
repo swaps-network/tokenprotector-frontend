@@ -1,6 +1,6 @@
 <div class="base-block-content">
   <div class="app-content-block">
-    <div class="my-contracts-title mtb-20">My contracts</div>
+    <div class="my-contracts-title mtb-20" [innerHTML]="'PAGE.CONTRACTS.TITLE' | translate"></div>
     <div class="my-contracts-empty mtb-20" *ngIf="contractsList && !contractsList.length">
       No contracts
     </div>
@@ -12,7 +12,7 @@
         <div class="grid-row public-swaps_head-row">
           <div class="grid-cell grid-cell-17 public-swaps_head-cell">
             <div class="public-swaps_head_content bold fd-row">
-              <b>Contract name</b>
+              <b>{{ 'PAGE.CONTRACTS.TEXT_1' | translate }}</b>
             </div>
           </div>
 
@@ -21,13 +21,13 @@
               <button class="sort-btn" (click)="applySort('network')">
                 <span></span>
               </button>
-              <b>Mode</b>
+              <b>{{ 'PAGE.CONTRACTS.TEXT_2' | translate }}</b>
             </div>
           </div>
 
           <div class="grid-cell grid-cell-29 public-swaps_head-cell">
             <div class="public-swaps_head_content bold fd-row">
-              <b>Protected Address</b>
+              <b>{{ 'PAGE.CONTRACTS.TEXT_3' | translate }}</b>
             </div>
           </div>
           <div class="grid-cell grid-cell-17 public-swaps_head-cell">
@@ -35,7 +35,7 @@
               <button class="sort-btn" (click)="applySort('creation')">
                 <span></span>
               </button>
-              <b>Created<br>date</b>
+              <b [innerHTML]="'PAGE.CONTRACTS.TEXT_4' | translate"></b>
             </div>
           </div>
           <div class="grid-cell grid-cell-17 public-swaps_head-cell">
@@ -43,7 +43,7 @@
               <button class="sort-btn" (click)="applySort('expire')">
                 <span></span>
               </button>
-              <b>Execution<br>date</b>
+              <b [innerHTML]="'PAGE.CONTRACTS.TEXT_5' | translate"></b>
             </div>
           </div>
           <div class="grid-cell grid-cell-18 public-swaps_head-cell"
@@ -52,7 +52,7 @@
               <button class="sort-btn" (click)="applySort('status')">
                 <span></span>
               </button>
-              Status
+              {{ 'PAGE.CONTRACTS.TEXT_6' | translate }}
             </div>
           </div>
           <div class="clearfix-block"></div>

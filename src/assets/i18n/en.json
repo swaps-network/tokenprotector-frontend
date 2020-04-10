@@ -151,7 +151,7 @@
         "TITLE": "Terms and conditions",
         "FIELDS": {
           "ONE": {
-            "TITLE": "TRANSFER THE TOKENS FROM YOUR ADDRESS TO BACKUP ADDRESS ON",
+            "TITLE": "Transfer the tokens from your address to Backup address on",
             "PLACEHOLDER": "Choose date",
             "TEXT": "You can cancel the Protection contract anytime before execution."
           },
@@ -191,7 +191,7 @@
       },
       "BLOCK_7": {
         "TITLE": "Select tokens to protect",
-        "TEXT_1": "You have to grant rights to the protection contract for the transfer of tokens to the backup address. <br><br> Add every token that needs to be protected: <br>",
+        "TEXT_1": "You have to grant rights to the protection contract for the transfer of tokens to the backup address.",
         "TEXT_2": "POPULAR",
         "TEXT_3": "Search",
         "BUTTON_1": "APPROVE",

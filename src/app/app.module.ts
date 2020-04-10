@@ -1,8 +1,9 @@
 import {BrowserModule, makeStateKey, StateKey, TransferState} from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule, PLATFORM_ID} from '@angular/core';
+import {APP_INITIALIZER, NgModule, PLATFORM_ID, Injector} from '@angular/core';
 
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {TranslateModule, TranslateLoader, TranslateService} from '@ngx-translate/core';
+import {HttpClient, HttpClientModule, HttpClientXsrfModule} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,7 +11,6 @@ import { HeaderComponent } from './index/header/header.component';
 import { StartFormComponent } from './index/start-form/start-form.component';
 import { IndexComponent } from './index/index.component';
 import { WillComponent } from './will/index.component';
-import {HttpClient, HttpClientModule, HttpClientXsrfModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ContractEditResolver, ContractFormComponent} from './contract-form/contract-form.component';
 import {MatNativeDateModule, MatDatepickerModule, MAT_DATE_FORMATS, MatDialogModule, MatButtonModule} from '@angular/material';
@@ -63,7 +63,6 @@ import { FilterTokens } from './contract-form-all/filter-tokens.pipe';
 import {isPlatformBrowser, LOCATION_INITIALIZED} from "@angular/common";
 import {ActivatedRoute} from '@angular/router';
 
-
 export class TranslateBrowserLoader implements TranslateLoader {
 
   constructor(private prefix: string = 'i18n',
@@ -93,40 +92,21 @@ export function exportTranslateStaticLoader(http: HttpClient, transferState: Tra
   return new TranslateBrowserLoader('./assets/i18n/', '.json?_t=' + (new Date).getTime(), transferState, http);
 }
 
-export function appInitializerFactory(translate: TranslateService, userService: UserService, httpService: HttpService, contractsService: ContractsService, Web3Service: Web3Service,injector: Injector) {
+
+// export function HttpLoaderFactory(http: HttpClient) {
+//   return new TranslateHttpLoader(http);
+// }
+
+export function appInitializerFactory(translate: TranslateService, userService: UserService, injector: Injector) {
 
   const defaultLng = (navigator.language || navigator['browserLanguage']).split('-')[0];
+  console.log("LANG defaultLng", defaultLng);
+
   const langToSet = window['jQuery']['cookie']('lng') || ((['en', 'zh', 'ko', 'ru'].indexOf(defaultLng) > -1) ? defaultLng : 'en');
+  console.log("LANG langToSet", langToSet);
 
   return () => new Promise<any>((resolve: any, reject) => {
 
-    const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
-    const activatedRoutes = injector.get(ActivatedRoute, Promise.resolve(null));
-
-
-    locationInitialized.then(() => {
-
-      activatedRoutes.queryParams.subscribe((params) => {
-        let langToSet = 'en';
-        translate.setDefaultLang('en');
-
-        if (['en', 'zh', 'ja'].indexOf(params.lng) > -1) {
-          langToSet = params.lng;
-        } else if (isPlatformBrowser(injector.get(PLATFORM_ID))) {
-          langToSet = jQuery['cookie']('lng') || langToSet;
-        }
-
-        translate.use(langToSet).subscribe(() => {
-          // console.info(`Successfully initialized '${langToSet}' language.'`);
-        }, err => {
-          // console.error(`Problem with '${langToSet}' language initialization.'`);
-        }, () => {
-          resolve(null);
-        });
-      });
-
-    });
-    
     translate.setDefaultLang('en');
     
     translate.use(langToSet).subscribe(() => {
@@ -134,6 +114,7 @@ export function appInitializerFactory(translate: TranslateService, userService: 
 
         subscriber.unsubscribe();
         resolve(null);
+
       });
     });
 
@@ -200,13 +181,13 @@ export function appInitializerFactory(translate: TranslateService, userService: 
     TransferHttpCacheModule,
     MatTabsModule,
     TranslateModule.forRoot({
-        loader: {
-          provide: TranslateLoader,
-          useFactory: exportTranslateStaticLoader,
-          deps: [HttpClient, TransferState]
-        }
+      loader: {
+        provide: TranslateLoader,
+        useFactory: exportTranslateStaticLoader,
+        deps: [HttpClient, TransferState]
       }
-    ),
+    }
+  ),
 
     HttpClientXsrfModule.withOptions({
       cookieName: 'csrftoken',
