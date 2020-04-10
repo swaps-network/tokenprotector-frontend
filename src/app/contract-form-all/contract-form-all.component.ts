@@ -139,9 +139,9 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
       {token_name: "AUTHToken", token_short_name: "AUTH", platform: "ethereum", address: "0x7ebc99a5e7cf27a2a285e3aa0b30f0f827efa94f", popular: true}
     ],
     prod: [
-      {token_name: "Doken", token_short_name: "Dok", platform: "ethereum", address: "0x15dd8f5b635bdd37814e01701617efefad7f7106", popular: true},
-      {token_name: "Amary filo", token_short_name: "AMFI", platform: "ethereum", address: "0x149879fabe5101d5bd280bf5a50bd7557cd9ba35", popular: true},
-      {token_name: "USB", token_short_name: "USB", platform: "ethereum", address: "0xb0843018873a96a47733657f3e72802b82da9f3e", popular: true}
+      {token_name: "USD Coin", token_short_name: "USDC", platform: "ethereum", address: "0x5e8b3c9ee77c6951d4d91ef7510aac60c5313638", popular: true},
+      {token_name: "USDT Coin", token_short_name: "USDT", platform: "ethereum", address: "0xB404c51BBC10dcBE948077F18a4B8E553D160084", popular: true},
+      {token_name: "DAI", token_short_name: "DAI", platform: "ethereum", address: "0xf80A32A835F79D7787E8a8ee5721D0fEaFd78108", popular: true}
     ]
   }
 
