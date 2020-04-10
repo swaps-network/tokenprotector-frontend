@@ -12,7 +12,7 @@ import { NavigationStart, Router } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  private isBrowser: any;
+  public isBrowser: any;
   public pageScrolled: boolean;
   public currentUser: UserInterface;
   public openedMenu;
