@@ -47,6 +47,29 @@
               <span class="caption">Try it</span>
             </span>
           </li>
+
+          <div class="language-select">
+            <ul class="language-select-list"
+                *ngIf="isBrowser"
+                [ngClass]="{'opened': openedLngList}" (click)="toggleLanguage()">
+              <li (click)="setLanguage(lng['lng'])"
+                  [ngClass]="{'active': lng['active']}"
+                  *ngFor="let lng of languagesList">
+                <img src="/assets/img/lng/{{lng['lng']}}.svg"/>
+                <span>{{lng['title']}}</span>
+              </li>
+            </ul>
+            <!-- <ul class="language-select-list opened"
+                *ngIf="!isBrowser">
+                <li *ngFor="let lng of languagesList">
+                    <a [routerLink]="currentPath" [queryParams]="{lng: lng['lng']}">
+                        <img src="/assets/img/lng/{{lng['lng']}}.svg"/>
+                        <span>{{lng['title']}}</span>
+                    </a>
+                </li>
+            </ul> -->
+          </div>
+
         </ul>
       </nav>
     </div>

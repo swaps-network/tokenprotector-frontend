@@ -1,9 +1,8 @@
 import {BrowserModule, makeStateKey, StateKey, TransferState} from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule, PLATFORM_ID} from '@angular/core';
 
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {TranslateModule, TranslateLoader, TranslateService} from '@ngx-translate/core';
-
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -61,6 +60,8 @@ import { DateTransformPipe } from './contract-form-all/date-transform.pipe';
 import { ListFilterPipe } from './contract-form-all/list-filter.pipe';
 import { limitTo } from './contract-form-all/limit-to.pipe';
 import { FilterTokens } from './contract-form-all/filter-tokens.pipe';
+import {isPlatformBrowser, LOCATION_INITIALIZED} from "@angular/common";
+import {ActivatedRoute} from '@angular/router';
 
 
 export class TranslateBrowserLoader implements TranslateLoader {
@@ -92,94 +93,52 @@ export function exportTranslateStaticLoader(http: HttpClient, transferState: Tra
   return new TranslateBrowserLoader('./assets/i18n/', '.json?_t=' + (new Date).getTime(), transferState, http);
 }
 
-export function appInitializerFactory(translate: TranslateService, userService: UserService, httpService: HttpService, contractsService: ContractsService, Web3Service: Web3Service) {
+export function appInitializerFactory(translate: TranslateService, userService: UserService, httpService: HttpService, contractsService: ContractsService, Web3Service: Web3Service,injector: Injector) {
 
   const defaultLng = (navigator.language || navigator['browserLanguage']).split('-')[0];
-
   const langToSet = window['jQuery']['cookie']('lng') || ((['en', 'zh', 'ko', 'ru'].indexOf(defaultLng) > -1) ? defaultLng : 'en');
-  
-  const popularMainTokens = ['0xdac17f958d2ee523a2206206994597c13d831ec7','0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48','0x6b175474e89094c44da98b954eedeac495271d0f','0x514910771af9ca656af840dff83e8264ecf986ca'];
-  const popularTestTokens = ['0x5aed0f4b4c6a8e5c271b7e6768c77dc627cddc6d','0x7f7143631f89e1bbe955a7859cbf3ee082cc2898','0xa0379b1ac68027a76373adc7800d87eb5c3fac5e','0x36d10c6800d569bb8c4fe284a05ffe3b752f972c', '0x006bea43baa3f7a6f765f14f10a1a1b08334ef45', '0x03c780cd554598592b97b7256ddaad759945b125', '0x01cc4151fe5f00efb8df2f90ff833725d3a482a3', '0x8810c63470d38639954c6b41aac545848c46484a', '0xa7fc5d2453e3f68af0cc1b78bcfee94a1b293650', '0xD29F0b5b3F50b07Fe9a9511F7d86F4f4bAc3f8c4', '0x7728dFEF5aBd468669EB7f9b48A7f70a501eD29D'];
 
   return () => new Promise<any>((resolve: any, reject) => {
+
+    const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
+    const activatedRoutes = injector.get(ActivatedRoute, Promise.resolve(null));
+
+
+    locationInitialized.then(() => {
+
+      activatedRoutes.queryParams.subscribe((params) => {
+        let langToSet = 'en';
+        translate.setDefaultLang('en');
+
+        if (['en', 'zh', 'ja'].indexOf(params.lng) > -1) {
+          langToSet = params.lng;
+        } else if (isPlatformBrowser(injector.get(PLATFORM_ID))) {
+          langToSet = jQuery['cookie']('lng') || langToSet;
+        }
+
+        translate.use(langToSet).subscribe(() => {
+          // console.info(`Successfully initialized '${langToSet}' language.'`);
+        }, err => {
+          // console.error(`Problem with '${langToSet}' language initialization.'`);
+        }, () => {
+          resolve(null);
+        });
+      });
+
+    });
     
     translate.setDefaultLang('en');
     
     translate.use(langToSet).subscribe(() => {
       const subscriber = userService.getCurrentUser(true).subscribe((user: UserInterface) => {
 
-        // const http1 = httpService.get('get_coinmarketcap_tokens/').toPromise().then((tokens) => {
-        //   let index = tokens.length - 1;
-
-        //   while(index >= 0) {
-        //     if (tokens[index].platform !== 'ethereum')
-        //       tokens.splice(index, 1);
-        //     index -= 1;
-        //   }
-
-        //   // window['cmc_tokens_main'] = tokens;
-
-        //   tokens = tokens.sort((a, b) => {
-        //     const aRank = a.rank || 100000;
-        //     const bRank = b.rank || 100000;
-        //     return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
-        //   });
-
-        //   popularMainTokens.map(tokenAddress => {
-        //     tokens.find(token => {
-        //       (token.address === tokenAddress) ? token.popular = true : null;
-        //     });
-        //   });
-
-        //   window['cmc_tokens_main'] = tokens;
-        //   console.log(tokens);
-
-        //   // resolve(null);
-        // });
-
-        // const http2 = httpService.get('get_test_tokens/').toPromise().then((tokens) => {
-        //   let index = tokens.length - 1;
-
-        //   while(index >= 0) {
-        //     if (tokens[index].platform !== 'ethereum')
-        //       tokens.splice(index, 1);
-        //     if (!tokens[index].address)
-        //       tokens.splice(index, 1);
-        //     index -= 1;
-        //   }
-
-        //   tokens = tokens.sort((a, b) => {
-        //     const aRank = a.rank || 100000;
-        //     const bRank = b.rank || 100000;
-        //     return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
-        //   });
-
-        //   popularTestTokens.map(tokenAddress => {
-        //     tokens.find(token => {
-        //       (token.address === tokenAddress) ? token.popular = true : null;
-        //     });
-        //   });
-
-        //   console.log(tokens);
-
-        //   window['cmc_tokens'] = tokens;
-        // });
-
-        // Promise.all([http1, http2]).then(function() {
-        //   resolve(null);
-        // });
-
         subscriber.unsubscribe();
-
         resolve(null);
       });
     });
 
   });
 }
-
-
-
 
 @NgModule({
   declarations: [

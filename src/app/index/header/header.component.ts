@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit, PLATFORM_ID, TemplateRef, ViewChild } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, Location } from '@angular/common';
+import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 import { UserService } from '../../services/user/user.service';
 import { UserInterface } from '../../services/user/user.interface';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -14,9 +15,14 @@ export class HeaderComponent implements OnInit {
   private isBrowser: any;
   public pageScrolled: boolean;
   public currentUser: UserInterface;
-
   public openedMenu;
   public userMenuOpened;
+
+  public openedLngList = false;
+  private translator: TranslateService;
+  public languagesList: { lng: string; title: string; active?: boolean }[];
+  public currLanguage: string;
+  public currentPath: string;
 
   @ViewChild('logoutConfirmation') logoutConfirmation: TemplateRef<any>;
   @ViewChild('headerPage') headerPage;
@@ -29,8 +35,12 @@ export class HeaderComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId,
     private userService: UserService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    activatedRoute: Location,
+    translate: TranslateService
   ) {
+
+
 
     this.currentUser = this.userService.getUserModel();
     this.userService.getCurrentUser().subscribe((userProfile: UserInterface) => {
@@ -60,7 +70,65 @@ export class HeaderComponent implements OnInit {
         this.userMenuOpened = false;
       }
     });
+
+
+    this.translator = translate;
+    this.languagesList = [
+      {
+        lng: 'en',
+        title: 'en'
+      },
+      {
+        lng: 'zh',
+        title: 'zh'
+      },
+      {
+        lng: 'ja',
+        title: 'ja'
+      }
+    ];
+
+
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setActiveLanguage(event);
+    });
+    this.setActiveLanguage({
+      lang: translate.currentLang
+    });
+
+    this.currentPath = activatedRoute.path().split('?')[0];
+
   }
+
+  private setActiveLanguage(event) {
+    if (this.currLanguage) {
+      this.languagesList.filter((lang) => {
+        return lang['lng'] === this.currLanguage;
+      })[0].active = false;
+    }
+    this.currLanguage = event.lang;
+
+    // if (this.isBrowser) {
+    //   jQuery['cookie']('lng', this.currLanguage);
+    // }
+
+    this.languagesList.filter((lang) => {
+      return lang['lng'] === this.currLanguage;
+    })[0].active = true;
+    this.languagesList.sort((a, b) => {
+      return b.active ? 1 : -1;
+    });
+  }
+
+
+  public toggleLanguage() {
+    this.openedLngList = !this.openedLngList;
+  }
+
+  public setLanguage(lng) {
+    this.translator.use(lng);
+  }
+
 
   public openAuth() {
     this.userService.openAuthForm().then(() => { }, () => { });
