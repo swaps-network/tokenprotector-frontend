@@ -153,6 +153,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
   private useFirtsToken: Boolean = true;
   public checkMainnTokens: Boolean = true;
+  private statusDataLayer;
 
   private checkTokens = [];
 
@@ -253,7 +254,15 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
 
     const user = this.currentUser || this.userService.getUserModel();
     this.reqData.state = stepperState || this.reqData.state;
-    
+
+    if (this.statusDataLayer != this.reqData.state) {
+      this.statusDataLayer = this.reqData.state;
+      console.log("push new status to analytics: ", this.statusDataLayer, this.reqData.state)
+      window['dataLayer'].push({
+        'event': this.reqData.state
+      });
+    }
+
     switch (this.reqData.state) {
       case 'CHOOSE_NETWORK':
         console.log("contract status: ", this.reqData.state);
