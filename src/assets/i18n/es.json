@@ -1,0 +1,338 @@
+{
+  "HEADER": {
+    "LINKS": {
+      "ABOUT": "Sobre",
+      "LOGIN": "Iniciar sesión",
+      "MY_CONTRACTS": "Mis contratos",
+      "LOGOUT": "Cerrar sesión"
+    },
+    "BUTTONS": {
+      "TRY_IT": "Pruébalo",
+      "YES": "Sí",
+      "NO": "No"
+    },
+    "MODAL": {
+      "SIGN_IN": "Firme en",
+      "SIGN_UP": "Inscríbete",
+      "EMAIL": "E-mail",
+      "2FA": "2FA",
+      "PASSWORD": "Contraseña",
+      "REPEAT_PASSWORD": "Repita la contraseña",
+      "FORGOT": "¿Olvidó su contraseña?",
+      "FORGOT_FIELD": "Introduzca e-mail para el restablecimiento de la contraseña",
+      "MESSAGES": {
+        "NO_MATCH_PASSWORD": "Password not match",
+        "FIELD_IS_REQUIRED": "El campo es obligatorio",
+        "MIN_LENGTH_PASSWORD": "Min password length 6 symbols",
+        "INCORRECT_PASSWORD": "Incorrect password",
+        "EMAIL_IS_NOT_VERIFIED": "E-mail no está verificado",
+        "UNABLE_TO_LOG_IN_WITH_PROVIDED_CREDENTIALS": "No se puede iniciar la sesión con las credenciales proporcionadas.",
+        "ENTER_YOUR_EMAIL": "Introduce tu e-mail"
+      },
+      "BUTTONS": {
+        "LOGIN": "Iniciar sesión",
+        "SEND": "Envía",
+        "REGISTRATION": "Registro",
+        "METAMASK": "Ingresa a través de Metamask",
+        "FACEBOOK": "Ingresa a través de Facebook",
+        "GOOGLE": "Ingresa a través de Google",
+        "CONTINUE": "Continue"
+      },
+      "TEXT": {
+        "LOGOUT_MESSAGE": "¿De verdad quieres cerrar la sesión?"
+      }
+    }
+  },
+  "PAGE": {
+    "MAIN": {
+      "HEADER": {
+        "TEXT_1": "Protege tus tokens <br> Si pierdes tus claves privadas.",
+        "TEXT_2": "La protección descentralizada para <br> restaurar las claves en su backup wallet.",
+        "TEXT_3": "Por un precio inicial de $25",
+        "BUTTON_1": "Pruébalo"
+      },
+      "BLOCK_1": {
+        "ITEMS": {
+          "ONE": {
+            "TITLE": "Seguro",
+            "TEXT": "No hay necesidad de proporcionar claves privadas"
+          },
+          "TWO": {
+            "TITLE": "Práctico",
+            "TEXT": "Sin restricciones <br> Siga usando su cuenta como antes"
+          },
+          "THREE": {
+            "TITLE": "Simple",
+            "TEXT": "Sin código <br> Tan solo en 5 minutos"
+          }
+        }
+      },
+      "BLOCK_2": {
+        "TITLE": "Cómo funciona",
+        "ITEMS": {
+          "ONE": {
+            "TITLE": "Crea un <br> contrato a",
+            "TEXT_1": "través <br> de MyWish"
+          },
+          "TWO": {
+            "TITLE": "Configura <br> el contrato",
+            "TEXT_1": "Dirección principal",
+            "TEXT_2": "Dirección de respaldo"
+          },
+          "THREE": {
+            "TITLE": "Si pierdes <br> tu clave privada",
+            "TEXT_1": "Espera un  <br> poco de tiempo"
+          },
+          "FOUR": {
+            "TITLE": "Ejecuta <br> tu contrato",
+            "TEXT_1": "Dirección principal",
+            "TEXT_2": "Dirección de respaldo"
+          },
+          "FIVE": {
+            "TITLE": "Recibes <br> tu token"
+          }
+        }
+      },
+      "BLOCK_3": {
+        "TITLE": "Protege tus tokens ahora:",
+        "BUTTONS": {
+          "ONE": {
+            "TITLE": "Mainnet",
+            "TEXT": "$25"
+          },
+          "TWO": {
+            "TITLE": "Testnet",
+            "TEXT": "GRATIS"
+          }
+        }
+      },
+      "BLOCK_4": {
+        "TITLE": "Nuestros clientes confían en nosotros",
+        "TEXT_1": "Usuarios",
+        "TEXT_2": "Contratos"
+      },
+      "BLOCK_5": {
+        "TITLE": "Partners"
+      },
+      "FOOTER": {
+        "TEXT_1": "© Copyright MyWish 2020",
+        "BUTTON": "Privacy policy"
+      }
+    },
+    "WILL": {
+      "HEADER": {
+        "TEXT_1": "La vida está llena de sorpresas.",
+        "TEXT_2": "Podemos ayudarte a prepararte.",
+        "BUTTON_1": "Pruébalo"
+      },
+      "BLOCK_1": {
+        "ITEMS": {
+          "ONE": {
+            "TITLE": "Seguro",
+            "TEXT": "No hay necesidad de proporcionar claves privadas"
+          },
+          "TWO": {
+            "TITLE": "Práctico",
+            "TEXT": "Sin restricciones <br> Siga usando su cuenta como antes"
+          },
+          "THREE": {
+            "TITLE": "Simple",
+            "TEXT": "Sin código <br> Tan solo en 5 minutos"
+          }
+        }
+      },
+      "BLOCK_2": {
+        "TITLE": "Cómo funciona",
+        "ITEMS": {
+          "ONE": {
+            "TITLE": "Haz un contrato <br> Will Crypto"
+          },
+          "TWO": {
+            "TITLE": "Contrato <br> de protección",
+            "TEXT_1": "Dirección principal",
+            "TEXT_2": "Dirección del heredero"
+          },
+          "THREE": {
+            "TITLE": "Mala <br> sorpresa"
+          },
+          "FOUR": {
+            "TITLE": "Ejecución <br> del contrato",
+            "TEXT_1": "Dirección principal",
+            "TEXT_2": "Dirección del heredero"
+          },
+          "FIVE": {
+            "TITLE": "Herencia <br> recibida"
+          }
+        }
+      },
+      "BLOCK_3": {
+        "TITLE": "Protege tus tokens ahora:",
+        "BUTTONS": {
+          "ONE": {
+            "TITLE": "Mainnet",
+            "TEXT": "$25"
+          },
+          "TWO": {
+            "TITLE": "Testnet",
+            "TEXT": "GRATIS"
+          }
+        }
+      },
+      "BLOCK_4": {
+        "TITLE": "Nuestros clientes confían en nosotros",
+        "TEXT_1": "Usuarios",
+        "TEXT_2": "Contratos"
+      },
+      "BLOCK_5": {
+        "TITLE": "Partners"
+      },
+      "FOOTER": {
+        "TEXT_1": "© Copyright MyWish 2020",
+        "BUTTON": "Privacy policy"
+      }
+    },
+    "CREATE_CONTRACT": {
+      "NETWORK_1": "Mainnet",
+      "NETWORK_2": "Testnet",
+      "BLOCK_1": {
+        "TITLE": "Elija el modo",
+        "MODES": {
+          "ONE": {
+            "TITLE": "Mainnet",
+            "TEXT": "$25"
+          },
+          "TWO": {
+            "TITLE": "Testnet",
+            "TEXT": "Gratis"
+          }
+        },
+        "BUTTON_NEXT": "Siguiente"
+      },
+      "BLOCK_2": {
+        "TITLE": "Dirección para la protección",
+        "FIELDS": {
+          "ONE": {
+            "TITLE": "Introduzca la dirección actual",
+            "PLACEHOLDER": "Dirección del Ethereum",
+            "TEXT": "Dirección del Ethereum que desea proteger de la pérdida de tokens (en caso de pérdida de acceso). Debe conocer la clave privada de su dirección en el momento actual"
+          },
+          "TWO": {
+            "TITLE": "Ingrese la dirección de respaldo",
+            "PLACEHOLDER": "Dirección del Ethereum",
+            "TEXT": "La dirección de respaldo recibe las tokens de su dirección si se cumplen todas las condiciones."
+          }
+        },
+        "BUTTON_NEXT": "Siguiente"
+      },
+      "BLOCK_3": {
+        "TITLE": "Términos y condiciones",
+        "FIELDS": {
+          "ONE": {
+            "TITLE": "TRANSFERIR LAS TOKENNS DE SU DIRECCIÓN A LA DIRECCIÓN DE RESPALDO EN",
+            "PLACEHOLDER": "Elija la fecha",
+            "TEXT": "Puede cancelar el contrato de protección en cualquier momento antes de la ejecución."
+          },
+          "TWO": {
+            "TITLE": "EMAIL PARA NOTIFICACIONES (OPCIONAL)",
+            "PLACEHOLDER": "Introduce tu email"
+          }
+        },
+        "BUTTON_NEXT": "Siguiente"
+      },
+      "BLOCK_4": {
+        "TITLE": "Vista previa",
+        "TEXT_1": "SU DIRECCIÓN",
+        "TEXT_2": "DIRECCIÓN DE RESPALDO",
+        "TEXT_3": "TRANSFERIR LAS TOKENS DE SU DIRECCIÓN A LA DIRECCIÓN DE RESPALDO ENN",
+        "TEXT_4": "DIRECCIÓN DE EMAIL PARA NOTIFICACIONES",
+        "BUTTON_NEXT": "Siguiente"
+      },
+      "BLOCK_5": {
+        "TITLE": "Pago",
+        "TEXT_1": "EL COSTO DEL DESPLIEGUE:",
+        "TEXT_2": "ELEGIR EL MÉTODO DE REPOSICIÓN",
+        "TEXT_3": "ENVIAR",
+        "TEXT_4": "A",
+        "TEXT_5": "Gas precio",
+        "TEXT_6": "Gas límite",
+        "TEXT_7": "Esperando el pago (5 confirmaciones)",
+        "TEXT_8": "O",
+        "TEXT_9": "SELECCIONE EL MÉTODO DE PAGO:",
+        "TEXT_10": "Metamask",
+        "TEXT_11": "MEW"
+      },
+      "BLOCK_6": {
+        "TITLE": "Despliegue",
+        "TEXT_1": "El despliegue del contrato está en marcha...",
+        "TEXT_2": "Puede tomar 10-15 minutos, por favor espere."
+      },
+      "BLOCK_7": {
+        "TITLE": "Seleccione las tokens para proteger",
+        "TEXT_1": "Tiene que conceder derechos al contrato de protección para la transferencia de tokens a la dirección de respaldo. <br><br> Añade cada token que necesite ser protegida: <br>",
+        "TEXT_2": "POPULAR",
+        "TEXT_3": "Busca en",
+        "BUTTON_1": "APRUEBA",
+        "BUTTON_2": "APROBADO",
+        "TEXT_4": "La confirmación está en curso",
+        "TEXT_5": "Por favor, espere....",
+        "BUTTON_NEXT": "Siguiente",
+        "BUTTON_SKIP": "Saltar"
+      }
+    },
+    "CONTRACT": {
+      "REMINDER": {
+        "TITLE": "Gracias, su contrato de protección fue creado con éxito.",
+        "TITLE_2": "Recordatorio",
+        "TEXT_1": "Por favor, asegúrese de que ha añadido tokens (Sección de tokens protegidas)",
+        "TEXT_2": "Para la gestión del contrato, necesitará acceso a la dirección protegida",
+        "TEXT_3": "Usted es el dueño del contrato y puede cancelar su contrato en cualquier momento antes de la ejecución."
+      },
+      "TITLE": "Contrato",
+      "NETWORK_1": "Mainnet",
+      "NETWORK_2": "Testnet",
+      "CONTRACT_INFO": {
+        "TITLE": "Información del contrato",
+        "TEXT_1": "DIRECCIÓN DEL CONTRATO",
+        "TEXT_2": "DIRECCIÓN PROTEGIDA",
+        "TEXT_3": "DIRECCIÓN DE RESERVA",
+        "TEXT_4": "TOKENS PROTEGIDAS",
+        "TEXT_5": "FECHA DE CREACIÓN",
+        "TEXT_6": "FECHA DE EJECUCIÓN",
+        "TEXT_7": "E-MAIL DE NOTIFICACIÓN",
+        "TEXT_8": "DÍAS DESPUÉS",
+        "BUTTON_1": "Agregar Tokens",
+        "BUTTON_2": "APRUEBA",
+        "BUTTON_3": "APROBADO",
+        "BUTTON_4": "Mis contratos",
+        "BUTTON_5": "Cancelar el contrato"
+      },
+      "SOURCE_CODE": {
+        "TITLE": "El código fuente",
+        "TEXT_1": "Descargue:",
+        "TEXT_2": "Contrato",
+        "TEXT_3": "código fuente",
+        "TEXT_4": "Contrato",
+        "TEXT_5": "Bibliotecas y otros archivos",
+        "TEXT_6": "Para verificar el código fuente del contrato por Etherscan por favor contáctenos por correo electrónico o siga las instrucciones:",
+        "TEXT_7": "Abrir la dirección del contrato en",
+        "TEXT_8": "En la pestaña de Código de Contrato elija \"Verificar y publicar\"",
+        "TEXT_9": "Introduzca el nombre del contrato:",
+        "TEXT_10": "Introduzca la dirección del contrato:",
+        "TEXT_11": "Rellene la versión del compilador:",
+        "TEXT_12": "Seleccione \"Sí\" en la opción \"Optimización\"",
+        "TEXT_13": "Pegue el código del Contrato de Solidity:",
+        "TEXT_14": "Eliminar los parámetros del campo de argumento Constructor codificado con ABI",
+        "TEXT_15": "Los demás campos no son obligatorios. Presione «Verificar y publicar»"
+      }
+    },
+    "CONTRACTS": {
+      "TITLE": "Mis contratos",
+      "TEXT_1": "Nombre del contrato",
+      "TEXT_2": "Modo",
+      "TEXT_3": "Dirección protegida",
+      "TEXT_4": "Fecha <br> de creación",
+      "TEXT_5": "Fecha <br> de ejecución",
+      "TEXT_6": "Estado"
+    }
+  }
+}

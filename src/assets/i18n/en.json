@@ -13,14 +13,18 @@
     },
     "MODAL": {
       "SIGN_IN": "Sign in",
-      "SING_UP": "Sing up",
+      "SIGN_UP": "Sign up",
       "EMAIL": "E-mail",
+      "2FA": "2FA",
       "PASSWORD": "Password",
       "REPEAT_PASSWORD": "Repeat password",
       "FORGOT": "Forgot your password?",
       "FORGOT_FIELD": "Enter e-mail for password reset",
       "MESSAGES": {
+        "NO_MATCH_PASSWORD": "Password not match",
         "FIELD_IS_REQUIRED": "Field is required",
+        "MIN_LENGTH_PASSWORD": "Min length",
+        "INCORRECT_PASSWORD": "Incorrect password",
         "EMAIL_IS_NOT_VERIFIED": "E-mail is not verified",
         "UNABLE_TO_LOG_IN_WITH_PROVIDED_CREDENTIALS": "Unable to log in with provided credentials.",
         "ENTER_YOUR_EMAIL": "Enter your e-mail"
@@ -31,7 +35,8 @@
         "REGISTRATION": "Registration",
         "METAMASK": "Log in via Metamask",
         "FACEBOOK": "Log in via Facebook",
-        "GOOGLE": "Log in via Google"
+        "GOOGLE": "Log in via Google",
+        "CONTINUE": "Continue"
       },
       "TEXT": {
         "LOGOUT_MESSAGE": "Do you really want to Log Out?"
@@ -44,7 +49,7 @@
         "TEXT_1": "Protect your token <br> if you lose your private keys.",
         "TEXT_2": "Decentralized protection to <br> restore tokens to your backup wallet.",
         "TEXT_3": "The price is $25",
-        "BUTTON_1":"Try it"
+        "BUTTON_1": "Try it"
       },
       "BLOCK_1": {
         "ITEMS": {
@@ -114,6 +119,80 @@
         "BUTTON": "Privacy policy"
       }
     },
+    "WILL": {
+      "HEADER": {
+        "TEXT_1": "Life is full of surprises. <br> We can help you prepare.",
+        "TEXT_2": "Setup your crypto inheritance",
+
+        "BUTTON_1": "Try it"
+      },
+      "BLOCK_1": {
+        "ITEMS": {
+          "ONE": {
+            "TITLE": "Secured",
+            "TEXT": "No need to provide <br> private keys"
+          },
+          "TWO": {
+            "TITLE": "Handy",
+            "TEXT": "No restrictions <br> keep using your account as before"
+          },
+          "THREE": {
+            "TITLE": "Simple",
+            "TEXT": "No coding <br> just 5 min to create"
+          }
+        }
+      },
+      "BLOCK_2": {
+        "TITLE": "How it works",
+        "ITEMS": {
+          "ONE": {
+            "TITLE": "Make <br> Crypto Will"
+
+          },
+          "TWO": {
+            "TITLE": "Protection <br> contract",
+            "TEXT_1": "Main address",
+            "TEXT_2": "Backup address"
+          },
+          "THREE": {
+            "TITLE": "Bad surprise"
+          },
+          "FOUR": {
+            "TITLE": "Contract's <br> execution",
+            "TEXT_1": "Main address",
+            "TEXT_2": "Backup address"
+          },
+          "FIVE": {
+            "TITLE": "Inheritance <br> received"
+          }
+        }
+      },
+      "BLOCK_3": {
+        "TITLE": "Protect your tokens now:",
+        "BUTTONS": {
+          "ONE": {
+            "TITLE": "Mainnet",
+            "TEXT": "$25"
+          },
+          "TWO": {
+            "TITLE": "Testnet",
+            "TEXT": "FREE"
+          }
+        }
+      },
+      "BLOCK_4": {
+        "TITLE": "Our clients trust us",
+        "TEXT_1": "Users",
+        "TEXT_2": "Contracts"
+      },
+      "BLOCK_5": {
+        "TITLE": "Partners"
+      },
+      "FOOTER": {
+        "TEXT_1": "© Copyright MyWish 2020",
+        "BUTTON": "Privacy policy"
+      }
+    },
     "CREATE_CONTRACT": {
       "NETWORK_1": "Mainnet",
       "NETWORK_2": "Testnet",
@@ -151,7 +230,7 @@
         "TITLE": "Terms and conditions",
         "FIELDS": {
           "ONE": {
-            "TITLE": "Transfer the tokens from your address to Backup address on",
+            "TITLE": "TRANSFER THE TOKENS FROM YOUR ADDRESS TO BACKUP ADDRESS ON",
             "PLACEHOLDER": "Choose date",
             "TEXT": "You can cancel the Protection contract anytime before execution."
           },
@@ -191,7 +270,7 @@
       },
       "BLOCK_7": {
         "TITLE": "Select tokens to protect",
-        "TEXT_1": "You have to grant rights to the protection contract for the transfer of tokens to the backup address.",
+        "TEXT_1": "You have to grant rights to the protection contract for the transfer of tokens to the backup address. <br><br> Add every token that needs to be protected: <br>",
         "TEXT_2": "POPULAR",
         "TEXT_3": "Search",
         "BUTTON_1": "APPROVE",

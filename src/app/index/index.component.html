@@ -6,7 +6,7 @@
       <div class="container is-fluid">
         <span class="title" [innerHTML]="'PAGE.MAIN.HEADER.TEXT_1' | translate"></span>
         <span class="subtitle" [innerHTML]="'PAGE.MAIN.HEADER.TEXT_2' | translate"></span>
-        <span class="button button-tp button-tp-blue home-screen-btn" routerLink="/create"> 
+        <span class="button button-tp button-tp-blue home-screen-btn" routerLink="/create">
           <span class="caption">{{ 'PAGE.MAIN.HEADER.BUTTON_1' | translate }}</span>
         </span>
         <span class="small">{{ 'PAGE.MAIN.HEADER.TEXT_3' | translate }}</span>
@@ -17,13 +17,16 @@
     <div class="section section-count-text-block-one is-not-padding-horisontal">
       <div class="columns is-multiline is-variable">
         <div class="column is-one-two">
-          <p [attr.data-count]="'PAGE.MAIN.BLOCK_1.ITEMS.ONE.TITLE' | translate" [innerHTML]="'PAGE.MAIN.BLOCK_1.ITEMS.ONE.TEXT' | translate" class="has-text-black"></p>
+          <p [attr.data-count]="'PAGE.MAIN.BLOCK_1.ITEMS.ONE.TITLE' | translate"
+            [innerHTML]="'PAGE.MAIN.BLOCK_1.ITEMS.ONE.TEXT' | translate" class="has-text-black"></p>
         </div>
         <div class="column is-one-two">
-          <p [attr.data-count]="'PAGE.MAIN.BLOCK_1.ITEMS.TWO.TITLE' | translate" [innerHTML]="'PAGE.MAIN.BLOCK_1.ITEMS.TWO.TEXT' | translate" class="has-text-black"></p>
+          <p [attr.data-count]="'PAGE.MAIN.BLOCK_1.ITEMS.TWO.TITLE' | translate"
+            [innerHTML]="'PAGE.MAIN.BLOCK_1.ITEMS.TWO.TEXT' | translate" class="has-text-black"></p>
         </div>
         <div class="column is-one-two">
-          <p [attr.data-count]="'PAGE.MAIN.BLOCK_1.ITEMS.THREE.TITLE' | translate" [innerHTML]="'PAGE.MAIN.BLOCK_1.ITEMS.THREE.TEXT' | translate" class="has-text-black"></p>
+          <p [attr.data-count]="'PAGE.MAIN.BLOCK_1.ITEMS.THREE.TITLE' | translate"
+            [innerHTML]="'PAGE.MAIN.BLOCK_1.ITEMS.THREE.TEXT' | translate" class="has-text-black"></p>
         </div>
       </div>
     </div>
@@ -34,7 +37,8 @@
       <div class="columns is-multiline columns is-variable is-1">
         <div class="column">
           <div data-count="1" class="column-content">
-            <span class="title title-blue" (click)="btnClick();" [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.ONE.TITLE' | translate"></span>
+            <span class="title title-blue" (click)="btnClick();"
+              [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.ONE.TITLE' | translate"></span>
             <div class="column-content-info">
               <img class="column is-1 is-mobile" src="./assets/images/new/how-it-works/man-1.svg">
               <span class="text" [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.ONE.TEXT_1' | translate"></span>
@@ -46,8 +50,10 @@
             <span class="title title-gray" [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.TWO.TITLE' | translate"></span>
             <div class="column-content-info">
               <div class="content-info-block">
-                <span class="content-info-block-text" [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.TWO.TEXT_1' | translate"></span>
-                <span class="content-info-block-text" [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.TWO.TEXT_2' | translate"></span>
+                <span class="content-info-block-text"
+                  [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.TWO.TEXT_1' | translate"></span>
+                <span class="content-info-block-text"
+                  [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.TWO.TEXT_2' | translate"></span>
               </div>
             </div>
           </div>
@@ -66,8 +72,10 @@
             <span class="title title-gray" [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.FOUR.TITLE' | translate"></span>
             <div class="column-content-info">
               <div class="content-info-block content-info-block-arrow">
-                <span class="content-info-block-text" [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.FOUR.TEXT_1' | translate"></span>
-                <span class="content-info-block-text" [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.FOUR.TEXT_2' | translate"></span>
+                <span class="content-info-block-text"
+                  [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.FOUR.TEXT_1' | translate"></span>
+                <span class="content-info-block-text"
+                  [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.FOUR.TEXT_2' | translate"></span>
               </div>
             </div>
           </div>
@@ -118,11 +126,17 @@
         <span class="title" [innerHTML]="'PAGE.MAIN.BLOCK_3.TITLE' | translate"></span>
         <br>
         <div class="form-keep-in-touch">
-          <a [routerLink]="['/create']" [queryParams]="{ network: 1 }" routerLinkActive="router-link-active"  class="button button-tp button-tp-blue mb-10">
-            <span class="caption caption-info" [attr.data-caption-info]="'PAGE.MAIN.BLOCK_3.BUTTONS.ONE.TEXT' | translate" [innerHTML]="'PAGE.MAIN.BLOCK_3.BUTTONS.ONE.TITLE' | translate"></span>
+          <a [routerLink]="['/create']" [queryParams]="{ network: 1 }" routerLinkActive="router-link-active"
+            class="button button-tp button-tp-blue mb-10">
+            <span class="caption caption-info"
+              [attr.data-caption-info]="'PAGE.MAIN.BLOCK_3.BUTTONS.ONE.TEXT' | translate"
+              [innerHTML]="'PAGE.MAIN.BLOCK_3.BUTTONS.ONE.TITLE' | translate"></span>
           </a>
-          <a [routerLink]="['/create']" [queryParams]="{ network: 2 }" routerLinkActive="router-link-active"  class="button button-tp button-tp-gray">
-            <span class="caption caption-info" [attr.data-caption-info]="'PAGE.MAIN.BLOCK_3.BUTTONS.TWO.TEXT' | translate" [innerHTML]="'PAGE.MAIN.BLOCK_3.BUTTONS.TWO.TITLE' | translate"></span>
+          <a [routerLink]="['/create']" [queryParams]="{ network: 2 }" routerLinkActive="router-link-active"
+            class="button button-tp button-tp-gray">
+            <span class="caption caption-info"
+              [attr.data-caption-info]="'PAGE.MAIN.BLOCK_3.BUTTONS.TWO.TEXT' | translate"
+              [innerHTML]="'PAGE.MAIN.BLOCK_3.BUTTONS.TWO.TITLE' | translate"></span>
           </a>
         </div>
       </div>
@@ -132,7 +146,7 @@
       <span class="title is-3" [innerHTML]="'PAGE.MAIN.BLOCK_4.TITLE' | translate"></span>
       <div class="client-trust-block">
         <div class="client-trust-block-item icon-mywish">
-          <div class="client-trust-block-item-text" >
+          <div class="client-trust-block-item-text">
             <span>10,166</span>
             <br>
             <span [innerHTML]="'PAGE.MAIN.BLOCK_4.TEXT_1' | translate"></span>
@@ -152,7 +166,8 @@
       <span class="title is-3" [innerHTML]="'PAGE.MAIN.BLOCK_5.TITLE' | translate">Partners</span>
       <div class="grid-partners">
         <a class="partners-item" *ngFor="let project of projects" href="{{project.link}}" target="_blank">
-          <img *ngIf="project.logo === './assets/images/new/partners/swaps.svg'" style="top: -10px;" [src]="project.logo">
+          <img *ngIf="project.logo === './assets/images/new/partners/swaps.svg'" style="top: -10px;"
+            [src]="project.logo">
           <img *ngIf="project.logo !== './assets/images/new/partners/swaps.svg'" [src]="project.logo">
         </a>
       </div>

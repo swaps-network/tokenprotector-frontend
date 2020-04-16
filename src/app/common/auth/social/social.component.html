@@ -2,58 +2,46 @@
 
   <div class="form-field">
     <button type="button" class="button button-tp button-tp-metamask button-tp-icon-metamask width-100"
-            [disabled]="!social.MM"
-            (click)="MetamaskAuth()">
-      <span class="caption">Log in via MetaMask</span>
+      [disabled]="!social.MM" (click)="MetamaskAuth()">
+      <span class="caption" translate="HEADER.MODAL.BUTTONS.METAMASK"></span>
     </button>
   </div>
 
   <div class="form-field">
-    
-    <a class="button button-tp button-tp-facebook button-tp-icon-facebook width-100"
-    *ngIf="social.FB"
-    (click)="FBAuth()"
-    >
-      <span class="caption" translate="AUTH_POPUP.BUTTONS.LOGIN_FACEBOOK"></span>
+
+    <a class="button button-tp button-tp-facebook button-tp-icon-facebook width-100" *ngIf="social.FB"
+      (click)="FBAuth()">
+      <span class="caption" translate="HEADER.MODAL.BUTTONS.FACEBOOK"></span>
     </a>
   </div>
 
   <div class="form-field">
-    <a class="button button-tp button-tp-google button-tp-icon-google width-100"
-       *ngIf="social.GA"
-       (click)="GoogleAuth()"
-    >
-      <span class="caption" translate="AUTH_POPUP.BUTTONS.LOGIN_GOOGLE"></span>
+    <a class="button button-tp button-tp-google button-tp-icon-google width-100" *ngIf="social.GA"
+      (click)="GoogleAuth()">
+      <span class="caption" translate="HEADER.MODAL.BUTTONS.GOOGLE"></span>
     </a>
   </div>
 
 </div>
 
 
-<form *ngIf="(socialAuthError == '1032') || (socialAuthError == '1033')"
-      (submit)="continueSocialAuth(totp.viewModel)" novalidate class="login-form">
+<form *ngIf="(socialAuthError == '1032') || (socialAuthError == '1033')" (submit)="continueSocialAuth(totp.viewModel)"
+  novalidate class="login-form">
   <div class="form-field">
-    <div class="form-field_label" translate="AUTH_POPUP.FIELDS.2FA"></div>
+    <div class="form-field_label" translate="HEADER.MODAL.2FA"></div>
     <div class="form-field_input">
-      <input type="text"
-             required
-             #totp="ngModel"
-             ngModel
-             (ngModelChange)="reset2FACode()"
-             [ngModelOptions]="{standalone: true}"
-             [ngClass]="{
+      <input type="text" required #totp="ngModel" ngModel (ngModelChange)="reset2FACode()"
+        [ngModelOptions]="{standalone: true}" [ngClass]="{
                 'ng-invalid': (socialAuthError === '1033'),
                 'ng-invalid-server': socialAuthError === '1033'
-             }"
-             class="min-text">
-      <span class="field-error form-field_error-required"
-            translate="FIELDS_ERRORS.REQUIRED"></span>
+             }" class="min-text">
+      <span class="field-error form-field_error-required" translate="HEADER.MODAL.MESSAGES.FIELD_IS_REQUIRED"></span>
       <span class="field-error form-field_error-server" *ngIf="socialAuthError === '1033'" style="display: block">
         Invalid code
       </span>
     </div>
   </div>
-  <div class="form-field"><br/>
+  <div class="form-field"><br />
     <button type="submit" class="btn btn-transparent">
       <span class="lds-ellipsis" *ngIf="change2FAProgress">
         <span class="lds-ellipsis-container">
@@ -61,7 +49,7 @@
         </span>
       </span>
       <img class="arrow" src="./assets/images/buttons/arrow_w.svg">
-      <span translate="HEADER.BUTTONS.CONTINUE"></span>
+      <span translate="HEADER.MODAL.BUTTONS.CONTINUE"></span>
     </button>
   </div>
 </form>

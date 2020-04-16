@@ -1,37 +1,42 @@
 {
   "HEADER": {
     "LINKS": {
-      "ABOUT": "О Нас",
+      "ABOUT": "О нас",
       "LOGIN": "Войти",
       "MY_CONTRACTS": "Мои контракты",
       "LOGOUT": "Выйти"
     },
     "BUTTONS": {
-      "TRY_IT": "Попробовать",
+      "TRY_IT": "Начать",
       "YES": "Да",
       "NO": "Нет"
     },
     "MODAL": {
-      "SIGN_IN": "Войти",
-      "SING_UP": "Зарегистрироваться",
+      "SIGN_IN": "Вход в систему",
+      "SIGN_UP": "Зарегистрироваться",
       "EMAIL": "E-mail",
+      "2FA": "2FA",
       "PASSWORD": "Пароль",
       "REPEAT_PASSWORD": "Повторите пароль",
       "FORGOT": "Забыли пароль?",
       "FORGOT_FIELD": "Введите e-mail для восстановления пароля",
       "MESSAGES": {
-        "FIELD_IS_REQUIRED": "Обязательное поле",
-        "EMAIL_IS_NOT_VERIFIED": "E-mail не подтвержден",
-        "UNABLE_TO_LOG_IN_WITH_PROVIDED_CREDENTIALS": "Unable to log in with provided credentials.",
-        "ENTER_YOUR_EMAIL": "Ввеите e-mail"
+        "NO_MATCH_PASSWORD": "Пароли не совпадают",
+        "FIELD_IS_REQUIRED": "Поле, обязательное для заполнения",
+        "MIN_LENGTH_PASSWORD": "Минимальная длинна пароля 6 символов",
+        "INCORRECT_PASSWORD": "Пароль введен неверно",
+        "EMAIL_IS_NOT_VERIFIED": "Адрес e-mail не подтвержден",
+        "UNABLE_TO_LOG_IN_WITH_PROVIDED_CREDENTIALS": "Невозможно войти с предоставленными учетными данными.",
+        "ENTER_YOUR_EMAIL": "Введите e-mail"
       },
       "BUTTONS": {
         "LOGIN": "Войти",
-        "SEND": "Отправть",
+        "SEND": "Отправить",
         "REGISTRATION": "Регистрация",
         "METAMASK": "Войти через Metamask",
         "FACEBOOK": "Войти через Facebook",
-        "GOOGLE": "Войти через Google"
+        "GOOGLE": "Войти через Google",
+        "CONTINUE": "Продолжить"
       },
       "TEXT": {
         "LOGOUT_MESSAGE": "Вы действительно хотите выйти?"
@@ -41,24 +46,24 @@
   "PAGE": {
     "MAIN": {
       "HEADER": {
-        "TEXT_1": "Защитие свои токены <br> если вы потеряли приватный ключ.",
-        "TEXT_2": "Decentralized protection to <br> restore tokens to your backup wallet.",
-        "TEXT_3": "Стоимость $25",
-        "BUTTON_1":"Попробовать"
+        "TEXT_1": "Защитите свои токены <br> в случае потери приватного ключа.",
+        "TEXT_2": "Децентрализованное решение для <br> восстановления токенов в резервном кошельке.",
+        "TEXT_3": "Цена $25",
+        "BUTTON_1": "Попробовать"
       },
       "BLOCK_1": {
         "ITEMS": {
           "ONE": {
-            "TITLE": "Secured",
-            "TEXT": "No need to provide <br> private keys"
+            "TITLE": "Безопасно",
+            "TEXT": "Не нужно предоставлять <br> приватные ключи"
           },
           "TWO": {
-            "TITLE": "Handy",
-            "TEXT": "No restrictions <br> keep using your account as before"
+            "TITLE": "Удобно",
+            "TEXT": "Без ограничений <br> используйте свой аккаунт как прежде"
           },
           "THREE": {
-            "TITLE": "Simple",
-            "TEXT": "No coding <br> just 5 min to create"
+            "TITLE": "Легко",
+            "TEXT": "Без кодирования <br> всего 5 минут на создание"
           }
         }
       },
@@ -66,30 +71,28 @@
         "TITLE": "Как это работает",
         "ITEMS": {
           "ONE": {
-            "TITLE": "Create <br> contract",
-            "TEXT_1": "Created <br> by MyWish"
+            "TITLE": "Создание <br> контракта"
           },
           "TWO": {
-            "TITLE": "Configure <br> the contract",
-            "TEXT_1": "Main address",
-            "TEXT_2": "Backup address"
+            "TITLE": "Настройка <br> контракта",
+            "TEXT_1": "Основной адрес",
+            "TEXT_2": "Резервный адрес"
           },
           "THREE": {
-            "TITLE": "Lose <br> private key",
-            "TEXT_1": "Wait <br> some time"
+            "TITLE": "Потеря <br> приватного ключа"
           },
           "FOUR": {
-            "TITLE": "Contract's <br> execution",
-            "TEXT_1": "Main address",
-            "TEXT_2": "Backup address"
+            "TITLE": "Выполнение <br> контракта",
+            "TEXT_1": "Основной адрес",
+            "TEXT_2": "Резервный адрес"
           },
           "FIVE": {
-            "TITLE": "Tokens <br> received"
+            "TITLE": "Токены <br> получены"
           }
         }
       },
       "BLOCK_3": {
-        "TITLE": "Protect your tokens now:",
+        "TITLE": "Защитите свои токены сейчас:",
         "BUTTONS": {
           "ONE": {
             "TITLE": "Mainnet",
@@ -97,21 +100,95 @@
           },
           "TWO": {
             "TITLE": "Testnet",
-            "TEXT": "FREE"
+            "TEXT": "Бесплатно"
           }
         }
       },
       "BLOCK_4": {
-        "TITLE": "Our clients trust us",
-        "TEXT_1": "Users",
-        "TEXT_2": "Contracts"
+        "TITLE": "Наши клиенты доверяют нам",
+        "TEXT_1": "Потзователей",
+        "TEXT_2": "Контрактов"
       },
       "BLOCK_5": {
-        "TITLE": "Partners"
+        "TITLE": "Партнеры"
       },
       "FOOTER": {
-        "TEXT_1": "© Copyright MyWish 2020",
-        "BUTTON": "Privacy policy"
+        "TEXT_1": "© Авторские права MyWish 2020",
+        "BUTTON": "Политика конфиденциальности"
+      }
+    },
+    "WILL": {
+      "HEADER": {
+        "TEXT_1": "Жизнь полна неожиданностей. <br> Мы поможем вам подготовиться.",
+        "TEXT_2": "Оформите крипто завещание",
+
+        "BUTTON_1": "Создать"
+      },
+      "BLOCK_1": {
+        "ITEMS": {
+          "ONE": {
+            "TITLE": "Безопасно",
+            "TEXT": "Не нужно предоставлять <br> приватные ключи"
+          },
+          "TWO": {
+            "TITLE": "Удобно",
+            "TEXT": "Без ограничений <br> используйте свой аккаунт как прежде"
+          },
+          "THREE": {
+            "TITLE": "Легко",
+            "TEXT": "Без кодирования <br> всего 5 минут на создание"
+          }
+        }
+      },
+      "BLOCK_2": {
+        "TITLE": "Как это работает",
+        "ITEMS": {
+          "ONE": {
+            "TITLE": "Создайте <br> Крипто Завещание"
+
+          },
+          "TWO": {
+            "TITLE": "Задайте условия <br> contract",
+            "TEXT_1": "Основной адрес",
+            "TEXT_2": "Адрес наследника"
+          },
+          "THREE": {
+            "TITLE": "Неприятная <br> неожиданность"
+          },
+          "FOUR": {
+            "TITLE": "Выполнение <br> контракта",
+            "TEXT_1": "Основной адрес",
+            "TEXT_2": "Адрес наследника"
+          },
+          "FIVE": {
+            "TITLE": "Наследство <br> получено"
+          }
+        }
+      },
+      "BLOCK_3": {
+        "TITLE": "Защитите свои токены сейчас:",
+        "BUTTONS": {
+          "ONE": {
+            "TITLE": "Mainnet",
+            "TEXT": "$25"
+          },
+          "TWO": {
+            "TITLE": "Testnet",
+            "TEXT": "Бесплатно"
+          }
+        }
+      },
+      "BLOCK_4": {
+        "TITLE": "Наши клиенты доверяют нам",
+        "TEXT_1": "Пользователей",
+        "TEXT_2": "Контрактов"
+      },
+      "BLOCK_5": {
+        "TITLE": "Партнеры"
+      },
+      "FOOTER": {
+        "TEXT_1": "© Авторские права MyWish 2020",
+        "BUTTON": "Политика конфиденциальности"
       }
     },
     "CREATE_CONTRACT": {
@@ -121,12 +198,12 @@
         "TITLE": "Выберите сеть",
         "MODES": {
           "ONE": {
-            "TITLE": "Главная",
+            "TITLE": "Mainnet",
             "TEXT": "$25"
           },
           "TWO": {
-            "TITLE": "Тестовая",
-            "TEXT": "Free of Charge"
+            "TITLE": "Testnet",
+            "TEXT": "Бесплатно"
           }
         },
         "BUTTON_NEXT": "Далее"
@@ -135,127 +212,127 @@
         "TITLE": "Адрес для защиты",
         "FIELDS": {
           "ONE": {
-            "TITLE": "Enter current address",
-            "PLACEHOLDER": "Ethereum address",
-            "TEXT": "Ethereum address which you want to protect from losing tokens (in case of loss access). You must know the private key of your address at the current moment"
+            "TITLE": "Введите текущий адрес",
+            "PLACEHOLDER": "Ethereum адрес",
+            "TEXT": "Ethereum адрес, который вы хотите защитить от потери токенов (в случае потери доступа). You must know the private key of your address at the current moment"
           },
           "TWO": {
-            "TITLE": "Enter backup address",
-            "PLACEHOLDER": "Ethereum address",
-            "TEXT": "Backup address receives the tokens from your address if all conditions are met."
+            "TITLE": "Введите резервный адрес",
+            "PLACEHOLDER": "Ethereum адрес",
+            "TEXT": "Резервный адрес получит токены с вашего адреса, если все условия соблюдены."
           }
         },
         "BUTTON_NEXT": "Далее"
       },
       "BLOCK_3": {
-        "TITLE": "Terms and conditions",
+        "TITLE": "Положения и условия",
         "FIELDS": {
           "ONE": {
-            "TITLE": "Transfer the tokens from your address to Backup address on",
-            "PLACEHOLDER": "Choose date",
-            "TEXT": "You can cancel the Protection contract anytime before execution."
+            "TITLE": "ПЕРЕДАЧА ТОКЕНОВ С ВАШЕГО АДРЕСА НА РЕЗЕРВНЫЙ АДРЕС",
+            "PLACEHOLDER": "Выберите дату",
+            "TEXT": "Вы можете отменить контракт о защите в любое время до его исполнения."
           },
           "TWO": {
-            "TITLE": "EMAIL FOR NOTIFICATIONS (OPTIONAL)",
-            "PLACEHOLDER": "Enter your email"
+            "TITLE": "EMAIL ДЛЯ УВЕДОМЛЕНИЙ (НЕОБЯЗАТЕЛЬНО)",
+            "PLACEHOLDER": "Введите email"
           }
         },
-        "BUTTON_NEXT": "Next"
+        "BUTTON_NEXT": "Далее"
       },
       "BLOCK_4": {
-        "TITLE": "Preview",
-        "TEXT_1": "YOUR ADDRESS",
-        "TEXT_2": "BACKUP ADDRESS",
-        "TEXT_3": "TRANSFER THE TOKENS FROM YOUR ADDRESS TO BACKUP ADDRESS ON",
-        "TEXT_4": "EMAIL ADDRESS MAIL FOR NOTIFICATIONS",
-        "BUTTON_NEXT": "Next"
+        "TITLE": "Предварительный просмотр",
+        "TEXT_1": "ВАШ АДРЕСС",
+        "TEXT_2": "РЕЗЕРВНЫЙ АДРЕС",
+        "TEXT_3": "ПЕРЕДАЧА ТОКЕНОВ С ВАШЕГО АДРЕСА НА РЕЗЕРВНЫЙ АДРЕС",
+        "TEXT_4": "EMAIL ADDRESS ДЛЯ УВЕДОМЛЕНИЙ",
+        "BUTTON_NEXT": "Далее"
       },
       "BLOCK_5": {
-        "TITLE": "Payment",
-        "TEXT_1": "DEPLOYMENT’S COST:",
-        "TEXT_2": "CHOOSE REPLENISH METHOD",
-        "TEXT_3": "SEND",
-        "TEXT_4": "TO",
-        "TEXT_5": "Gas price",
-        "TEXT_6": "Gas limit",
-        "TEXT_7": "Waiting for payment (5 confirmations)",
-        "TEXT_8": "OR",
-        "TEXT_9": "SELECT PAYMENT METHOD:",
+        "TITLE": "Оплата",
+        "TEXT_1": "СТОИМОСТЬ РАЗВЕРТЫВАНИЯ:",
+        "TEXT_2": "ВЫБРАТЬ СПОСОБ ПОПОЛНЕНИЯ",
+        "TEXT_3": "ОТПРАВИТЬ",
+        "TEXT_4": "НА",
+        "TEXT_5": "Стоимостьгаза",
+        "TEXT_6": "Лимит газа",
+        "TEXT_7": "Ожидание оплаты (5 подтверждений)",
+        "TEXT_8": "ИЛИ",
+        "TEXT_9": "ВЫБЕРИТЕ СПОСОБ ОПЛАТЫ:",
         "TEXT_10": "Metamask",
         "TEXT_11": "MEW"
       },
       "BLOCK_6": {
-        "TITLE": "Deployment",
-        "TEXT_1": "Contract Deployment is in progress...",
-        "TEXT_2": "It can take 10-15 minutes, please wait"
+        "TITLE": "Развертывание",
+        "TEXT_1": "Выполняется развертывание контракта...",
+        "TEXT_2": "Это может занять 10-15 минут, пожалуйста подождите"
       },
       "BLOCK_7": {
-        "TITLE": "Select tokens to protect",
-        "TEXT_1": "You have to grant rights to the protection contract for the transfer of tokens to the backup address.",
-        "TEXT_2": "POPULAR",
-        "TEXT_3": "Search",
-        "BUTTON_1": "APPROVE",
-        "BUTTON_2": "APPROVED",
-        "TEXT_4": "Confirmation is in progress",
-        "TEXT_5": "please wait...",
-        "BUTTON_NEXT": "Next",
-        "BUTTON_SKIP": "Skip"
+        "TITLE": "Выберите токены для защиты",
+        "TEXT_1": "Вы должны предоставить права на контракт защиты для трансфера токенов на резервный адрес. <br><br> Добавьте каждый токен, который нужно защитить: <br>",
+        "TEXT_2": "ПОПУЛЯРНЫЕ",
+        "TEXT_3": "Поиск",
+        "BUTTON_1": "УТВЕРДИТЬ",
+        "BUTTON_2": "УТВЕРЖДЕНО",
+        "TEXT_4": "Подтверждение в процессе",
+        "TEXT_5": "подождите,пожалуйста...",
+        "BUTTON_NEXT": "Далее",
+        "BUTTON_SKIP": "Пропустить"
       }
     },
     "CONTRACT": {
       "REMINDER": {
-        "TITLE": "Thank you, your protector contract was successfully created.",
-        "TITLE_2": "Reminder",
-        "TEXT_1": "Please make sure that you have added tokens (Protected tokens section)",
-        "TEXT_2": "For contract’s management, you will need access to Protected address",
-        "TEXT_3": "You are the contract owner and you can cancel your contract anytime before the execution"
+        "TITLE": "Спасибо, ваш защитный контракт был успешно создан.",
+        "TITLE_2": "Напоминание",
+        "TEXT_1": "Убедитесь, что вы добавили токены (раздел Защищенные токены)",
+        "TEXT_2": "Для управления контрактом вам потребуется доступ к Защищенному адресу",
+        "TEXT_3": "Вы являетесь владельцем контракта и можете отменить свой контракт в любое время до исполнения"
       },
-      "TITLE": "Contract",
+      "TITLE": "Контракт",
       "NETWORK_1": "Mainnet",
       "NETWORK_2": "Testnet",
       "CONTRACT_INFO": {
-        "TITLE": "Contract info",
-        "TEXT_1": "CONTRACT ADDRESS",
-        "TEXT_2": "PROTECTED ADDRESS",
-        "TEXT_3": "RESERVE ADDRESS",
-        "TEXT_4": "PROTECTED TOKENS",
-        "TEXT_5": "CREATED DATE",
-        "TEXT_6": "EXECUTION DATE",
-        "TEXT_7": "NOTIFICATION E-MAIL",
-        "TEXT_8": "DAYS LEFT",
-        "BUTTON_1": "Add Tokens",
-        "BUTTON_2": "APPROVE",
-        "BUTTON_3": "APPROVED",
-        "BUTTON_4": "My Contracts",
-        "BUTTON_5": "Cancel contract"
+        "TITLE": "Информация о контракте",
+        "TEXT_1": "АДРЕС КОНТРАКТА",
+        "TEXT_2": "ЗАЩИЩЕННЫЙ АДРЕС",
+        "TEXT_3": "РЕЗЕРВНЫЙ АДРЕС",
+        "TEXT_4": "ЗАЩИЩЕННЫЕ ТОКЕНЫ",
+        "TEXT_5": "ДАТА СОЗДАНИЯ",
+        "TEXT_6": "ДАТА ИСПОЛНЕНИЯ",
+        "TEXT_7": "E-MAIL ДЛЯ УВЕДОМЛЕНИЙ",
+        "TEXT_8": "ОСТАЛОСЬ ДНЕЙ",
+        "BUTTON_1": "Добавить Токены",
+        "BUTTON_2": "УТВЕРДИТЬ",
+        "BUTTON_3": "УТВЕРЖДЕНО",
+        "BUTTON_4": "Мои Контракты",
+        "BUTTON_5": "Отменить контракт"
       },
       "SOURCE_CODE": {
-        "TITLE": "Source code",
-        "TEXT_1": "Download:",
-        "TEXT_2": "Contract",
-        "TEXT_3": "source code",
-        "TEXT_4": "Contract",
-        "TEXT_5": "Libraries & other files",
-        "TEXT_6": "To verify contract source code by Etherscan please contact us by email or follow the instruction:",
-        "TEXT_7": "Open contract address on",
-        "TEXT_8": "In Contract Code tab choose \"Verify And Publish\"",
-        "TEXT_9": "Enter Contract Name:",
-        "TEXT_10": "Enter Contract Address:",
-        "TEXT_11": "Fill out Compiler version:",
-        "TEXT_12": "Select \"Yes\" in option \"Optimization\"",
-        "TEXT_13": "Paste the Solidity Contract code:",
-        "TEXT_14": "Remove the parameters from the Constructor argument field ABI-encoded",
-        "TEXT_15": "Others fields are not required. Press «Verify And Publish»"
+        "TITLE": "Исходный код",
+        "TEXT_1": "Загрузить:",
+        "TEXT_2": "Контракт",
+        "TEXT_3": "исходный код",
+        "TEXT_4": "Контракт",
+        "TEXT_5": "Библиотеки и другие файлы",
+        "TEXT_6": "Чтобы проверить исходный код контракта на Etherscan, пожалуйста, свяжитесь с нами по e-mail или следуйте инструкциям:",
+        "TEXT_7": "Адрес открытого договора",
+        "TEXT_8": "На вкладке Код контракта выберите \"Проверить и опубликовать\"",
+        "TEXT_9": "Введите название контракта:",
+        "TEXT_10": "Введите адрес контракта:",
+        "TEXT_11": "Заполните версию компилятора:",
+        "TEXT_12": "Выберите \"Да\" в параметре \"Оптимизация\"",
+        "TEXT_13": "Вставьте код контракта Solidity:",
+        "TEXT_14": "Удалите параметры из поля аргумента конструктора в кодировке ABI",
+        "TEXT_15": "Другие поля не обязательны для заполнения. Нажмите «Проверить и опубликовать»"
       }
     },
     "CONTRACTS": {
-      "TITLE": "My contracts",
-      "TEXT_1": "Contract name",
-      "TEXT_2": "Mode",
-      "TEXT_3": "Protected Address",
-      "TEXT_4": "Created <br> date",
-      "TEXT_5": "Execution <br> date",
-      "TEXT_6": "Status"
+      "TITLE": "Мои контракты",
+      "TEXT_1": "Название контракта",
+      "TEXT_2": "Сеть",
+      "TEXT_3": "Защищенный адрес",
+      "TEXT_4": "Дата <br> создания",
+      "TEXT_5": "Дата <br> исполнения",
+      "TEXT_6": "Статус"
     }
   }
 }

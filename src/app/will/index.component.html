@@ -4,37 +4,28 @@
     <!-- first scereen -->
     <div class="section section-first-screen is-not-padding-horisontal">
       <div class="container is-fluid">
-        <span class="title">
-          Life is full of surprises. <br> We can help you prepare.
-        </span>
-        <span class="subtitle">
-          Setup your crypto inheritance
-        </span>
+        <span class="title" [innerHTML]="'PAGE.WILL.HEADER.TEXT_1' | translate"></span>
+        <span class="subtitle" [innerHTML]="'PAGE.WILL.HEADER.TEXT_2' | translate"></span>
         <span class="button button-tp button-tp-blue home-screen-btn" routerLink="/create">
-          <span class="caption">Try it</span>
+          <span class="caption">{{ 'PAGE.WILL.HEADER.BUTTON_1' | translate }}</span>
         </span>
-        <!-- <span class="small">The price is $25</span> -->
       </div>
     </div>
     <!-- /first scereen -->
-
     <!-- second screen -->
     <div class="section section-count-text-block-one is-not-padding-horisontal">
       <div class="columns is-multiline is-variable">
         <div class="column is-one-two">
-          <p data-count="Secured" class="has-text-black">
-            No need to provide <br> private keys
-          </p>
+          <p [attr.data-count]="'PAGE.WILL.BLOCK_1.ITEMS.ONE.TITLE' | translate"
+            [innerHTML]="'PAGE.WILL.BLOCK_1.ITEMS.ONE.TEXT' | translate" class="has-text-black"></p>
         </div>
         <div class="column is-one-two">
-          <p data-count="Handy" class="has-text-black">
-            No restrictions <br>keep using your account as before
-          </p>
+          <p [attr.data-count]="'PAGE.WILL.BLOCK_1.ITEMS.TWO.TITLE' | translate"
+            [innerHTML]="'PAGE.WILL.BLOCK_1.ITEMS.TWO.TEXT' | translate" class="has-text-black"></p>
         </div>
         <div class="column is-one-two">
-          <p data-count="Simple" class="has-text-black">
-            No coding <br>just 5 min to create
-          </p>
+          <p [attr.data-count]="'PAGE.WILL.BLOCK_1.ITEMS.THREE.TITLE' | translate"
+            [innerHTML]="'PAGE.WILL.BLOCK_1.ITEMS.THREE.TEXT' | translate" class="has-text-black"></p>
         </div>
       </div>
     </div>
@@ -42,13 +33,12 @@
 
     <!-- how it works -->
     <div class="section section-how-it-works is-not-padding-horisontal">
-      <span class="title">How it works</span>
+      <span class="title" [innerHTML]="'PAGE.WILL.BLOCK_2.TITLE' | translate"></span>
       <div class="columns is-multiline columns is-variable is-1">
         <div class="column">
           <div data-count="1" class="column-content">
-            <span class="title title-blue" (click)="btnClick();">
-              Make <br> Crypto Will
-            </span>
+            <span class="title title-blue" (click)="btnClick();"
+              [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.ONE.TITLE' | translate"></span>
             <div class="column-content-info">
               <img class="column is-1 is-mobile" src="./assets/images/new/how-it-works/man-1.svg">
               <img class="column is-1 is-mobile" style="height:60px;max-width: 70px;min-width: 70px;"
@@ -58,22 +48,20 @@
         </div>
         <div class="column">
           <div data-count="2" class="column-content">
-            <span class="title title-gray">
-              Protection <br> contract
-            </span>
+            <span class="title title-gray" [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.TWO.TITLE' | translate"></span>
             <div class="column-content-info">
               <div class="content-info-block">
-                <span class="content-info-block-text">Main address</span>
-                <span class="content-info-block-text">Heir address</span>
+                <span class="content-info-block-text"
+                  [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.TWO.TEXT_1' | translate"></span>
+                <span class="content-info-block-text"
+                  [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.TWO.TEXT_2' | translate"></span>
               </div>
             </div>
           </div>
         </div>
         <div class="column">
           <div data-count="3" class="column-content">
-            <span class="title title-blue">
-              Bad surprise
-            </span>
+            <span class="title title-blue" [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.THREE.TITLE' | translate"></span>
             <div class="column-content-info fd-c">
               <img class="column is-1 is-mobile" style="height:60px;"
                 src="./assets/images/new/how-it-works/arrow-blue-will.svg">
@@ -83,22 +71,20 @@
         </div>
         <div class="column">
           <div data-count="4" class="column-content">
-            <span class="title title-gray">
-              Contract <br>execution
-            </span>
+            <span class="title title-gray" [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.FOUR.TITLE' | translate"></span>
             <div class="column-content-info">
               <div class="content-info-block content-info-block-arrow">
-                <span class="content-info-block-text">Main address</span>
-                <span class="content-info-block-text arrow-right">Heir address</span>
+                <span class="content-info-block-text"
+                  [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.FOUR.TEXT_1' | translate"></span>
+                <span class="content-info-block-text"
+                  [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.FOUR.TEXT_2' | translate"></span>
               </div>
             </div>
           </div>
         </div>
         <div class="column">
           <div data-count="5" class="column-content">
-            <span class="title title-blue">
-              Inheritance <br>received
-            </span>
+            <span class="title title-blue" [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.FIVE.TITLE' | translate"></span>
             <div class="column-content-info">
               <img class="column is-1 is-mobile w-max" src="./assets/images/new/how-it-works/woman-with-child-will.svg">
             </div>
@@ -139,49 +125,47 @@
     <!-- middle-block -->
     <div class="section section-middle-block is-not-padding-horisontal">
       <div class="container is-fluid">
-        <span class="title">
-          Protect your tokens now:
-        </span>
+        <span class="title" [innerHTML]="'PAGE.WILL.BLOCK_3.TITLE' | translate"></span>
         <br>
         <div class="form-keep-in-touch">
           <a [routerLink]="['/create']" [queryParams]="{ network: 1 }" routerLinkActive="router-link-active"
             class="button button-tp button-tp-blue mb-10">
-            <span class="caption caption-info" data-caption-info="$25">
-              Mainnet
-            </span>
+            <span class="caption caption-info"
+              [attr.data-caption-info]="'PAGE.WILL.BLOCK_3.BUTTONS.ONE.TEXT' | translate"
+              [innerHTML]="'PAGE.WILL.BLOCK_3.BUTTONS.ONE.TITLE' | translate"></span>
           </a>
           <a [routerLink]="['/create']" [queryParams]="{ network: 2 }" routerLinkActive="router-link-active"
             class="button button-tp button-tp-gray">
-            <span class="caption caption-info" data-caption-info="Free">
-              Testnet
-            </span>
+            <span class="caption caption-info"
+              [attr.data-caption-info]="'PAGE.WILL.BLOCK_3.BUTTONS.TWO.TEXT' | translate"
+              [innerHTML]="'PAGE.WILL.BLOCK_3.BUTTONS.TWO.TITLE' | translate"></span>
           </a>
         </div>
       </div>
     </div>
     <!-- /middle-block -->
     <div class="section section-client-trust is-not-padding-horisontal">
-      <span class="title is-3">Our clients trust us</span>
+      <span class="title is-3" [innerHTML]="'PAGE.WILL.BLOCK_4.TITLE' | translate"></span>
       <div class="client-trust-block">
         <div class="client-trust-block-item icon-mywish">
           <div class="client-trust-block-item-text">
             <span>10,166</span>
             <br>
-            <span>Users</span>
+            <span [innerHTML]="'PAGE.WILL.BLOCK_4.TEXT_1' | translate"></span>
           </div>
         </div>
         <div class="client-trust-block-item icon-shield">
           <div class="client-trust-block-item-text">
             <span>7,169</span>
             <br>
-            <span>Contracts</span>
+            <span [innerHTML]="'PAGE.WILL.BLOCK_4.TEXT_2' | translate"></span>
           </div>
         </div>
       </div>
     </div>
     <!-- partners -->
     <div class="section section-partners is-not-padding-horisontal">
-      <span class="title is-3">Partners</span>
+      <span class="title is-3" [innerHTML]="'PAGE.WILL.BLOCK_5.TITLE' | translate">Partners</span>
       <div class="grid-partners">
         <a class="partners-item" *ngFor="let project of projects" href="{{project.link}}" target="_blank">
           <img *ngIf="project.logo === './assets/images/new/partners/swaps.svg'" style="top: -10px;"

@@ -1,15 +1,22 @@
-import { Component, Inject, OnInit, PLATFORM_ID, TemplateRef, ViewChild } from '@angular/core';
-import { isPlatformBrowser, Location } from '@angular/common';
-import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
-import { UserService } from '../../services/user/user.service';
-import { UserInterface } from '../../services/user/user.interface';
-import { MatDialog, MatDialogRef } from '@angular/material';
-import { NavigationStart, Router } from '@angular/router';
+import {
+  Component,
+  Inject,
+  OnInit,
+  PLATFORM_ID,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
+import { isPlatformBrowser, Location } from "@angular/common";
+import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
+import { UserService } from "../../services/user/user.service";
+import { UserInterface } from "../../services/user/user.interface";
+import { MatDialog, MatDialogRef } from "@angular/material";
+import { NavigationStart, Router } from "@angular/router";
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.scss"],
 })
 export class HeaderComponent implements OnInit {
   public isBrowser: any;
@@ -24,8 +31,8 @@ export class HeaderComponent implements OnInit {
   public currLanguage: string;
   public currentPath: string;
 
-  @ViewChild('logoutConfirmation') logoutConfirmation: TemplateRef<any>;
-  @ViewChild('headerPage') headerPage;
+  @ViewChild("logoutConfirmation") logoutConfirmation: TemplateRef<any>;
+  @ViewChild("headerPage") headerPage;
 
   private logoutConfirmationModal: MatDialogRef<any>;
   private logoutProgress: boolean;
@@ -39,29 +46,29 @@ export class HeaderComponent implements OnInit {
     activatedRoute: Location,
     translate: TranslateService
   ) {
-
-
     this.currentUser = this.userService.getUserModel();
-    this.userService.getCurrentUser().subscribe((userProfile: UserInterface) => {
-      this.currentUser = userProfile;
-    });
+    this.userService
+      .getCurrentUser()
+      .subscribe((userProfile: UserInterface) => {
+        this.currentUser = userProfile;
+      });
 
     this.isBrowser = isPlatformBrowser(platformId);
 
     if (this.isBrowser) {
       window.onscroll = () => {
-        const scrolled = window.pageYOffset || document.documentElement.scrollTop;
+        const scrolled =
+          window.pageYOffset || document.documentElement.scrollTop;
         this.pageScrolled = scrolled > 50;
       };
     }
 
-    document.getElementsByTagName('body')[0]['addEventListener'](
-      'mousedown',
-      (event) => {
+    document
+      .getElementsByTagName("body")[0]
+      ["addEventListener"]("mousedown", (event) => {
         this.openedMenu = false;
         this.userMenuOpened = false;
-      }
-    );
+      });
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
@@ -70,61 +77,53 @@ export class HeaderComponent implements OnInit {
       }
     });
 
-
     this.translator = translate;
     this.languagesList = [
       {
-        lng: 'en',
-        title: 'en',
-        active: true
+        lng: "en",
+        title: "en",
+        active: true,
       },
       {
-        lng: 'zh',
-        title: 'zh',
-        active: false
+        lng: "es",
+        title: "es",
+        active: false,
       },
       {
-        lng: 'ko',
-        title: 'ko',
-        active: false
+        lng: "ru",
+        title: "ru",
+        active: false,
       },
-      {
-        lng: 'ru',
-        title: 'ru',
-        active: false
-      }
     ];
-
 
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.setActiveLanguage(event);
     });
-    
+
     this.setActiveLanguage({
-      lang: translate.currentLang
+      lang: translate.currentLang,
     });
 
-    this.currentPath = activatedRoute.path().split('?')[0];
-
+    this.currentPath = activatedRoute.path().split("?")[0];
   }
 
   private setActiveLanguage(event) {
     if (this.currLanguage) {
       this.languagesList.map((lang) => {
-        if(lang['lng'] === this.currLanguage) lang['active'] = true;
-        else lang['active'] = false;
+        if (lang["lng"] === this.currLanguage) lang["active"] = true;
+        else lang["active"] = false;
         // return lang['lng'] === this.currLanguage;
       });
     }
     this.currLanguage = event.lang;
 
     if (this.isBrowser) {
-      window['jQuery']['cookie']('lng', this.currLanguage);
+      window["jQuery"]["cookie"]("lng", this.currLanguage);
     }
 
     this.languagesList.map((lang) => {
-      if(lang['lng'] === this.currLanguage) lang['active'] = true;
-      else lang['active'] = false;
+      if (lang["lng"] === this.currLanguage) lang["active"] = true;
+      else lang["active"] = false;
       // return lang['lng'] === this.currLanguage;
     });
     this.languagesList.sort((a, b) => {
@@ -132,19 +131,19 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-
   public toggleLanguage() {
     this.openedLngList = !this.openedLngList;
   }
 
-  
   public setLanguage(lng) {
     this.translator.use(lng);
   }
 
-
   public openAuth() {
-    this.userService.openAuthForm().then(() => { }, () => { });
+    this.userService.openAuthForm().then(
+      () => {},
+      () => {}
+    );
   }
 
   ngOnInit() {
@@ -155,20 +154,22 @@ export class HeaderComponent implements OnInit {
 
   public openLogoutConfirmation() {
     this.logoutConfirmationModal = this.dialog.open(this.logoutConfirmation, {
-      width: '480px',
-      panelClass: 'custom-dialog-container'
+      width: "480px",
+      panelClass: "custom-dialog-container",
     });
   }
 
   public logoutSuccess() {
     this.logoutProgress = true;
-    this.userService.logout().then(() => {
-      this.logoutConfirmationModal.close();
-    }).finally(() => {
-      this.logoutProgress = false;
-      this.currentUser.is_ghost = true;
-      window.location.reload();
-    });
+    this.userService
+      .logout()
+      .then(() => {
+        this.logoutConfirmationModal.close();
+      })
+      .finally(() => {
+        this.logoutProgress = false;
+        this.currentUser.is_ghost = true;
+        window.location.reload();
+      });
   }
-
 }
