@@ -1,7 +1,7 @@
 {
   "HEADER": {
     "LINKS": {
-      "ABOUT": "Sobre",
+      "ABOUT": "Acerca de",
       "LOGIN": "Iniciar sesión",
       "MY_CONTRACTS": "Mis contratos",
       "LOGOUT": "Cerrar sesión"
@@ -12,8 +12,8 @@
       "NO": "No"
     },
     "MODAL": {
-      "SIGN_IN": "Firme en",
-      "SIGN_UP": "Inscríbete",
+      "SIGN_IN": "Iniciar sesión",
+      "SIGN_UP": "Registrarse",
       "EMAIL": "E-mail",
       "2FA": "2FA",
       "PASSWORD": "Contraseña",
@@ -21,10 +21,10 @@
       "FORGOT": "¿Olvidó su contraseña?",
       "FORGOT_FIELD": "Introduzca e-mail para el restablecimiento de la contraseña",
       "MESSAGES": {
-        "NO_MATCH_PASSWORD": "Password not match",
+        "NO_MATCH_PASSWORD": "La contraseña no coincide",
         "FIELD_IS_REQUIRED": "El campo es obligatorio",
-        "MIN_LENGTH_PASSWORD": "Min password length 6 symbols",
-        "INCORRECT_PASSWORD": "Incorrect password",
+        "MIN_LENGTH_PASSWORD": "Longitud mínima de la contraseña 6 símbolos",
+        "INCORRECT_PASSWORD": "Contraseña incorrecta",
         "EMAIL_IS_NOT_VERIFIED": "E-mail no está verificado",
         "UNABLE_TO_LOG_IN_WITH_PROVIDED_CREDENTIALS": "No se puede iniciar la sesión con las credenciales proporcionadas.",
         "ENTER_YOUR_EMAIL": "Introduce tu e-mail"
@@ -36,7 +36,7 @@
         "METAMASK": "Ingresa a través de Metamask",
         "FACEBOOK": "Ingresa a través de Facebook",
         "GOOGLE": "Ingresa a través de Google",
-        "CONTINUE": "Continue"
+        "CONTINUE": "Continúa"
       },
       "TEXT": {
         "LOGOUT_MESSAGE": "¿De verdad quieres cerrar la sesión?"
@@ -63,7 +63,7 @@
           },
           "THREE": {
             "TITLE": "Simple",
-            "TEXT": "Sin código <br> Tan solo en 5 minutos"
+            "TEXT": "Sin tener que programar <br> Tan solo en 5 minutos"
           }
         }
       },
@@ -71,7 +71,7 @@
         "TITLE": "Cómo funciona",
         "ITEMS": {
           "ONE": {
-            "TITLE": "Crea un <br> contrato a",
+            "TITLE": "Crea un <br> contrato",
             "TEXT_1": "través <br> de MyWish"
           },
           "TWO": {
@@ -137,7 +137,7 @@
           },
           "THREE": {
             "TITLE": "Simple",
-            "TEXT": "Sin código <br> Tan solo en 5 minutos"
+            "TEXT": "Sin tener que programar <br> Tan solo en 5 minutos"
           }
         }
       },
@@ -145,7 +145,7 @@
         "TITLE": "Cómo funciona",
         "ITEMS": {
           "ONE": {
-            "TITLE": "Haz un contrato <br> Will Crypto"
+            "TITLE": "Haz un contrato <br> crypto herencia"
           },
           "TWO": {
             "TITLE": "Contrato <br> de protección",
@@ -174,7 +174,7 @@
           },
           "TWO": {
             "TITLE": "Testnet",
-            "TEXT": "GRATIS"
+            "TEXT": "Gratis"
           }
         }
       },
@@ -213,12 +213,12 @@
         "FIELDS": {
           "ONE": {
             "TITLE": "Introduzca la dirección actual",
-            "PLACEHOLDER": "Dirección del Ethereum",
+            "PLACEHOLDER": "Dirección de Ethereum",
             "TEXT": "Dirección del Ethereum que desea proteger de la pérdida de tokens (en caso de pérdida de acceso). Debe conocer la clave privada de su dirección en el momento actual"
           },
           "TWO": {
             "TITLE": "Ingrese la dirección de respaldo",
-            "PLACEHOLDER": "Dirección del Ethereum",
+            "PLACEHOLDER": "Dirección de Ethereum",
             "TEXT": "La dirección de respaldo recibe las tokens de su dirección si se cumplen todas las condiciones."
           }
         },

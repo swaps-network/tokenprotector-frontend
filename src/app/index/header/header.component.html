@@ -13,64 +13,56 @@
     </a>
 
     <div class="app-content-block_right">
-      <button class="navbar-toggle" type="button" (click)="openedMenu = !openedMenu" (mousedown)="$event.stopPropagation(); $event.preventDefault();" >
+      <button class="navbar-toggle" type="button" (click)="openedMenu = !openedMenu"
+        (mousedown)="$event.stopPropagation(); $event.preventDefault();">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-  
-      <nav class="header-menu" [ngClass]="{opened: openedMenu}" (mousedown)="$event.stopPropagation(); $event.preventDefault();" style="padding-right: 80px;">
+
+      <nav class="header-menu" [ngClass]="{opened: openedMenu}"
+        (mousedown)="$event.stopPropagation(); $event.preventDefault();" style="padding-right: 80px;">
         <ul class="header-menu_list">
           <li class="header-menu_list_item">
-            <a href="https://mywish.io/" target="_blank" class="header-link" [innerHTML]="'HEADER.LINKS.ABOUT' | translate"></a>
+            <a href="https://mywish.io/" target="_blank" class="header-link"
+              [innerHTML]="'HEADER.LINKS.ABOUT' | translate"></a>
           </li>
           <li class="header-menu_list_item" *ngIf="currentUser.is_ghost">
             <span (click)="openAuth()" class="header-link" [innerHTML]="'HEADER.LINKS.LOGIN' | translate"></span>
           </li>
           <li class="header-menu_list_item with-sublist" *ngIf="!currentUser.is_ghost"
-              [ngClass]="{'opened-list': userMenuOpened}">
-            <span class="header-link"
-                  [ngClass]="{'is-social': currentUser.is_social}"
-                  (click)="userMenuOpened = !userMenuOpened"
-                  style="color: black;">{{currentUser.username}}</span>
+            [ngClass]="{'opened-list': userMenuOpened}">
+            <span class="header-link" [ngClass]="{'is-social': currentUser.is_social}"
+              (click)="userMenuOpened = !userMenuOpened" style="color: black;">{{currentUser.username}}</span>
             <ul class="header-menu_sublist">
               <li class="header-menu_sublist_item">
-                <a routerLink="/contracts" class="sublist-link" [innerHTML]="'HEADER.LINKS.MY_CONTRACTS' | translate"></a>
+                <a routerLink="/contracts" class="sublist-link"
+                  [innerHTML]="'HEADER.LINKS.MY_CONTRACTS' | translate"></a>
               </li>
               <li class="header-menu_sublist_item">
-                <span class="sublist-link" (click)="openLogoutConfirmation()" [innerHTML]="'HEADER.LINKS.LOGOUT' | translate"></span>
+                <span class="sublist-link" (click)="openLogoutConfirmation()"
+                  [innerHTML]="'HEADER.LINKS.LOGOUT' | translate"></span>
               </li>
             </ul>
           </li>
           <li class="header-menu_list_item" [ngClass]="{'hide_menu-button': (routeLinkPage === '/create') }">
-            <span class="button button-tp button-tp-blue is-large" routerLink="/create"> 
+            <span class="button button-tp button-tp-blue is-large" routerLink="/create">
               <span class="caption" [innerHTML]="'HEADER.BUTTONS.TRY_IT' | translate"></span>
             </span>
           </li>
         </ul>
         <div class="language-select">
-          <ul class="language-select-list"
-              *ngIf="isBrowser"
-              [ngClass]="{'opened': openedLngList}" (click)="toggleLanguage()">
-            <li (click)="setLanguage(lng['lng'])"
-                [ngClass]="{'active': lng['active']}"
-                *ngFor="let lng of languagesList">
-              <img src="/assets/images/lng/{{lng['lng']}}.svg"/>
+          <ul class="language-select-list" *ngIf="isBrowser" [ngClass]="{'opened': openedLngList}"
+            (click)="toggleLanguage()">
+            <li (click)="setLanguage(lng['lng'])" [ngClass]="{'active': lng['active']}"
+              *ngFor="let lng of languagesList">
+              <img src="/assets/images/lng/{{lng['lng']}}.svg" />
               <span>{{lng['title']}}</span>
             </li>
           </ul>
-          <!-- <ul class="language-select-list opened"
-              *ngIf="!isBrowser">
-              <li *ngFor="let lng of languagesList">
-                  <a [routerLink]="currentPath" [queryParams]="{lng: lng['lng']}">
-                      <img src="/assets/img/lng/{{lng['lng']}}.svg"/>
-                      <span>{{lng['title']}}</span>
-                  </a>
-              </li>
-          </ul> -->
         </div>
       </nav>
-      
+
     </div>
   </div>
 </header>
@@ -91,7 +83,8 @@
                   <span></span><span></span><span></span><span></span>
                 </span>
               </span>
-              <span class="caption just-title">&nbsp;&nbsp;&nbsp;{{ 'HEADER.BUTTONS.YES' | translate }}&nbsp;&nbsp;&nbsp;</span>
+              <span
+                class="caption just-title">&nbsp;&nbsp;&nbsp;{{ 'HEADER.BUTTONS.YES' | translate }}&nbsp;&nbsp;&nbsp;</span>
             </button><br />
           </div>
           <div class="grid-cell grid-cell-1-2 grid-cell-vs-1">
