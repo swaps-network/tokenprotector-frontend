@@ -45,7 +45,7 @@
                 </span>
               </span>
 
-              <span style="color: black;">Metamask</span>
+              <span style="color: black;text-transform: uppercase;">Metamask</span>
             </button>
 
                 <!-- <button type="button"
@@ -65,27 +65,28 @@
               </div>
 
               <div class="grid-cell grid-cell-vs-1-2">
-                <a [href]="
+                <a *ngIf="!transaction.inProgress" 
+                [href]="
                     'https://myetherwallet.com/interface/send-transaction/' +
                     (!transaction.data ?
                       '?sendMode=ether&to=' + transaction.to + '&value=' + transaction.ethValue + '#send-transaction' :
                       '?data=' + transaction.data + '&value=' + (transaction.ethValue || '0') + '&to=' + transaction.to
                     )"
-                   *ngIf="!transaction.inProgress"
                    target="_blank"
-                   type="button" class="button button-tp button-tp-myetherwallet button-tp-icon-myetherwallet vs-width-100">
-                  <span class="caption">MyEtherWallet</span>
+                   type="button" 
+                   class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100 btn-payment-method">
+                   
+                   <img src="./assets/images/icons/web3clients/myetherwallet.svg" class="btn-ico">
+                  
+                  <span class="caption" style="color: black;text-transform: uppercase;font-weight: normal;">MEW</span>
                 </a>
 
                 <button *ngIf="transaction.inProgress" disabled="disabled"
                    type="button" class="btn btn-transparent btn-min btn-normal-weight wallet-btn vs-width-100">
-                  <img src="./assets/images/icons/web3clients/mew.png" class="btn-ico">
+                  <img src="./assets/images/icons/web3clients/myetherwallet.svg" class="btn-ico">
+                  <span class="caption" style="color: black;text-transform: uppercase;font-weight: normal;">MEW</span>
                 </button>
 
-                <button *ngIf="transaction.inProgress" disabled="disabled"
-                   type="button" class="button button-tp button-tp-myetherwallet button-tp-icon-myetherwallet vs-width-100">
-                   <span class="caption">MyEtherWallet</span>
-                </button>
             </div>
 
             </div>
@@ -196,7 +197,7 @@
            [innerHTML]="this.metamaskError.msg"></div>
 
       <div class="alert-window-buttons text-center">
-        <button ngbAutofocus class="btn btn-yellow btn-auto btn-min" (click)="closeMetaMaskError()" type="button">
+        <button ngbAutofocus class="button button-tp button-tp-blue width-100" (click)="closeMetaMaskError()" type="button" style="min-width: 200px !important;">
           <span>&nbsp;&nbsp;&nbsp;Close&nbsp;&nbsp;&nbsp;</span>
         </button>
       </div>

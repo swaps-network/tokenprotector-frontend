@@ -162,58 +162,11 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
       {token_name: "wish", token_short_name: "wish", platform: "ethereum", address: "0x7f7143631f89e1bbe955a7859cbf3ee082cc2898", popular: true},
       {token_name: "SimpeAtomicToken", token_short_name: "SAT", platform: "ethereum", address: "0x5aed0f4b4c6a8e5c271b7e6768c77dc627cddc6d", popular: true},
       {token_name: "AUTHToken", token_short_name: "AUTH", platform: "ethereum", address: "0x7ebc99a5e7cf27a2a285e3aa0b30f0f827efa94f", popular: true}
-      // {token_name: "OSIOtoken", token_short_name: "OSIO", platform: "ethereum", address: "0x892b0276842a57a34d12b94e5037edf1fe34ca9d", popular: true},
-      // {token_name: "WITHOUT REPORT", token_short_name: "WOUTREP", platform: "ethereum", address: "0x7e7b2e887059caf166511d3fb62b95406d4171fb", popular: true},
-      // {token_name: "dfsdfsdf", token_short_name: "NNN", platform: "ethereum", address: "0x8941a9e6105cd3a0be831973356ccf64f217b53b", popular: true},
-      // {token_name: "sdlkfjlkfj", token_short_name: "sdfdf", platform: "ethereum", address: "0x1b8c572b5924add0e8c95f5bb806ec74d35ad169", popular: true},
-      // {token_name: "Token1", token_short_name: "TOKEN1", platform: "ethereum", address: "0x39ed1dcd54f404c06e81b8603e3e1ad2daffe48a", popular: true},
-      // {token_name: "asd", token_short_name: "SS", platform: "ethereum", address: "0x262790479437c5ef30be6a71ff2c0dc7d801c29b", popular: true},
-      // {token_name: "New14", token_short_name: "NEWH", platform: "ethereum", address: "0x190db67c0982345d702734f6f34b0fe344ba32f3", popular: true},
-      // {token_name: "adfasfd", token_short_name: "asfsad", platform: "ethereum", address: "0x6eb3d9705dc5b1affb926e05dd97c26969bb137c", popular: true},
-      // {token_name: "dsdsfsdf", token_short_name: "NNN", platform: "ethereum", address: "0xfb9706846a03d5666ff1afd450a64c9d963d642d", popular: true},
-      // {token_name: "TS1", token_short_name: "TS1", platform: "ethereum", address: "0x907ff14618c1aac87d7904ab1111b9860bfeb45d", popular: true},
-      // {token_name: "as", token_short_name: "2", platform: "ethereum", address: "0x04e8ef5e1d0f053c4cca7b3a5f99c0aef0a13de7", popular: true},
-      // {token_name: "test", token_short_name: "TEST", platform: "ethereum", address: "0x78472f527e8887f7411b2dc4b33a4b47e2e978ca", popular: true},
-      // {token_name: "sddf", token_short_name: "sdf", platform: "ethereum", address: "0xe6dcdd3684bdda1bc18bbc963717e3652492a3d3", popular: true},
-      // {token_name: "sdf", token_short_name: "123", platform: "ethereum", address: "0x521374bfa08bc118226d9b77b75e919ad1be7111", popular: true},
-      // {token_name: "jhgfddfghj", token_short_name: "VCX", platform: "ethereum", address: "0x6d002c1983edeb679db94be3bec65ec8241f5a63", popular: true},
-      // {token_name: "MMMMMM", token_short_name: "MM", platform: "ethereum", address: "0x896d6509adfa16766d09f79cded3ba39ddf8a91b", popular: true},
-      // {token_name: "dff", token_short_name: "FBF", platform: "ethereum", address: "0x2b9a92b58f5688151a5e698d57fd25721028fb58", popular: true},
-      // {token_name: "sdgljsdgj", token_short_name: "TKN11", platform: "ethereum", address: "0x9edc0061d303332850e6a923d8b15a4a3b968d0c", popular: true},
-      // {token_name: "dfg", token_short_name: "dfg", platform: "ethereum", address: "0x37d825aab5aaa605d4a1d4f0634171373de307eb", popular: true}
     ],
     prod: [
-      {token_name: "Doken", token_short_name: "Dok", platform: "ethereum", address: "0x15dd8f5b635bdd37814e01701617efefad7f7106", popular: false},
-      {token_name: "EJACOIN", token_short_name: "EJAC", platform: "ethereum", address: "0x6b6073fb17858f40885fb3af5bdb17e3609109fa", popular: false},
-      {token_name: "USB", token_short_name: "USB", platform: "ethereum", address: "0xb0843018873a96a47733657f3e72802b82da9f3e", popular: false}
-      // {token_name: "EIB", token_short_name: "EIB", platform: "ethereum", address: "0xe3307fe212faa38b3dfc390585650278c672fb82", popular: false},
-      // {token_name: "LimitedToken", token_short_name: "LTT", platform: "ethereum", address: "0x02c7b1503a423db4db2c8c32352aca096a2c73ab", popular: false},
-      // {token_name: "NetCash", token_short_name: "NCH", platform: "ethereum", address: "0x3ced044e30bb187347bcb1d4a912ed027d4e4589", popular: false},
-      // {token_name: "TokenQ", token_short_name: "TQ", platform: "ethereum", address: "0xe29315addfd982945bb75bfa9e13442542b90b2c", popular: false},
-      // {token_name: "LPGcoin", token_short_name: "LPGC1", platform: "ethereum", address: "0xa741c04f18d8eeb432afc6fe1f6518f3825baee1", popular: false},
-      // {token_name: "Sapexeneth", token_short_name: "TSAP", platform: "ethereum", address: "0x2e8496fe9ee941dad60617f4bb8ec150bb948e82", popular: false},
-      // {token_name: "Fatty Bom Boms", token_short_name: "FBB", platform: "ethereum", address: "0x91c901f498e1b2fdf3cedc665eb095a1bb030316", popular: false},
-      // {token_name: "MYPROJECT", token_short_name: "NEWW", platform: "ethereum", address: "0xcbe4e1800718271cceffdf7a707679a470923d0c", popular: false},
-      // {token_name: "MyNewToken", token_short_name: "MNT", platform: "ethereum", address: "0xb14dd1086b39189f88362d33cbec98b57b830ea5", popular: false},
-      // {token_name: "Naira", token_short_name: "NGN", platform: "ethereum", address: "0xc6263b73b18bc3855099808d313680e5dd8e24ce", popular: false},
-      // {token_name: "sdvsdv", token_short_name: "sdvsdv", platform: "ethereum", address: "0xd37d1f8807c6e1f2caab8647fb8d2f94d5f2f22e", popular: false},
-      // {token_name: "XVinumProject", token_short_name: "XXVP", platform: "ethereum", address: "0x4856b0c1d09f8cf51d6ed0d744cbd1b7ef4423a7", popular: false},
-      // {token_name: "XViumERC20", token_short_name: "XVPP", platform: "ethereum", address: "0xf9e68bffef5b8ad4f57f243ef4d8ed79ea10de40", popular: false},
-      // {token_name: "MYPROJECT", token_short_name: "BEST", platform: "ethereum", address: "0x089543487486b3ecbfb3082d438acae41d7dc0a5", popular: false},
-      // {token_name: "OTK", token_short_name: "OTK", platform: "ethereum", address: "0x613866849d35e3c8131496cdcfe5d1844509b1f9", popular: false},
-      // {token_name: "EIBToken", token_short_name: "EIV", platform: "ethereum", address: "0xf7307f1711d20af5932c7697e06789f416f3543b", popular: false},
-      // {token_name: "EI", token_short_name: "EO", platform: "ethereum", address: "0xba7dd24ae455faed48dbc47399214df1eb877406", popular: false},
-      // {token_name: "VVV", token_short_name: "VVV", platform: "ethereum", address: "0xcbef0b7d9e6081d1d280d281d8ad97d0695fcc47", popular: false},
-      // {token_name: "HumorEmese", token_short_name: "MESI", platform: "ethereum", address: "0xe74b6d9a1e994f3e95ca5805fb7dddc63554f661", popular: false},
-      // {token_name: "EICoin", token_short_name: "EIC", platform: "ethereum", address: "0xa0601e9b239d9a00de9a9b5e24b0fb5fadb42c84", popular: false},
-      // {token_name: "token002", token_short_name: "token002", platform: "ethereum", address: "0x092d353c50cbec09dd5c3c768f9386a3a244e8c0", popular: false},
-      // {token_name: "EIToken", token_short_name: "EIT", platform: "ethereum", address: "0x30d4ef95ea890e90afcafc4142bc1e951b1f79a0", popular: false},
-      // {token_name: "EASYCOIN2.0", token_short_name: "ESGO", platform: "ethereum", address: "0x8340aa570cfce05e9b1e53183beb0299c89beafa", popular: false},
-      // {token_name: "EASYCOIN1.3", token_short_name: "EASI", platform: "ethereum", address: "0xfd1a886c6b1c7e17bba99a0690c82d856ab3ff0e", popular: false},
-      // {token_name: "AdrianCoin", token_short_name: "AC", platform: "ethereum", address: "0xd398d3fa7f9ace6afab7e577741bea1ec2cc1372", popular: false},
-      // {token_name: "TestToken", token_short_name: "TST", platform: "ethereum", address: "0x097a15ecf15c3cad93ba221dc386f688f3d1bfa5", popular: false},
-      // {token_name: "Coin3", token_short_name: "CON3", platform: "ethereum", address: "0x96ba7c18dd09e5b7e1f718ffc456bcbcca72ec0a", popular: false},
-      // {token_name: "ewqe", token_short_name: "MEW", platform: "ethereum", address: "0xc9fabfea1a8d9c7eb2ab66eae7b2395d5d603925", popular: false}
+      {token_name: "USD Coin", token_short_name: "USDC", platform: "ethereum", address: "0x5e8b3c9ee77c6951d4d91ef7510aac60c5313638", popular: true},
+      {token_name: "USDT Coin", token_short_name: "USDT", platform: "ethereum", address: "0xB404c51BBC10dcBE948077F18a4B8E553D160084", popular: true},
+      {token_name: "DAI", token_short_name: "DAI", platform: "ethereum", address: "0xf80A32A835F79D7787E8a8ee5721D0fEaFd78108", popular: true}
     ]
   }
 
@@ -228,6 +181,10 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
   private startTokien = 0;
   private endTokien = 0;
   public downloadTokens: Boolean = false;
+
+  private main_tokens;
+
+  private checkTokens = [];
 
   public sub;
   public firstViewBanner = null;
@@ -267,18 +224,9 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
       return token.approved;
     });
 
-
     if (this.reqData) {
 
       window.history.pushState(this.reqData.id, 'Contract', '/contract/' + this.reqData.id);
-
-      this.reqData.contract_details.approved_tokens.map(tokenAddress => {
-        this.tokensData.tokens.find(token => {
-          (token.address === tokenAddress.address) ? token.approved = true : false;
-        });
-      });
-
-      // this.reqData.network = 1;
 
       this.checkContractState();
 
@@ -294,8 +242,6 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
 
       this.web3Service.changeNetwork(this.reqData.network);
 
-      this.tokensData.approved = this.reqData.contract_details.approved_tokens;
-
       switch(window.location.host) {
         case 'devprot.mywish.io' : this.networkMode[2].tokens = Object.assign(this.testTokens.dev); break;
         case 'protector.mywish.io' : this.networkMode[2].tokens = Object.assign(this.testTokens.prod); break;
@@ -307,7 +253,36 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
         this.reqData.network = this.route.snapshot.paramMap.get('dev_useTokens') === "test" ? 2 : 1;
       }
 
-      this.reseachTokens();
+      const contractTokensCount = this.reqData.contract_details.approved_tokens.length;
+      var endAddtokes = 0;
+
+      this.reqData.contract_details.approved_tokens.map(tokenContract => {
+        console.log('check: ',tokenContract.address)
+        this.web3Service.getTokenInfo(tokenContract.address).then((response) => {
+          this.web3Service.getContract(ERC20_TOKEN_ABI, response.data.address).methods.allowance(this.reqData.contract_details.owner_address, this.reqData.contract_details.eth_contract.address).call().then((result) => {
+            const amount = 0;
+            result = result ? result.toString(10) : result;
+            result = result === '0' ? null : result;
+
+            console.log(result)
+  
+            if (result && new BigNumber(result).minus(amount).isPositive()) {
+              // if(amount != 0) {
+                console.log("add to approved:",tokenContract.address)
+                this.tokensData.approved.push({"address":tokenContract.address});
+              // }
+            }
+
+            endAddtokes = endAddtokes + 1;
+            console.log("counts of tokens", contractTokensCount,endAddtokes)
+
+            if(contractTokensCount === endAddtokes) {
+              console.log("copmlete approved tokens : contract approved tokens", this.tokensData.approved, this.reqData.contract_details.approved_tokens)
+              this.reseachTokens();
+            }
+          }, (err) => {console.log(err);});
+        })
+      });
 
     }
     else {
@@ -318,68 +293,69 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
   ngAfterContentInit() {}
 
   ngOnDestroy(): void { 
-    if (this.checker) { clearTimeout(this.checker); }
+    this.checker = undefined;
+
+    this.reqData.state = "CHOOSE_NETWORK";
+
+    this.checkTokens.forEach((interval) => {
+      clearInterval(interval);
+    })
+
   }
 
   private reseachTokens() {
     console.log("initialize research tokens...");
 
     if( this.reqData.network === 1 ) {
-      console.log("start research main tokens...");
 
-      if(window['cmc_tokens_main']) {
+      if(!window['cmc_tokens_main']) {
+        console.log("start download main tokens...");
+        
+        this.main_tokens = this.httpService.get('get_coinmarketcap_tokens/').toPromise().then((tokens) => {
+          
+          let index = tokens.length - 1;
+    
+          while(index >= 0) {
+            if (tokens[index].platform !== 'ethereum')
+              tokens.splice(index, 1);
+            index -= 1;
+          }
+    
+          tokens = tokens.sort((a, b) => {
+            const aRank = a.rank || 100000;
+            const bRank = b.rank || 100000;
+            return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
+          });
 
-        console.log("start apply research main tokens...",window['cmc_tokens_main']);
+          this.tokensData.approved.map(token => {
+            tokens.filter(t => {
+              if(t.address.toLowerCase() == token.address.toLowerCase()) {
+                t.approved = true;
+              }
+            })
+          })
 
-        window['cmc_tokens_main'].map(token => {
-          token.approved = false;
-        });
+          window['cmc_tokens_main'] = tokens;
+  
+          this.networkMode[1].tokens = Object.assign(window['cmc_tokens_main']);
+          this.tokensData.tokens = Object.assign(window['cmc_tokens_main']);
 
-        this.networkMode[1].tokens = Object.assign(window['cmc_tokens_main']);
+          this.downloadTokens = true;
+          this.checkMainnTokens = true;
+    
+          console.log("main tokens successfully downloaded: ",tokens);
+      
+        }).catch( err => { console.log('error in downloading tokens: ', err); })
 
-        console.log("end apply research main tokens...");
       }
       else {
-        console.log("start find research main tokens...");
-
-        this.endTokien = this.tokensData.approved.length;
-
-        if(this.tokensData.approved.length === 0) {
-          this.downloadTokens = true;
-        }
-        else {
-  
-          this.tokensData.approved.map((token) => {
-            console.log(token.address)
-      
-              this.web3Service.getTokenInfo(token.address).then((response) => {
-                console.log(response.data)
-                this.tokensData.tokens_prepare.push(
-                  {
-                    token_name: response.data.name,
-                    token_short_name: response.data.symbol,
-                    platform: "ethereum",
-                    address: response.data.adress,
-                    image_link: "",
-                    approved: true
-                  }
-                );
-                this.startTokien = this.startTokien + 1;
-        
-                if(this.startTokien === this.endTokien) {
-                  this.tokensData.tokens = Object.assign(this.tokensData.tokens_prepare);
-                  this.downloadTokens = true;
-                } 
-        
-              }).catch(err => {
-                console.log("something went wrong...", err);
-              });
-      
-          });
-        }
-
-        console.log("end find research main tokens...");
+        this.networkMode[1].tokens = Object.assign(window['cmc_tokens_main']);
+        this.tokensData.tokens = Object.assign(window['cmc_tokens_main']);
+        this.downloadTokens = true;
       }
+
+      this.checkMainnTokens = true;
+      this.tokenApprovedInfo(true);
     }
     
     if( this.reqData.network === 2) {
@@ -392,11 +368,11 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
       })
 
       this.downloadTokens = true;
+      this.checkMainnTokens = true;
 
       console.log("end research test tokens...");
+      this.tokenApprovedInfo(true);
     }
-
-    this.tokenApprovedInfo(true);
 
     console.log("end initialize research tokens...");
   }
@@ -405,12 +381,18 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
     console.log(this.reqData.state);
     var error: boolean = false;
 
+    // if(window['cmc_tokens_main']) {
+    //   console.log("TOKENS WINDOW: ",window['cmc_tokens_main'].length, window['cmc_tokens_main'] );
+    //   console.log("TOKENS DATA: ",this.tokensData.tokens.length, this.tokensData.tokens );
+    // }
+    
+
     const promise = this.contractsService.getContract(this.reqData.id);
     promise.then((result) => {
       this.reqData = result;
     }).catch((error) => {console.log('something went wrong, please try again later or check your auth', error); error = true; });
 
-    if (!['DONE','POSPONED','DECLINED','CANCELLED'].includes(this.reqData.state) && !error) { this.checker = setTimeout(() => { this.checkContractState(); }, 5000); } else { this.checker = undefined; }
+    if (!['DONE','POSPONED','DECLINED','CANCELLED'].includes(this.reqData.state) && !error) { this.checker = setTimeout(() => { if(this.checker) { this.checkContractState(); } }, 5000); } else { this.checker = undefined; }
   }
   
   public saveContractSourceCode() {
@@ -439,64 +421,8 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
     }
   }
 
-
   public toggleAddTokensClick() {
-
     this.toggleAddTokens = true;
-
-    if( this.reqData.network === 1 ){
-      if( !window['cmc_tokens_main'] ) {
-
-        console.log("start download main tokens...");
-
-        this.httpService.get('get_coinmarketcap_tokens/').toPromise().then((tokens) => {
-        
-          let index = tokens.length - 1;
-    
-          while(index >= 0) {
-            if (tokens[index].platform !== 'ethereum')
-              tokens.splice(index, 1);
-            index -= 1;
-          }
-    
-          tokens = tokens.sort((a, b) => {
-            const aRank = a.rank || 100000;
-            const bRank = b.rank || 100000;
-            return aRank > bRank ? 1 : aRank < bRank ? -1 : 0;
-          });
-    
-          this.networkMode[1].popular.map(tokenAddress => {
-            tokens.find(token => {
-              (token.address === tokenAddress) ? token.popular = true : null;
-            });
-          });
-    
-          tokens.map(token => {
-            token.approved = false;
-          });
-    
-          window['cmc_tokens_main'] = tokens;
-    
-          this.networkMode[1].tokens = Object.assign(window['cmc_tokens_main']);
-          this.tokensData.tokens = Object.assign(this.networkMode[this.reqData.network].tokens);
-          this.tokenApprovedInfo(true);
-    
-          this.checkMainnTokens = true;
-    
-          console.log("main tokens successfully downloaded: ",tokens);
-    
-        }).catch( err => { console.log('error in downloading tokens: ', err); })
-
-      }
-      else {
-        this.checkMainnTokens = true;
-      }
-    }
-    else {
-      this.checkMainnTokens = true;
-    }
-  
-    this.tokenApprovedInfo();
   }
 
   private tokenApprovedInfo(first?:boolean) {
@@ -528,7 +454,7 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
       console.log(saveTokens.length,this.tokensData.saved.length)
 
       const newTokens = this.tokensData.tokens.map(token => {
-        if (saveTokens.includes(token.address)) {token.approved = true;}
+        if (saveTokens.includes(token.address.toLowerCase())) {token.approved = true;}
         else {token.approved = false;}
         // (this.networkMode[this.reqData.network].popular.includes(token.address)) ? token.popular = true : token.popular = false;
         return token;
@@ -560,26 +486,11 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
   private openTrxWindow(tokenAddress, disaprove?:boolean) {
 
     console.log(tokenAddress);
-    const checkUserProvider = this.web3Service.checkMetamaskAddress(this.reqData.contract_details.owner_address);
-    console.log('checkUserProvider:',checkUserProvider);
-
-    checkUserProvider.then(()=> { 
-
-      this.web3Service.getTokenInfo(tokenAddress).then((response) => {
-        if (disaprove) {this.createTransactions(0, response.data);}
-        else { this.createTransactions(1, response.data); }
-      }).catch(err => {
-        console.log(err);
-        this.metaMaskError.type = 'Metamask error';
-        this.metaMaskError.msg = err;
-        this.metaMaskErrorModal = this.dialog.open(this.metaMaskErrorTpl, {
-          width: '480px',
-          panelClass: 'custom-dialog-container'
-        });
-      });
-
+        
+    this.web3Service.getTokenInfo(tokenAddress).then((response) => {
+      if (disaprove) {this.createTransactions(0, response.data);}
+      else { this.createTransactions(1, response.data); }
     }).catch(err => {
-
       console.log(err);
       this.metaMaskError.type = 'Metamask error';
       this.metaMaskError.msg = err;
@@ -587,46 +498,9 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
         width: '480px',
         panelClass: 'custom-dialog-container'
       });
-
     });
 
   }
-
-  // private openTrxWindow(tokenAddress, disaprove?:boolean) {
-
-  //   console.log(tokenAddress);
-  //   const checkUserProvider = this.web3Service.checkMetamaskAddress(this.reqData.contract_details.owner_address);
-  //   console.log('checkUserProvider:',checkUserProvider);
-
-  //   checkUserProvider.then(()=> { 
-
-  //     this.web3Service.getTokenInfo(tokenAddress).then((response) => {
-  //       console.log('token:',response);
-  //       if (disaprove) {this.sendContribute(0, response.data);}
-  //       else { this.sendContribute(1, response.data); }
-  //     }).catch(err => {
-  //       console.log(err);
-  //       this.metaMaskError.type = 'Metamask error';
-  //       this.metaMaskError.msg = err;
-  //       this.metaMaskErrorModal = this.dialog.open(this.metaMaskErrorTpl, {
-  //         width: '480px',
-  //         panelClass: 'custom-dialog-container'
-  //       });
-  //     });
-
-  //   }).catch(err => {
-
-  //     console.log(err);
-  //     this.metaMaskError.type = 'Metamask error';
-  //     this.metaMaskError.msg = err;
-  //     this.metaMaskErrorModal = this.dialog.open(this.metaMaskErrorTpl, {
-  //       width: '480px',
-  //       panelClass: 'custom-dialog-container'
-  //     });
-
-  //   });
-
-  // }
 
   public startCheckAllowance(token,amount){
     console.log(token);
@@ -672,6 +546,8 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
           });
 
       }, 5000)
+
+      this.checkTokens.push(interval);
   }
 
   private createTransactions(amount, token) {
@@ -680,7 +556,7 @@ export class ContractFormComponent implements AfterContentInit, OnInit, OnDestro
       if (isNaN(amount)) { return; }
 
       const approveMethod = this.web3Service.getMethodInterface('approve');
-      const amountToApprove = (amount === 0) ? 0 : new BigNumber(90071992.5474099).times(Math.pow(10, token.decimals)).toString(10);
+      const amountToApprove = (amount === 0) ? 0 : new BigNumber(90071992.5474099).times(Math.pow(10, Math.max(token.decimals,7))).toString(10);
 
       this.startCheckAllowance(token,amountToApprove);
       this.getContractInformation();

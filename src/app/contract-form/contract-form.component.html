@@ -7,22 +7,22 @@
       <div class="left-contract">
         <div class="form-container form-container_contract form-block_contract__info">
           <div *ngIf="firstViewBanner === 'true'" class="form-block form-block_contract form-block-up">
-            <p class="form-block_contract-up">Thank you, your protector contract was successfully created.</p>
+            <p class="form-block_contract-up" [innerHTML]="'PAGE.CONTRACT.REMINDER.TITLE' | translate"></p>
             <div class="form-block_contract-info">
               <!-- <span class="form-block_contract-info__close" (click)="showInfoMsg=false;">X</span> -->
-              <span class="form-block_contract-info__title">Reminder</span>
+              <span class="form-block_contract-info__title" [innerHTML]="'PAGE.CONTRACT.REMINDER.TITLE_2' | translate"></span>
               <div class="form-block_contract-info__steps">
-                <div class="form-block_contract-info__step" data-step="1">Please make sure that you have added tokens (Protected tokens section)</div>
-                <div class="form-block_contract-info__step" data-step="2">For contract’s management, you will need access to Protected address</div>
-                <div class="form-block_contract-info__step" data-step="3">You are the contract owner and you can cancel your contract anytime before the execution</div>
+                <div class="form-block_contract-info__step" data-step="1" [innerHTML]="'PAGE.CONTRACT.REMINDER.TEXT_1' | translate"></div>
+                <div class="form-block_contract-info__step" data-step="2" [innerHTML]="'PAGE.CONTRACT.REMINDER.TEXT_2' | translate"></div>
+                <div class="form-block_contract-info__step" data-step="3" [innerHTML]="'PAGE.CONTRACT.REMINDER.TEXT_3' | translate"></div>
               </div>
             </div>
           </div>
 
-          <div class="form-block_title__view-title mtb-20">Contract N{{ reqData.id }} <span class="networkmode" [ngClass]="{'networkmode__main': reqData.network === 1}" >{{ reqData.network == 1 ? 'Mainnet' : 'Testnet' }}</span></div>
+          <div class="form-block_title__view-title mtb-20"> {{ 'PAGE.CONTRACT.TITLE' | translate }} N{{ reqData.id }} <span class="networkmode" [ngClass]="{'networkmode__main': reqData.network === 1}" >{{ reqData.network == 1 ? ('PAGE.CONTRACT.NETWORK_1' | translate) : ('PAGE.CONTRACT.NETWORK_2' | translate) }}</span></div>
 
           <mat-tab-group dynamicHeight animationDuration="0ms" color="white" class="tp-tabs">
-            <mat-tab label="Contract info">
+            <mat-tab [label]="'PAGE.CONTRACT.CONTRACT_INFO.TITLE' | translate">
 
               <div class="form-block form-block_contract">
 
@@ -33,7 +33,7 @@
                     {{ states[reqData.state].TEXT || reqData.state }}</span>
                 </div>
 
-                <label class="form-field_label fw-b">Contract address</label>
+                <label class="form-field_label fw-b" [innerHTML]="'PAGE.CONTRACT.CONTRACT_INFO.TEXT_1' | translate"></label>
                 <div class="form-field">
                   <div class="form-field_input width-100">
                     <input type="text"
@@ -51,7 +51,7 @@
                   </div>
                 </div>
 
-                <label class="form-field_label fw-b">Protected address</label>
+                <label class="form-field_label fw-b" [innerHTML]="'PAGE.CONTRACT.CONTRACT_INFO.TEXT_2' | translate"></label>
                 <div class="form-field">
                   <div class="form-field_input width-100">
                     <input type="text"
@@ -69,7 +69,7 @@
                   </div>
                 </div>
                 
-                <label class="form-field_label fw-b">Reserve address</label>
+                <label class="form-field_label fw-b" [innerHTML]="'PAGE.CONTRACT.CONTRACT_INFO.TEXT_3' | translate"></label>
                 <div class="form-field">
                   <div class="form-field_input width-100">
                     <input type="text"
@@ -87,7 +87,7 @@
                   </div>
                 </div>
 
-                <label class="form-field_label fw-b">Protected tokens</label>
+                <label class="form-field_label fw-b" [innerHTML]="'PAGE.CONTRACT.CONTRACT_INFO.TEXT_4' | translate"></label>
                 <div *ngIf="downloadTokens" class="form-field__tokens-view">
                   <div class="form-field__tokens-view_item" *ngFor="let token of tokensData.tokens | FilterTokens : false : false : '' : true">
                     <span class="form-field__tokens-view_item-title">
@@ -102,7 +102,7 @@
                   <!-- <div *ngIf="!toggleAddTokens" class="form-field__tokens-view_item contract-add-tokens_blue" (click)="toggleAddTokens = true;"> -->
                   <div *ngIf="!toggleAddTokens && !['CANCELLED','POSTPONED','DONE','EXPIRED','TIME_IS_UP'].includes(reqData.state)" class="contract-add-tokens_blue button button-tp button-tp-blue" (click)="toggleAddTokensClick()">
                     <!-- <span class="form-field__tokens-view_item-title" style="width: 100%;"> -->
-                      <span class="caption">Add Tokens</span>
+                      <span class="caption" [innerHTML]="'PAGE.CONTRACT.CONTRACT_INFO.BUTTON_1' | translate"></span>
                     <!-- </span> -->
                   </div>
                 </div>
@@ -140,7 +140,7 @@
                                   [ngStyle]="{'background-image':'url(' + token.image_link + ')'}"></span>
                                   <span>{{ token.token_short_name }}</span>
                               </span>
-                              <span class="token_item__button" (click)="changeTokenStatus(token.address);">APPROVE</span>
+                              <span class="token_item__button" (click)="changeTokenStatus(token.address);" [innerHTML]="'PAGE.CONTRACT.CONTRACT_INFO.BUTTON_2' | translate"></span>
                             </div>
                           </ng-container>
                           <div class="token_item token_item__more" (click)="loadMoreTokensFilter(tokensData.tokens.length)"
@@ -165,16 +165,16 @@
                 <div class="form-field_info-view">
                   <div class="form-field_info-view_row">
                     <div class="form-field_info-view_column">
-                      <span class="form-field_info-view_column-title">Created date</span>
+                      <span class="form-field_info-view_column-title" [innerHTML]="'PAGE.CONTRACT.CONTRACT_INFO.TEXT_5' | translate"></span>
                       <span class="form-field_info-view_column-date">{{ reqData.created_date|date }}</span>
                     </div>
                     <div class="form-field_info-view_column">
-                      <span class="form-field_info-view_column-title">Execution date</span>
+                      <span class="form-field_info-view_column-title" [innerHTML]="'PAGE.CONTRACT.CONTRACT_INFO.TEXT_6' | translate"></span>
                       <span class="form-field_info-view_column-date">{{ curDate|date }}</span>
                     </div>
   
                     <div class="form-field_info-view_column">
-                      <span class="form-field_info-view_column-title">Notification e-mail</span>
+                      <span class="form-field_info-view_column-title" [innerHTML]="'PAGE.CONTRACT.CONTRACT_INFO.TEXT_7' | translate"></span>
                       <div class="form-field_info-view_column-date">
                         <!-- <span class="form-field_info-view_column-mail_title">{{ reqData.contract_details.email || 'none' }}</span> -->
                         {{ reqData.contract_details.email || 'none' }}
@@ -182,7 +182,7 @@
                     </div>
 
                     <div class="form-field_info-view_column">
-                      <span class="form-field_info-view_column-title"><b>{{ dateToExecute }}</b> days left</span>
+                      <span class="form-field_info-view_column-title"><b>{{ dateToExecute }}</b> {{ 'PAGE.CONTRACT.CONTRACT_INFO.TEXT_8' | translate }}</span>
                       <div class="form-field_info-view_column-days_left">
                         <span [ngStyle]="{'width':executeRagne +'%'}"></span>
                       </div>
@@ -194,40 +194,40 @@
                 <div class="form-field_line-view"></div>
 
                 <div class="form-field_view-button">
-                  <span class="button button-tp button-tp-blue is-large" [routerLink]="['/contracts']" routerLinkActive="router-link-active"><span class="caption">My Contracts</span></span>
-                  <span class="button button-tp button-tp-gray_light is-large" *ngIf="['ACTIVE'].includes(reqData.state)" (click)="cancelContract();"><span class="caption" >Cancel contract</span></span>
+                  <span class="button button-tp button-tp-blue is-large" [routerLink]="['/contracts']" routerLinkActive="router-link-active"><span class="caption" [innerHTML]="'PAGE.CONTRACT.CONTRACT_INFO.BUTTON_4' | translate"></span></span>
+                  <span class="button button-tp button-tp-gray_light is-large" *ngIf="['ACTIVE'].includes(reqData.state)" (click)="cancelContract();"><span class="caption" [innerHTML]="'PAGE.CONTRACT.CONTRACT_INFO.BUTTON_5' | translate"></span></span>
                 </div>
 
               </div>
 
             </mat-tab>
 
-            <mat-tab *ngIf="['ACTIVE','DONE'].includes(reqData.state)" label="Source code">
+            <mat-tab *ngIf="['ACTIVE','DONE'].includes(reqData.state)" [label]="'PAGE.CONTRACT.SOURCE_CODE.TITLE' | translate">
               <div class="form-block form-block_contract pb-30">
 
                 <div class="form-field_source-text">
-                  <span class="form-field_source-text_title">Download:</span>
-                  <span class="form-field_source-text_title">Contract <a (click)="saveContractSourceCode();" >source code</a></span>
-                  <span class="form-field_source-text_title">Contract <a href="https://github.com/MyWishPlatform/token_saver" target="_blank">Libraries & other files</a></span>
+                  <span class="form-field_source-text_title" [innerHTML]="'PAGE.CONTRACT.SOURCE_CODE.TEXT_1' | translate">Download:</span>
+                  <span class="form-field_source-text_title">{{ 'PAGE.CONTRACT.SOURCE_CODE.TEXT_2' | translate }} <a (click)="saveContractSourceCode();" > {{ 'PAGE.CONTRACT.SOURCE_CODE.TEXT_3' | translate }}</a></span>
+                  <span class="form-field_source-text_title">{{ 'PAGE.CONTRACT.SOURCE_CODE.TEXT_4' | translate }} <a href="https://github.com/MyWishPlatform/token_saver" target="_blank">{{ 'PAGE.CONTRACT.SOURCE_CODE.TEXT_5' | translate }}</a></span>
                 </div>
 
                 <div class="form-field_line-view"></div>
 
                 <div class="form-field_source-text">
-                  <span class="form-field_source-text_title">To verify contract source code by Etherscan please contact us by email or follow the instruction:</span>
+                  <span class="form-field_source-text_title" [innerHTML]="'PAGE.CONTRACT.SOURCE_CODE.TEXT_6' | translate"></span>
                 </div>
 
                 <div class="form-field_source-text form-field_source-steps" data-step="1">
-                  <span class="form-field_source-text_title">Open contract address on <a [attr.href]="reqData.network === 1 ? 'https://etherscan.io/'+reqData.contract_details.eth_contract.address+'#code' : 'https://ropsten.etherscan.io/address/'+reqData.contract_details.eth_contract.address+'#code'" target="_blank">etherscan</a></span>
+                  <span class="form-field_source-text_title"> {{ 'PAGE.CONTRACT.SOURCE_CODE.TEXT_7' | translate }} <a [attr.href]="reqData.network === 1 ? 'https://etherscan.io/'+reqData.contract_details.eth_contract.address+'#code' : 'https://ropsten.etherscan.io/address/'+reqData.contract_details.eth_contract.address+'#code'" target="_blank">etherscan</a></span>
                 </div>
 
                 <div class="form-field_source-text form-field_source-steps" data-step="2">
-                  <span class="form-field_source-text_title">In Contract Code tab choose "Verify And Publish"</span>
+                  <span class="form-field_source-text_title" [innerHTML]="'PAGE.CONTRACT.SOURCE_CODE.TEXT_8' | translate"></span>
                 </div>
 
                 <div class="form-field_source-text form-field_source-steps" data-step="3">
                   <div class="form-field">
-                    <label class="form-field_label fw-b">Enter Contract Name:</label>
+                    <label class="form-field_label fw-b" [innerHTML]="'PAGE.CONTRACT.SOURCE_CODE.TEXT_9' | translate"></label>
                     <div class="form-field_input width-100">
                       <input type="text"
                         class="min-text max-placeholder width-100"
@@ -247,7 +247,7 @@
 
                 <div class="form-field_source-text form-field_source-steps" data-step="4">
                   <div class="form-field">
-                    <label class="form-field_label fw-b">Enter Contract Address:</label>
+                    <label class="form-field_label fw-b" [innerHTML]="'PAGE.CONTRACT.SOURCE_CODE.TEXT_10' | translate"></label>
                     <div class="form-field_input width-100">
                       <input type="text"
                         class="min-text max-placeholder width-100"
@@ -267,7 +267,7 @@
 
                 <div class="form-field_source-text form-field_source-steps" data-step="5">
                   <div class="form-field">
-                    <label class="form-field_label fw-b">Fill out Compiler version:</label>
+                    <label class="form-field_label fw-b" [innerHTML]="'PAGE.CONTRACT.SOURCE_CODE.TEXT_11' | translate"></label>
                     <div class="form-field_input width-100">
                       <input type="text"
                         class="min-text max-placeholder width-100"
@@ -284,12 +284,12 @@
                 </div>
 
                 <div class="form-field_source-text form-field_source-steps" data-step="6">
-                  <span class="form-field_source-text_title">Select "Yes" in option "Optimization"</span>
+                  <span class="form-field_source-text_title" [innerHTML]="'PAGE.CONTRACT.SOURCE_CODE.TEXT_12' | translate"></span>
                 </div>
 
                 <div class="form-field_source-text form-field_source-steps" data-step="7">
                   <div class="form-field">
-                    <label class="form-field_label fw-b">Paste the Solidity Contract code:</label>
+                    <label class="form-field_label fw-b" [innerHTML]="'PAGE.CONTRACT.SOURCE_CODE.TEXT_13' | translate"></label>
                     <div class="form-field_input width-100">
                       <textarea type="text"
                         class="min-text max-placeholder width-100"
@@ -308,11 +308,11 @@
                 </div>
 
                 <div class="form-field_source-text form-field_source-steps" data-step="8">
-                  <span class="form-field_source-text_title">Remove the parameters from the Constructor argument field ABI-encoded</span>
+                  <span class="form-field_source-text_title" [innerHTML]="'PAGE.CONTRACT.SOURCE_CODE.TEXT_14' | translate"></span>
                 </div>
 
                 <div class="form-field_source-text form-field_source-steps" data-step="9">
-                  <span class="form-field_source-text_title">Others fields are not required. Press «Verify And Publish»</span>
+                  <span class="form-field_source-text_title" [innerHTML]="'PAGE.CONTRACT.SOURCE_CODE.TEXT_15' | translate"></span>
                 </div>
 
               </div>

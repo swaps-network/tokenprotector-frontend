@@ -84,7 +84,7 @@ export class Web3Service {
     this.providers = {};
     try {
       // if (metaMaskProvider && metaMaskProvider.publicConfigStore) {
-      this.providers.metamask = Web3.givenProvider || new Web3.providers.WebsocketProvider('ws://localhost:8546');
+      this.providers.metamask = Web3.givenProvider;  //|| new Web3.providers.WebsocketProvider('ws://localhost:8546');
       // }
 
     } catch (err) {
@@ -124,34 +124,33 @@ export class Web3Service {
   }
 
   public changeNetwork(network?) {
-    console.log('change network');
-    network == 1 ? console.log('selected mainnetwork:',ETH_NETWORKS.INFURA_ADDRESS) : console.log('selected testnetwork', ETH_NETWORKS.ROPSTEN_INFURA_ADDRESS);
-
     console.log('WEB3 before', this.Web3._currentProvider);
 
     let newProvider = new Web3.providers.HttpProvider(
-      network == 1 ? ETH_NETWORKS.INFURA_ADDRESS : ETH_NETWORKS.ROPSTEN_INFURA_ADDRESS
+      network === 1 ? ETH_NETWORKS.INFURA_ADDRESS : ETH_NETWORKS.ROPSTEN_INFURA_ADDRESS
     );
 
     this.Web3 = new Web3(newProvider);
+    // this.Web3.setProvider('dasda')
 
     console.log('WEB3 after', this.Web3._currentProvider);
 
     
-    console.log('metamask network:',Number(window['ethereum'].networkVersion));
+    // console.log('metamask network:',Number(window['ethereum'].networkVersion));
 
-    if (window['ethereum'] && window['ethereum'].isMetaMask) {
-      const networkVersion = Number(window['ethereum'].networkVersion);
-      const usedNetworkVersion = network == 1 ? 1 : 3;
-        if (usedNetworkVersion !== networkVersion) {
-          console.log('please change network in  metamask')
-        }
-    }
-    else {
-      console.log('metamask not found. please install it to use that application');
-    }
+    // if (window['ethereum'] && window['ethereum'].isMetaMask) {
+    //   const networkVersion = Number(window['ethereum'].networkVersion);
+    //   const usedNetworkVersion = network == 1 ? 1 : 3;
+    //     if (usedNetworkVersion !== networkVersion) {
+    //       console.log('please change network in  metamask')
+    //     }
+    // }
+    // else {
+    //   console.log('metamask not found. please install it to use that application');
+    // }
 
-    network == 1 ? IS_PRODUCTION = true : IS_PRODUCTION = false;
+    IS_PRODUCTION = network === 1;
+
   }
 
   public getSignedMetaMaskMsg(msg, addr) {
@@ -172,31 +171,6 @@ export class Web3Service {
           }
         }
       );
-    });
-  }
-
-  public checkMetamaskAddress(owner) {
-    return new Promise((resolve, reject) => {
-      if (window['ethereum'] && window['ethereum'].isMetaMask) {
-        const networkVersion = Number(window['ethereum'].networkVersion);
-        const usedNetworkVersion = IS_PRODUCTION ? 1 : 3;
-
-        if (usedNetworkVersion !== networkVersion) {
-          reject('Wrong network.<br> Please change network. For TestNet choose Ropsten.');
-        }
-        else {
-          if(!window['ethereum'].selectedAddress) {
-            reject('Please check that you are logged in Metamask.');
-          }
-          else {
-            if(window['ethereum'].selectedAddress.toLowerCase() === owner.toLowerCase()) resolve(true);
-            else reject('You must use protected address for Approve.');
-          }
-        }
-      }
-      else {
-        reject('metamask underfined');
-      }
     });
   }
 
@@ -372,6 +346,8 @@ export class Web3Service {
       if (window['ethereum'] && window['ethereum'].isMetaMask) {
         const networkVersion = Number(window['ethereum'].networkVersion);
 
+        console.log(usedNetworkVersion,networkVersion)
+
         if (usedNetworkVersion !== networkVersion) {
           observer.error({
             code: 2,
@@ -477,10 +453,6 @@ export class Web3Service {
       });
     });
   }
-
-
-
-
 
   public getSWAPSCoinInfo(data) {
 

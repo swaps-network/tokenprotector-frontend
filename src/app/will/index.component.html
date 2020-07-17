@@ -4,12 +4,11 @@
     <!-- first scereen -->
     <div class="section section-first-screen is-not-padding-horisontal">
       <div class="container is-fluid">
-        <span class="title" [innerHTML]="'PAGE.MAIN.HEADER.TEXT_1' | translate"></span>
-        <span class="subtitle" [innerHTML]="'PAGE.MAIN.HEADER.TEXT_2' | translate"></span>
+        <span class="title" [innerHTML]="'PAGE.WILL.HEADER.TEXT_1' | translate"></span>
+        <span class="subtitle" [innerHTML]="'PAGE.WILL.HEADER.TEXT_2' | translate"></span>
         <span class="button button-tp button-tp-blue home-screen-btn" routerLink="/create">
-          <span class="caption">{{ 'PAGE.MAIN.HEADER.BUTTON_1' | translate }}</span>
+          <span class="caption">{{ 'PAGE.WILL.HEADER.BUTTON_1' | translate }}</span>
         </span>
-        <span class="small">{{ 'PAGE.MAIN.HEADER.TEXT_3' | translate }}</span>
       </div>
     </div>
     <!-- /first scereen -->
@@ -17,74 +16,77 @@
     <div class="section section-count-text-block-one is-not-padding-horisontal">
       <div class="columns is-multiline is-variable">
         <div class="column is-one-two">
-          <p [attr.data-count]="'PAGE.MAIN.BLOCK_1.ITEMS.ONE.TITLE' | translate"
-            [innerHTML]="'PAGE.MAIN.BLOCK_1.ITEMS.ONE.TEXT' | translate" class="has-text-black"></p>
+          <p [attr.data-count]="'PAGE.WILL.BLOCK_1.ITEMS.ONE.TITLE' | translate"
+            [innerHTML]="'PAGE.WILL.BLOCK_1.ITEMS.ONE.TEXT' | translate" class="has-text-black"></p>
         </div>
         <div class="column is-one-two">
-          <p [attr.data-count]="'PAGE.MAIN.BLOCK_1.ITEMS.TWO.TITLE' | translate"
-            [innerHTML]="'PAGE.MAIN.BLOCK_1.ITEMS.TWO.TEXT' | translate" class="has-text-black"></p>
+          <p [attr.data-count]="'PAGE.WILL.BLOCK_1.ITEMS.TWO.TITLE' | translate"
+            [innerHTML]="'PAGE.WILL.BLOCK_1.ITEMS.TWO.TEXT' | translate" class="has-text-black"></p>
         </div>
         <div class="column is-one-two">
-          <p [attr.data-count]="'PAGE.MAIN.BLOCK_1.ITEMS.THREE.TITLE' | translate"
-            [innerHTML]="'PAGE.MAIN.BLOCK_1.ITEMS.THREE.TEXT' | translate" class="has-text-black"></p>
+          <p [attr.data-count]="'PAGE.WILL.BLOCK_1.ITEMS.THREE.TITLE' | translate"
+            [innerHTML]="'PAGE.WILL.BLOCK_1.ITEMS.THREE.TEXT' | translate" class="has-text-black"></p>
         </div>
       </div>
     </div>
     <!-- /second screen -->
+
     <!-- how it works -->
     <div class="section section-how-it-works is-not-padding-horisontal">
-      <span class="title" [innerHTML]="'PAGE.MAIN.BLOCK_2.TITLE' | translate"></span>
+      <span class="title" [innerHTML]="'PAGE.WILL.BLOCK_2.TITLE' | translate"></span>
       <div class="columns is-multiline columns is-variable is-1">
         <div class="column">
           <div data-count="1" class="column-content">
             <span class="title title-blue" (click)="btnClick();"
-              [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.ONE.TITLE' | translate"></span>
+              [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.ONE.TITLE' | translate"></span>
             <div class="column-content-info">
               <img class="column is-1 is-mobile" src="./assets/images/new/how-it-works/man-1.svg">
-              <span class="text" [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.ONE.TEXT_1' | translate"></span>
+              <img class="column is-1 is-mobile" style="height:60px;max-width: 70px;min-width: 70px;"
+                src="./assets/images/new/how-it-works/arrow-blue-will.svg">
             </div>
           </div>
         </div>
         <div class="column">
           <div data-count="2" class="column-content">
-            <span class="title title-gray" [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.TWO.TITLE' | translate"></span>
+            <span class="title title-gray" [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.TWO.TITLE' | translate"></span>
             <div class="column-content-info">
               <div class="content-info-block">
                 <span class="content-info-block-text"
-                  [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.TWO.TEXT_1' | translate"></span>
+                  [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.TWO.TEXT_1' | translate"></span>
                 <span class="content-info-block-text"
-                  [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.TWO.TEXT_2' | translate"></span>
+                  [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.TWO.TEXT_2' | translate"></span>
               </div>
             </div>
           </div>
         </div>
         <div class="column">
           <div data-count="3" class="column-content">
-            <span class="title title-blue" [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.THREE.TITLE' | translate"></span>
-            <div class="column-content-info">
-              <img class="column is-1 is-mobile" src="./assets/images/new/how-it-works/man-2.svg">
-              <span class="text" [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.THREE.TEXT_1' | translate"></span>
+            <span class="title title-blue" [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.THREE.TITLE' | translate"></span>
+            <div class="column-content-info fd-c">
+              <img class="column is-1 is-mobile" style="height:60px;"
+                src="./assets/images/new/how-it-works/arrow-blue-will.svg">
+              <img class="column is-1 is-mobile w-max" src="./assets/images/new/how-it-works/car-blue-will.svg">
             </div>
           </div>
         </div>
         <div class="column">
           <div data-count="4" class="column-content">
-            <span class="title title-gray" [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.FOUR.TITLE' | translate"></span>
+            <span class="title title-gray" [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.FOUR.TITLE' | translate"></span>
             <div class="column-content-info">
               <div class="content-info-block content-info-block-arrow">
                 <span class="content-info-block-text"
-                  [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.FOUR.TEXT_1' | translate"></span>
+                  [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.FOUR.TEXT_1' | translate"></span>
                 <span class="content-info-block-text"
-                  [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.FOUR.TEXT_2' | translate"></span>
+                  [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.FOUR.TEXT_2' | translate"></span>
               </div>
             </div>
           </div>
         </div>
         <div class="column">
           <div data-count="5" class="column-content">
-            <span class="title title-blue" [innerHTML]="'PAGE.MAIN.BLOCK_2.ITEMS.FIVE.TITLE' | translate"></span>
+            <span class="title title-blue" [innerHTML]="'PAGE.WILL.BLOCK_2.ITEMS.FIVE.TITLE' | translate"></span>
             <div class="column-content-info">
-              <img class="column is-1 is-mobile" src="./assets/images/new/how-it-works/man-3.svg">
+              <img class="column is-1 is-mobile w-max" src="./assets/images/new/how-it-works/woman-with-child-will.svg">
             </div>
           </div>
         </div>
@@ -123,47 +125,47 @@
     <!-- middle-block -->
     <div class="section section-middle-block is-not-padding-horisontal">
       <div class="container is-fluid">
-        <span class="title" [innerHTML]="'PAGE.MAIN.BLOCK_3.TITLE' | translate"></span>
+        <span class="title" [innerHTML]="'PAGE.WILL.BLOCK_3.TITLE' | translate"></span>
         <br>
         <div class="form-keep-in-touch">
           <a [routerLink]="['/create']" [queryParams]="{ network: 1 }" routerLinkActive="router-link-active"
             class="button button-tp button-tp-blue mb-10">
             <span class="caption caption-info"
-              [attr.data-caption-info]="'PAGE.MAIN.BLOCK_3.BUTTONS.ONE.TEXT' | translate"
-              [innerHTML]="'PAGE.MAIN.BLOCK_3.BUTTONS.ONE.TITLE' | translate"></span>
+              [attr.data-caption-info]="'PAGE.WILL.BLOCK_3.BUTTONS.ONE.TEXT' | translate"
+              [innerHTML]="'PAGE.WILL.BLOCK_3.BUTTONS.ONE.TITLE' | translate"></span>
           </a>
           <a [routerLink]="['/create']" [queryParams]="{ network: 2 }" routerLinkActive="router-link-active"
             class="button button-tp button-tp-gray">
             <span class="caption caption-info"
-              [attr.data-caption-info]="'PAGE.MAIN.BLOCK_3.BUTTONS.TWO.TEXT' | translate"
-              [innerHTML]="'PAGE.MAIN.BLOCK_3.BUTTONS.TWO.TITLE' | translate"></span>
+              [attr.data-caption-info]="'PAGE.WILL.BLOCK_3.BUTTONS.TWO.TEXT' | translate"
+              [innerHTML]="'PAGE.WILL.BLOCK_3.BUTTONS.TWO.TITLE' | translate"></span>
           </a>
         </div>
       </div>
     </div>
     <!-- /middle-block -->
     <div class="section section-client-trust is-not-padding-horisontal">
-      <span class="title is-3" [innerHTML]="'PAGE.MAIN.BLOCK_4.TITLE' | translate"></span>
+      <span class="title is-3" [innerHTML]="'PAGE.WILL.BLOCK_4.TITLE' | translate"></span>
       <div class="client-trust-block">
         <div class="client-trust-block-item icon-mywish">
           <div class="client-trust-block-item-text">
             <span>10,166</span>
             <br>
-            <span [innerHTML]="'PAGE.MAIN.BLOCK_4.TEXT_1' | translate"></span>
+            <span [innerHTML]="'PAGE.WILL.BLOCK_4.TEXT_1' | translate"></span>
           </div>
         </div>
         <div class="client-trust-block-item icon-shield">
           <div class="client-trust-block-item-text">
             <span>7,169</span>
             <br>
-            <span [innerHTML]="'PAGE.MAIN.BLOCK_4.TEXT_2' | translate"></span>
+            <span [innerHTML]="'PAGE.WILL.BLOCK_4.TEXT_2' | translate"></span>
           </div>
         </div>
       </div>
     </div>
     <!-- partners -->
     <div class="section section-partners is-not-padding-horisontal">
-      <span class="title is-3" [innerHTML]="'PAGE.MAIN.BLOCK_5.TITLE' | translate">Partners</span>
+      <span class="title is-3" [innerHTML]="'PAGE.WILL.BLOCK_5.TITLE' | translate">Partners</span>
       <div class="grid-partners">
         <a class="partners-item" *ngFor="let project of projects" href="{{project.link}}" target="_blank">
           <img *ngIf="project.logo === './assets/images/new/partners/swaps.svg'" style="top: -10px;"
