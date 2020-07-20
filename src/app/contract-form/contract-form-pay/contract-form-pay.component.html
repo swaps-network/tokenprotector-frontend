@@ -50,6 +50,18 @@
         <input type="radio"
                 name="payment-method"
                 [(ngModel)]="replenishMethod"
+                value="OKB"/>
+        <span class="btn btn-payment btn-normal-weight width-100">
+          <img class="btn-payment_ico" src="./assets/images/icons/coins/okb.png">
+          <span class="btn-payment_txt">OKB</span>
+        </span>
+      </label>
+    </div>
+    <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
+      <label class="checkbox-block">
+        <input type="radio"
+                name="payment-method"
+                [(ngModel)]="replenishMethod"
                 value="BTC"/>
         <span class="btn btn-payment btn-normal-weight width-100">
           <img class="btn-payment_ico" src="./assets/images/icons/coins/btc.svg">
@@ -98,6 +110,9 @@
         </span>
         <span *ngIf="replenishMethod === 'SWAP'">
           {{fromBigNumber(contractCosts.SWAP, 18) | number : '.0-5'}} SWAP
+        </span>
+        <span *ngIf="replenishMethod === 'OKB'">
+          {{fromBigNumber(contractCosts.SWAP, 18) | number : '.0-5'}} OKB
         </span>
         <span *ngIf="replenishMethod === 'WISH'">
           {{fromBigNumber(contractCosts.WISH, 18) | number : '.0-5'}} WISH
