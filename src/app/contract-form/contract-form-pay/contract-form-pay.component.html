@@ -1,20 +1,26 @@
 <div class="form-block_fieldset">
   <div class="form-field_description price-contract">
-    {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_1' | translate }} {{fromBigNumber(contractCosts.USDT, 6)}} USDT
+    {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_1' | translate }}
+    {{ fromBigNumber(contractCosts.USDT, 6) }} USDT
   </div>
   <div class="form-field_line"></div>
-  <label class="form-field_label" [innerHTML]="'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_2' | translate"></label>
+  <label
+    class="form-field_label"
+    [innerHTML]="'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_2' | translate"
+  ></label>
 
   <div class="form-field d-flex token-btn-wrap">
-
     <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
       <label class="checkbox-block">
-        <input type="radio"
-                name="payment-method"
-                [(ngModel)]="replenishMethod"
-                value="WISH" checked="checked"/>
+        <input
+          type="radio"
+          name="payment-method"
+          [(ngModel)]="replenishMethod"
+          value="WISH"
+          checked="checked"
+        />
         <span class="btn btn-payment btn-normal-weight width-100">
-          <img class="btn-payment_ico" src="./assets/images/icons/coins/wish.png">
+          <img class="btn-payment_ico" src="./assets/images/icons/coins/wish.png" />
           <span class="btn-payment_txt">WISH</span>
         </span>
       </label>
@@ -22,37 +28,37 @@
 
     <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
       <label class="checkbox-block">
-        <input type="radio"
-                name="payment-method"
-                [(ngModel)]="replenishMethod"
-                value="ETH"/>
+        <input type="radio" name="payment-method" [(ngModel)]="replenishMethod" value="ETH" />
         <span class="btn btn-payment btn-normal-weight width-100">
-          <img class="btn-payment_ico" src="./assets/images/icons/coins/eth.png">
+          <img class="btn-payment_ico" src="./assets/images/icons/coins/eth.png" />
           <span class="btn-payment_txt">ETH</span>
         </span>
       </label>
     </div>
-    
+
     <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
       <label class="checkbox-block">
-        <input type="radio"
-                name="payment-method"
-                [(ngModel)]="replenishMethod"
-                value="BNB"/>
+        <input type="radio" name="payment-method" [(ngModel)]="replenishMethod" value="BNB" />
         <span class="btn btn-payment btn-normal-weight width-100">
-          <img class="btn-payment_ico" src="./assets/images/icons/coins/bnb.svg">
+          <img class="btn-payment_ico" src="./assets/images/icons/coins/bnb.svg" />
           <span class="btn-payment_txt">BNB</span>
         </span>
       </label>
     </div>
     <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
       <label class="checkbox-block">
-        <input type="radio"
-                name="payment-method"
-                [(ngModel)]="replenishMethod"
-                value="BTC"/>
+        <input type="radio" name="payment-method" [(ngModel)]="replenishMethod" value="OKB" />
         <span class="btn btn-payment btn-normal-weight width-100">
-          <img class="btn-payment_ico" src="./assets/images/icons/coins/btc.svg">
+          <img class="btn-payment_ico" src="./assets/images/icons/coins/okb.png" />
+          <span class="btn-payment_txt">OKB</span>
+        </span>
+      </label>
+    </div>
+    <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
+      <label class="checkbox-block">
+        <input type="radio" name="payment-method" [(ngModel)]="replenishMethod" value="BTC" />
+        <span class="btn btn-payment btn-normal-weight width-100">
+          <img class="btn-payment_ico" src="./assets/images/icons/coins/btc.svg" />
           <span class="btn-payment_txt">BTC</span>
         </span>
       </label>
@@ -60,30 +66,35 @@
 
     <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
       <label class="checkbox-block">
-        <input type="radio"
-                name="payment-method"
-                [(ngModel)]="replenishMethod"
-                value="SWAP" checked="checked"/>
+        <input
+          type="radio"
+          name="payment-method"
+          [(ngModel)]="replenishMethod"
+          value="SWAP"
+          checked="checked"
+        />
         <span class="btn btn-payment btn-normal-weight width-100">
-            <img class="btn-payment_ico" src="./assets/images/swap-icon.svg">
-            <span class="btn-payment_txt">SWAP</span>
-          </span>
+          <img class="btn-payment_ico" src="./assets/images/swap-icon.svg" />
+          <span class="btn-payment_txt">SWAP</span>
+        </span>
       </label>
     </div>
 
     <div class="grid-cell grid-cell-ps-1-4 grid-cell-ls-1-2">
       <label class="checkbox-block">
-        <input type="radio"
-                name="payment-method"
-                [(ngModel)]="replenishMethod"
-                value="USDT" checked="checked"/>
+        <input
+          type="radio"
+          name="payment-method"
+          [(ngModel)]="replenishMethod"
+          value="USDT"
+          checked="checked"
+        />
         <span class="btn btn-payment btn-normal-weight width-100">
-            <img class="btn-payment_ico" src="./assets/images/icons/coins/usdt.svg">
-            <span class="btn-payment_txt">USDT</span>
-          </span>
+          <img class="btn-payment_ico" src="./assets/images/icons/coins/usdt.svg" />
+          <span class="btn-payment_txt">USDT</span>
+        </span>
       </label>
     </div>
-    
   </div>
 
   <div *ngIf="replenishMethod !== 'BTC'">
@@ -91,37 +102,41 @@
       <div class="form-field_label bold">
         {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_3' | translate }}
         <span *ngIf="replenishMethod === 'ETH'">
-          {{fromBigNumber(contractCosts.ETH, 18) | number : '.0-5'}} ETH
+          {{ fromBigNumber(contractCosts.ETH, 18) | number: '.0-5' }} ETH
         </span>
         <span *ngIf="replenishMethod === 'USDT'">
-          {{fromBigNumber(contractCosts.USDT, 6) | number : '.0-5'}} USDT
+          {{ fromBigNumber(contractCosts.USDT, 6) | number: '.0-5' }} USDT
         </span>
         <span *ngIf="replenishMethod === 'SWAP'">
-          {{fromBigNumber(contractCosts.SWAP, 18) | number : '.0-5'}} SWAP
+          {{ fromBigNumber(contractCosts.SWAP, 18) | number: '.0-5' }} SWAP
+        </span>
+        <span *ngIf="replenishMethod === 'OKB'">
+          {{ fromBigNumber(contractCosts.OKB, 18) | number: '.0-5' }} OKB
         </span>
         <span *ngIf="replenishMethod === 'WISH'">
-          {{fromBigNumber(contractCosts.WISH, 18) | number : '.0-5'}} WISH
+          {{ fromBigNumber(contractCosts.WISH, 18) | number: '.0-5' }} WISH
         </span>
         <span *ngIf="replenishMethod === 'BNB'">
-          {{fromBigNumber(contractCosts.BNB, 18) | number : '.0-5'}} BNB
+          {{ fromBigNumber(contractCosts.BNB, 18) | number: '.0-5' }} BNB
         </span>
         {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_4' | translate }}
       </div>
 
-      <div class="form-field_input" *ngIf="!['BNB','WISH'].includes(replenishMethod)">
+      <div class="form-field_input" *ngIf="!['BNB', 'WISH'].includes(replenishMethod)">
         <div class="form-field__copy bg-none mt-5">
-          <button type="button"
-                  class="copy-btn"
-                  [ngClass]="{copied: copiedAddresses['eth']}"
-                  ngxClipboard [cbContent]="currentUser.internal_address"
-                  (cbOnSuccess)="onCopied('eth')">
-            <img src="./assets/images/icons/copy.svg"/>
+          <button
+            type="button"
+            class="copy-btn"
+            [ngClass]="{ copied: copiedAddresses['eth'] }"
+            ngxClipboard
+            [cbContent]="currentUser.internal_address"
+            (cbOnSuccess)="onCopied('eth')"
+          >
+            <img src="./assets/images/icons/copy.svg" />
           </button>
         </div>
         <div class="form-field_input_data">
-          <input type="text" class="min-text"
-                 readonly
-                 [value]="currentUser.internal_address"/>
+          <input type="text" class="min-text" readonly [value]="currentUser.internal_address" />
           <div class="form-field_info-field form-field_small-desc">
             <span class="float-left">
               {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_5' | translate }} 30 gwei
@@ -133,20 +148,21 @@
         </div>
       </div>
 
-      <div class="form-field_input" *ngIf="['BNB','WISH'].includes(replenishMethod)">
+      <div class="form-field_input" *ngIf="['BNB', 'WISH'].includes(replenishMethod)">
         <div class="form-field__copy bg-none mt-5">
-          <button type="button"
-                  class="copy-btn"
-                  [ngClass]="{copied: copiedAddresses['bnb_address']}"
-                  ngxClipboard [cbContent]="currentUser.bnb_address"
-                  (cbOnSuccess)="onCopied('bnb_address')">
-            <img src="./assets/images/icons/copy.svg"/>
+          <button
+            type="button"
+            class="copy-btn"
+            [ngClass]="{ copied: copiedAddresses['bnb_address'] }"
+            ngxClipboard
+            [cbContent]="currentUser.bnb_address"
+            (cbOnSuccess)="onCopied('bnb_address')"
+          >
+            <img src="./assets/images/icons/copy.svg" />
           </button>
         </div>
         <div class="form-field_input_data">
-          <input type="text" class="min-text"
-                 readonly
-                 [value]="currentUser.bnb_address"/>
+          <input type="text" class="min-text" readonly [value]="currentUser.bnb_address" />
           <div class="form-field_info-field form-field_small-desc">
             <span class="float-left">
               {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_5' | translate }} 30 gwei
@@ -158,40 +174,52 @@
         </div>
       </div>
 
-      <div class="form-field_input" *ngIf="['BNB','WISH'].includes(replenishMethod)">
+      <div class="form-field_input" *ngIf="['BNB', 'WISH'].includes(replenishMethod)">
         <div class="form-field_info-field form-field_small-desc">
           <span class="float-left">Memo</span>
         </div>
         <div class="form-field__copy bg-none mt-5">
-          <button type="button"
-                  class="copy-btn"
-                  [ngClass]="{copied: copiedAddresses['memo']}"
-                  ngxClipboard [cbContent]="currentUser.memo"
-                  (cbOnSuccess)="onCopied('memo')">
-            <img src="./assets/images/icons/copy.svg"/>
+          <button
+            type="button"
+            class="copy-btn"
+            [ngClass]="{ copied: copiedAddresses['memo'] }"
+            ngxClipboard
+            [cbContent]="currentUser.memo"
+            (cbOnSuccess)="onCopied('memo')"
+          >
+            <img src="./assets/images/icons/copy.svg" />
           </button>
         </div>
         <div class="form-field_input_data">
-          <input type="text" class="min-text"
-                 readonly
-                 [value]="currentUser.memo"/>
+          <input type="text" class="min-text" readonly [value]="currentUser.memo" />
         </div>
       </div>
-
     </div>
 
-    <div class="or-delimiter" *ngIf="['SWAP','ETH','USDT'].includes(replenishMethod)"><div></div><span>{{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_8' | translate }}</span><div></div></div>
+    <div class="or-delimiter" *ngIf="['SWAP', 'ETH', 'USDT'].includes(replenishMethod)">
+      <div></div>
+      <span>{{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_8' | translate }}</span>
+      <div></div>
+    </div>
 
-    <label class="form-field_label" *ngIf="['SWAP','ETH','USDT'].includes(replenishMethod)">{{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_9' | translate }}</label>
-    <div class="form-field_input" *ngIf="['SWAP','ETH','USDT'].includes(replenishMethod)">
+    <label class="form-field_label" *ngIf="['SWAP', 'ETH', 'USDT'].includes(replenishMethod)">{{
+      'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_9' | translate
+    }}</label>
+    <div class="form-field_input" *ngIf="['SWAP', 'ETH', 'USDT'].includes(replenishMethod)">
       <div class="grid-row">
         <div class="grid-cell grid-cell-ls-1-2 grid-cell-vs-1">
           <div class="form-field">
-            <button type="button"
-                    [disabled]="inProgress"
-                    (click)="payContractVia(replenishMethod)"
-                    class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100 btn-payment-method">
-              <img *ngIf="!inProgress" src="./assets/images/icons/web3clients/metamask.svg" class="btn-ico">
+            <button
+              type="button"
+              [disabled]="inProgress"
+              (click)="payContractVia(replenishMethod)"
+              class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100 btn-payment-method"
+            >
+              <img
+                *ngIf="!inProgress"
+                src="./assets/images/icons/web3clients/metamask.svg"
+                class="btn-ico"
+              />
 
               <span class="lds-ellipsis" *ngIf="inProgress">
                 <span class="lds-ellipsis-container">
@@ -205,96 +233,100 @@
         </div>
         <div class="grid-cell grid-cell-ls-1-2 grid-cell-vs-1">
           <div class="form-field">
-            <a [href]="'https://myetherwallet.com/interface/send-transaction/' +
-                    (replenishMethod === 'ETH' ?
-                      '?sendMode=ether&to=' + currentUser.internal_address + '&value=' + fromBigNumber(costValue, 18) :
-                      '?data=' + trxDataFields[replenishMethod] + '&value=0&to=' + tokensAddresses[replenishMethod]
-                    )"
-               *ngIf="!inProgress"
-               target="_blank"
-               type="button"
-               class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100 btn-payment-method">
-              <img src="./assets/images/icons/web3clients/myetherwallet.svg" class="btn-ico">
+            <a
+              [href]="
+                'https://myetherwallet.com/interface/send-transaction/' +
+                (replenishMethod === 'ETH'
+                  ? '?sendMode=ether&to=' +
+                    currentUser.internal_address +
+                    '&value=' +
+                    fromBigNumber(costValue, 18)
+                  : '?data=' +
+                    trxDataFields[replenishMethod] +
+                    '&value=0&to=' +
+                    tokensAddresses[replenishMethod])
+              "
+              *ngIf="!inProgress"
+              target="_blank"
+              type="button"
+              class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100 btn-payment-method"
+            >
+              <img src="./assets/images/icons/web3clients/myetherwallet.svg" class="btn-ico" />
               {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_11' | translate }}
             </a>
 
-            <button type="button"
-                    disabled="disabled"
-                    *ngIf="inProgress"
-                    class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100 btn-payment-method">
-              <img src="./assets/images/icons/web3clients/myetherwallet.svg" class="btn-ico">
+            <button
+              type="button"
+              disabled="disabled"
+              *ngIf="inProgress"
+              class="btn btn-transparent btn-min btn-normal-weight wallet-btn ls-width-100 btn-payment-method"
+            >
+              <img src="./assets/images/icons/web3clients/myetherwallet.svg" class="btn-ico" />
               {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_11' | translate }}
             </button>
-
           </div>
         </div>
       </div>
     </div>
   </div>
 
-
   <div *ngIf="replenishMethod === 'BTC'">
     <div class="form-field">
       <div class="form-field_label bold">
         {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_3' | translate }}
-        {{fromBigNumber(contractCosts.BTC, 8) | number : '.0-5'}} BTC
+        {{ fromBigNumber(contractCosts.BTC, 8) | number: '.0-5' }} BTC
         {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_4' | translate }}
       </div>
       <div class="form-field_input d-flex ai-center">
         <div class="form-field__copy bg-none">
-          <button type="button"
-                  class="copy-btn"
-                  [ngClass]="{copied: copiedAddresses['btc']}"
-                  ngxClipboard [cbContent]="currentUser.internal_btc_address"
-                  (cbOnSuccess)="onCopied('btc')">
-            <img src="./assets/images/icons/copy.svg"/>
+          <button
+            type="button"
+            class="copy-btn"
+            [ngClass]="{ copied: copiedAddresses['btc'] }"
+            ngxClipboard
+            [cbContent]="currentUser.internal_btc_address"
+            (cbOnSuccess)="onCopied('btc')"
+          >
+            <img src="./assets/images/icons/copy.svg" />
           </button>
         </div>
         <div class="form-field_input_data width-100">
-          <input type="text" class="min-text"
-                 readonly
-                 [value]="currentUser.internal_btc_address"/>
+          <input type="text" class="min-text" readonly [value]="currentUser.internal_btc_address" />
         </div>
       </div>
     </div>
   </div>
 
-  <div class="form-field_line" *ngIf="['SWAP','ETH'].includes(replenishMethod)"></div>
+  <div class="form-field_line" *ngIf="['SWAP', 'ETH'].includes(replenishMethod)"></div>
 
   <div class="contract-pay-state">
     <span class="lds-ellipsis inline">
       <span class="lds-ellipsis-container lds-ellipsis-container_gray min">
         <span></span><span></span><span></span><span></span>
-      </span>
-    </span>&nbsp;&nbsp;
+      </span> </span
+    >&nbsp;&nbsp;
     {{ 'PAGE.CREATE_CONTRACT.BLOCK_5.TEXT_7' | translate }}
   </div>
-
 </div>
-
 
 <ng-template #metaMaskErrorTpl>
   <div class="dialog-block">
     <div class="dialog-block__content">
-
       <button class="dialog-closer" mat-dialog-close>
-        <img src="./assets/images/icons/cross-w.svg">
+        <img src="./assets/images/icons/cross-w.svg" />
       </button>
 
       <div class="transaction-title">
         Error
       </div>
 
-      <div class="transaction-description"
-           [innerHTML]="this.metaMaskError.msg"></div>
+      <div class="transaction-description" [innerHTML]="this.metaMaskError.msg"></div>
 
       <div class="alert-window-buttons text-center">
         <button class="button button-tp button-tp-blue" mat-dialog-close="" type="button">
           <span class="caption">&nbsp;&nbsp;&nbsp;Close&nbsp;&nbsp;&nbsp;</span>
         </button>
       </div>
-
     </div>
   </div>
 </ng-template>
-
