@@ -9,7 +9,7 @@
         <span class="button button-tp button-tp-blue home-screen-btn" routerLink="/create">
           <span class="caption">{{ 'PAGE.MAIN.HEADER.BUTTON_1' | translate }}</span>
         </span>
-        <span class="small">{{ 'PAGE.MAIN.HEADER.TEXT_3' | translate }}</span>
+        <span class="small" *ngIf="cost">{{ 'PAGE.MAIN.HEADER.TEXT_3' | translate }}{{cost}}</span>
       </div>
     </div>
     <!-- /first scereen -->
@@ -129,7 +129,7 @@
           <a [routerLink]="['/create']" [queryParams]="{ network: 1 }" routerLinkActive="router-link-active"
             class="button button-tp button-tp-blue mb-10">
             <span class="caption caption-info"
-              [attr.data-caption-info]="'PAGE.MAIN.BLOCK_3.BUTTONS.ONE.TEXT' | translate"
+            attr.data-caption-info="${{cost}}"
               [innerHTML]="'PAGE.MAIN.BLOCK_3.BUTTONS.ONE.TITLE' | translate"></span>
           </a>
           <a [routerLink]="['/create']" [queryParams]="{ network: 2 }" routerLinkActive="router-link-active"

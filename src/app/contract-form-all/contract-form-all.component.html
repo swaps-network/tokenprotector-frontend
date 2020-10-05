@@ -102,7 +102,7 @@
             <div class="form-block_title" [ngClass]="{'form-block_title__click': ['PREPARE_ADDRESS','PREPARE_DATE_EMAIL'].includes(reqData.state)}" (click)="(['PREPARE_ADDRESS','PREPARE_DATE_EMAIL'].includes(reqData.state)) ? checkContractStatus('CHOOSE_NETWORK') : null">{{ 'PAGE.CREATE_CONTRACT.BLOCK_1.TITLE' | translate }}</div>
             <div class="form-block_fieldset">
               <div class="form-field">
-                <label class="form-field_radio"> {{ 'PAGE.CREATE_CONTRACT.BLOCK_1.MODES.ONE.TITLE' | translate }} <span class="form-field_radio-text"> {{ 'PAGE.CREATE_CONTRACT.BLOCK_1.MODES.ONE.TEXT' | translate }} </span>
+                <label class="form-field_radio"> {{ 'PAGE.CREATE_CONTRACT.BLOCK_1.MODES.ONE.TITLE' | translate }} <span class="form-field_radio-text" *ngIf="cost">${{cost}}</span>
                   <input (click)="changeNetwork(1);" [(ngModel)]="reqData.network" type="radio" name="mode" [value]="1">
                   <span class="checkmark"></span>
                   <span class="checkmark-checked"></span>

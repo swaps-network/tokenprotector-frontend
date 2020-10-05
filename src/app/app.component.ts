@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from './services/user/user.service';
+import {CostService} from './services/costs/costs.service';
 import {CookieService} from 'ngx-cookie-service';
 import {ActivationEnd, NavigationStart, Router} from '@angular/router';
 
@@ -20,7 +21,8 @@ export class AppComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private costService: CostService
   ) {
 
     const body = document.getElementsByTagName('body')[0];
@@ -107,6 +109,8 @@ export class AppComponent implements OnInit {
         }
       }, false);
     }
+
+    this.costService.loadCosts();
 
     this.checkLiveChat();
   }

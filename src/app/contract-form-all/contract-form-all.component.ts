@@ -10,6 +10,7 @@ import { MY_FORMATS } from '../contract-form/contract-form.component';
 import { UserService } from '../services/user/user.service';
 import { Web3Service } from '../services/web3/web3.service';
 import { HttpService } from '../services/http/http.service';
+import { CostService } from '../services/costs/costs.service';
 import { ContractsService } from '../services/contracts/contracts.service';
 import { ERC20_TOKEN_ABI } from '../services/web3/web3.constants';
 import { UserInterface } from '../services/user/user.interface';
@@ -167,6 +168,7 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   public confirmErrorMessage = '';
   public selectedToken: any;
   public sub;
+  public cost;
 
   constructor(
     protected contractsService: ContractsService,
@@ -175,7 +177,8 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
     protected router: Router,
     private web3Service: Web3Service,
     private dialog: MatDialog,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private costService: CostService
   ) {
     this.reqData = this.route.snapshot.data.contract || this.reqData;
     this.currentUser = this.userService.getUserModel();
@@ -188,6 +191,9 @@ export class ContractFormAllComponent implements AfterContentInit, OnInit, OnDes
   }
 
   ngOnInit() {
+    this.costService.returnCosts().subscribe((costs) => {
+      this.cost = +costs[23]['USDT']
+    });
 
     this.sub = this.route.queryParams.subscribe(params => {
       this.reqData.network = +params['network'] || this.reqData.network;

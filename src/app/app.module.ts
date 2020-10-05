@@ -104,6 +104,7 @@ import { limitTo } from "./contract-form-all/limit-to.pipe";
 import { FilterTokens } from "./contract-form-all/filter-tokens.pipe";
 import { isPlatformBrowser, LOCATION_INITIALIZED } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
+import { CostService } from './services/costs/costs.service';
 
 export class TranslateBrowserLoader implements TranslateLoader {
   constructor(
@@ -238,7 +239,7 @@ export function appInitializerFactory(
     ChangePasswordComponent,
   ],
   imports: [
-    TransferHttpCacheModule,
+  TransferHttpCacheModule,
     MatTabsModule,
     TranslateModule.forRoot({
       loader: {
@@ -277,6 +278,7 @@ export function appInitializerFactory(
       deps: [TranslateService, UserService, HttpService],
       multi: true,
     },
+    CostService
   ],
   bootstrap: [AppComponent],
 })

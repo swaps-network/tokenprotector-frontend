@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import PARTNERS from './projects-resourses';
 import { HttpService } from '../services/http/http.service';
+import { CostService } from '../services/costs/costs.service';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import { MatDialog } from '@angular/material';
 import {ChangePasswordComponent} from '../common/change-password/change-password.component';
@@ -17,12 +18,14 @@ export class IndexComponent implements OnInit {
   // public projects = PROJECTS;
   public projects = PARTNERS;
   public stat;
+  public cost;
 
 
   constructor(
     private httpService: HttpService,
     private router: Router,
     private dialog: MatDialog,
+    private costService: CostService,
     route: ActivatedRoute
   ) {
     this.router.events.subscribe((event) => {
@@ -49,6 +52,9 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.costService.returnCosts().subscribe((costs) => {
+      this.cost = +costs[23]['USDT']
+    });
     // this.httpService.get(STAT_URL).subscribe(res => this.stat = res);
     // new window['ScrollTopButton'](500);
   }

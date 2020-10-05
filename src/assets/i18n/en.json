@@ -48,7 +48,7 @@
       "HEADER": {
         "TEXT_1": "Protect your token <br> if you lose your private keys.",
         "TEXT_2": "Decentralized protection to <br> restore tokens to your backup wallet.",
-        "TEXT_3": "The price is $25",
+        "TEXT_3": "The price is $",
         "BUTTON_1": "Try it"
       },
       "BLOCK_1": {
@@ -97,8 +97,7 @@
         "TITLE": "Protect your tokens now:",
         "BUTTONS": {
           "ONE": {
-            "TITLE": "Mainnet",
-            "TEXT": "$25"
+            "TITLE": "Mainnet"
           },
           "TWO": {
             "TITLE": "Testnet",
