@@ -170,7 +170,7 @@
         "BUTTONS": {
           "ONE": {
             "TITLE": "Mainnet",
-            "TEXT": "$25"
+            "TEXT": "$500"
           },
           "TWO": {
             "TITLE": "Testnet",
