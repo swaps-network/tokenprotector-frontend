@@ -31,7 +31,7 @@
     "core-js": "^2.5.4",
     "jquery": "^3.3.1",
     "jquery.cookie": "^1.4.1",
-    "luxon": "^1.12.0",
+    "luxon": "^2.5.2",
     "moment": "^2.24.0",
     "ngx-clipboard": "^12.0.0",
     "ngx-cookie-service": "^2.2.0",
